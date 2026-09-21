@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Sancho daily auto-commit (launchd)
+  WHY:  a commit every day even if no session ran, so history never has gaps
+        larger than a day.
+  WHAT: runs _setup/git-autocommit.sh at 23:30 local time. Logs to ~/Library/Logs/sancho-autocommit.log
+  TEST: after install, `launchctl list | grep sancho` shows it. Force a run with
+        `launchctl kickstart -k gui/$(id -u)/com.sancho.autocommit` and check the log.
+  INSTALL (once, in Terminal):
+        cp ~/Sync/Sancho/_setup/com.sancho.autocommit.plist ~/Library/LaunchAgents/
+        sed -i '' "s#__HOME__#$HOME#g" ~/Library/LaunchAgents/com.sancho.autocommit.plist
+        launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.sancho.autocommit.plist
+  UNINSTALL:
+        launchctl bootout gui/$(id -u)/com.sancho.autocommit
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.sancho.autocommit</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>__HOME__/Sync/Sancho/_setup/git-autocommit.sh</string>
+    <string>daily</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>23</integer>
+    <key>Minute</key>
+    <integer>30</integer>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/sancho-autocommit.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/sancho-autocommit.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+</dict>
+</plist>

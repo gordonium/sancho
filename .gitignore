@@ -1,0 +1,75 @@
+# Sancho .gitignore
+# WHY: the repo is knowledge only. Media, audio, and anything big lives elsewhere
+#      (raw audio in ~/Sync/Sancho-Audio, images wherever they're used from).
+# WHAT: blocks media and junk from ever being staged. The pre-commit hook in
+#      _setup/hooks/pre-commit is the second line of defense (size cap).
+# TEST: `touch test.mp3 && git status` should NOT show test.mp3. Delete it after.
+
+# --- audio / video ---
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.flac
+*.ogg
+*.opus
+*.wma
+*.mp4
+*.mov
+*.m4v
+*.avi
+*.mkv
+*.webm
+
+# --- images ---
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.heic
+*.heif
+*.bmp
+*.tiff
+*.tif
+*.psd
+*.ai
+
+# --- archives / binaries ---
+*.zip
+*.tar
+*.gz
+*.7z
+*.dmg
+*.pkg
+*.exe
+*.bin
+*.sqlite
+*.sqlite3
+*.db
+
+# --- machine state ---
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+*.swp
+*.tmp
+*~
+.sync/
+.syncignore
+
+# --- secrets: never in the repo ---
+.env
+.env.*
+*.key
+*.pem
+secrets/
+credentials/
+
+# --- scratch ---
+_scratch/
+_quarantine/**/*.bak
+
+# SVG is allowed (it's text and the system map may be SVG). PDFs are allowed under
+# the size cap but should be summarized to Markdown, not hoarded.

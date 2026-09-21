@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Sancho pre-commit hook
+# WHY:  the repo is knowledge only. .gitignore catches known media extensions;
+#       this catches everything else that's too big or binary, so the repo
+#       never bloats no matter what a session tries to add.
+# WHAT: rejects the commit if any staged file is over the size cap, or is a
+#       binary that isn't on the small allowlist. Prints exactly what to fix.
+# TEST: `head -c 6000000 /dev/urandom > big.bin && git add -f big.bin && git commit -m t`
+#       must fail with a clear message. Then `git rm --cached big.bin && rm big.bin`.
+# INSTALLED BY: _setup/git-init.sh (copies this into the git dir's hooks/).
+
+set -euo pipefail
+
+MAX_BYTES=$((5 * 1024 * 1024))   # 5 MB. Transcripts of a 3-hour call are ~1 MB.
+# Binaries we tolerate under the cap (everything else binary is rejected).
+ALLOW_BINARY_EXT='pdf|xlsx|docx|pptx|svg|woff|woff2'
+
+fail=0
+while IFS= read -r -d '' path; do
+  [ -f "$path" ] || continue
+  size=$(wc -c < "$path" | tr -d ' ')
+  if [ "$size" -gt "$MAX_BYTES" ]; then
+    echo "REJECTED (too big, $((size/1024)) KB > 5120 KB): $path"
+    fail=1
+    continue
+  fi
+  # Binary check: git's own heuristic via diff --numstat shows "-" for binary.
+  if git diff --cached --numstat -- "$path" | grep -q '^-'; then
+    ext="${path##*.}"
+    if ! echo "$ext" | grep -Eiq "^($ALLOW_BINARY_EXT)$"; then
+      echo "REJECTED (binary, not knowledge): $path"
+      fail=1
+    fi
+  fi
+done < <(git diff --cached --name-only -z --diff-filter=ACMR)
+
+if [ "$fail" -ne 0 ]; then
+  echo
+  echo "Sancho is knowledge only. Move media to ~/Sync/Sancho-Audio (audio) or"
+  echo "outside the repo (images), and reference it by path or recording ID."
+  echo "To unstage: git restore --staged <file>"
+  exit 1
+fi
