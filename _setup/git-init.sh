@@ -47,21 +47,18 @@ if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
   git commit -m "Sancho: initial commit" || echo "nothing to commit yet"
 fi
 
-# Remote: create via gh if available, otherwise print instructions.
+# Remote. Gordon creates the GitHub repo by hand, on purpose: the GitHub CLI (gh)
+# was removed from this Mac so nothing on it can publish a Release by accident.
+# Do not install gh, do not suggest it. SSH-only git.
 if ! git remote get-url "$REMOTE_NAME" >/dev/null 2>&1; then
-  if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-    gh repo create "$REPO_NAME" --private --source="$WORKTREE" --remote="$REMOTE_NAME" --push
-    echo "remote created and pushed: $REMOTE_NAME"
-  else
-    cat <<EOF
+  cat <<EOF
 
-No GitHub remote yet. Either:
-  1. Install GitHub CLI (brew install gh), run 'gh auth login', re-run this script; or
-  2. Create a private repo named '$REPO_NAME' on github.com, then:
-       git -C "$WORKTREE" remote add $REMOTE_NAME git@github.com:<you>/$REPO_NAME.git
-       git -C "$WORKTREE" push -u $REMOTE_NAME main
+No GitHub remote yet. Create a private repo named '$REPO_NAME' on github.com
+(under the copperleaf user or wherever you keep personal repos), then run:
+    git -C "$WORKTREE" remote add $REMOTE_NAME git@github.com:<owner>/$REPO_NAME.git
+    git -C "$WORKTREE" push -u $REMOTE_NAME main
+This uses the existing GitHub SSH key (~/.ssh/id_ed25519_github).
 EOF
-  fi
 else
   echo "remote present: $(git remote get-url "$REMOTE_NAME")"
 fi

@@ -32,7 +32,7 @@ sed -i '' "s#__HOME__#$HOME#g" ~/Library/LaunchAgents/com.sancho.autocommit.plis
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.sancho.autocommit.plist
 ```
 
-If `gh` isn't installed, `git-init.sh` prints the two manual steps for the GitHub remote.
+`git-init.sh` prints the two manual steps for the GitHub remote. The GitHub CLI (`gh`) is deliberately not on this Mac (so nothing can publish a Release by accident); don't install it.
 
 ## If the Mac dies
 
