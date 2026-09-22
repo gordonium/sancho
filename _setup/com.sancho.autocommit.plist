@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
-  Sancho daily auto-commit (launchd)
-  WHY:  a commit every day even if no session ran, so history never has gaps
-        larger than a day.
-  WHAT: runs _setup/git-autocommit.sh at 23:30 local time. Logs to ~/Library/Logs/sancho-autocommit.log
+  Sancho hourly auto-commit (launchd)
+  WHY:  a commit every hour even if no session ran, so a crash or a bad edit
+        can never lose more than an hour of knowledge.
+  WHAT: runs _setup/git-autocommit.sh at login and every 3600 seconds after. Logs to ~/Library/Logs/sancho-autocommit.log
   TEST: after install, `launchctl list | grep sancho` shows it. Force a run with
         `launchctl kickstart -k gui/$(id -u)/com.sancho.autocommit` and check the log.
   INSTALL (once, in Terminal):
@@ -22,15 +22,12 @@
   <array>
     <string>/bin/bash</string>
     <string>__HOME__/Sync/Sancho/_setup/git-autocommit.sh</string>
-    <string>daily</string>
+    <string>hourly</string>
   </array>
-  <key>StartCalendarInterval</key>
-  <dict>
-    <key>Hour</key>
-    <integer>23</integer>
-    <key>Minute</key>
-    <integer>30</integer>
-  </dict>
+  <key>StartInterval</key>
+  <integer>3600</integer>
+  <key>RunAtLoad</key>
+  <true/>
   <key>StandardOutPath</key>
   <string>__HOME__/Library/Logs/sancho-autocommit.log</string>
   <key>StandardErrorPath</key>

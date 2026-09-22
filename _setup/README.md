@@ -20,7 +20,7 @@ github.com/<you>/sancho private remote = history backup
 | `git-init.sh` | One-time bootstrap. Separate git dir, hook install, first commit, GitHub remote. Idempotent. | Run twice; second run changes nothing. |
 | `hooks/pre-commit` | Rejects big or binary files at commit time. | Stage a 6 MB junk file; commit must fail. |
 | `git-autocommit.sh` | Commit + push everything, timestamped. Quiet if nothing changed. | Edit a file, run, see new commit. Run again, "nothing to commit". |
-| `com.sancho.autocommit.plist` | launchd job: runs autocommit daily at 23:30. | `launchctl list \| grep sancho` |
+| `com.sancho.autocommit.plist` | launchd job: runs autocommit at login and every hour. | `launchctl list \| grep sancho` |
 
 ## First-time install (Terminal on the Mac)
 
