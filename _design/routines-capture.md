@@ -43,7 +43,7 @@ Format per routine: what it's for, when it fires, inputs, outputs, what "done an
 3. **Cross-reference against his people-and-places list** (people he wants to see, places he wants to visit), so the direction of travel is chosen with visits in mind, not just temperature.
 4. A verdict: **drive today, drive in the next couple of days, or stay**, to keep the adventure going and comfortable.
 
-**Temperature range as dictated:** "maximum overnight low of about 60 and a maximum daytime high of about 85." Read literally: nights no warmer than 60, days no hotter than 85. **Confirm the overnight bound** (see question below); the other reading, "no colder than 60 at night," would send the routing the opposite direction.
+**Temperature range (confirmed):** overnight low no warmer than ~60°F, daytime high no hotter than ~85°F. Routing chases cooler, not warmer.
 
 **Components he can't remember yet.** He said there are a couple more. Leave a slot; ask again another day.
 
@@ -54,7 +54,7 @@ Format per routine: what it's for, when it fires, inputs, outputs, what "done an
 **Done and habitual looks like:** he says good morning, reads five lines, and knows whether today is a driving day. He never has to open a weather app or think about the map.
 
 **Notes for Phase 2.**
-- "Good morning, Sancho" is a candidate wake phrase for the personal-lobe morning routine. (Kickoff: new wake phrase set at end of Phase 4.)
+- Wake phrase (decided 2026-09-22): "Hey Sancho" opens the personal lobe by default; "Hey Sancho, let's work" opens the work lobe. Any Sancho greeting counts. See decisions.md.
 - This is the personal morning routine's core, or a skill it calls. It shouldn't be a separate ritual on top of a ritual (Q2 failure).
 - Weather and geocoding need a script with a real data source, not an MD instruction. Which source, and whether it works from a Cowork session, is a Phase 2 question.
 - The people-and-places list is a first concrete consumer of the spine's `people/` design (decision #8): people need a `location` field and a "last seen / want to see" field.
