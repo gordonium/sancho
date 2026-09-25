@@ -1,0 +1,436 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sancho//AK27//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:AK27
+BEGIN:VEVENT
+UID:ak27-7fa6613d-c6eb-5bea-8b21-2c314b49323b@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20261020
+DTEND;VALUE=DATE:20261021
+SUMMARY:AK27 · Rig prep: finish before the winter loop
+DESCRIPTION:Before leaving on the Nov–Apr loop:\n• Install bay locks 
+ (keyed alike\, not CH751)\n• Power door locks + redo cab weatherstrippi
+ ng in the same job\n• Move the killswitch from the Seabreeze\n• Buy G
+ armin inReach\, set up MapShare\n• RV insurance: personal-property limi
+ t + theft from unattended vehicle\n• Confirm Good Sam covers Yukon\, BC
+ \, Alaska\n• Photograph/serialize gear\n• Passport valid past Aug 202
+ 7\n• Buy collapsible water jugs
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Rig prep: finish before the winter loop
+TRIGGER:-P6DT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-9fc55502-9821-56f5-89f9-acf4e9fb3ffa@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20261202
+SUMMARY:AK27 · Book Denali: Riley Creek campground + park bus
+DESCRIPTION:Denali reservations open Dec 1 for the next summer.\nreserved
+ enali.com · 800-622-7275\n\nFor D+33–34 (Jul 10–11 if leaving Jun 7)
+ .\nRiley Creek A site: $55/night (2026 published)\, fits up to 40'\, no h
+ ookups (none anywhere in the park). Free dump at Riley Creek Mercantile.\
+ nBackup: Savage River\, same price\, 13 mi in.\nAlso book the transit bus
+  for D+34.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Book Denali: Riley Creek campground + park bus
+TRIGGER:-PT15H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Book Denali: Riley Creek campground + park bus
+TRIGGER:-P6DT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-d30da25a-b15c-51c1-b898-9db1014ad621@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20261210
+DTEND;VALUE=DATE:20261211
+SUMMARY:AK27 · Check Parks Canada 2027 launch dates + Alaska State Parks
+  openings
+DESCRIPTION:1) Parks Canada announces launch dates around December. 2026 
+ launches: Kluane Jan 20\, Jasper Jan 27\, Prince Albert Jan 30 (8 am loca
+ l). Move the three AK27 Parks Canada placeholders to the real 2027 dates.
+  Find Elk Island's date.\n\n2) Alaska State Parks: several campgrounds di
+ d not open in 2026 (staffing) — including Byers Lake and Chilkoot Lake.
+  Check 2027 openings. Window is ~7 months ahead via Reserve America.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Check Parks Canada 2027 launch dates + Alaska State P
+ arks openings
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-8287cd5c-9fe4-5c00-b039-8360afa90142@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20261226
+DTEND;VALUE=DATE:20261227
+SUMMARY:AK27 · Book Blueberry Lake (Thompson Pass\, Valdez)
+DESCRIPTION:For D+49 (Jul 26 if leaving Jun 7). Estimated ~7-month window
+  — confirm.\n25 sites\, $25/night + reservation fee (2026 published)\, 
+ no hookups\, drinking water\, vault toilets. 24 mi north of Valdez.\nBack
+ up in town: Eagle's Rest RV (full hookups\, from ~$50).
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Book Blueberry Lake (Thompson Pass\, Valdez)
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-5e42ea6f-3040-5d82-803f-2d5881e0156b@sancho
+DTSTAMP:20260925T001817Z
+DTSTART:20270119T150000Z
+DTEND:20270119T153000Z
+SUMMARY:AK27 · Parks Canada: Kluane / Kathleen Lake (est. launch)
+DESCRIPTION:ESTIMATED from 2026 (Jan 20\, 8 am). Confirm the real 2027 da
+ te.\nreservation.pc.gc.ca · 1-877-737-3783\n\nFor D+23 (Jun 30 if leavin
+ g Jun 7).\nKathleen Lake: sites 20–39 reservable\, $30 CAD incl. firewo
+ od (2026)\, no hookups\, drinking water.\nBackup: Pine Lake Yukon Gov't c
+ ampground (first-come).
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Parks Canada: Kluane / Kathleen Lake (est. launch)
+TRIGGER:-PT1H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Parks Canada: Kluane / Kathleen Lake (est. launch)
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-90d9aaac-0b0a-5fd9-84f6-082027b97d5b@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270124
+DTEND;VALUE=DATE:20270125
+SUMMARY:AK27 · Book Cooper Landing campground (Recreation.gov)
+DESCRIPTION:Recreation.gov opens ~6 months ahead. For D+47 (Jul 24 if lea
+ ving Jun 7).\nOptions: Russian River (83 sites\; reopened after the 2025 
+ road construction — confirm 2027 status)\, Quartz Creek (46 sites\, on 
+ Kenai Lake)\, Cooper Creek ($23–33\, 2026).\nSockeye season — these f
+ ill.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Book Cooper Landing campground (Recreation.gov)
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-a808c407-c7ea-5521-9b9c-7ec892691a07@sancho
+DTSTAMP:20260925T001817Z
+DTSTART:20270126T140000Z
+DTEND:20270126T143000Z
+SUMMARY:AK27 · ★ Parks Canada: JASPER Whistlers + Elk Island (est. lau
+ nch)
+DESCRIPTION:ESTIMATED from 2026 (Jasper launched Jan 27\, 8 am MT). Confi
+ rm the real 2027 date. Highest-demand booking of the trip — be online a
+ t 8:00.\nreservation.pc.gc.ca · 1-877-737-3783\n\nJasper Whistlers — D
+ +10–12 (Jun 17–19 if leaving Jun 7). 781 sites\; electrical $34.50\, 
+ unserviced $29.25 CAD (published)\; full-hookup sites exist. Reopened aft
+ er the 2024 fire.\n\nElk Island Astotin Lake — D+9 (Jun 16). Unserviced
+  $31.75 CAD (2026). Check Elk Island's own launch date.
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · ★ Parks Canada: JASPER Whistlers + Elk Island (est.
+  launch)
+TRIGGER:-PT1H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · ★ Parks Canada: JASPER Whistlers + Elk Island (est.
+  launch)
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-e7ac494f-c93b-5c25-ba63-6aa5ece3f25b@sancho
+DTSTAMP:20260925T001817Z
+DTSTART:20270129T140000Z
+DTEND:20270129T143000Z
+SUMMARY:AK27 · Parks Canada: Prince Albert / Beaver Glen (est. launch)
+DESCRIPTION:ESTIMATED from 2026 (Jan 30\, 8 am CST). Confirm the real 202
+ 7 date.\nreservation.pc.gc.ca · 1-877-737-3783\n\nFor D+7 (Jun 14 if lea
+ ving Jun 7). Beaver Glen\, Waskesiu: every site has electricity. Open mid
+ -May to mid-October.
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Parks Canada: Prince Albert / Beaver Glen (est. launc
+ h)
+TRIGGER:-PT1H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Parks Canada: Prince Albert / Beaver Glen (est. launc
+ h)
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-8bdf74c6-f1f7-500b-92a8-525a44321fc6@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270201
+DTEND;VALUE=DATE:20270202
+SUMMARY:AK27 · Book Kenai Fjords boat + Katmai floatplane
+DESCRIPTION:Both sell out.\n• Kenai Fjords all-day Northwestern Fjord b
+ oat — D+42 (Jul 19 if leaving Jun 7)\n• Katmai / Brooks Falls floatpl
+ ane from Homer — D+45 (Jul 22). July is peak bear season at the falls.\
+ nPick operators with flexible date changes. Avoid the monthly end-of-day 
+ call date.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Book Kenai Fjords boat + Katmai floatplane
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-f71b89c1-982f-57bb-a900-132d88d2bdef@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270208
+DTEND;VALUE=DATE:20270209
+SUMMARY:AK27 · Watch for AMHS summer schedule → book Skagway–Haines 
+ ferry
+DESCRIPTION:Summer 2026 schedule was released Feb 12\, 2026 and opened fo
+ r bookings the same day. Expect summer 2027 around the same time — chec
+ k ferryalaska.com / bookamhs.alaska.gov daily this week.\nBook vehicle sp
+ ace Skagway → Haines for D+22 (Jun 29 if leaving Jun 7). 800-642-0066.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Watch for AMHS summer schedule → book Skagway–Hai
+ nes ferry
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-f8bc0871-b53e-5eec-aa6f-d22fbeffc708@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270215
+DTEND;VALUE=DATE:20270216
+SUMMARY:AK27 · Book Skagway\, Haines\, Seward RV sites
+DESCRIPTION:(2026 published rates\; dates assume a Jun 7 departure)\n• 
+ Skagway\, Pullen Creek RV — D+21 (Jun 28). $75\, 30A + water\, dump at 
+ entrance\, next to the ferry. Books year-round.\n• Haines Hitch-Up RV 
+ — D+22 (Jun 29). 92 full-hookup sites. (Chilkoot Lake campground was cl
+ osed in 2026.)\n• Seward city waterfront (Campspot\, reservations REQUI
+ RED) — D+41–43 (Jul 18–20). RV dry $45\, premium $70. Alt: Miller's
+  Landing\, beachfront full hookups.\n• Optional: Heritage RV Park\, Hom
+ er Spit — ~$72 full hookups. City campgrounds on the Spit are first-com
+ e only.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Book Skagway\, Haines\, Seward RV sites
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-4f445c77-b379-5917-9c29-f679f9e8fe78@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270301
+DTEND;VALUE=DATE:20270302
+SUMMARY:AK27 · Book Columbia Glacier cruise + Washington Park\; buy Mile
+ post 2027
+DESCRIPTION:• Columbia Glacier cruise\, Valdez — D+50 (Jul 27 if leav
+ ing Jun 7)\n• Washington Park\, Anacortes — Aug 15. 46 water+electric
+  sites $39\, 22 dry $31 (2026). Must book at least 14 days ahead. 360-293
+ -1918.\n• Buy The Milepost 2027.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Book Columbia Glacier cruise + Washington Park\; buy 
+ Milepost 2027
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-59095895-7e72-5fe1-842b-ec9039cd1596@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270315
+DTEND;VALUE=DATE:20270316
+SUMMARY:AK27 · Rig: driveshaft lead-time quote + book ToyOnlySwaps late-
+ May slot
+DESCRIPTION:Inputs for the April swap decision:\n• Quote on custom driv
+ eshaft lead time (days to ~2 weeks\; can't order until engine and trans a
+ re in)\n• Book a ToyOnlySwaps diagnostic slot in late May — the safet
+ y net at the end of the Eugene shakedown\n• Confirm Doug's availability
+  from mid-April
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Rig: driveshaft lead-time quote + book ToyOnlySwaps l
+ ate-May slot
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-96236758-832f-5c4a-a549-11847affd086@sancho
+DTSTAMP:20260925T001817Z
+DTSTART:20270324T140000Z
+DTEND:20270324T143000Z
+SUMMARY:AK27 · ★ BC Parks: LIARD RIVER HOT SPRINGS opens
+DESCRIPTION:BC Parks opens bookings 3 months before arrival\, 7 am Pacifi
+ c (changed from 4 months in 2026).\nFor D+17 = Jun 24 if leaving Jun 7. I
+ F THE DEPARTURE DATE CHANGES\, MOVE THIS to exactly 3 months before arriv
+ al.\n53 sites\, $26 CAD (published)\, no hookups. Springs open 7 am–10:
+ 30 pm.\nBackup: Liard Hot Springs Lodge across the highway.
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · ★ BC Parks: LIARD RIVER HOT SPRINGS opens
+TRIGGER:-PT1H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · ★ BC Parks: LIARD RIVER HOT SPRINGS opens
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-c4be1038-cc87-52cd-8d94-a1fb58e498be@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270405
+DTEND;VALUE=DATE:20270406
+SUMMARY:AK27 · ENGINE SWAP DECISION (before anything comes apart)
+DESCRIPTION:Once the 3VZ is out\, you're committed. Decide with:\n• 7\,
+ 000+ miles of 3VZ data from the winter loop\n• Doug or pro-shop availab
+ ility\n• Driveshaft lead time\n• ToyOnlySwaps late-May slot\n• The 
+ departure dial\nSwap order: suspension to ride height → engine/trans 
+ → exhaust → measure driveshaft → hard local loop → Eugene run.\nN
+ o swap: suspension + service\, build the 3VZ spares kit.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · ENGINE SWAP DECISION (before anything comes apart)
+TRIGGER:-P6DT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-33a61a95-03b4-58d4-9e30-85efd337e179@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270415
+DTEND;VALUE=DATE:20270416
+SUMMARY:AK27 · Book Talkeetna flightseeing (glacier landing)
+DESCRIPTION:For D+39\, with D+40 as the weather backup (Jul 16–17 if le
+ aving Jun 7). Weather cancels often.\nStay: Talkeetna Camper Park\, 35 si
+ tes\, partial/full hookups\, $35–52 (2026).
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Book Talkeetna flightseeing (glacier landing)
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-2fea852b-ad96-59f4-bd4c-88efd69ad988@sancho
+DTSTAMP:20260925T001817Z
+DTSTART:20270509T140000Z
+DTEND:20270509T143000Z
+SUMMARY:AK27 · BC Parks: Boya Lake (aurora night) opens
+DESCRIPTION:For Aug 9 (aurora block — fixed date). 3-month BC Parks win
+ dow\, 7 am Pacific.\n44 sites\, only 10 reservable\; the rest first-come.
+  $20 CAD (published).\nKinaskan Lake (Aug 10) is all first-come\, 50 site
+ s — no booking.
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · BC Parks: Boya Lake (aurora night) opens
+TRIGGER:-PT1H
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · BC Parks: Boya Lake (aurora night) opens
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-70837f26-8978-5261-a831-48337f5613b5@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270524
+DTEND;VALUE=DATE:20270525
+SUMMARY:AK27 · Final two weeks: scale\, propane\, pack
+DESCRIPTION:• CAT scale\, loaded\, axle by axle\n• Propane full\; san
+ itize fresh tank\; tanks empty\n• Spares kit\, jerry cans\, water jugs\
+ , water bandit\, tire kit\, jack\n• Bear spray labeled for animals (dec
+ lare at the border)\n• Starlink Global plan on before the Portal crossi
+ ng\n• The Milepost in the cab\n• Pick the departure date from the dia
+ l
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Final two weeks: scale\, propane\, pack
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-afc57aff-53cc-5505-9707-4c7fa7d93b47@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270607
+DTEND;VALUE=DATE:20270608
+SUMMARY:AK27 · Target departure (tentative)
+DESCRIPTION:Full scope = leave ~Jun 7. Each cut in the dial moves this la
+ ter (up to ~Jun 21). The front half counts from this day (D+0).
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-e9f762e2-33b4-5deb-9575-db3c798ef648@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270625
+DTEND;VALUE=DATE:20270626
+SUMMARY:AK27 · Book San Juan orca tour (from the road)
+DESCRIPTION:For Aug 16\, out of Anacortes. Book an operator that publishe
+ s sighting rates. Avoid the monthly end-of-day call date.
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:AK27 · Book San Juan orca tour (from the road)
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-30b80f00-4e1e-59dd-bb94-1b950bf6b025@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270802
+DTEND;VALUE=DATE:20270803
+SUMMARY:AK27 · Target: arrive Tok
+DESCRIPTION:Arrive Tok by today\; Aug 3–4 are slack before the aurora b
+ lock. Unused slack → Kluane Lake (Congdon Creek). New moon today (the t
+ otal solar eclipse).
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-f77ef6a4-4a35-511a-a8d7-94ad179e22d0@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270805
+DTEND;VALUE=DATE:20270811
+SUMMARY:AK27 · ★ AURORA BLOCK (Yukon → northern BC)
+DESCRIPTION:Aug 5 Congdon Creek (Kluane Lake) · Aug 6 Whitehorse (stock 
+ up) · Aug 7 Teslin · Aug 8 Watson Lake (fill + cans) · Aug 9 Boya Lake
+  · Aug 10 Kinaskan Lake.\nUp until 1–2 am nightly. Yukon/BC clocks are
+  1 hr behind Loveland.
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ak27-5bcd87a4-6001-5704-b2e8-6bef838245fc@sancho
+DTSTAMP:20260925T001817Z
+DTSTART;VALUE=DATE:20270823
+DTEND;VALUE=DATE:20270824
+SUMMARY:AK27 · Home in Loveland
+DESCRIPTION:Hard stop. First tour date Aug 26\, Phoenix.
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR
