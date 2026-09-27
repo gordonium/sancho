@@ -1,0 +1,250 @@
+<title>Sancho Tree</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F7F6F2; --ink:#1E2A24; --muted:#66716B; --line:#D8DBD4; --accent:#5B7A3A;
+  --spine:#E7EEDB; --spine-ink:#3E5A22;
+  --work:#E2EAF2; --work-ink:#2F4A63;
+  --personal:#F3E7DF; --personal-ink:#7A4A2E;
+  --audio:#EDEBE6; --audio-ink:#5A554D;
+  --gen:#5B7A3A; --state:#9A6B2F; --card:#FFFFFF;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --disp:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#161A18; --ink:#E6E9E3; --muted:#97A19A; --line:#2C332F; --accent:#93B56E;
+    --spine:#233120; --spine-ink:#B9D69A;
+    --work:#1F2B36; --work-ink:#A9C3DD;
+    --personal:#332520; --personal-ink:#E0B396;
+    --audio:#262825; --audio-ink:#B3AEA4;
+    --gen:#93B56E; --state:#D2A25E; --card:#1C201E;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#161A18; --ink:#E6E9E3; --muted:#97A19A; --line:#2C332F; --accent:#93B56E;
+  --spine:#233120; --spine-ink:#B9D69A;
+  --work:#1F2B36; --work-ink:#A9C3DD;
+  --personal:#332520; --personal-ink:#E0B396;
+  --audio:#262825; --audio-ink:#B3AEA4;
+  --gen:#93B56E; --state:#D2A25E; --card:#1C201E;
+}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px 32px;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+h1{font:700 34px/1.05 var(--disp);letter-spacing:-.01em;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px}
+.chip i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
+.chip.gen b, .chip.state b{font:500 11px/1 var(--mono);padding:2px 6px;border-radius:3px;color:#fff}
+.chip.gen b{background:var(--gen)} .chip.state b{background:var(--state)}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.tools input{flex:1 1 240px;max-width:420px;font:14px var(--sans);padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink)}
+.tools button{font:500 13px var(--sans);padding:7px 12px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);cursor:pointer}
+.tools button:focus-visible,.tools input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
+.lobe{border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
+.lobe > .head{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.lobe > .head h2{font:700 18px/1.2 var(--disp);margin:0}
+.lobe > .head small{color:var(--muted);font-size:12px}
+.lobe.spine > .head{background:var(--spine);color:var(--spine-ink)}
+.lobe.work > .head{background:var(--work);color:var(--work-ink)}
+.lobe.personal > .head{background:var(--personal);color:var(--personal-ink)}
+.lobe.audio > .head{background:var(--audio);color:var(--audio-ink)}
+.tree{padding:8px 10px 12px}
+details{margin:0}
+details details{margin-left:14px;border-left:1px dashed var(--line);padding-left:8px}
+summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:baseline;padding:4px 4px;border-radius:4px}
+summary::-webkit-details-marker{display:none}
+summary:hover{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.leaf{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:baseline;padding:3px 4px 3px 22px}
+.n{font:500 13px var(--mono);white-space:nowrap}
+.n::before{content:"▸";display:inline-block;width:14px;color:var(--muted);font-size:11px;transition:transform .15s}
+details[open] > summary .n::before{transform:rotate(90deg)}
+.leaf .n::before{content:"";width:0}
+.d{color:var(--muted);font-size:13px;line-height:1.4}
+.t{font:500 10.5px/1 var(--mono);padding:2px 5px;border-radius:3px;color:#fff;margin-left:6px;vertical-align:middle;letter-spacing:.02em}
+.t.gen{background:var(--gen)} .t.state{background:var(--state)} .t.hand{background:var(--accent)}
+.hit > summary, .leaf.hit{background:color-mix(in srgb,var(--accent) 16%,transparent)}
+.dim{opacity:.35}
+.notes{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.note{border-top:2px solid var(--accent);padding-top:10px}
+.note h3{font:700 15px/1.2 var(--disp);margin:0 0 6px}
+.note p{margin:0;color:var(--muted);font-size:13.5px}
+.note code{font:500 12px var(--mono);color:var(--ink)}
+@media (prefers-reduced-motion: reduce){.n::before{transition:none}}
+@media (max-width:480px){h1{font-size:28px} .leaf{padding-left:14px} details details{margin-left:8px} .n{white-space:normal}}
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <h1>Sancho Tree</h1>
+    <p class="sub">The folder layout from architecture.md §3, as of 26 Sep 2026. Click a folder to open it. Colours mark the spine and the two lobes; the small tags mark files a script writes (GEN) and files with a lifecycle (STATE). Everything else is data, skills, or scripts.</p>
+  </div>
+  <div class="legend">
+    <span class="chip"><i style="background:var(--spine)"></i>spine: both lobes reference it</span>
+    <span class="chip"><i style="background:var(--work)"></i>work lobe</span>
+    <span class="chip"><i style="background:var(--personal)"></i>personal lobe</span>
+    <span class="chip"><i style="background:var(--audio)"></i>outside the repo</span>
+    <span class="chip gen"><b>GEN</b>generated, never hand-edited</span>
+    <span class="chip state"><b>STATE</b>ephemeral, has a lifecycle</span>
+    <span class="chip"><b class="t hand" style="margin:0">HAND</b>&nbsp;the one hand-set navigation file</span>
+  </div>
+</header>
+
+<div class="tools">
+  <input id="q" type="search" placeholder="Filter: type a folder or word, e.g. transcripts, ice, goals" aria-label="Filter the tree">
+  <button id="open">Expand all</button>
+  <button id="close">Collapse all</button>
+</div>
+
+<div class="cols">
+
+<section class="lobe spine">
+  <div class="head"><h2>~/Sync/Sancho/ · spine</h2><small>git in ~/.sancho.git</small></div>
+  <div class="tree">
+    <div class="leaf"><span class="n">CLAUDE.md</span><span class="d">identity, must-nevers, where things live, dictation line, pointer to the skill index. ≤100 lines.</span></div>
+    <div class="leaf"><span class="n">INDEX.md<span class="t gen">GEN</span></span><span class="d">one line per top-level folder</span></div>
+    <div class="leaf"><span class="n">FOCUS.md<span class="t hand">HAND</span></span><span class="d">month / week / today, three per lobe, set with Gordon, checksummed each morning</span></div>
+    <div class="leaf"><span class="n">MAP.md<span class="t gen">GEN</span></span><span class="d">the living system map (Mermaid). An HTML render of it is a later build, not started.</span></div>
+    <details><summary><span class="n">_setup/</span><span class="d">git, watcher, commands.md (the allowlist and registry), lint, map generator, notify.py, templates, tests</span></summary>
+      <div class="leaf"><span class="n">commands.md</span><span class="d">every script the watcher may run: name, script, timeout, schedule</span></div>
+      <div class="leaf"><span class="n">templates/</span><span class="d">T1–T8; copied by the new-component command</span></div>
+      <div class="leaf"><span class="n">tests/</span><span class="d">fixtures per component; TESTS.md is generated</span></div>
+      <div class="leaf"><span class="n">retired/</span><span class="d">where retire-component moves things, dated</span></div>
+    </details>
+    <details><summary><span class="n">_queue/<span class="t state">STATE</span></span><span class="d">gitignored. How a session asks the Mac to do something.</span></summary>
+      <div class="leaf"><span class="n">requests/</span><span class="d">one file per run: command, args, who asked</span></div>
+      <div class="leaf"><span class="n">results/</span><span class="d">one file per finished run; pruned at 90 days</span></div>
+      <div class="leaf"><span class="n">jobs/</span><span class="d">one file per multi-stage job: stages, gates, current pointer; archived on close</span></div>
+      <div class="leaf"><span class="n">leases/</span><span class="d">which session holds which lobe (single writer)</span></div>
+      <div class="leaf"><span class="n">sessions/</span><span class="d">running notes per session: compaction insurance</span></div>
+      <div class="leaf"><span class="n">HEALTH.md<span class="t gen">GEN</span></span><span class="d">watcher last seen, Mac awake or slept, runs today</span></div>
+    </details>
+    <details><summary><span class="n">_quarantine/<span class="t state">STATE</span></span><span class="d">Phase 3 review queue for v2/v3 material; nothing enters the tree from here without the gate</span></summary></details>
+    <details><summary><span class="n">people/</span><span class="d">one file per person, all roles across both lobes; the contacts database (J-D1)</span></summary>
+      <div class="leaf"><span class="n">&lt;slug&gt;.md</span><span class="d">identity, roles, location, contact block, voiceprint refs, how to work with them</span></div>
+      <div class="leaf"><span class="n">INDEX.md<span class="t gen">GEN</span></span><span class="d">thin contact-only entries hidden behind a count</span></div>
+      <div class="leaf"><span class="n">CONTACTS.csv<span class="t gen">GEN</span></span><span class="d">export view for Google / Apple</span></div>
+    </details>
+    <details><summary><span class="n">skills/</span><span class="d">every skill, each tagged lobe: work | personal | both; header with triggers, must-not-trigger, reads, writes, test</span></summary>
+      <div class="leaf"><span class="n">_params/&lt;user&gt;.md</span><span class="d">per-user parameters so Astra can share the thinking skills unchanged</span></div>
+      <div class="leaf"><span class="n">INDEX.md<span class="t gen">GEN</span></span><span class="d">the skill index CLAUDE.md points at</span></div>
+    </details>
+    <details><summary><span class="n">recordings/</span><span class="d">the pipeline's landing zone; every recording lands here once</span></summary>
+      <div class="leaf"><span class="n">inbox/&lt;rec_id&gt;/<span class="t state">STATE</span></span><span class="d">transcript.md, speakers.md, meta.md waiting for ingest</span></div>
+      <div class="leaf"><span class="n">&lt;YYYY&gt;/&lt;rec_id&gt;/</span><span class="d">transcripts that stay in the spine: mixed personal + work recordings</span></div>
+      <div class="leaf"><span class="n">backlog/&lt;era&gt;/</span><span class="d">backfilled transcripts, not yet ingested; fresh → good → old</span></div>
+      <div class="leaf"><span class="n">STATUS.md<span class="t gen">GEN</span></span><span class="d">N waiting, oldest, last sync, token state; the startup health line</span></div>
+    </details>
+  </div>
+</section>
+
+<section class="lobe work">
+  <div class="head"><h2>work/</h2><small>"Hey Sancho, let's work"</small></div>
+  <div class="tree">
+    <div class="leaf"><span class="n">INDEX.md<span class="t gen">GEN</span></span><span class="d">FOCUS column first, then Recently changed, then one line per business with its stake</span></div>
+    <div class="leaf"><span class="n">PROJECTS.md<span class="t gen">GEN</span></span><span class="d">every work project with its status, next action, and any waiting-for; built from the project files, never edited</span></div>
+    <div class="leaf"><span class="n">decisions.md</span><span class="d">cross-cutting work decisions, one line each</span></div>
+    <details><summary><span class="n">ice/<span class="t state">STATE</span></span><span class="d">work idea queue; monthly quick review, quarterly deep dive; _killed/ never deleted</span></summary></details>
+    <details open><summary><span class="n">copper-leaf/</span><span class="d">owned. Plugins, hosting, client sites. Kit stays at ~/Dev/clc-plugins.</span></summary>
+      <div class="leaf"><span class="n">business.md</span><span class="d">stake: owned; identity; vision (H4)</span></div>
+      <div class="leaf"><span class="n">goals.md</span><span class="d">H3, empty until the first quarterly review</span></div>
+      <div class="leaf"><span class="n">brands/press-managed.md</span><span class="d">a DBA, not a business; clients served under it carry brands: [press-managed]</span></div>
+      <details><summary><span class="n">clients/&lt;client&gt;/</span><span class="d">entity folder (T1–T3): entity.md, guidelines.md, knowledge.md, transcripts/, summaries/, docs/, decisions.md</span></summary>
+        <div class="leaf"><span class="n">entity.md</span><span class="d">who they are, Gordon's role, people → people/</span></div>
+        <div class="leaf"><span class="n">guidelines.md</span><span class="d">voice, rules, preferences, never</span></div>
+        <div class="leaf"><span class="n">knowledge.md</span><span class="d">everything known, cited; splits into knowledge/&lt;topic&gt;.md past ~300 lines</span></div>
+        <div class="leaf"><span class="n">transcripts/</span><span class="d">Zoom .vtt and pipeline transcripts filed here (in git)</span></div>
+        <div class="leaf"><span class="n">summaries/</span><span class="d">one per meeting or recording (T5)</span></div>
+        <div class="leaf"><span class="n">docs/</span><span class="d">deliverables, drafts, agreements</span></div>
+      </details>
+      <details><summary><span class="n">plugins/</span><span class="d">the registry: one file per plugin (repo, prefix, staging, alias, quirks); _registry.md generated</span></summary></details>
+      <details><summary><span class="n">projects/&lt;slug&gt;/</span><span class="d">H1: project.md (next action, waiting, goal it serves), its job file, docs</span></summary></details>
+    </details>
+    <details open><summary><span class="n">wizard-of-ads/</span><span class="d">partner network. Gordonium is one of ~85 partners.</span></summary>
+      <div class="leaf"><span class="n">business.md · goals.md</span><span class="d">stake: partner-network</span></div>
+      <details><summary><span class="n">clients/&lt;client&gt;/</span><span class="d">the 13 marketing clients, same entity template</span></summary></details>
+      <details><summary><span class="n">partners/&lt;partner&gt;/</span><span class="d">WoA partners only. entity.md holds skills, workload, accounts; card.md is generated</span></summary>
+        <div class="leaf"><span class="n">card.md<span class="t gen">GEN</span></span><span class="d">the baseball card: MBTI and preferences from people/, skills, availability, accounts from here</span></div>
+      </details>
+      <details><summary><span class="n">projects/&lt;slug&gt;/</span><span class="d">H1 projects, mirror Wrike projects</span></summary></details>
+    </details>
+    <details><summary><span class="n">tipelodeon/</span><span class="d">partial, 20%. stakeholders/grayson-erhard/</span></summary></details>
+    <details><summary><span class="n">entomat/</span><span class="d">venture. stakeholders/lizzie-mack/, etieno-essien/, robert-nathan-allen/</span></summary></details>
+    <details><summary><span class="n">american-icon-spirits/</span><span class="d">venture. Lizzie Mack leads; brands/evel-spirits.md; stakeholders/</span></summary></details>
+    <details><summary><span class="n">pickleproof/</span><span class="d">owned, dormant</span></summary></details>
+  </div>
+</section>
+
+<section class="lobe personal">
+  <div class="head"><h2>personal/</h2><small>"Hey Sancho" (default)</small></div>
+  <div class="tree">
+    <div class="leaf"><span class="n">INDEX.md<span class="t gen">GEN</span></span><span class="d">FOCUS column first, then Recently changed</span></div>
+    <div class="leaf"><span class="n">PROJECTS.md<span class="t gen">GEN</span></span><span class="d">same shape as work</span></div>
+    <div class="leaf"><span class="n">goals.md · horizons/vision.md</span><span class="d">H3 and H4, empty until the first quarterly review</span></div>
+    <div class="leaf"><span class="n">decisions.md</span><span class="d">personal decisions, one line each</span></div>
+    <details><summary><span class="n">ice/<span class="t state">STATE</span></span><span class="d">personal idea queue (think-better delivery, MAP.html, Pickleproof site, OpenClaw revisit…)</span></summary></details>
+    <details><summary><span class="n">me/</span><span class="d">identity, health, neurology, principles (H5). Loaded only on explicit request, never at startup.</span></summary></details>
+    <details><summary><span class="n">projects/&lt;slug&gt;/</span><span class="d">H1: Alaska trip, food routine to habit, think-better term 1…</span></summary></details>
+    <details><summary><span class="n">food/</span><span class="d">area. Weekly plan, pantry, cooking-for-one journal (routine 1)</span></summary></details>
+    <details><summary><span class="n">nomad/</span><span class="d">area. People-and-places list, location.md, trip log, comfort thresholds (routine 2)</span></summary></details>
+    <details><summary><span class="n">rv/</span><span class="d">area. Systems, maintenance, storage map</span></summary></details>
+    <details><summary><span class="n">learning/</span><span class="d">area. Think-better curriculum and sessions</span></summary></details>
+    <details><summary><span class="n">finances/</span><span class="d">area</span></summary></details>
+    <details><summary><span class="n">recordings/</span><span class="d">personal transcripts and summaries filed from the pipeline</span></summary></details>
+    <details><summary><span class="n">reviews/</span><span class="d">weekly review receipts, YYYY-Www.md</span></summary></details>
+  </div>
+</section>
+
+<section class="lobe audio">
+  <div class="head"><h2>~/Sync/Sancho-Audio/</h2><small>sync.com, not git, not mounted</small></div>
+  <div class="tree">
+    <div class="leaf"><span class="n">inbox/</span><span class="d">new audio: Plaud pulls, phone voice memos via the sync.com app, Zoom audio dropped by hand</span></div>
+    <div class="leaf"><span class="n">processed/&lt;rec_id&gt;.ogg</span><span class="d">originals, never modified, kept forever</span></div>
+    <div class="leaf"><span class="n">processed/&lt;rec_id&gt;.json</span><span class="d">word timings and diarization segments</span></div>
+    <div class="leaf"><span class="n">voiceprints/</span><span class="d">.npy embeddings; the library is rebuilt from speakers.md confirmations</span></div>
+    <div class="leaf"><span class="n">ledger.sqlite</span><span class="d">the pipeline's internal state; nightly backup, keep 7</span></div>
+  </div>
+</section>
+
+</div>
+
+<div class="notes">
+  <div class="note"><h3>Where a recording ends up</h3><p>Lands once in <code>recordings/inbox/</code>. Ingest moves it: one client → that client's <code>transcripts/</code>; personal → <code>personal/recordings/</code>; both → stays in <code>recordings/&lt;year&gt;/</code> with a summary on each side. The ledger records the final path per <code>rec_id</code>.</p></div>
+  <div class="note"><h3>What startup reads</h3><p><code>CLAUDE.md</code>, the lobe <code>INDEX.md</code> (FOCUS on top), <code>recordings/STATUS.md</code>, <code>_queue/HEALTH.md</code>, plus the date and a git delta. Six reads, eight lines out.</p></div>
+  <div class="note"><h3>One person, one file</h3><p>Lizzie is <code>people/lizzie-mack.md</code> once, referenced from <code>entomat/stakeholders/</code> and <code>american-icon-spirits/stakeholders/</code>; each folder holds only what belongs to that venture.</p></div>
+  <div class="note"><h3>What never loads at startup</h3><p><code>personal/me/</code>, any transcript, any knowledge file. Skills that need them name the one file in their header.</p></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var q=document.getElementById('q'), root=document.querySelector('.cols');
+  var all=function(sel){return Array.prototype.slice.call(root.querySelectorAll(sel));};
+  document.getElementById('open').onclick=function(){all('details').forEach(function(d){d.open=true;});};
+  document.getElementById('close').onclick=function(){all('details').forEach(function(d){d.open=false;});};
+  function filter(){
+    var v=q.value.trim().toLowerCase();
+    var nodes=all('details, .leaf');
+    nodes.forEach(function(n){n.classList.remove('hit','dim');});
+    if(!v){return;}
+    nodes.forEach(function(n){
+      var own = n.classList.contains('leaf') ? n.textContent : n.querySelector('summary').textContent;
+      if(own.toLowerCase().indexOf(v)>-1){
+        n.classList.add('hit');
+        var p=n.parentElement; while(p && p!==root){ if(p.tagName==='DETAILS'){p.open=true;} p=p.parentElement; }
+      } else { n.classList.add('dim'); }
+    });
+    all('details.dim').forEach(function(d){ if(d.querySelector('.hit')){ d.classList.remove('dim'); } });
+  }
+  q.addEventListener('input',filter);
+  try{ var saved=localStorage.getItem('sancho-tree-q'); if(saved){q.value=saved;filter();} }catch(e){}
+  q.addEventListener('change',function(){ try{localStorage.setItem('sancho-tree-q',q.value);}catch(e){} });
+})();
+</script>

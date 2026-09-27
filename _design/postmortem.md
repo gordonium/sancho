@@ -132,7 +132,7 @@ Gordon's business stack as dictated (spellings to confirm; marked ? where VTT ma
 Legacy entities (history, not live): **Gordonium Enterprises** was a holding company that owned CLC and Press Managed. **Best Inn Site** is super-legacy, dead for 10+ years. Both may appear in v2 files; treat as context for old facts, not as current structure.
 
 Homophone list so far (for CLAUDE.md's dictation line or a small glossary): Plaud (plod/plaude/played), Wrike (Reich), Wizard of Ads (Wizard of Oz), Eti (Eddie), Cowork/Claude Code (coworker and code), OpenClaw (open claw), exocortex (XO cortex, EXO cortex).
-| Evel Spirits | Venture partner | A piece of American Icon Spirits, also led by Lizzie with some different partners. |
+| American Icon Spirits (brand: Evel Spirits) | Venture partner | Led by Lizzie with some different partners. Corrected 2026-09-26: the business is American Icon Spirits; Evel Spirits is a brand of it. |
 | Pickleproof | Owns, dormant | May want a one-page website spun up. Parking lot. |
 
 Implications for Sancho (to confirm):

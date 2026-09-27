@@ -1,4 +1,60 @@
-# Sancho architecture
+<title>Sancho Architecture</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<style>
+:root{--bg:#F7F6F2;--ink:#1E2A24;--muted:#66716B;--line:#D8DBD4;--accent:#5B7A3A;--card:#FFFFFF;--code:#EEEDE7;--th:#E7EEDB;
+--sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--disp:"Bricolage Grotesque","IBM Plex Sans",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#161A18;--ink:#E6E9E3;--muted:#97A19A;--line:#2C332F;--accent:#93B56E;--card:#1C201E;--code:#222724;--th:#233120}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#161A18;--ink:#E6E9E3;--muted:#97A19A;--line:#2C332F;--accent:#93B56E;--card:#1C201E;--code:#222724;--th:#233120}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--sans);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:24px 80px}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px 24px;border-bottom:1px solid var(--line);padding-bottom:14px}
+h1.site{font:700 30px/1.05 var(--disp);margin:0}
+.meta{color:var(--muted);font-size:13px}
+.tabs{display:flex;gap:6px;margin:16px 0 0}
+.tabs button{font:600 14px var(--sans);padding:8px 14px;border:1px solid var(--line);border-bottom:none;border-radius:8px 8px 0 0;background:var(--code);color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--card);color:var(--ink)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.panel{display:grid;grid-template-columns:260px minmax(0,1fr);gap:28px;border:1px solid var(--line);border-radius:0 10px 10px 10px;background:var(--card);padding:22px}
+@media (max-width:860px){.panel{grid-template-columns:1fr}}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;max-height:calc(100vh - 24px);overflow:auto;font-size:13px;padding-right:6px}
+nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0 3px 0;border-left:2px solid transparent;padding-left:8px;line-height:1.35}
+nav.toc a.l3{padding-left:20px;font-size:12.5px}
+nav.toc a:hover,nav.toc a.active{color:var(--ink);border-left-color:var(--accent)}
+@media (max-width:860px){nav.toc{position:static;max-height:none;border-bottom:1px solid var(--line);padding-bottom:10px}}
+article{min-width:0;max-width:78ch}
+article h1{font:700 28px/1.15 var(--disp);margin:0 0 8px;text-wrap:balance}
+article h2{font:700 22px/1.2 var(--disp);margin:40px 0 10px;padding-top:14px;border-top:1px solid var(--line);text-wrap:balance}
+article h3{font:600 16.5px/1.3 var(--sans);margin:24px 0 6px}
+article p{margin:0 0 12px}
+article ul,article ol{padding-left:22px;margin:0 0 12px}
+article li{margin:3px 0}
+article code{font:500 .88em var(--mono);background:var(--code);padding:1px 5px;border-radius:4px}
+article pre{background:var(--code);padding:12px 14px;border-radius:8px;overflow-x:auto;font:12.5px/1.5 var(--mono);margin:0 0 14px}
+article pre code{background:none;padding:0;font-size:inherit}
+.tw{overflow-x:auto;margin:0 0 16px}
+article table{border-collapse:collapse;font-size:13.5px;min-width:100%}
+article th,article td{border:1px solid var(--line);padding:6px 9px;vertical-align:top;text-align:left}
+article th{background:var(--th);font-weight:600;white-space:nowrap}
+article td:first-child{white-space:nowrap}
+article blockquote{border-left:3px solid var(--accent);margin:0 0 12px;padding:2px 12px;color:var(--muted)}
+article hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+article a{color:var(--accent)}
+.hidden{display:none}
+</style>
+<div class="wrap">
+  <div class="top">
+    <div><h1 class="site">Sancho Architecture</h1><div class="meta">Rendered from <code>_design/architecture.md</code> and <code>_design/decisions.md</code> · snapshot 2026-09-26 · the files on disk are the truth; this page is a reading copy</div></div>
+    <div class="meta">Phase 2 · awaiting Gordon's approval</div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="t-arch" aria-selected="true" aria-controls="p-arch">Architecture</button>
+    <button role="tab" id="t-dec" aria-selected="false" aria-controls="p-dec">Decisions log</button>
+  </div>
+  <div class="panel" id="p-arch" role="tabpanel"><nav class="toc" id="toc-arch"></nav><article id="a-arch"></article></div>
+  <div class="panel hidden" id="p-dec" role="tabpanel"><nav class="toc" id="toc-dec"></nav><article id="a-dec"></article></div>
+</div>
+<script type="text/markdown" id="md-arch"># Sancho architecture
 
 Phase 2 deliverable. Started 2026-09-24. Built one decision at a time with Gordon; each section is written when its decision lands and cites `decisions.md`. Sections marked PENDING have not been decided. Nothing in here is built until Gordon approves the whole document (kickoff, Phase 2: "Stop and get my approval").
 
@@ -829,3 +885,93 @@ All section-level choices are decided (see the table at the top and decisions.md
 1. `MAP.html` goes in the personal ICE queue unless Gordon says work. (§14.5)
 2. The personal-lobe tree is a draft to be reshaped by the routine captures. (§3.2)
 3. **Approve the whole document to close Phase 2, or name what to change.**
+</script>
+<script type="text/markdown" id="md-dec"># Sancho decisions log
+
+One line per decision, newest at the bottom. Date, decision, reason. Decisions pre-made in the kickoff prompt (two lobes, git in `~/.sancho.git`, no handoff, audio in `Sancho-Audio/`, name Sancho, eight keeper skills) are recorded there and not repeated here.
+
+| Date | Decision | Reason |
+|---|---|---|
+| 2026-09-21 | Dictation filter is a standing stance, one line in CLAUDE.md, active from Phase 0 onward. | Gordon dictates; rereading to check wastes the time dictation saves. |
+| 2026-09-21 | Tasks: option A, "notice and hand off." Sancho extracts commitments and to-dos from voice notes and transcripts into a list for Gordon; Gordon creates every task himself in Wrike (work) or Google Tasks (personal). Sancho gets no write path into either. | Gordon is the human in the loop on purpose: creating the task by hand helps him remember it. Option B (Sancho writes tasks directly) rejected as too silent, and he'd be surprised by things he forgot. |
+| 2026-09-21 | One machine: the silver Mac is the only runner. No multi-instance coordination. | Multi-instance experiments were fun but wasted time coordinating threads; one machine keeps it clean. |
+| 2026-09-21 | ICE (Idea Capture and Evaluation) is a Sancho component: capture queue, interval review, MVP-then-evaluate gate before anything is built maturely. Phase 2 designs it as a state machine on disk. | Gordon's own client framework; prevents random acts of half-baked building, the Q2 failure. |
+| 2026-09-21 | v2 folder is NOT mounted this session, at Gordon's call. | Contamination risk to this conversation. Phase 1 proceeds on what is mounted; v2 gets its own dedicated survey session. |
+| 2026-09-21 | WIP limit: at most three things in development at any time. Each feature is built to maturity and habit before the next one starts. | "If you're focused on more than three things you're not focused on anything." Guards the Q2 failure directly. |
+| 2026-09-21 | Phase 1 paused (v3 copy in progress, v2 unmounted). Session pivots to capturing Gordon's foundational-routine ideas that don't depend on the old versions, into `_design/`. Still read-only; no building. | Gordon's call; get the ideas out of his head while they're fresh. |
+| 2026-09-22 | Wake phrase: "Hey Sancho" (any Sancho greeting works). Default lobe is **personal**. "Hey Sancho, let's work" (or any greeting plus "work") opens the **work** lobe. | Personal is the everyday case in the RV; work is the explicit mode. Settles the lobe-selection half of decision #6. |
+| 2026-09-22 | Sharing with Astra is work-side only. Leah (business manager, effectively runs CLC and Press Managed; Gordon's spouse, separating) needs nothing from the personal lobe. Shared thinking skills are built for the work spine. | Astra is Leah's work assistant. |
+| 2026-09-22 | Skill inventory verdicts (survey.md 2.1) accepted as-is by Gordon. | Evidence matched the kickoff's keeper/kill list. |
+| 2026-09-22 | Plugin development happens in Claude Code only, where the live-site guard fires. Sancho (Cowork) sessions never hold or use staging SSH aliases. Sancho mounts the kit only when orchestrating a plugin job. | Guard is a Claude Code hook; Cowork does not run it. Mounting a folder injects its CLAUDE.md. |
+| 2026-09-22 | **All memory lives in local Markdown files.** No reliance on Claude's built-in memory for anything Sancho or the kit needs to survive: job plans, stable facts, registries, everything. This settles decision #10 (built-in memory vs. this system): built-in memory is not part of the design. Where the kit's job plan file lives (kit-local vs. Sancho registry) is a Phase 2 detail. | Durable, human-readable, survivable if Claude goes away, and readable by any other system. |
+| 2026-09-22 | Dev kit's GitHub home: `git@github.com:CopperLeafCreative/clc-plugin-dev-kit.git`, private, created empty by Gordon. First registry entry of type "tooling". | Name matches README and handoff; org matches the plugin repos so Leah gets access the same way. |
+| 2026-09-22 | The black Mac keeps running the v3 earballs pipeline (Plaud sync, transcribe, diarize, voiceprint) until Sancho's replacement is proven on the silver Mac; then it is shut down. The Sync copy of v3 is a snapshot and will drift from the black Mac's live data. | No recording may be lost during the build. |
+| 2026-09-22 | Firewall incident logged: mounting v3 injected its CLAUDE.md into the session. Treated as evidence only. Recommendation to Gordon: rename it in the Sync copy and delete `.env` from the Sync copy. | Kickoff firewall item 1; v3's own rule 16 predicted this. |
+| 2026-09-22 | SQLite stays as the pipeline's internal ledger (state, attempts, audit, search index). It is infrastructure, not memory; a generated Markdown status view is the human-facing side. Knowledge never lives in it. | Right tool for the job; the scripts already depend on it; the "all memory in MD" rule is about memory. |
+| 2026-09-22 | First backlog work: walk the notes-to-self (solo recordings auto-tagged as Gordon, ~149) in reverse-chronological order, as soon as the Phase 2 search path exists. Not a Phase 1 task. | Gordon's ask; cheapest proof of the search path and highest personal value. |
+| 2026-09-22 | Four-tier context model: deferred; revisit in Phase 2 with the options recorded in STATUS.md. | Two of the four tiers changed underneath it (one machine; index cascade vs. mode blobs). |
+| 2026-09-24 | **Phase 2, decision A: host execution bridge = A1, queue folder + Mac-side watcher.** A session writes a request file to `_queue/`; a launchd watcher on the silver Mac runs the matching script from a fixed allowlist, writes a result file. Scheduled jobs (pipeline, map, commit) still run on timers; the queue adds on-demand triggers. Canonical path for all Sancho jobs from any session type. | Cowork's shell is a sandbox; Claude Code isn't always the session in use. Auditable, no secrets in sessions, no daemon writes into the knowledge tree except results. |
+| 2026-09-24 | **Decision B: layering rule enforced by B1, a blocking lint on every map build.** CLAUDE.md capped; step sequences outside skills flagged; enforceable always/nevers outside hooks flagged; imperatives in data files flagged; duplicate facts flagged. Map build fails on violation. Two extra layers (Generated, State) and three sharpened tests **kept by Gordon 2026-09-24**. | v3's "few rules" grew 6→16 with no mechanism; v2 hit 1,341 lines. Warnings get ignored; blocks don't. |
+| 2026-09-24 | **Decision C: tree.** Work lobe is one flat folder per business with `stake` in frontmatter (C-i; Gordon's per-business nesting implies it, confirm-by-silence). Press Managed is its own folder (`stake: owned-dba`, `parent: copper-leaf`). **Two ICE queues, one per lobe** (`work/ice/`, `personal/ice/`); the ICE skill is shared in the spine. **Entity folders per client, per WoA partner, and per owner/stakeholder** under the relevant business, all on one template; the person's single identity file stays in spine `people/`. | Gordon's call, 2026-09-24. Facts about a person live once; facts about a relationship in a business live with that business. |
+| 2026-09-24 | **Decision D: navigation = cascade of generated indexes plus ripgrep search (D-A mechanics), with one hand-managed `FOCUS.md` per lobe (the D-B element).** FOCUS.md is a discrete, hard-capped list (cap number pending Gordon; 5 proposed) of pointers to files, each with an added date; the lint blocks over-cap and dangling entries; the lobe index prints the focus block from it. No `status: focus` scattered in files. C-i confirmed. | Gordon: focus must be tightly managed; scattered flags accumulate with no count. One list, one cap, one place. |
+| 2026-09-24 | **Decision E: provenance = E-1**, per-fact inline cites plus per-file `sources:`; four trust tiers (raw, derived, stated, confirmed); `confirmed` is human-only; no in-place edits, supersede and strike through; git commit messages carry session and trigger. `stated` (Gordon first-hand) stays below `confirmed` unless Gordon objects. | E-3's ledger is a second source of truth and a second build; E-1 can migrate to E-3 later, not the reverse. |
+| 2026-09-24 | **WIP-3 is bent for the initial Phase 4 scaffold.** Laying out folders, stubs, templates, the lint, the map and the queue does not count against the three slots; a slot is taken when a component is being built to maturity and habit. Bend carefully: the in-flight file still lists everything open. | Gordon: "a lot to lay and stub out, but let's be careful." |
+| 2026-09-24 | **`stated` tier: Gordon's first-hand word counts as verified by default.** If a statement sounds dubious, the session double-checks with him and/or fact-checks it before filing; the cite stays `[gordon date]` so it remains distinguishable from document-backed `confirmed`. | Gordon's call. |
+| 2026-09-24 | **New skill on the build roadmap: `fact-check-anyone`** (Gordon's original name from the May 2026 plan). Aggressive by design: checks claims from anyone, Gordon included, against sources on disk and the web; reports supported / unsupported / contradicted with cites. **Counts as a WIP slot** when built. Slot in the build order to be set in Phase 3. | Gordon: "I want to know when people are full of shit, including me." |
+| 2026-09-24 | **Decision G: G-1 session leases** for single-writer; plus writes-by-structure (skills end with a write step, decisions logs per level, checkpoint writes, session notes, receipts, commits per action). write-it-down is the named backstop only. | v2 lost 77% of a state file to three writers; leases make a second session loud instead of silent. |
+| 2026-09-24 | **Decision F: F-1.** Pipeline transcripts and Zoom VTTs live in the tree and in git; word-timing JSON sidecars and audio stay in `Sancho-Audio/`, out of git. Per-year archive repo if size ever matters. | Immutable text; git history is tamper evidence; VTTs are irreplaceable. |
+| 2026-09-24 | **Decision H: startup = six mechanical reads, one eight-line screen, one path for cold and re-sync; H-1, offer the lobe's morning routine once per day before noon.** No inbox scans, calendar, briefs, cadence dispatch, or network checks in startup. | v2's startup took 2+ minutes and had nine definitions; an offer builds the habit without becoming a chain. |
+| 2026-09-24 | **Decision I: I-1**, one job file per chain in `_queue/jobs/`; state passes only through files; loops need exit condition and max; human gates are waiting stages; think-first fronts chains only. **ICE cadence: monthly quick review, quarterly deep dive.** WIP cap 3 in `_setup/IN-FLIGHT.md`; `retire-component` job with zero-references check. | Handoff §14.1 pattern; v2's "retired in prose" failure. |
+| 2026-09-24 | **Decision J, speakers: the voiceprint library must earn automation.** Three speaker states: candidate → machine-confirmed (systematic: thick sample + high score + sanity vetoes pass) → human-confirmed. Machine-confirmed is good enough to file under the name; it stays a distinct class and is written as such. Any correction of a person's auto-tag switches that person back to human-required for 90 days. | Gordon: the library is only valuable if it automates; confirmation can be safely skipped once the sample is thick and confidence high. HUMAN VERIFIED remains its own class (Q9 #7). |
+| 2026-09-24 | **Decision J, contacts: Sancho holds Gordon's single point of truth for contacts.** Start by mining Google Contacts and de-duping. **Form: J-D1**, person files are the contacts database (contact block in frontmatter, thin entries hidden behind a count, generated CONTACTS.csv for export, script-proposed merges Gordon confirms). Sync mirroring of contact details to sync.com and Leah's machine is **accepted**. New roadmap item: contacts import + dedupe (WIP slot). | One identity per person, really; the export view is generated. |
+| 2026-09-24 | **Decision M: M-1**, no silence stripping in the fresh pipeline; originals never modified; optional derivative for >2 h recordings only. **CRITICAL pipeline alerts must reach Gordon's phone**, not just the Mac. Channel to be chosen (options presented). Content rule: one plain actionable message, re-fired only on state change or once daily, never every 5 minutes. Destination hardcoded to Gordon only. | Gordon: "if the pipeline is falling behind, I need the system to reach out to me where I am." v2's failure was content and cadence (4,437 identical alerts), not the idea of a push. |
+| 2026-09-24 | **Phone channel: P-1 Pushover**, on trial. Built once as `_setup/notify.py`, single hardcoded recipient, token in `~/.config/sancho/env`; also serves the nomad routine's nudges later. | Simple POST, priority levels, nothing to host. |
+| 2026-09-24 | **Decision N: N-3 with sequencing.** `MAP.md` (Mermaid) is scaffold, source of truth, in git. `MAP.html` is a render *of MAP.md* (never a second reading of the tree), gitignored, regenerated nightly, and built only when it wins a WIP slot via the personal ICE queue. Tests defined per component type; hard rules never depend on session hooks. | Both views, but the second earns its place; two independent generators would drift. |
+| 2026-09-24 | **Decision O:** O-1 Leah gets write on the kit repo, `main` protected, `wip/*` force-pushable; O-2 kit ships to Leah as a Claude Code plugin from the same repo; O-3 Sancho tracks plugin jobs through all 16 stages as job files; O-4 shared thinking skills read `skills/_params/<user>.md`, no personal content in skill bodies. **FOCUS.md cap: 5 per lobe.** | Gordon accepted all recommendations, 2026-09-24. |
+| 2026-09-26 | **Devices (§16, drafted):** the phone is a remote for the Mac via Dispatch, not a second runner; Pushover closes the loop back; Plaud and sync.com apps are the phone's capture paths. Mac sleep is a known state reported as such, never mistaken for pipeline failure; a one-word `mac.stay-awake` job sets the power stance. Awaiting Gordon's reaction. | Dispatch runs on the desktop with the desktop awake; everything in Sancho already runs from that session. |
+| 2026-09-26 | **Vocabulary fixed:** *command* = allowlisted script the watcher may execute (`_setup/commands.md`); *run* = one execution (request + result); *schedule* = a command launchd also fires on a timer; *job* = a multi-stage state file in `_queue/jobs/` whose stages are done by skills; *task* is not a Sancho concept. Glossary added to architecture.md; "queue job" replaced throughout. | Gordon asked what a job is; the document had used the word for two things. |
+| 2026-09-26 | **Endeavors replace Focus and WIP.** An endeavor is a big multi-stage outcome ("Plan the Alaska trip", "Overhaul the Copper Leaf plugin library") with a job file. **Cap: 3 per lobe** (3 work, 3 personal), in one spine file `ENDEAVORS.md`, each line tagged with lobe; each lobe index prints its own three. **GTD: every endeavor carries a Next Action**, the next physical visible step; an endeavor without one is flagged at startup. ICE is the holding tank that feeds endeavors. "Build Sancho" is one work endeavor during Phase 4; the WIP-3 rule lives inside it (≤3 components maturing at once). FOCUS.md and IN-FLIGHT.md are retired before they were built. | Gordon, 2026-09-26. One attention, one list, GTD discipline. |
+| 2026-09-26 | **Endeavor vs task:** tasks live in Wrike (work) and Google Tasks (personal), created by Gordon. A task is a single action or a short sequence done in one or two sittings; it may spawn a Sancho job but never takes an endeavor slot. When Sancho can't tell, it asks; it never creates an endeavor on its own. | Endeavor slots are precious; tasks are plentiful. |
+| 2026-09-26 | **Correction to the endeavor decision: endeavors are unlimited; Focus is what's limited.** Endeavors = the projects inside each business and in personal life (work endeavors mirror Wrike projects), each with a job file and a Next Action; no cap. **Focus = 3 per lobe, nested by horizon: month → week → day.** Daily focus is set each morning and verbally checksummed against the week's three and the month's three. Next Actions: personal = Google Tasks items; work = Wrike tasks under Wrike projects (Gordon to use Wrike's project/task structure better). **Stalled Next Action flag: 1 week.** "job" stays as Sancho-internal lingo. | Gordon, 2026-09-26. Nesting mechanics (when each horizon is set, how exceptions are handled) proposed by Claude, awaiting Gordon. |
+| 2026-09-26 | **GTD vocabulary adopted:** *project* replaces *endeavor* (matches GTD Horizon 1 and Wrike); *area* for businesses and life areas (Horizon 2); *next action* (ground). Focus nesting month → week → day **approved**; weekly and daily focus capped at 3 per lobe (month assumed 3 as well unless Gordon says otherwise). | Use vocabulary someone already figured out. |
+| 2026-09-26 | **GTD alignment (§17):** ingest is the clarify step with GTD's buckets; `waiting:` added to projects; **Weekly Review skill** added to the Phase 3 build list (one skill, per-lobe parameter; personal Sunday, work day pending); horizons H3–H5 get files at scaffold, filled at the first quarterly review; read-only Wrike/Google Tasks access is an ICE item. CLAUDE.md's change-frequency test relaxed to an aspiration with a visible count during the build. "Hand-edited" wording corrected: v3's session edited a generated file, v2's index was never regenerated; Gordon did neither. | Gordon, 2026-09-26. |
+| 2026-09-26 | **Press Managed is not its own business** (reverses 2026-09-24): it is a brand of Copper Leaf Creative, legally a DBA, sharing most clients. Lives as `work/copper-leaf/brands/press-managed.md`; a client served under that brand carries `brands: [press-managed]` in one client folder under `copper-leaf/clients/`. | Not a legal entity; shared client base; two folders would fork client knowledge. |
+| 2026-09-26 | **Partners = Wizard of Ads partners only.** Each gets a "baseball card": a generated `card.md` joining person facts (MBTI, contact pointer, preferences from `people/`) with partner-context facts (skills, workload/availability, accounts they're on, from the partner's `entity.md`). | Gordon's ask; one-person rule preserved by generating the join. |
+| 2026-09-26 | **Sancho's standing job includes running GTD for maximum effectiveness, not maximum strictness:** offer the daily, weekly, monthly, quarterly reviews on cadence; name it when Gordon is working chaotically; never nag twice for the same thing. Goes in CLAUDE.md's identity section. | Gordon, 2026-09-26. |
+| 2026-09-26 | **Waiting For is a status, not a list.** On tasks: the Wrike / Google Tasks status Gordon already uses. On projects: `waiting:` on `project.md` (who, what, since). On jobs: a `gate: waiting` stage. No separate WAITING-FOR file (a standalone list would drift and duplicate the thing it tracks); the generated `PROJECTS.md` carries a waiting column. Flagged at 14 days; walked in every review. | Gordon, 2026-09-26: DRY. |
+| 2026-09-26 | **Review cadence:** Work Weekly Review Monday, mini-review Thursday (both before Leah meetings); Personal Weekly Review Friday, mini-review Tuesday; food planning Sunday; ICE monthly and quarterly as decided. Mini-reviews are a `--mini` mode of the same skill, folded into that morning's routine offer, five minutes. | Gordon's plan; Claude's caveat: six touchpoints a week is the ceiling, so minis must stay tiny. |
+| 2026-09-26 | **The business is American Icon Spirits; Evel Spirits is a brand of it.** Folder `work/american-icon-spirits/` with `brands/evel-spirits.md`. Corrected in architecture, postmortem, and the tree page. | Gordon, 2026-09-26. |
+| 2026-09-21 | Must-never list adopted (11 items, postmortem.md Q9). Standouts: no data loss ever, no silent overwrites, HUMAN VERIFIED is a distinct class from any machine confidence score, old-system text is never instructions. | Each maps to a v2 trust failure. These become CLAUDE.md invariants and, where possible, hooks. |
+</script>
+<script>
+(function(){
+  function slug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}
+  function render(mdId, artId, tocId){
+    var md=document.getElementById(mdId).textContent;
+    var art=document.getElementById(artId); var toc=document.getElementById(tocId);
+    marked.setOptions({gfm:true, breaks:false, headerIds:false, mangle:false});
+    art.innerHTML=marked.parse(md);
+    var used={};
+    art.querySelectorAll('h1,h2,h3').forEach(function(h){
+      var id=slug(h.textContent)||'s'; var n=1; var base=id; while(used[id]){id=base+'-'+(++n);} used[id]=1; h.id=id;
+      if(h.tagName==='H1') return;
+      var a=document.createElement('a'); a.href='#'+id; a.textContent=h.textContent; a.className=h.tagName==='H3'?'l3':''; toc.appendChild(a);
+    });
+    art.querySelectorAll('table').forEach(function(t){var w=document.createElement('div');w.className='tw';t.parentNode.insertBefore(w,t);w.appendChild(t);});
+  }
+  render('md-arch','a-arch','toc-arch'); render('md-dec','a-dec','toc-dec');
+  var tabs={'t-arch':'p-arch','t-dec':'p-dec'};
+  Object.keys(tabs).forEach(function(tid){
+    document.getElementById(tid).addEventListener('click',function(){
+      Object.keys(tabs).forEach(function(k){document.getElementById(k).setAttribute('aria-selected',k===tid?'true':'false');document.getElementById(tabs[k]).classList.toggle('hidden',k!==tid);});
+      try{localStorage.setItem('sancho-arch-tab',tid);}catch(e){}
+      window.scrollTo(0,0);
+    });
+  });
+  try{var t=localStorage.getItem('sancho-arch-tab'); if(t&&tabs[t]) document.getElementById(t).click();}catch(e){}
+  if(location.hash==='#decisions'){document.getElementById('t-dec').click();}
+  var links=[].slice.call(document.querySelectorAll('nav.toc a'));
+  function mark(){var y=window.scrollY+120;var cur=null;links.forEach(function(a){var el=document.getElementById(a.getAttribute('href').slice(1));if(el&&el.offsetTop<=y&&!el.closest('.hidden'))cur=a;});links.forEach(function(a){a.classList.toggle('active',a===cur);});}
+  window.addEventListener('scroll',mark,{passive:true}); mark();
+})();
+</script>
