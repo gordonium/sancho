@@ -5,6 +5,7 @@ description: earballs.py end to end against fake Plaud, Groq and Pushover server
 why: The pipeline runs unattended; a regression here means recordings silently stop arriving (must-never 10). Gap: §13.4's real-voice fixture clips (Gordon solo, two speakers) need recordings Gordon picks; diarization itself is not exercised here.
 reads: _setup/pipeline/earballs.py, _setup/notify.py, _setup/sancho_lib.py
 writes: temp files only
+requires: mac
 test: (this is the test)
 """
 import hashlib, json, os, shutil, subprocess, sys, tempfile, threading, time
@@ -120,11 +121,17 @@ if len(S["pushes"]) != n: fail("push repeated within the day")
 S["plaud_401"] = False
 
 # 5. metered: backfill refuses; then backfill lands in recordings/backlog/<era>/
-(T / "state").mkdir(exist_ok=True); (T / "state/metered-until").write_text("2999-01-01")
+(T / "state").mkdir(exist_ok=True); (T / "state/network.json").write_text(json.dumps({"label": "phone", "metered": True}))
 out = run("backfill", "--era", "era3", "--limit", "5")
 if "refused" not in out or rows()["p3"]["status"] != "listed": fail("metered backfill not refused: " + out)
-if "metered until 2999-01-01" not in (tree / "recordings/STATUS.md").read_text(): fail("STATUS.md lacks the metered line")
-(T / "state/metered-until").unlink()
+if "metered network (phone)" not in (tree / "recordings/STATUS.md").read_text(): fail("STATUS.md lacks the metered line")
+# a long fresh recording waits while metered; a short one still downloads
+ITEMS.insert(0, item(5, (2026, 9, 29), dur=5 * 3600 * 1000)); ITEMS.insert(0, item(6, (2026, 9, 29)))
+run("sync", "--full")
+R = rows()
+if R["p5"]["status"] != "queued" or "unmetered" not in (R["p5"]["last_error"] or ""): fail(f"5 h recording downloaded while metered: {R['p5']}")
+if R["p6"]["status"] != "ready": fail(f"short recording blocked while metered: {R['p6']}")
+(T / "state/network.json").unlink()
 run("backfill", "--era", "era3", "--limit", "5")
 p3 = rows()["p3"]
 if p3["status"] != "ready" or not (tree / "recordings/backlog/era3" / p3["id"] / "transcript.md").exists(): fail(f"backfill: {p3}")

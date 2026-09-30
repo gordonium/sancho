@@ -45,7 +45,9 @@ CHUNK_MINUTES, CHUNK_OVERLAP_S = 18, 2
 GROQ_BACKOFF = [2, 8, 30]
 BACKFILL_DAILY_AUDIO_S = 6 * 3600  # free-tier drip (§13.2)
 MAX_ERRORS = 5
-METERED_FILE = STATE / "metered-until"  # YYYY-MM-DD; while in force: no backfill, no self-heal re-downloads, small list pages
+NET_FILE = STATE / "network.json"  # written by _setup/netstate.py each watcher tick; metered → no backfill, no self-heal re-downloads, small list pages, no single download > 50 MB
+METERED_MAX_DOWNLOAD = 50 * 1024 * 1024
+OPUS_BYTES_PER_S = 4000  # Plaud opus ≈ 32 kbps; used to estimate a download's size before fetching it
 RUN_BUDGET_S = 45 * 60
 
 SLA_AMBER_H, SLA_RED_H = 12, 24
@@ -134,10 +136,10 @@ def new_rec_id(c) -> str:
 
 
 def metered() -> str | None:
-    """Metered connection guard (Gordon roaming, 2026-09-30). Returns the end date while in force."""
+    """Metered connection guard (Gordon roaming, 2026-09-30). Returns the network's label while metered."""
     try:
-        until = METERED_FILE.read_text().strip()[:10]
-        return until if dt.date.today().isoformat() < until else None
+        st = json.loads(NET_FILE.read_text())
+        return (st.get("label") or "metered") if st.get("metered") else None
     except (OSError, ValueError):
         return None
 
@@ -782,6 +784,9 @@ def cmd_sync(a) -> int:
             for row in c.execute("SELECT * FROM recordings WHERE status=? ORDER BY recorded_at", (ST_QUEUED,)).fetchall():
                 if not due(row):
                     continue
+                if metered() and (row["duration_seconds"] or 0) * OPUS_BYTES_PER_S > METERED_MAX_DOWNLOAD:
+                    upd(c, row["id"], last_error=f"waiting for unmetered network (~{(row['duration_seconds'] or 0) * OPUS_BYTES_PER_S / 1048576:.0f} MB)")
+                    continue
                 try:
                     stage_download(c, row)
                 except PlaudAuthError:
@@ -839,7 +844,7 @@ def cmd_backfill(a) -> int:
         print("earballs backfill: offline")
         return 0
     if metered() and not a.force:
-        print(f"earballs backfill: refused; metered connection until {metered()} (backlog audio is bulk data). --force overrides.")
+        print(f"earballs backfill: refused; metered network ({metered()}); backlog audio is bulk data. --force overrides.")
         write_status(c)
         return 0
     eras = ["era3", "era2", "era1"] if a.era == "auto" else [a.era]
@@ -1020,7 +1025,7 @@ def write_status(c):
           f"- voiceprint library: {len(load_library().get('speakers', {}))} people · diarization: {DIAR_MODEL}",
           f"- ledger backup: {(meta_get(c, 'last_backup') or 'never')[:16]}",
           f"- data today: {down / 1048576:.0f} MB audio downloaded, {up / 1048576:.0f} MB sent to Groq (sync.com backs the audio up again)"
-          + (f" · **metered until {metered()}: backfill and bulk re-downloads off**" if metered() else ""), ""]
+          + (f" · **metered network ({metered()}): backfill, bulk re-downloads and downloads over 50 MB wait**" if metered() else ""), ""]
     if eras:
         L += ["## Backlog", "", "| era | status | recordings | audio hours |", "|---|---|---|---|"]
         L += [f"| {e[0]} | {e[1]} | {e[2]} | {(e[3] or 0) / 3600:.0f} |" for e in eras] + [""]

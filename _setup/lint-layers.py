@@ -271,7 +271,8 @@ def main():
     check_secrets()
     out = [f"# LINT\ngenerated {today()} by lint-layers.py\n", f"**{len(problems)} problems, {len(warnings)} warnings**\n"]
     out += ["## Problems (block the build)"] + [f"- {p}" for p in problems] + ["", "## Warnings"] + [f"- {w}" for w in warnings]
-    (ROOT / "_setup" / "LINT.md").write_text("\n".join(out) + "\n", encoding="utf-8")
+    if not __import__("os").environ.get("SANCHO_LINT_NO_WRITE"):  # the watcher lints every tick without churning LINT.md
+        (ROOT / "_setup" / "LINT.md").write_text("\n".join(out) + "\n", encoding="utf-8")
     for p in problems: print("PROBLEM:", p)
     for w in warnings: print("warning:", w)
     print(f"lint-layers: {len(problems)} problems, {len(warnings)} warnings")

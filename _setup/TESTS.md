@@ -1,5 +1,5 @@
 # TESTS
-generated 2026-09-30 21:57 by test-all.py · 15 suites · 0 failing
+generated 2026-09-30 22:48 by test-all.py · 16 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -8,6 +8,7 @@ generated 2026-09-30 21:57 by test-all.py · 15 suites · 0 failing
 | git-autocommit | PASS | test-git-autocommit: PASS |
 | install-mac | PASS | test-install-mac: PASS |
 | lint-layers | PASS | test-lint-layers: PASS |
+| netstate | PASS | test-netstate: PASS |
 | nightly | PASS | test-nightly: PASS |
 | notify | PASS | test-notify: PASS |
 | ping | PASS | test-ping: PASS |

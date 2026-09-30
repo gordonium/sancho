@@ -5,6 +5,7 @@
 # why: a plist pointing at a renamed script fails silently inside launchd.
 # reads: _setup/install-mac.sh, _setup/com.sancho.*.plist
 # writes: temp files only
+# requires: mac
 # test: (this is the test)
 set -u; HERE="$(cd "$(dirname "$0")" && pwd)"; SRC="$(cd "$HERE/../.." && pwd)"
 T=$(mktemp -d); trap 'rm -rf "$T"' EXIT

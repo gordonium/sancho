@@ -5,6 +5,7 @@
 # why: a stay-awake that silently stays on drains the battery; one that silently fails loses the night's run.
 # reads: _setup/stay-awake.sh
 # writes: temp files only
+# requires: mac
 # test: (this is the test)
 set -u; HERE="$(cd "$(dirname "$0")" && pwd)"; SRC="$(cd "$HERE/../.." && pwd)"
 T=$(mktemp -d); trap 'rm -rf "$T"' EXIT

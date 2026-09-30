@@ -4,8 +4,8 @@ name: sancho-watcher
 type: script
 description: One tick of the host execution bridge. Runs every allowlisted request in _queue/requests/, writes one result per request to _queue/results/, then rewrites _queue/HEALTH.md. Exits; launchd calls it again on any change to requests/ and every 60 s.
 why: A Cowork session can't run anything on the Mac; the queue is the one audited path for every Mac-side run (architecture §1). HEALTH.md is how a session knows the runner is alive instead of pretending a run happened.
-reads: _setup/commands.md (the allowlist); _queue/requests/*.md; ~/.config/sancho/env; _queue/leases/, _queue/sessions/; _setup/GIT-EXCLUDED.md; pmset -g log
-writes: _queue/results/<request name>; _queue/log/<date>.log; _queue/HEALTH.md; state in ~/.local/state/sancho/ (lock, tick times, last status per command)
+reads: _setup/commands.md (the allowlist); the lint's verdict on the tree (every tick); _queue/requests/*.md; ~/.config/sancho/env; _queue/leases/, _queue/sessions/; _setup/GIT-EXCLUDED.md; pmset -g log
+writes: _queue/results/<request name>; _queue/deferred/ (heavy requests while metered); _queue/log/<date>.log; _queue/HEALTH.md; state in ~/.local/state/sancho/ (lock, tick times, last status per command)
 schedule: launchd com.sancho.watcher (WatchPaths on _queue/requests/, StartInterval 60, RunAtLoad)
 test: _setup/tests/watcher/
 """
@@ -17,7 +17,7 @@ from sancho_lib import tree_root, read_frontmatter
 
 ROOT = tree_root()
 Q = ROOT / "_queue"
-REQ, RES, LOG, RUNNING = Q / "requests", Q / "results", Q / "log", Q / "running"
+REQ, RES, LOG, RUNNING, DEFERRED = Q / "requests", Q / "results", Q / "log", Q / "running", Q / "deferred"
 STATE = Path(os.environ.get("SANCHO_STATE", Path.home() / ".local/state/sancho"))
 ENV_FILE = Path(os.environ.get("SANCHO_SECRETS_PLAIN", Path.home() / ".config/sancho/env"))
 AGE_FILE = Path(os.environ.get("SANCHO_SECRETS_AGE", Path.home() / "Sync/Sancho-Secrets/sancho.env.age"))
@@ -45,7 +45,8 @@ def load_commands() -> dict:
         except ValueError:
             timeout = 120
         out[cells[0]] = {"script": cells[1], "timeout": timeout, "schedule": cells[3],
-                         "terminal_only": "terminal only" in cells[3].lower()}
+                         "terminal_only": "terminal only" in cells[3].lower(),
+                         "heavy": "[heavy]" in (cells[3] + " " + cells[4]).lower()}
     return out
 
 
@@ -101,6 +102,14 @@ def run_one(req: Path, commands: dict, env: dict) -> str:
     started = now()
     rel_log = f"_queue/log/{started.date().isoformat()}.log"
     c = commands.get(cmd)
+    if c is not None and c["heavy"] and NET.get("metered"):
+        DEFERRED.mkdir(parents=True, exist_ok=True)
+        os.replace(claimed, DEFERRED / req.name)
+        write_result(req.name, {"command": cmd, "status": "deferred", "started_at": iso(started), "finished_at": iso(now()),
+                                "exit_code": "", "log": rel_log},
+                     f"deferred: metered network ({NET.get('label')}); runs on its own when the Mac is on an unmetered network")
+        log_line(f"{iso(started)} {rid} {cmd} deferred (metered: {NET.get('label')})")
+        return "deferred"
     if c is None or c["terminal_only"]:
         why = "not in _setup/commands.md" if c is None else "runs only in Terminal (it asks for a passphrase)"
         write_result(req.name, {"command": cmd or "(none)", "status": "refused", "started_at": iso(started),
@@ -180,8 +189,27 @@ def prune_results():
 
 # ---------- HEALTH.md ----------
 
+PMSET_RE = re.compile(r"^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d) [+-]\d{4} (Sleep|Wake|DarkWake)\s+\t(\S+)", re.M)
+
+
+def parse_sleep(text: str) -> dict:
+    """Last real sleep window from `pmset -g log`. A full wake is a `Wake` line reading `Wake from …`;
+    `Wake Requests` (scheduling) and `DarkWake` (maintenance) are not wakes. The window runs from the first
+    Sleep after the previous full wake to the last full wake (ERRORS.md #3)."""
+    ev = [(d, k) for d, k, first in PMSET_RE.findall(text) if k != "Wake" or first == "Wake"]
+    fulls = [i for i, (_, k) in enumerate(ev) if k == "Wake"]
+    if not fulls:
+        return {}
+    last = fulls[-1]
+    prev = fulls[-2] if len(fulls) > 1 else -1
+    sleeps = [i for i in range(prev + 1, last) if ev[i][1] == "Sleep"]
+    if not sleeps:
+        return {"wake": ev[last][0]}
+    return {"sleep": ev[sleeps[0]][0], "wake": ev[last][0], "dark_wakes": sum(1 for i in range(sleeps[0], last) if ev[i][1] == "DarkWake")}
+
+
 def mac_sleep_line(t: datetime.datetime) -> str:
-    """Last sleep and wake from pmset (slow, so cached 15 min) plus the gap since the previous tick."""
+    """Last real sleep window from pmset (slow, so cached 15 min)."""
     cache = STATE / "pmset.json"
     data = {}
     try:
@@ -191,18 +219,25 @@ def mac_sleep_line(t: datetime.datetime) -> str:
     if time.time() - data.get("at", 0) > 900 and shutil.which("pmset"):
         try:
             out = subprocess.run(["pmset", "-g", "log"], capture_output=True, text=True, timeout=20).stdout
-            ev = re.findall(r"^(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d) [+-]\d{4} (Sleep|Wake|DarkWake)\s", out, re.M)
-            data = {"at": time.time(), "sleep": next((d for d, k in reversed(ev) if k == "Sleep"), ""),
-                    "wake": next((d for d, k in reversed(ev) if k == "Wake"), "")}
+            data = {"at": time.time(), **parse_sleep(out)}
             cache.write_text(json.dumps(data))
         except Exception:
             pass
-    parts = []
+    if data.get("sleep") and data.get("wake"):
+        return f"last asleep {data['sleep'][5:16]} → {data['wake'][11:16]} ({data.get('dark_wakes', 0)} maintenance wakes)"
     if data.get("wake"):
-        parts.append(f"last wake {data['wake'][5:16]}")
-    if data.get("sleep"):
-        parts.append(f"last sleep {data['sleep'][5:16]}")
-    return ", ".join(parts) or "sleep history unavailable"
+        return f"last full wake {data['wake'][5:16]}"
+    return "sleep history unavailable"
+
+
+def ticks_line(tk: dict, t: datetime.datetime) -> str:
+    """Ticks per hour for the last 12 hours: an awake witness independent of pmset (0 = the Mac was not running)."""
+    hours = tk.get("hours", {})
+    cells = []
+    for h in range(11, -1, -1):
+        key = (t - datetime.timedelta(hours=h)).strftime("%Y-%m-%dT%H")
+        cells.append(f"{key[11:]}h:{hours.get(key, 0)}")
+    return " ".join(cells)
 
 
 def health(commands: dict, ran: list, t: datetime.datetime):
@@ -214,6 +249,9 @@ def health(commands: dict, ran: list, t: datetime.datetime):
     prev = tk.get("last")
     gap = f"; previous tick {int((t.timestamp() - prev) / 60)} min ago (Mac was asleep or off)" if prev and t.timestamp() - prev > 300 else ""
     tk["last"] = t.timestamp()
+    hk = t.strftime("%Y-%m-%dT%H")
+    tk["hours"] = {k: v for k, v in tk.get("hours", {}).items() if k >= (t - datetime.timedelta(hours=24)).strftime("%Y-%m-%dT%H")}
+    tk["hours"][hk] = tk["hours"].get(hk, 0) + 1
     ticks.write_text(json.dumps(tk))
 
     today = t.date().isoformat()
@@ -253,7 +291,16 @@ def health(commands: dict, ran: list, t: datetime.datetime):
     awake_state = STATE / "stay-awake"
     awake = awake_state.read_text().strip() if awake_state.exists() else "off"
 
+    lint_problems = []
+    try:
+        lr = subprocess.run(["python3", str(ROOT / "_setup" / "lint-layers.py")], cwd=ROOT, capture_output=True, text=True, timeout=60,
+                            env={**os.environ, "SANCHO_ROOT": str(ROOT), "SANCHO_LINT_NO_WRITE": "1"})
+        lint_problems = [l[len("PROBLEM: "):] for l in lr.stdout.splitlines() if l.startswith("PROBLEM: ")]
+    except Exception as e:
+        lint_problems = [f"lint did not run: {e}"]
     problems = []
+    if lint_problems:
+        problems.append(f"lint: {len(lint_problems)} problem(s) in the tree")
     if fails:
         problems.append(f"{len(fails)} failed run(s) today")
     if n_excl:
@@ -273,19 +320,41 @@ def health(commands: dict, ran: list, t: datetime.datetime):
         "",
         f"- watcher last seen: {t.strftime('%Y-%m-%d %H:%M:%S %Z')}{gap}",
         f"- Mac: awake now; {mac_sleep_line(t)}; stay-awake {awake}",
+        f"- watcher ticks per hour (last 12 h): {ticks_line(tk, t)}",
         f"- runs today: {len(runs)} ({len(fails)} failed); this tick ran {len(ran)}; waiting in requests/: {len(pending)}",
         f"- git: {unpushed} commit(s) not pushed; {n_excl} file(s) excluded",
+        f"- network: {NET.get('label', '?')}, {'METERED: heavy commands deferred (' + str(len(list(DEFERRED.glob('*.md'))) if DEFERRED.exists() else 0) + ' waiting)' if NET.get('metered') else 'unmetered'}",
         f"- secrets: {secrets}",
         f"- commands on the allowlist: {len(commands)}",
         f"- leases live: {', '.join(leases) or 'none'}",
         f"- leases stale (> {LEASE_STALE_H} h): {', '.join(stale_leases) or 'none'}",
         f"- session notes with no lease: {', '.join(stale_notes) or 'none'}",
     ]
+    if lint_problems:
+        out += ["", "## Lint (this tick)"] + [f"- {p}" for p in lint_problems[:20]] + ([f"- … and {len(lint_problems) - 20} more"] if len(lint_problems) > 20 else [])
     if fails:
         out += ["", "## Failures today"] + [f"- {f}" for f in fails]
     tmp = Q / ".HEALTH.md.tmp"
     tmp.write_text("\n".join(out) + "\n", encoding="utf-8")
     os.replace(tmp, Q / "HEALTH.md")
+
+
+NET: dict = {}
+
+
+def check_network() -> dict:
+    """netstate.py decides metered/unmetered; on unmetered, deferred heavy requests go back into requests/."""
+    try:
+        sys.path.insert(0, str(ROOT / "_setup"))
+        import netstate
+        st = netstate.current()
+    except Exception as e:
+        st = {"label": f"unknown (netstate failed: {e})", "metered": False}
+    if not st.get("metered") and DEFERRED.exists():
+        for p in DEFERRED.glob("*.md"):
+            os.replace(p, REQ / p.name)
+            log_line(f"{iso(now())} {p.stem} released from deferred (network {st.get('label')})")
+    return st
 
 
 def main():
@@ -299,6 +368,7 @@ def main():
     commands = load_commands()
     env = load_env()
     recover_orphans()
+    NET.update(check_network())
     ran = []
     for req in sorted(REQ.glob("*.md")) if REQ.exists() else []:
         if req.name.startswith("."):

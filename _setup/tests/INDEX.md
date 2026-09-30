@@ -1,11 +1,12 @@
 # _setup/tests · INDEX
-generated 2026-09-30 by build-index.py · 15 entries
+generated 2026-09-30 by build-index.py · 16 entries
 
 - build-index/ · folder · empty
 - build-map/ · folder · empty
 - git-autocommit/ · folder · empty
 - install-mac/ · folder · empty
 - lint-layers/ · folder · 11 files
+- netstate/ · folder · empty
 - nightly/ · folder · empty
 - notify/ · folder · empty
 - ping/ · folder · empty

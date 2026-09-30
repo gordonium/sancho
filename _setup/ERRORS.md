@@ -20,3 +20,9 @@ Rule: when Sancho gets something wrong, the response is a mechanism, not an apol
 - why it got through: the runner had no idea where it was running.
 - mechanism: `test-all.py` must skip suites marked `requires: mac` when not on macOS and must write `TESTS.md` only on the Mac (elsewhere: print only, and say "not the Mac; board not written"). Owner: the Nerd (it holds `_setup/`), requested 2026-09-30.
 - test: _setup/tests/test-all/ (add a case: on a non-Mac, `TESTS.md` is untouched)
+
+## 3 · 2026-09-30 · HEALTH.md reported the wrong sleep window
+- what: HEALTH.md said the Mac "last slept 21:17, woke 21:29"; the lid was actually closed 19:35–21:29 (and 18:52–19:22 before that). Cowork caught it from the tree's silence.
+- why it got through: the pmset parser counted `Wake Requests` lines (macOS scheduling its next wake) as wakes, so every maintenance cycle looked like a real wake and the "last sleep" was the last maintenance re-sleep. No test used a real pmset log.
+- mechanism: `sancho-watcher.py::parse_sleep` counts a full wake only on a `Wake from …` line (not `Wake Requests`, not `DarkWake`) and reports the window from the first Sleep after the previous full wake to the last full wake, with the maintenance-wake count; HEALTH.md also shows watcher ticks per hour for the last 12 h, an awake witness that doesn't depend on pmset.
+- test: _setup/tests/watcher/ (the captured `pmset-darkwake.txt` must yield 19:35:36 → 21:29:35 with 6 maintenance wakes; HEALTH.md must carry the ticks-per-hour line)
