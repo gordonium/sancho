@@ -28,3 +28,4 @@ The watcher runs only what is listed here. Adding a command = one row here + one
 | pipeline.status | _setup/pipeline/earballs.sh | 60 | | args [status]: regenerate recordings/STATUS.md |
 | net.status | _setup/netstate.py | 20 | every watcher tick (in-process) | which network, metered or not (router fingerprint vs _setup/metered-networks.md) |
 | net.mark | _setup/netstate.py | 20 | | args [mark, <label>, metered or unmetered]: record the network the Mac is on now |
+| nerd.run | _setup/nerd-run.py | 1900 | | headless Claude Code (the Nerd) for the task in the request (`task:`, `task_file:`, or body); allowlisted tools, OS sandbox, no MCP, no push/commit/web; one at a time; transcript in _queue/results/ |

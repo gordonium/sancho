@@ -66,6 +66,10 @@ flowchart LR
   subgraph gtd
     open[open]
   end
+  subgraph other
+    checkback[checkback]
+  end
+  checkback --> the
   open --> the
 ```
 ### Pipeline stages
@@ -107,6 +111,7 @@ flowchart LR
 - _design/seeds/to-read.md
 - _design/seeds/work-ice.md
 - _quarantine/.gitkeep
+- _queue/checkbacks.md
 - _queue/jobs/2026-09-30_build-sancho.md
 - _queue/jobs/_archive/.gitkeep
 - _setup/ERRORS.md
@@ -146,8 +151,7 @@ flowchart LR
 - _setup/sancho-watcher.py
 - _setup/sancho_lib.py
 - _setup/stay-awake.sh
-- _setup/templates/INDEX.md
-- … +328 more
+- … +330 more
 
 ## Level 2 · wiring
 
@@ -155,6 +159,7 @@ flowchart LR
 
 | skill | lobe | triggers | must not | reads | writes | test |
 |---|---|---|---|---|---|---|
+| checkback | both | a scheduled-task prompt that says: open job <name>; run checkback, check on the Nerd, did the Nerd finish, where is job <name> | a conversation where Gordon is present and just asked the Nerd something himself, a job with no waiting_on block, any request to create tasks for Gordon, anything outbound | CLAUDE.md, _queue/jobs/<job>.md, _queue/checkbacks.md, _design/STATUS.md, _queue/results/, _queue/running/, _queue/HEALTH.md, _setup/commands.md | _queue/checkbacks.md (one row filled or appended), _queue/jobs/<job>.md (hops, waiting_on statuses, stage status), _design/STATUS.md (one line under ### Check-backs), _queue/requests/ (notify.push; nerd.run when it exists), the next scheduled task, or none | _setup/tests/skills/checkback/ |
 | open | both | Hey Sancho, hey sancho, any greeting addressed to Sancho, let's work, switch to work, switch to personal, done, thanks Sancho, that's it for this one, close | a message that continues an open conversation, a question inside a job, the word sancho used in the third person, a Nerd build session that already stated its task | CLAUDE.md, personal/me/brief.md, personal/me/watch.md, personal/nomad/location.md, <lobe>/INDEX.md, <lobe>/PROJECTS.md, recordings/STATUS.md, _queue/HEALTH.md, _queue/leases/, _queue/sessions/, _queue/routines/<lobe>-morning-<date>.md, the project.md of each project in today's focus, git log since the last clean close | _queue/leases/<session-id>.md, _queue/sessions/<date>_<topic>_<id>.md, on close: a receipt in the session note, the note folded into the project's history or the lobe's day log, the lease removed, a git.commit request in _queue/requests/ | _setup/tests/skills/open/ |
 
 </details>
@@ -180,6 +185,7 @@ flowchart LR
 | pipeline.status | _setup/pipeline/earballs.sh | 60 | | args [status]: regenerate recordings/STATUS.md |
 | net.status | _setup/netstate.py | 20 | every watcher tick (in-process) | which network, metered or not (router fingerprint vs _setup/metered-networks.md) |
 | net.mark | _setup/netstate.py | 20 | | args [mark, <label>, metered or unmetered]: record the network the Mac is on now |
+| nerd.run | _setup/nerd-run.py | 1900 | | headless Claude Code (the Nerd) for the task in the request (`task:`, `task_file:`, or body); allowlisted tools, OS sandbox, no MCP, no push/commit/web; one at a time; transcript in _queue/results/ |
 
 </details>
 
@@ -193,6 +199,7 @@ flowchart LR
 - `_setup/build-index.py` · Regenerate every INDEX.md in the tree (one line per child from frontmatter), each lobe's PROJECTS.md, the ICE views, the people index with completeness, and the skill index. Never hand-edited outputs.
 - `_setup/build-map.py` · Regenerate MAP.md, the living map, in three zoom levels: Level 0 the system (one Mermaid diagram, ≤8 boxes), Level 1 components per box, Level 2 wiring tables (reads/writes/triggers/tests/commands/retired). Built only from frontmatter, commands.md and git; no hand-kept registry. Fails if a component has no parsable header or a reads/writes/chain target does not exist.
 - `_setup/lint-layers.py` · Enforce the layering rule (architecture §2), the focus caps, the header rule, generated-file integrity, project next-action and waiting-for freshness, and dangling references. Exit 1 on any violation so the map build fails.
+- `_setup/nerd-run.py` · Run one headless Claude Code session (the Nerd) on the Mac for a task given in the request (frontmatter `task:`, `task_file:` inside the tree, or the request body). Fixed tool allowlist, OS sandbox (writes only in the tree and the kit; network only GitHub and Anthropic), no MCP connectors, no outbound messaging, timeout, lease while running, transcript kept, one-line receipt.
 - `_setup/notify.py` · Send one Pushover message to Gordon. Level sets priority (info -1, warn 0, alert 1). Info arrives silent and in-app only, so nothing Gordon needs to know uses it (2026-09-30). Deduped per key: sends when the message for a key changes, otherwise at most once a day.
 - `_setup/test-all.py` · Run every test under _setup/tests/*/ (test.sh or test.py), write _setup/TESTS.md (the test board), exit 1 if any fails. Off the Mac, suites whose header says `requires: mac` are skipped and the board is not written (ERRORS.md
 
@@ -214,7 +221,7 @@ generated 2026-09-30 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-09-30 22:48 by test-all.py · 16 suites · 0 failing
+generated 2026-09-30 22:55 by test-all.py · 16 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|

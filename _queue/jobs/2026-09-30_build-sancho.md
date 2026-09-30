@@ -15,6 +15,13 @@ stages:
   - {name: first-ingest,    gate: human,     status: pending, note: "Gordon spot-checks five facts"}
   - {name: batch-B2,        status: pending, note: "WoA clients"}
 current: pipeline
+hops: 0
+hop_cap: 24
+waiting_on:
+  - {what: "GitHub migration to gordonium (both repos)", evidence: "_design/STATUS.md contains the word 'migrated' under Nerd's replies", status: waiting, since: 2026-09-30T22:40+02:00}
+  - {what: "nerd.run command on the allowlist", evidence: "_setup/commands.md has a row starting '| nerd.run'", status: waiting, since: 2026-09-30T22:48+02:00}
+  - {what: "Home Directions clones present", evidence: "~/Dev/clc-plugins/hdonline and hdonline-home-directions exist with files", status: waiting, since: 2026-09-30T22:48+02:00}
+next_when_done: "if work/copper-leaf/projects/hd-system-rebuild/docs/current-system.md is missing, write it from the two clones (README, main plugin file, templates, docs; frontmatter; cite [doc:path]; skip anything that looks like credentials)"
 ---
 # Build Sancho
 The one work project that is also the system. Stages per _design/migration-plan.md §5.

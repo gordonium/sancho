@@ -1,0 +1,34 @@
+{
+ "sandbox": {
+  "enabled": true,
+  "failIfUnavailable": true,
+  "allowUnsandboxedCommands": false,
+  "filesystem": {
+   "allowWrite": [
+    "/Users/gordonium/Sync/Sancho/**",
+    "/Users/gordonium/Dev/clc-plugins/**"
+   ],
+   "denyRead": [
+    "/Users/gordonium/.ssh/**",
+    "/Users/gordonium/.config/sancho/**",
+    "/Users/gordonium/Sync/Sancho-Secrets/**",
+    "/Users/gordonium/Sancho-Private/**"
+   ]
+  },
+  "network": {
+   "allowedDomains": [
+    "github.com"
+   ]
+  }
+ },
+ "permissions": {
+  "deny": [
+   "Read(/Users/gordonium/.ssh/**)",
+   "Read(/Users/gordonium/.config/sancho/**)",
+   "Read(/Users/gordonium/Sync/Sancho-Secrets/**)",
+   "Read(/Users/gordonium/Sancho-Private/**)",
+   "Edit(/Users/gordonium/.ssh/**)",
+   "Write(/Users/gordonium/.ssh/**)"
+  ]
+ }
+}

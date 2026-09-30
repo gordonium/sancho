@@ -23,6 +23,7 @@ def main():
     ap.add_argument("--by", default=os.environ.get("SANCHO_REQUESTED_BY", "claude-code"))
     ap.add_argument("--job", default="")
     ap.add_argument("--wait", type=int, default=0, help="seconds to wait for the result")
+    ap.add_argument("--body", default="", help="free text below the frontmatter (nerd.run reads its task here)")
     a = ap.parse_args()
     q = tree_root() / "_queue"
     (q / "requests").mkdir(parents=True, exist_ok=True)
@@ -31,7 +32,7 @@ def main():
     fm = [f"command: {a.command}", f"args: [{', '.join(a.args)}]", f"requested_by: {a.by}",
           f"requested_at: {t.replace(microsecond=0).isoformat()}"] + ([f"job: {a.job}"] if a.job else [])
     tmp = q / "requests" / f".{name}.tmp"
-    tmp.write_text("---\n" + "\n".join(fm) + "\n---\n", encoding="utf-8")
+    tmp.write_text("---\n" + "\n".join(fm) + "\n---\n" + (a.body.rstrip() + "\n" if a.body else ""), encoding="utf-8")
     os.replace(tmp, q / "requests" / name)  # atomic: the watcher never sees a half-written request
     print(f"queued {name}")
     if a.wait:

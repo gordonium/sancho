@@ -118,7 +118,7 @@ def run_one(req: Path, commands: dict, env: dict) -> str:
         claimed.unlink()
         return "refused"
     script = ROOT / c["script"]
-    env = dict(env, SANCHO_REQUEST_ID=rid, SANCHO_REQUESTED_BY=str(fm.get("requested_by") or ""))
+    env = dict(env, SANCHO_REQUEST_ID=rid, SANCHO_REQUESTED_BY=str(fm.get("requested_by") or ""), SANCHO_REQUEST_FILE=str(claimed))
     status, code, out = "ok", 0, ""
     try:
         p = subprocess.Popen(argv_for(script, fm.get("args")), cwd=ROOT, env=env, stdout=subprocess.PIPE,
