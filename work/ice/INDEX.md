@@ -1,5 +1,5 @@
 # work/ice · INDEX
-generated 2026-09-30 by build-index.py · 7 entries
+generated 2026-10-01 by build-index.py · 7 entries
 
 - ice-2026-09-30-clc-operations-map.md · idea · captured · 2026-09-30 · Map Copper Leaf operations for automation opportunities
 - ice-2026-09-30-hosted-diarizer-trial.md · idea · captured · 2026-09-30 · Trial a hosted diarizer against pyannote on ten known recordings

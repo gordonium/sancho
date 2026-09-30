@@ -1,5 +1,5 @@
 # recordings · INDEX
-generated 2026-09-30 by build-index.py · 3 entries
+generated 2026-10-01 by build-index.py · 3 entries
 
 - backlog/ · folder · empty
 - inbox/ · folder · 57 files

@@ -37,6 +37,23 @@ run("info", "pipeline recovered", "--key=pipe")
 if len(got) != 4: fail("not re-sent after a day")
 r = run("warn", "no keys", e={k: v for k, v in env.items() if not k.startswith("PUSHOVER")})
 if r.returncode != 1 or len(got) != 4: fail("sent or succeeded without keys")
+# notify.push through the watcher's calling convention: a request as sancho-enqueue writes it, parsed and turned into argv by the watcher's own code
+import importlib.util
+sys.path.insert(0, str(NOTIFY.parent))
+from sancho_lib import read_frontmatter
+spec = importlib.util.spec_from_file_location("watcher", NOTIFY.parent / "sancho-watcher.py"); W = importlib.util.module_from_spec(spec); spec.loader.exec_module(W)
+cmds = W.load_commands()
+if cmds.get("notify.push", {}).get("script") != "_setup/notify.py": fail(f"notify.push not on the allowlist: {cmds.get('notify.push')}")
+def via_request(args):
+    req = Path(tmp, "req.md"); req.write_text(f"---\ncommand: notify.push\nargs: [{', '.join(args)}]\nrequested_by: test\n---\n")
+    argv = W.argv_for(NOTIFY, read_frontmatter(req)[0]["args"])
+    return subprocess.run(argv, env=env, capture_output=True, text=True)
+n = len(got)
+r = via_request(["info", "check-back done, 3 hops left"])
+if r.returncode or len(got) != n + 1: fail(f"request-shaped send: {r.stdout}{r.stderr}")
+if got[-1]["priority"] != ["-1"] or got[-1]["message"] != ["check-back done, 3 hops left"]: fail(f"comma message not whole / wrong priority: {got[-1]}")
+r = via_request(["warn", "--key=cb", "recordings stuck, act today"])
+if r.returncode or len(got) != n + 2 or got[-1]["priority"] != ["0"] or got[-1]["message"] != ["recordings stuck, act today"]: fail(f"request with --key: {r.stdout}{r.stderr} {got[-1]}")
 # "Warn means WARN" (Gordon, 2026-09-30): the only warn sender is the pipeline watchdog's red state; every other push is info
 import re
 SETUP = NOTIFY.parent

@@ -4,7 +4,7 @@ aliases: [Peter, Dad, Peter Seirup P.E.]
 type: person
 lobe: both
 description: Gordon's father; P.E., of Home Directions, Inc.; Gordon is rebuilding his report and letter-writing system
-tier: thin
+tier: thin  # voice: SPEAKER_02 of rec_8d15ed467e human-confirmed 2026-09-30, enrollable
 mbti:
 skills: [structural engineering]
 availability: {as_of: , note: ""}
@@ -24,7 +24,9 @@ sources: ["[gordon 2026-09-30]", "[rec_8d15ed467e 2026-09-29]"]
 ## Who they are
 Gordon's father. "Peter Seirup, P.E., of Home Directions, Inc." [gordon 2026-09-30]
 ## What we know
-- Wants separate templates for the $875 and $1,250 jobs and one for the engineering jobs [rec_8d15ed467e 2026-09-29, SPEAKER_02 candidate; speaker not yet confirmed]
+- Wants separate templates for the $875 and $1,250 jobs and one for the engineering jobs [rec_8d15ed467e 2026-09-29, SPEAKER_02, confirmed gordon 2026-09-30]
+- Is retiring the home-inspection side of the business entirely [gordon 2026-09-30]
+- WordPress user 5 in the HDOnline system; the only inspector [gordon 2026-09-30]
 ## Open threads
 ## History with Gordon
 - 2026-09-29 · meeting on the new Home Directions system and data migration [rec_8d15ed467e]

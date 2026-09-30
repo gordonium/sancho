@@ -13,4 +13,5 @@ One row per scheduled check. Times Europe/Rome unless noted. `nerd_done` from th
 | 2026-09-30 22:55 | 2026-10-01 00:08 | cancelled | migration + nerd.run + HD current-system | | | | far too generous (Gordon); Gordon deleted it, we were talking |
 | 2026-09-30 23:05 | 2026-10-01 02:30 | cancelled | same, second | | | | same |
 | 2026-09-30 23:28 | 2026-09-30 23:45 | 2026-09-30 23:46 | migration + nerd.run + HD current-system (quick turn) | all three done; current-system.md written (hop 1) | 2026-09-30 23:38 | +8 min | log says halve (17→10 min) but the 00:25 task already exists; reused it, none created |
-| 2026-09-30 23:29 | 2026-10-01 00:25 | | same (longer) | | | | |
+| 2026-09-30 23:29 | 2026-10-01 00:25 | 2026-10-01 00:25 | same (longer) | notify.push still not on the allowlist; Nerd alive, idle (nothing running since 23:56); nerd.run request queued for it (hop 2) | nerd not done | nerd not done | last interval 56 min, hop-1 idle +8 → halve → 28 min |
+| 2026-10-01 00:27 | 2026-10-01 00:53 | | notify.push via nerd.run (hop 3) | | | | |

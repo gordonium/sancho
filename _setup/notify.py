@@ -22,10 +22,12 @@ DAY = 86400
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("level", choices=sorted(PRIORITY))
-    ap.add_argument("message")
+    # Request args are split on unquoted commas (args: [warn, a, b]); rejoin so a message with a comma arrives whole.
+    ap.add_argument("message", nargs="+")
     ap.add_argument("--key", help="dedupe key; default: level + message")
     ap.add_argument("--title", default="Sancho")
-    a = ap.parse_args()
+    a = ap.parse_intermixed_args()
+    a.message = ", ".join(m.strip() for m in a.message)
     user, token = os.environ.get("PUSHOVER_USER"), os.environ.get("PUSHOVER_TOKEN")
     if not user or not token:
         print("notify: PUSHOVER_USER/PUSHOVER_TOKEN not set (secrets locked or not added yet)")

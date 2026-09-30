@@ -1,5 +1,5 @@
 # work · ICE
-generated 2026-09-30 by build-index.py · 7 ideas
+generated 2026-10-01 by build-index.py · 7 ideas
 
 | idea | status | area | project | captured | next review | file |
 |---|---|---|---|---|---|---|

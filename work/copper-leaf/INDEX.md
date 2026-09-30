@@ -1,5 +1,5 @@
 # work/copper-leaf · INDEX
-generated 2026-09-30 by build-index.py · 7 entries
+generated 2026-10-01 by build-index.py · 7 entries
 
 - brands/ · folder · 1 files
 - business.md · business · active · 2026-09-30 · Owned. ~50 private WordPress plugins and themes, client sites on SiteDistrict; brand Press Managed (hosting); Leah runs operations; dev kit at ~/Dev/clc-plugins
@@ -7,4 +7,4 @@ generated 2026-09-30 by build-index.py · 7 entries
 - docs/ · folder · empty
 - goals.md · doc · active · 2026-09-30 · One-to-two-year goals for copper-leaf; empty until the first quarterly review
 - plugins/ · folder · empty
-- projects/ · folder · 3 files
+- projects/ · folder · 7 files

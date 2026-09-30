@@ -1,5 +1,5 @@
 # work/tipelodeon · INDEX
-generated 2026-09-30 by build-index.py · 5 entries
+generated 2026-10-01 by build-index.py · 5 entries
 
 - business.md · business · active · 2026-09-30 · Formerly SongTipper; Grayson Erhard is founder, owner and primary developer; Gordon holds 20%
 - docs/ · folder · empty

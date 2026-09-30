@@ -1,5 +1,5 @@
 # recordings/inbox · INDEX
-generated 2026-09-30 by build-index.py · 19 entries
+generated 2026-10-01 by build-index.py · 19 entries
 
 - rec_0b2f65c077/ · folder · 3 files
 - rec_0c571abb1d/ · folder · 3 files

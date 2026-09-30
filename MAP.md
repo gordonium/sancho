@@ -1,5 +1,5 @@
 # Sancho · MAP
-generated 2026-09-30 by build-map.py. Three zoom levels; Level 0 is the picture to remember.
+generated 2026-10-01 by build-map.py. Three zoom levels; Level 0 is the picture to remember.
 
 ## FOCUS
 
@@ -87,7 +87,7 @@ flowchart LR
 - **Food routine to habit** (personal/food) · next: Design the Sunday session skill (build order #6); first session picks four dinners
 - **Nomad daily check** (personal/nomad) · next: Design the personal morning routine incl. the nomad check (build order #5)
 - **Build Sancho** (work/copper-leaf) · next: Claude Code on the Mac: watcher, launchd, Sancho-Audio, Sancho-Secrets, Sancho-Private, autocommit fix, ping
-- **Home Directions system rebuild** (work/copper-leaf) · next: Read the hdonline and hdonline-home-directions repos (blobless clone via the Nerd), then write the Phase 1 spec with Gordon
+- **Home Directions system rebuild** (work/copper-leaf) · next: Gordon reviews docs/plan.md and answers questions 1 to 3 (stack, Workspace, hosting); then Sancho runs the data census on the dev clone (needs the Chrome login) and the Nerd gets step 1 as a job
 
 ## Changed this week
 
@@ -114,6 +114,7 @@ flowchart LR
 - _queue/checkbacks.md
 - _queue/jobs/2026-09-30_build-sancho.md
 - _queue/jobs/_archive/.gitkeep
+- _queue/jobs/_archive/2026-09-30_jobrun-smoke.md
 - _setup/ERRORS.md
 - _setup/GIT-EXCLUDED.md
 - _setup/LINT.md
@@ -132,6 +133,7 @@ flowchart LR
 - _setup/hooks/INDEX.md
 - _setup/index-manifest.json
 - _setup/install-mac.sh
+- _setup/job-run.py
 - _setup/lint-layers.py
 - _setup/metered-networks.md
 - _setup/nerd-run.py
@@ -149,9 +151,7 @@ flowchart LR
 - _setup/retired/INDEX.md
 - _setup/sancho-enqueue.py
 - _setup/sancho-lock-secrets.sh
-- _setup/sancho-unlock.sh
-- _setup/sancho-watcher.py
-- … +339 more
+- … +346 more
 
 ## Level 2 · wiring
 
@@ -175,6 +175,7 @@ flowchart LR
 | git.commit | _setup/git-autocommit.sh | 120 | hourly (launchd direct, not via the queue); at conversation close | commit and push the tree (skips oversize files, lists them in GIT-EXCLUDED.md) |
 | nightly | _setup/nightly.sh | 300 | nightly 02:00 (com.sancho.nightly enqueues it) | index.build, then lint, then map.build; stops at the first failure |
 | notify.test | _setup/notify-test.sh | 30 | | args [info] / [warn] / [alert]: send one test push to Gordon's phone at that level |
+| notify.push | _setup/notify.py | 30 | | args [info or warn or alert, <message>]: one Pushover push to Gordon; warn only when he must act soon, info for FYI ("Warn means WARN", decisions 2026-09-30); deduped per key; a comma in the message arrives whole |
 | mac.stay-awake | _setup/stay-awake.sh | 20 | | args [on] / [off] / [status]: keep the Mac from idle-sleeping (caffeinate under launchd) |
 | sancho.unlock | _setup/sancho-unlock.sh | 60 | Terminal only | decrypt Sancho-Secrets/sancho.env.age to ~/.config/sancho/env (asks for the passphrase) |
 | sancho.lock-secrets | _setup/sancho-lock-secrets.sh | 60 | Terminal only | re-encrypt ~/.config/sancho/env after an edit (asks for the passphrase twice) |
@@ -210,7 +211,7 @@ flowchart LR
 <details><summary>LINT.md</summary>
 
 # LINT
-generated 2026-09-30 by lint-layers.py
+generated 2026-10-01 by lint-layers.py
 
 **0 problems, 0 warnings**
 
@@ -223,7 +224,7 @@ generated 2026-09-30 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-09-30 23:56 by test-all.py · 19 suites · 0 failing
+generated 2026-09-30 23:59 by test-all.py · 19 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|

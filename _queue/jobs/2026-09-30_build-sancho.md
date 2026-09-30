@@ -15,13 +15,13 @@ stages:
   - {name: first-ingest,    gate: human,     status: pending, note: "Gordon spot-checks five facts"}
   - {name: batch-B2,        status: pending, note: "WoA clients"}
 current: pipeline
-hops: 1
+hops: 2
 hop_cap: 24
 waiting_on:
   - {what: "GitHub migration to gordonium (both repos)", evidence: "_design/STATUS.md contains the word 'migrated' under Nerd's replies", status: done, since: 2026-09-30T22:40+02:00, done_at: 2026-09-30T23:27+02:00}
   - {what: "nerd.run command on the allowlist", evidence: "_setup/commands.md has a row starting '| nerd.run'", status: done, since: 2026-09-30T22:48+02:00, done_at: 2026-09-30T23:38+02:00}
   - {what: "Home Directions clones present", evidence: "~/Dev/clc-plugins/hdonline and hdonline-home-directions exist with files", status: done, since: 2026-09-30T22:48+02:00, done_at: 2026-09-30T22:42+02:00}
-  - {what: "notify.push command on the allowlist (requested in STATUS.md 23:30; the checkback chain pushes through it)", evidence: "_setup/commands.md has a row starting '| notify.push'", status: waiting, since: 2026-09-30T23:46+02:00}
+  - {what: "notify.push command on the allowlist (requested in STATUS.md 23:30; nerd.run request 20260930T222724Z_nerd.run_b0c118 queued by hop 2 at 00:27)", evidence: "_setup/commands.md has a row starting '| notify.push'", status: waiting, since: 2026-09-30T23:46+02:00}
 next_when_done: "done 2026-09-30 23:46 (hop 1): work/copper-leaf/projects/hd-system-rebuild/docs/current-system.md written from the two clones"
 ---
 # Build Sancho

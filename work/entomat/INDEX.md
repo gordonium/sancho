@@ -1,5 +1,5 @@
 # work/entomat · INDEX
-generated 2026-09-30 by build-index.py · 5 entries
+generated 2026-10-01 by build-index.py · 5 entries
 
 - business.md · business · active · 2026-09-30 · Venture led by Elizabeth (Lizzie) Mack; partners Etieno (Eti) Essien and Robert Nathan Allen (RNA)
 - docs/ · folder · empty
