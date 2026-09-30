@@ -6,5 +6,5 @@ generated 2026-09-30 by build-index.py · 7 entries
 - people/ · folder · empty
 - personal/ · folder · 34 files
 - recordings/ · folder · empty
-- skills/ · folder · empty
+- skills/ · folder · 1 files
 - work/ · folder · 23 files

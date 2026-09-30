@@ -1,18 +1,19 @@
 # TESTS
-generated 2026-09-30 18:01 by test-all.py · 13 suites · 0 failing
+generated 2026-09-30 18:21 by test-all.py · 14 suites · 4 failing
 
 | suite | result | last line |
 |---|---|---|
 | build-index | PASS | test-build-index: PASS |
 | build-map | PASS | test-build-map: PASS |
 | git-autocommit | PASS | test-git-autocommit: PASS |
-| install-mac | PASS | test-install-mac: PASS |
+| install-mac | FAIL | test-install-mac: FAIL: install failed |
 | lint-layers | PASS | test-lint-layers: PASS |
 | nightly | PASS | test-nightly: PASS |
 | notify | PASS | test-notify: PASS |
 | ping | PASS | test-ping: PASS |
 | sancho_lib | PASS | test-sancho_lib: PASS |
-| secrets | PASS | test-secrets: PASS |
-| stay-awake | PASS | test-stay-awake: PASS |
+| secrets | FAIL | test-secrets: FAIL: age not installed |
+| stay-awake | FAIL | test-stay-awake: FAIL: bad plist |
 | test-all | PASS | test-test-all: PASS |
 | watcher | PASS | test-watcher: PASS |
+| skill:open | FAIL | test-skill-open: FAIL |

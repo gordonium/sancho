@@ -1,12 +1,12 @@
 {
  "generated": "2026-09-30",
  "files": {
-  "INDEX.md": "4d965a70869875d1f08af4b37076ead11772d9d4df21f37e552518beb0d89893",
+  "INDEX.md": "2e9e50d938456d14c62b4ab4271a8fa5c44f93eb2f3262e15bb0397b795d4aa5",
   "_setup/hooks/INDEX.md": "7b00dcb00ffa3e4ef3a8c3d48587a0704de5feb2b9cc5f2129ae8a9cfe88346b",
-  "_setup/pipeline/INDEX.md": "428ae28a0ee490172fa7a2d4802c7f7fcd7c1c1cc7321fa5bb52738125f29110",
+  "_setup/pipeline/INDEX.md": "beb6bb7c501a37d92d8e4e26017e6b426915add0a2bef78da3055ea3e7c7a7d2",
   "_setup/retired/INDEX.md": "a19ac6122a9007b1d82a1740ea0d8318458be867608435b4c970cdcf104cfa1c",
   "_setup/templates/INDEX.md": "ea3c9d67c33688cc22a39fe603e32637b0be84068c79757300caad9ae0ead5ab",
-  "_setup/tests/INDEX.md": "a7bb7308974389f3eaf5684e95e892c75115c1c32d4057e713132400290bcfe9",
+  "_setup/tests/INDEX.md": "4c93391c6e561dee6ec18f5af0e34c824653d377848a8e401343b5c53beae60a",
   "_setup/tests/build-index/INDEX.md": "1fcc90f53a8a8f3ba84afd19d27267be9aa90cbd4b9e31c81bba3e546845ee39",
   "_setup/tests/build-map/INDEX.md": "46bc560c5753f77f1121fa41a77b77a4d2544d528746a5b9cfbc4e536f114835",
   "_setup/tests/git-autocommit/INDEX.md": "59de780432aa8b73aa3720707d26127e5722a02578d769a5d4a90642a328b04b",
@@ -15,8 +15,11 @@
   "_setup/tests/nightly/INDEX.md": "d6c8291be06123bd5f8805f9863817dd4e64284f5f99854e78c6ba6b62a05777",
   "_setup/tests/notify/INDEX.md": "db1ce796166b09fbafba1c5917d5e4ee8162bf26c960c79c19a0fc44fa4702d1",
   "_setup/tests/ping/INDEX.md": "165d1e86466612e492341e7594b654fc887b58dcf520a4ca468e8e2450ac2dfd",
+  "_setup/tests/pipeline/INDEX.md": "55984d2edc6784106bec1e401e15ce0641a40b656b58a7f23d6487d1cfe8c76c",
   "_setup/tests/sancho_lib/INDEX.md": "a0d8e6740e9d7b07ee3f90e2f6fd0eeaa76607d0bc65b2135d656042c67ccb4d",
   "_setup/tests/secrets/INDEX.md": "66b433cf0aef7621b1b0860211e3a3c61f31bfeaa84b4d21aa225290cffdce9f",
+  "_setup/tests/skills/INDEX.md": "66f8d35277b68fd4fabe9f5300b414fa4a35cf468589528b1f4dcfb42aee681b",
+  "_setup/tests/skills/open/INDEX.md": "83f8a865a2845c2f5e4459d0076e16b1e43eff8bd57b8390cc54632423909680",
   "_setup/tests/stay-awake/INDEX.md": "64619dbf8a3bd2ca2f2e417d636ad8dcecdcd7363b1373339a558aaaadd3df9d",
   "_setup/tests/test-all/INDEX.md": "255ce609b48588cab4e0bea174fc79e9ada797395418b2004bcf4cf7dbaf7714",
   "_setup/tests/watcher/INDEX.md": "e00a80f955c14ec40de5cfa268a0b175f5b77a43cf779a018868daa38fe85950",
@@ -27,7 +30,7 @@
   "personal/ice/INDEX.md": "a4309b5ccfa50ae78eaf1c4bca44a88c5fa87bb48bf1c27c3957d1fda97789f8",
   "personal/learning/INDEX.md": "ba2e1cc8dc503a755bd8545201f26cf9d1718ae94996dcc64e172b6e7b55c3ee",
   "personal/me/INDEX.md": "2d57d68d10b2ce2cbecc0e6fce47b4d6992c4c99fd43cb3e90da46cda431079e",
-  "personal/nomad/INDEX.md": "d404ad04dce97ec56ac35c1c8fc8809e7e95eda64181ad3bb88de1d2ad678f0d",
+  "personal/nomad/INDEX.md": "b3ff9eeb07c4c7ffc169308da04f2a926cb352e26b40ea163a5b0d6d6ca9a49d",
   "personal/projects/INDEX.md": "d313479642a28b46400686973dde1f08ef5f57c0571e67fb730de92c60fe556c",
   "personal/projects/alaska-2027/INDEX.md": "7456f1a7462c091be8e12d1ffae80dca48babd23b59e1a8a00abac7d8741ab52",
   "personal/projects/alaska-2027/archive/INDEX.md": "85c72cbd6b6d2467a5ddd242815c67fe0a8a916ca24402e03b55395a67454df8",
@@ -76,6 +79,6 @@
   "personal/PROJECTS.md": "715d5c3ce7067fbaebcc6fdd60814a4b0a279b3712a608fd8e5004325053bc56",
   "personal/ice/ICE.md": "4b08bec5ef47c2e5376aa8ae66829d4b2502c63f023f648351ebcae1cd8cc1ec",
   "people/INDEX.md": "fe417ec6cc04ef6ae942194f3d1513935fa627c4a2f930426a917ccef090bf42",
-  "skills/INDEX.md": "b56cb9991c45760c5ccc205394f2837e90407e2541e3532cd0b798acfbcb7e7b"
+  "skills/INDEX.md": "33a4d02d9d5b374b4f6ede6a132b4d94085d18a09ae7ca05dbc9d31b69be8a5b"
  }
 }

@@ -22,6 +22,9 @@ expect "external guidance file"
 expect "FOCUS.md today work: 4 items"
 expect "idea without next_review"
 expect "sync conflict copy"
+expect "inferred.md:7: \`timezone\` cites \[gordon\] without his words"
+expect "inferred.md:8: inference words"
 if echo "$out" | grep -q "good.md"; then echo "FAIL good file flagged"; fail=1; else echo "ok   good file passed"; fi
+if echo "$out" | grep -q "stated.md"; then echo "FAIL stated.md flagged"; fail=1; else echo "ok   stated file passed"; fi
 rm -rf "$FIX"
 [ $fail -eq 0 ] && echo "test-lint-layers: PASS" || { echo "test-lint-layers: FAIL"; exit 1; }

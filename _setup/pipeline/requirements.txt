@@ -1,0 +1,8 @@
+# Sancho pipeline dependencies. Versions v3 ran in production (v3 requirements.txt, 2026-08-23), minus
+# groq SDK (plain HTTPS via requests), faster-whisper, silero-vad and av (not in the fresh path; av collided with Homebrew ffmpeg in v3).
+requests==2.34.2
+numpy==2.4.6
+pyannote.audio==4.0.4
+torch==2.12.0
+torchaudio==2.11.0
+huggingface-hub==1.16.1

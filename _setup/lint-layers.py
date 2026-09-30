@@ -203,6 +203,60 @@ def check_secrets():
         problem(f"secrets plaintext {plain} is newer than {enc.name}; run sancho.lock-secrets in Terminal")
 
 
+GORDON_CITE_RE = re.compile(r"\[gordon(?::[a-z]+)?\s+\d{4}-\d{2}-\d{2}[^\]]*\]")
+QUOTE_RE = re.compile(r"[\"“”'‘’][^\"“”'‘’]{3,}[\"“”'‘’]|\bsaid\b|\bsays\b|\bdictated\b|\bverbatim\b")
+INFER_WORDS_RE = re.compile(r"\b(probably|likely|presumably|I assume|must be|should be|inferred)\b", re.I)
+WORLD_STATE_FIELDS = ("timezone", "city", "location", "rv_location", "address", "phone", "email", "birthday", "mbti", "revenue", "budget", "stake")
+
+
+def check_stated_not_inferred():
+    """Error 2026-09-30 (ERRORS.md #1): a session wrote inferred values under a [gordon date] cite.
+    Mechanical form of the rule: a value carrying a [gordon …] cite on a world-state field must show
+    Gordon's words (a quoted segment or 'said/dictated'), or be marked [inferred], or be `unknown`.
+    Inference words next to a [gordon] cite are flagged outright."""
+    for dirpath, _, files in walk(ROOT):
+        for fn in files:
+            p = dirpath / fn
+            if p.suffix != ".md" or is_generated(p) or rel(p).startswith(("_setup/", "_design/", "skills/")):
+                continue
+            try:
+                lines = p.read_text(encoding="utf-8", errors="replace").splitlines()
+            except Exception:
+                continue
+            for i, ln in enumerate(lines, 1):
+                if not GORDON_CITE_RE.search(ln):
+                    continue
+                if INFER_WORDS_RE.search(ln) and "[inferred]" not in ln:
+                    problem(f"{rel(p)}:{i}: inference words under a [gordon] cite; mark [inferred] or write `unknown`")
+                    continue
+                key = ln.split(":", 1)[0].strip().lower() if ":" in ln else ""
+                if key in WORLD_STATE_FIELDS:
+                    val = ln.split(":", 1)[1]
+                    if "unknown" in val.lower() or "[inferred]" in val:
+                        continue
+                    if not QUOTE_RE.search(val):
+                        problem(f"{rel(p)}:{i}: `{key}` cites [gordon] without his words; quote what he said, mark [inferred], or write `unknown`")
+
+
+def check_errors_have_mechanisms():
+    """Every entry in _setup/ERRORS.md must name a mechanism (a lint check or a test) and its test.
+    'Won't do it again' is not an entry."""
+    f = ROOT / "_setup" / "ERRORS.md"
+    if not f.exists():
+        return
+    entries = [b for b in f.read_text(encoding="utf-8").split("\n## ")[1:]]
+    for b in entries:
+        head = b.splitlines()[0]
+        if "mechanism:" not in b:
+            problem(f"_setup/ERRORS.md '{head[:50]}': no `mechanism:` line; an error without a mechanism is prose")
+        if "test:" not in b:
+            problem(f"_setup/ERRORS.md '{head[:50]}': no `test:` line")
+        else:
+            m = re.search(r"test:\s*(\S+)", b)
+            if m and not (ROOT / m.group(1).rstrip("/")).exists():
+                problem(f"_setup/ERRORS.md '{head[:50]}': test path {m.group(1)} does not exist")
+
+
 def main():
     check_claude_md()
     check_capped(ROOT / "personal" / "me" / "brief.md", BRIEF_MAX)
@@ -212,6 +266,8 @@ def main():
     check_generated_integrity()
     check_commands_registry()
     check_conflict_copies()
+    check_stated_not_inferred()
+    check_errors_have_mechanisms()
     check_secrets()
     out = [f"# LINT\ngenerated {today()} by lint-layers.py\n", f"**{len(problems)} problems, {len(warnings)} warnings**\n"]
     out += ["## Problems (block the build)"] + [f"- {p}" for p in problems] + ["", "## Warnings"] + [f"- {w}" for w in warnings]
