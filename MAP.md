@@ -146,7 +146,7 @@ flowchart LR
 - _setup/templates/INDEX.md
 - _setup/templates/entity.md
 - _setup/templates/guidelines.md
-- … +239 more
+- … +290 more
 
 ## Level 2 · wiring
 
@@ -189,7 +189,7 @@ flowchart LR
 - `_setup/build-index.py` · Regenerate every INDEX.md in the tree (one line per child from frontmatter), each lobe's PROJECTS.md, the ICE views, the people index with completeness, and the skill index. Never hand-edited outputs.
 - `_setup/build-map.py` · Regenerate MAP.md, the living map, in three zoom levels: Level 0 the system (one Mermaid diagram, ≤8 boxes), Level 1 components per box, Level 2 wiring tables (reads/writes/triggers/tests/commands/retired). Built only from frontmatter, commands.md and git; no hand-kept registry. Fails if a component has no parsable header or a reads/writes/chain target does not exist.
 - `_setup/lint-layers.py` · Enforce the layering rule (architecture §2), the focus caps, the header rule, generated-file integrity, project next-action and waiting-for freshness, and dangling references. Exit 1 on any violation so the map build fails.
-- `_setup/notify.py` · Send one Pushover message to Gordon. Level sets priority (info -1, warn 0, alert 1). Deduped per key: sends when the message for a key changes, otherwise at most once a day.
+- `_setup/notify.py` · Send one Pushover message to Gordon. Level sets priority (info -1, warn 0, alert 1). Info arrives silent and in-app only, so nothing Gordon needs to know uses it (2026-09-30). Deduped per key: sends when the message for a key changes, otherwise at most once a day.
 - `_setup/test-all.py` · Run every test under _setup/tests/*/ (test.sh or test.py), write _setup/TESTS.md (the test board), exit 1 if any fails.
 
 </details>
@@ -210,24 +210,25 @@ generated 2026-09-30 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-09-30 18:21 by test-all.py · 14 suites · 4 failing
+generated 2026-09-30 21:43 by test-all.py · 15 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
 | build-index | PASS | test-build-index: PASS |
 | build-map | PASS | test-build-map: PASS |
 | git-autocommit | PASS | test-git-autocommit: PASS |
-| install-mac | FAIL | test-install-mac: FAIL: install failed |
+| install-mac | PASS | test-install-mac: PASS |
 | lint-layers | PASS | test-lint-layers: PASS |
 | nightly | PASS | test-nightly: PASS |
 | notify | PASS | test-notify: PASS |
 | ping | PASS | test-ping: PASS |
+| pipeline | PASS | test-pipeline: PASS |
 | sancho_lib | PASS | test-sancho_lib: PASS |
-| secrets | FAIL | test-secrets: FAIL: age not installed |
-| stay-awake | FAIL | test-stay-awake: FAIL: bad plist |
+| secrets | PASS | test-secrets: PASS |
+| stay-awake | PASS | test-stay-awake: PASS |
 | test-all | PASS | test-test-all: PASS |
 | watcher | PASS | test-watcher: PASS |
-| skill:open | FAIL | test-skill-open: FAIL |
+| skill:open | PASS | test-skill-open: PASS (structural; behavioral scenario runs on the Mac) |
 
 </details>
 

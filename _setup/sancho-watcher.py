@@ -152,7 +152,7 @@ def notify_on_change(cmd: str, status: str, summary: str, env: dict):
     if status != "ok" or (prev and prev != "ok"):
         if not env.get("PUSHOVER_TOKEN") or not env.get("PUSHOVER_USER"):
             return
-        level = "info" if status == "ok" else "warn"
+        level = "warn"  # info never reaches Gordon (silent, in-app only); recoveries must be heard
         msg = f"{cmd} recovered" if status == "ok" else f"{cmd} {status}: {summary[:200]}"
         subprocess.run(["python3", str(ROOT / "_setup" / "notify.py"), level, msg, f"--key=cmd:{cmd}"],
                        env=env, capture_output=True, timeout=30)
