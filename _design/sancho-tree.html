@@ -128,7 +128,7 @@ details[open] > summary .n::before{transform:rotate(90deg)}
     </details>
     <details><summary><span class="n">_quarantine/<span class="t state">STATE</span></span><span class="d">Phase 3 review queue for v2/v3 material; nothing enters the tree from here without the gate</span></summary></details>
     <details><summary><span class="n">people/</span><span class="d">one file per person, all roles across both lobes; the contacts database (J-D1)</span></summary>
-      <div class="leaf"><span class="n">&lt;slug&gt;.md</span><span class="d">identity, roles, location, contact block, voiceprint refs, how to work with them</span></div>
+      <div class="leaf"><span class="n">&lt;slug&gt;.md</span><span class="d">the full card (T4): identity, MBTI, skills, availability, roles per context incl. WoA accounts, contact block, location and nomad dates, voiceprint, relationships; how to work with them, who they are, what we know, open threads, history with Gordon. Completeness scored in the index.</span></div>
       <div class="leaf"><span class="n">INDEX.md<span class="t gen">GEN</span></span><span class="d">thin contact-only entries hidden behind a count</span></div>
       <div class="leaf"><span class="n">CONTACTS.csv<span class="t gen">GEN</span></span><span class="d">export view for Google / Apple</span></div>
     </details>
@@ -170,9 +170,7 @@ details[open] > summary .n::before{transform:rotate(90deg)}
     <details open><summary><span class="n">wizard-of-ads/</span><span class="d">partner network. Gordonium is one of ~85 partners.</span></summary>
       <div class="leaf"><span class="n">business.md · goals.md</span><span class="d">stake: partner-network</span></div>
       <details><summary><span class="n">clients/&lt;client&gt;/</span><span class="d">the 13 marketing clients, same entity template</span></summary></details>
-      <details><summary><span class="n">partners/&lt;partner&gt;/</span><span class="d">WoA partners only. entity.md holds skills, workload, accounts; card.md is generated</span></summary>
-        <div class="leaf"><span class="n">card.md<span class="t gen">GEN</span></span><span class="d">the baseball card: MBTI and preferences from people/, skills, availability, accounts from here</span></div>
-      </details>
+      <details><summary><span class="n">partners/&lt;partner&gt;/</span><span class="d">WoA partners only, and only where there is relationship material (meeting transcripts, deals). MBTI, skills, availability, accounts live in people/; the bench view is the generated INDEX.md line</span></summary></details>
       <details><summary><span class="n">projects/&lt;slug&gt;/</span><span class="d">H1 projects, mirror Wrike projects</span></summary></details>
     </details>
     <details><summary><span class="n">tipelodeon/</span><span class="d">partial, 20%. stakeholders/grayson-erhard/</span></summary></details>
@@ -190,7 +188,7 @@ details[open] > summary .n::before{transform:rotate(90deg)}
     <div class="leaf"><span class="n">goals.md · horizons/vision.md</span><span class="d">H3 and H4, empty until the first quarterly review</span></div>
     <div class="leaf"><span class="n">decisions.md</span><span class="d">personal decisions, one line each</span></div>
     <details><summary><span class="n">ice/<span class="t state">STATE</span></span><span class="d">personal idea queue (think-better delivery, MAP.html, Pickleproof site, OpenClaw revisit…)</span></summary></details>
-    <details><summary><span class="n">me/</span><span class="d">identity, health, neurology, principles (H5). Loaded only on explicit request, never at startup.</span></summary></details>
+    <details><summary><span class="n">me/</span><span class="d">area. brief.md and watch.md load at every startup; the deeper files (health, neurology, principles, history) load when a question or skill needs them, like any other file.</span></summary></details>
     <details><summary><span class="n">projects/&lt;slug&gt;/</span><span class="d">H1: Alaska trip, food routine to habit, think-better term 1…</span></summary></details>
     <details><summary><span class="n">food/</span><span class="d">area. Weekly plan, pantry, cooking-for-one journal (routine 1)</span></summary></details>
     <details><summary><span class="n">nomad/</span><span class="d">area. People-and-places list, location.md, trip log, comfort thresholds (routine 2)</span></summary></details>
@@ -219,7 +217,7 @@ details[open] > summary .n::before{transform:rotate(90deg)}
   <div class="note"><h3>Where a recording ends up</h3><p>Lands once in <code>recordings/inbox/</code>. Ingest moves it: one client → that client's <code>transcripts/</code>; personal → <code>personal/recordings/</code>; both → stays in <code>recordings/&lt;year&gt;/</code> with a summary on each side. The ledger records the final path per <code>rec_id</code>.</p></div>
   <div class="note"><h3>What startup reads</h3><p><code>CLAUDE.md</code>, the lobe <code>INDEX.md</code> (FOCUS on top), <code>recordings/STATUS.md</code>, <code>_queue/HEALTH.md</code>, plus the date and a git delta. Six reads, eight lines out.</p></div>
   <div class="note"><h3>One person, one file</h3><p>Lizzie is <code>people/lizzie-mack.md</code> once, referenced from <code>entomat/stakeholders/</code> and <code>american-icon-spirits/stakeholders/</code>; each folder holds only what belongs to that venture.</p></div>
-  <div class="note"><h3>What never loads at startup</h3><p><code>personal/me/</code>, any transcript, any knowledge file. Skills that need them name the one file in their header.</p></div>
+  <div class="note"><h3>What loads at startup</h3><p>Eight reads: date, <code>CLAUDE.md</code>, the lobe index, <code>recordings/STATUS.md</code>, <code>_queue/HEALTH.md</code>, a git delta, <code>personal/me/brief.md</code>, <code>personal/me/watch.md</code>. Everything else, transcripts and knowledge included, loads when a question or skill needs it.</p></div>
 </div>
 </div>
 
