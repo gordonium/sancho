@@ -804,6 +804,7 @@ def cmd_sync(a) -> int:
                 continue
             st = process(c, row)
             done[st] = done.get(st, 0) + 1
+            write_status(c)  # a long run shouldn't leave STATUS.md stale
             if st == "rate_limited":
                 break
     msgs.append(f"processed: {done['ready']} ready, {done['failed']} failed" + (", Groq rate-limited" if done["rate_limited"] else ""))

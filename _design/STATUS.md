@@ -14,7 +14,8 @@ Read this first on any new session. Then continue from "Next step."
 ## Requests to the Nerd (from Cowork, 2026-09-30 evening)
 - `test-all.py`: skip suites marked `requires: mac` off-macOS and write `TESTS.md` only on the Mac (ERRORS.md #2).
 - Watcher: run `lint-layers.py` on files changed since the last tick (or the whole tree; it's fast) and post any problems into `HEALTH.md`, so a bad write shows at the next greeting rather than the next nightly.
-- `sancho-private` remote: Gordon is creating a new personal GitHub account; move both remotes there when he gives the name (Leah holds the `copperleaf` credentials).
+- `sancho-private`: **put git-crypt on it now** (Gordon, 2026-09-30); Leah logs in as `copperleaf` and will keep doing so; a personal-account migration comes later (GitHub blocked signup from the roaming IP).
+- **Bandwidth until 2026-10-06:** Gordon is on a 30 GB / 30-day cell package. No backfill downloads until he's home (`pipeline.backfill` off; fresh recordings only, ~11 h ≈ half a GB round trip incl. Groq upload and sync.com re-upload). No model or venv downloads beyond what's already installed; no hosted-diarizer trial; nothing large that isn't strictly necessary. Note that `Sancho-Audio/` is inside Sync, so every audio byte downloaded is uploaded again to sync.com; acceptable for fresh, not for backlog.
 
 ## Open for Gordon
 - What the backlog eras mean (§13.2 overlaps; dates used provisionally).

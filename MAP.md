@@ -86,7 +86,67 @@ flowchart LR
 
 ## Changed this week
 
-- (no commits in the last 7 days)
+- .gitignore
+- CLAUDE.md
+- FOCUS.md
+- INDEX.md
+- MAP.md
+- _design/STATUS.md
+- _design/Sancho-Architecture-standalone.html
+- _design/architecture.md
+- _design/build-reading-copy.py
+- _design/decisions.md
+- _design/migration-plan.md
+- _design/postmortem.md
+- _design/routines-capture.md
+- _design/sancho-architecture.html
+- _design/sancho-tree.html
+- _design/seeds/goals.md
+- _design/seeds/mantras.md
+- _design/seeds/to-read.md
+- _design/seeds/work-ice.md
+- _quarantine/.gitkeep
+- _queue/jobs/2026-09-30_build-sancho.md
+- _queue/jobs/_archive/.gitkeep
+- _setup/ERRORS.md
+- _setup/GIT-EXCLUDED.md
+- _setup/LINT.md
+- _setup/MAC-SETUP.md
+- _setup/README.md
+- _setup/TESTS.md
+- _setup/build-index.py
+- _setup/build-map.py
+- _setup/com.sancho.autocommit-private.plist
+- _setup/com.sancho.nightly.plist
+- _setup/com.sancho.pipeline.plist
+- _setup/com.sancho.tests.plist
+- _setup/com.sancho.watcher.plist
+- _setup/commands.md
+- _setup/git-autocommit.sh
+- _setup/hooks/INDEX.md
+- _setup/index-manifest.json
+- _setup/install-mac.sh
+- _setup/lint-layers.py
+- _setup/nightly.sh
+- _setup/notify-test.sh
+- _setup/notify.py
+- _setup/ping.sh
+- _setup/pipeline/INDEX.md
+- _setup/pipeline/earballs.py
+- _setup/pipeline/earballs.sh
+- _setup/pipeline/install-venv.sh
+- _setup/pipeline/requirements.txt
+- _setup/retired/INDEX.md
+- _setup/sancho-enqueue.py
+- _setup/sancho-lock-secrets.sh
+- _setup/sancho-unlock.sh
+- _setup/sancho-watcher.py
+- _setup/sancho_lib.py
+- _setup/stay-awake.sh
+- _setup/templates/INDEX.md
+- _setup/templates/entity.md
+- _setup/templates/guidelines.md
+- … +239 more
 
 ## Level 2 · wiring
 
@@ -108,7 +168,7 @@ flowchart LR
 | test.all | _setup/test-all.py | 600 | nightly 02:30; after commits touching _setup/ or skills/ | run every test suite; write TESTS.md; exit 1 on any failure |
 | git.commit | _setup/git-autocommit.sh | 120 | hourly (launchd direct, not via the queue); at conversation close | commit and push the tree (skips oversize files, lists them in GIT-EXCLUDED.md) |
 | nightly | _setup/nightly.sh | 300 | nightly 02:00 (com.sancho.nightly enqueues it) | index.build, then lint, then map.build; stops at the first failure |
-| notify.test | _setup/notify-test.sh | 30 | | send one test push to Gordon's phone |
+| notify.test | _setup/notify-test.sh | 30 | | args [info] / [warn] / [alert]: send one test push to Gordon's phone at that level |
 | mac.stay-awake | _setup/stay-awake.sh | 20 | | args [on] / [off] / [status]: keep the Mac from idle-sleeping (caffeinate under launchd) |
 | sancho.unlock | _setup/sancho-unlock.sh | 60 | Terminal only | decrypt Sancho-Secrets/sancho.env.age to ~/.config/sancho/env (asks for the passphrase) |
 | sancho.lock-secrets | _setup/sancho-lock-secrets.sh | 60 | Terminal only | re-encrypt ~/.config/sancho/env after an edit (asks for the passphrase twice) |
