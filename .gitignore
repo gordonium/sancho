@@ -73,3 +73,18 @@ _quarantine/**/*.bak
 
 # SVG is allowed (it's text and the system map may be SVG). PDFs are allowed under
 # the size cap but should be summarized to Markdown, not hoarded.
+
+# Sancho state (ephemeral) and renders
+_queue/requests/
+_queue/results/
+_queue/log/
+_queue/leases/
+_queue/sessions/
+_queue/inbox/
+MAP.html
+_design/Sancho-Architecture-standalone.html
+_queue/running/
+_queue/HEALTH.md
+_queue/.HEALTH.md.tmp
+__pycache__/
+*.pyc

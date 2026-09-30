@@ -94,7 +94,7 @@ page = f"""<title>Sancho Architecture</title>
 <div class="wrap">
   <div class="top">
     <div><h1 class="site">Sancho Architecture</h1><div class="meta">Rendered from <code>_design/architecture.md</code> and <code>_design/decisions.md</code> · snapshot {today} · the files on disk are the truth; this page is a reading copy. Works offline (fonts fall back).</div></div>
-    <div class="meta">Phase 2 · awaiting Gordon's approval</div>
+    <div class="meta">Approved 2026-09-30 · Phase 3 under way</div>
   </div>
   <div class="tabs" role="tablist">
     <button role="tab" id="t-arch" aria-selected="true" aria-controls="p-arch">Architecture</button>

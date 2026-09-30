@@ -1,3 +1,9 @@
+---
+name: _setup README
+type: doc
+lobe: both
+description: How Sancho's git, autocommit, hooks, and (soon) watcher are set up and tested
+---
 # _setup: Sancho's git and automation
 
 **Why this folder exists:** Sancho is a git repo whose working tree lives inside a sync.com folder. That combination corrupts if done the obvious way, so the setup is slightly unusual and lives here where it can be re-run and understood.

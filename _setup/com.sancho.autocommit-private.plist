@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Sancho-Private hourly autocommit: the same git-autocommit.sh, pointed at ~/Sancho-Private (architecture §6.6).
+  INSTALL / REINSTALL: bash ~/Sync/Sancho/_setup/install-mac.sh   (renders __HOME__, bootstraps every com.sancho.*.plist)
+  TEST: _setup/tests/install-mac/ (plists lint clean and point at scripts that exist)
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.sancho.autocommit-private</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>__HOME__/Sync/Sancho/_setup/git-autocommit.sh</string>
+    <string>hourly</string>
+  </array>
+  <key>StartInterval</key>
+  <integer>3600</integer>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/sancho-autocommit-private.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/sancho-autocommit-private.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    <key>SANCHO_WORKTREE</key>
+    <string>__HOME__/Sancho-Private</string>
+  </dict>
+</dict>
+</plist>

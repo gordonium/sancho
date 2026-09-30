@@ -1,0 +1,150 @@
+# Sancho · MAP
+generated 2026-09-30 by build-map.py. Three zoom levels; Level 0 is the picture to remember.
+
+## FOCUS
+
+# FOCUS   (cap: 3 per lobe per horizon; lint-enforced; hand-set with Gordon, never generated)
+## month · 2026-09
+work:     Build Sancho · (open) · (open)
+personal: (open) · (open) · (open)
+## week · 2026-09-30
+work:     scaffold + pipeline running · (open) · (open)
+personal: (open) · (open) · (open)
+## today · 2026-09-30
+work:     scaffold the tree · first lint/index/map run · (open)
+personal: (open) · (open) · (open)
+exceptions this week: 0
+
+## Level 0 · the system
+
+```mermaid
+flowchart LR
+  CAP[Capture: Plaud · Zoom · calendar · dictation]
+  PIPE[Pipeline on the Mac: fetch → transcribe → diarize → voiceprint]
+  LAND[Landing zone: recordings/inbox]
+  ING[Ingest: a session, 7 GTD buckets]
+  TREE[(The tree: spine · work · personal)]
+  SES[Sessions: Cowork · Claude Code · phone via Dispatch]
+  Q[Queue + Mac: commands · schedules · watcher]
+  OUT[Outputs: indexes · MAP · STATUS · Pushover]
+  CAP --> PIPE --> LAND --> ING --> TREE
+  SES <--> TREE
+  SES --> Q --> PIPE
+  Q --> OUT
+  TREE --> OUT
+```
+
+## Level 1 · components
+
+### The tree
+```mermaid
+flowchart TB
+  S[spine: CLAUDE.md · people · skills · recordings · _queue · _setup]
+  W[work]
+  P[personal]
+  S --> W
+  S --> P
+  W --> W_american_icon_spirits[american-icon-spirits]
+  W --> W_copper_leaf[copper-leaf]
+  W --> W_entomat[entomat]
+  W --> W_pickleproof[pickleproof]
+  W --> W_tipelodeon[tipelodeon]
+  W --> W_wizard_of_ads[wizard-of-ads]
+  P --> P_finances[finances]
+  P --> P_food[food]
+  P --> P_horizons[horizons]
+  P --> P_learning[learning]
+  P --> P_me[me]
+  P --> P_nomad[nomad]
+  P --> P_projects[projects]
+  P --> P_recordings[recordings]
+  P --> P_rv[rv]
+```
+### Skills by family
+```mermaid
+flowchart LR
+```
+### Pipeline stages
+```mermaid
+flowchart LR
+  A[1 Plaud fetch 5-min] --> B[2 download + ledger] --> D[4 Groq transcribe] --> E[5 diarize + embed] --> F[6 voiceprint match] --> G[7 transcript + speakers.md] --> H[8 STATUS.md]
+  C[5b calendar feed] --> E
+  Z[Zoom poll] --> G
+  H --> I[9 ingest skill]
+  W[10 watchdog] -.-> H
+```
+### Active projects
+
+- **Plan the Alaska trip (2027)** (personal/nomad) · next: Read 07-open-questions.md and pick the first one to close
+- **Food routine to habit** (personal/food) · next: Design the Sunday session skill (build order #6); first session picks four dinners
+- **Nomad daily check** (personal/nomad) · next: Design the personal morning routine incl. the nomad check (build order #5)
+- **Build Sancho** (work/copper-leaf) · next: Claude Code on the Mac: watcher, launchd, Sancho-Audio, Sancho-Secrets, Sancho-Private, autocommit fix, ping
+
+## Changed this week
+
+- (no commits in the last 7 days)
+
+## Level 2 · wiring
+
+<details><summary>Skills: triggers, reads, writes, tests</summary>
+
+| skill | lobe | triggers | must not | reads | writes | test |
+|---|---|---|---|---|---|---|
+
+</details>
+
+<details><summary>Commands and schedules (from _setup/commands.md)</summary>
+
+| ping | _setup/ping.sh | 10 | | round-trip test: writes a result containing the request id |
+| index.build | _setup/build-index.py | 120 | after commits; nightly 02:00 | regenerate every INDEX.md, PROJECTS.md, ICE.md, people and skill indexes |
+| lint | _setup/lint-layers.py | 120 | before every map build; nightly | layering, caps, headers, generated-file integrity, stale next actions |
+| map.build | _setup/build-map.py | 120 | after index.build; nightly | regenerate MAP.md (three zoom levels) |
+| docs.reading-copy | _design/build-reading-copy.py | 60 | on demand | rebuild the architecture reading copy and standalone HTML |
+| test.all | _setup/test-all.py | 600 | nightly 02:30; after commits touching _setup/ or skills/ | run every test suite; write TESTS.md; exit 1 on any failure |
+| git.commit | _setup/git-autocommit.sh | 120 | hourly; at conversation close | commit and push the tree (skips oversize files, lists them in GIT-EXCLUDED.md) |
+
+</details>
+
+<details><summary>Scripts</summary>
+
+- `_setup/sancho_lib.py` · Shared helpers for Sancho's build scripts: find the tree, read YAML-ish frontmatter without PyYAML, walk files, ask git for last-updated dates.
+- `_setup/build-index.py` · Regenerate every INDEX.md in the tree (one line per child from frontmatter), each lobe's PROJECTS.md, the ICE views, the people index with completeness, and the skill index. Never hand-edited outputs.
+- `_setup/build-map.py` · Regenerate MAP.md, the living map, in three zoom levels: Level 0 the system (one Mermaid diagram, ≤8 boxes), Level 1 components per box, Level 2 wiring tables (reads/writes/triggers/tests/commands/retired). Built only from frontmatter, commands.md and git; no hand-kept registry. Fails if a component has no parsable header or a reads/writes/chain target does not exist.
+- `_setup/lint-layers.py` · Enforce the layering rule (architecture §2), the focus caps, the header rule, generated-file integrity, project next-action and waiting-for freshness, and dangling references. Exit 1 on any violation so the map build fails.
+- `_setup/test-all.py` · Run every test under _setup/tests/*/ (test.sh or test.py), write _setup/TESTS.md (the test board), exit 1 if any fails.
+
+</details>
+
+<details><summary>LINT.md</summary>
+
+# LINT
+generated 2026-09-30 by lint-layers.py
+
+**0 problems, 0 warnings**
+
+## Problems (block the build)
+
+## Warnings
+
+</details>
+
+<details><summary>TESTS.md</summary>
+
+# TESTS
+generated 2026-09-30 13:13 by test-all.py · 6 suites · 0 failing
+
+| suite | result | last line |
+|---|---|---|
+| build-index | PASS | test-build-index: PASS |
+| build-map | PASS | test-build-map: PASS |
+| lint-layers | PASS | test-lint-layers: PASS |
+| ping | PASS | test-ping: PASS |
+| sancho_lib | PASS | test-sancho_lib: PASS |
+| test-all | PASS | test-test-all: PASS |
+
+</details>
+
+<details><summary>Retired (90 days)</summary>
+
+- INDEX.md
+</details>

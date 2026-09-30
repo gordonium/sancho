@@ -1,0 +1,10 @@
+"""
+name: 
+type: script            # script | command
+description: 
+why: 
+reads: 
+writes: 
+schedule:               # blank, or cron-like / launchd interval
+test: _setup/tests/<name>/
+"""

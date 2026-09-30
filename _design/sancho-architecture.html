@@ -45,8 +45,8 @@ article a{color:var(--accent)}
 </style>
 <div class="wrap">
   <div class="top">
-    <div><h1 class="site">Sancho Architecture</h1><div class="meta">Rendered from <code>_design/architecture.md</code> and <code>_design/decisions.md</code> · snapshot 2026-09-29 · the files on disk are the truth; this page is a reading copy. Works offline (fonts fall back).</div></div>
-    <div class="meta">Phase 2 · awaiting Gordon's approval</div>
+    <div><h1 class="site">Sancho Architecture</h1><div class="meta">Rendered from <code>_design/architecture.md</code> and <code>_design/decisions.md</code> · snapshot 2026-09-30 · the files on disk are the truth; this page is a reading copy. Works offline (fonts fall back).</div></div>
+    <div class="meta">Approved 2026-09-30 · Phase 3 under way</div>
   </div>
   <div class="tabs" role="tablist">
     <button role="tab" id="t-arch" aria-selected="true" aria-controls="p-arch">Architecture</button>
@@ -92,6 +92,7 @@ article a{color:var(--accent)}
 <li><a href="#62-what-is-raw-what-is-derived">6.2 What is raw, what is derived</a></li>
 <li><a href="#63-git-treatment-of-transcripts-and-vtts-decided-2026-09-24-f-1-in-the-repo">6.3 Git treatment of transcripts and VTTs (DECIDED 2026-09-24: F-1, in the repo)</a></li>
 <li><a href="#65-secrets-redundancy-without-plaintext-revised-2026-09-29">6.5 Secrets: redundancy without plaintext (revised 2026-09-29)</a></li>
+<li><a href="#66-sancho-private-added-2026-09-30">6.6 Sancho-Private (added 2026-09-30)</a></li>
 <li><a href="#64-size-limits">6.4 Size limits</a></li>
 </ul>
 </li>
@@ -134,10 +135,15 @@ article a{color:var(--accent)}
 <li><a href="#136-the-phone-channel-decided-p-1-pushover-on-trial">13.6 The phone channel (decided: P-1 Pushover, on trial)</a></li>
 <li><a href="#133-silence-stripping-decided-m-1">13.3 Silence stripping (decided: M-1)</a></li>
 <li><a href="#134-tests">13.4 Tests</a></li>
-<li><a href="#135-cutover">13.5 Cutover</a></li>
+<li><a href="#135-cutover-revised-2026-09-30-no-parallel-week">13.5 Cutover (revised 2026-09-30: no parallel week)</a></li>
+<li><a href="#136-zoom-added-2026-09-30">13.6 Zoom (added 2026-09-30)</a></li>
+<li><a href="#137-making-diarization-less-wrong-added-2026-09-30">13.7 Making diarization less wrong (added 2026-09-30)</a></li>
+<li><a href="#138-groq-are-we-on-the-free-tier">13.8 Groq: are we on the free tier?</a></li>
+<li><a href="#139-solo-recordings-against-gordons-voiceprint">13.9 Solo recordings against Gordon's voiceprint</a></li>
 </ul>
 </li>
 <li><a href="#14-documentation-tests-living-map-decision-n-decided-2026-09-24-n-3-sequenced">14. Documentation, tests, living map (Decision N: decided 2026-09-24; N-3 sequenced)</a><ul>
+<li><a href="#140-what-automatic-means-here">14.0 What "automatic" means here</a></li>
 <li><a href="#141-the-header-enforced">14.1 The header, enforced</a></li>
 <li><a href="#142-what-tested-means">14.2 What "tested" means</a></li>
 <li><a href="#143-which-hooks-fire-where-the-kickoffs-question">14.3 Which hooks fire where (the kickoff's question)</a></li>
@@ -147,7 +153,7 @@ article a{color:var(--accent)}
 </li>
 <li><a href="#15-leftovers-decision-o-decided-2026-09-24">15. Leftovers (Decision O: decided 2026-09-24)</a><ul>
 <li><a href="#151-copper-leaf-kit-follow-ups-from-the-handoffs-17">15.1 Copper Leaf kit follow-ups (from the handoff's §17)</a></li>
-<li><a href="#152-shared-thinking-skills-for-astra">15.2 Shared thinking skills for Astra</a></li>
+<li><a href="#152-shared-skills-for-astra-revised-2026-09-30-business-skills-not-thinking-skills">15.2 Shared skills for Astra (revised 2026-09-30: business skills, not thinking skills)</a></li>
 <li><a href="#153-personal-material-placement-revised-2026-09-29-see-34">15.3 Personal material placement (revised 2026-09-29; see §3.4)</a></li>
 <li><a href="#154-backfill-plan-settled-in-132">15.4 Backfill plan (settled in §13.2)</a></li>
 <li><a href="#155-decided-2026-09-24">15.5 Decided 2026-09-24</a></li>
@@ -157,6 +163,7 @@ article a{color:var(--accent)}
 <li><a href="#161-what-dispatch-is-and-what-it-changes">16.1 What Dispatch is, and what it changes</a></li>
 <li><a href="#162-the-device-table">16.2 The device table</a></li>
 <li><a href="#163-what-the-phone-forces-on-the-design-the-one-real-consequence">16.3 What the phone forces on the design (the one real consequence)</a></li>
+<li><a href="#166-full-sancho-from-the-phone-when-the-mac-is-closed-added-2026-09-30-proposed">16.6 Full Sancho from the phone when the Mac is closed (added 2026-09-30; proposed)</a></li>
 <li><a href="#164-phone-shaped-output">16.4 Phone-shaped output</a></li>
 <li><a href="#165-two-phone-paths-worth-building-early">16.5 Two phone paths worth building early</a></li>
 </ul>
@@ -184,7 +191,7 @@ article a{color:var(--accent)}
 <li><a href="#t6-job-file-see-92-t7-ice-item-see-93-t8-skill-header-see-91">T6. Job file — see §9.2. T7. ICE item — see §9.3. T8. Skill header — see §9.1.</a></li>
 </ul>
 </li>
-<li><a href="#open-questions-for-gordon-consolidated-re-scanned-2026-09-29">Open questions for Gordon (consolidated, re-scanned 2026-09-29)</a></li>
+<li><a href="#open-questions-for-gordon-consolidated-re-scanned-2026-09-30-after-the-full-read">Open questions for Gordon (consolidated, re-scanned 2026-09-30 after the full read)</a></li>
 </ul>
 </div>
 </nav><article><h1 id="sancho-architecture">Sancho architecture</h1>
@@ -222,7 +229,7 @@ article a{color:var(--accent)}
 </tr>
 <tr>
 <td><strong>skill</strong></td>
-<td>a procedure Claude follows in a session, with a header, trigger scope, and a write step</td>
+<td>a procedure Claude follows in a session, with a header, trigger scope, and a write step; <code>shared: astra</code> marks a business skill Leah's Astra consumes unchanged</td>
 <td><code>skills/</code></td>
 </tr>
 <tr>
@@ -548,7 +555,7 @@ pickleproof/        owned, dormant
 </code></pre>
 <p><strong>The one-person rule (decision #8, settled here):</strong> a person has exactly one file, <code>people/&lt;slug&gt;.md</code>, holding identity, contact pointers, voiceprint link, roles across both lobes, and <em>how to work with this person</em> (their preferences travel with them). An entity folder holds what is specific to the relationship in that business: the deal, the shared clients, the venture's knowledge, the recordings. So Lizzie Mack is one file in <code>people/</code>, referenced by <code>entomat/stakeholders/lizzie-mack/</code> and <code>american-icon-spirits/stakeholders/lizzie-mack/</code>, each of which holds only what belongs to that venture. A WoA partner is one file in <code>people/</code> plus <code>wizard-of-ads/partners/&lt;slug&gt;/</code> for the working relationship. The index generator flags any person-shaped frontmatter (<code>kind: person</code>) outside <code>people/</code>, so identity can't fork again (v2 had four partners in two places and Leah in three files).</p>
 <h3 id="34-personal-facts-are-facts-secrecy-set-aside-dropped-2026-09-29">3.4 Personal facts are facts (secrecy set-aside dropped 2026-09-29)</h3>
-<p>This system is for Gordon, used by Gordon. Health, neurology, relationship and finance facts are ordinary facts: they live in <code>personal/me/</code> (or wherever they belong) because that's their <em>area</em>, and they load when a question or skill needs them, like any client file. There is no sensitive-terms lint and no rule against them appearing under <code>work/</code> when they're relevant there. Three rules remain, for reasons other than secrecy: CLAUDE.md holds identity and invariants only (layering); startup loads <code>brief.md</code> and <code>watch.md</code>, not the deeper files (token budget: a diagnosis in every work session is tokens spent on nothing); and shared skill bodies carry no personal content, because Astra consumes them unchanged (§15.2).</p>
+<p>This system is for Gordon, used by Gordon. Health, neurology, relationship and finance facts are ordinary facts: they live in <code>personal/me/</code> (or wherever they belong) because that's their <em>area</em>, and they load when a question or skill needs them, like any client file. There is no sensitive-terms lint and no rule against them appearing under <code>work/</code> when they're relevant there. Three rules remain, for reasons other than secrecy: CLAUDE.md holds identity and invariants only (layering); startup loads <code>brief.md</code> and <code>watch.md</code>, not the deeper files (context, not secrecy); and <em>shared business</em> skill bodies carry no personal content, because Astra consumes them unchanged (§15.2); Gordon's own thinking skills may.</p>
 <h3 id="35-the-hard-case-one-recording-both-lives">3.5 The hard case: one recording, both lives</h3>
 <p>The pipeline lands every recording <strong>once</strong>, in <code>recordings/inbox/&lt;rec_id&gt;/</code> (transcript, metadata, a pointer to the audio by ID). Ingest reads it once and decides scope:
 - <strong>Single-client:</strong> the transcript folder is <em>moved</em> (not copied) to that client's <code>transcripts/</code>, and the summary is written to its <code>summaries/</code>.
@@ -798,6 +805,8 @@ Sizes: a one-hour transcript is 50–150 KB of Markdown; v2's 696 transcripts to
 - <strong>Recovery runbook</strong> (<code>_setup/RECOVERY.md</code>, written in Phase 4): new Mac → install sync.com, sign in → wait for <code>Sancho/</code>, <code>Sancho-Audio/</code>, <code>Sancho-Secrets/</code> → clone <code>~/.sancho.git</code> from GitHub → run <code>_setup/install-mac.sh</code> (launchd jobs, venv, watcher) → <code>sancho.unlock</code> → open Cowork. Target: under an hour, most of it sync time.
 - Never in git, never in the knowledge tree, never in a state file (v3 wrote the Plaud token into <code>auth-state.json</code>).
 Is plaintext in Sync too laissez-faire? For the cloud copy, sync.com's zero-knowledge encryption makes it tolerable; for Leah's machine, it isn't, and the <code>age</code> step costs one passphrase prompt per new machine. If Gordon would rather accept the Leah's-machine exposure and skip encryption, the design degrades gracefully to a plain <code>sancho.env</code> in the same folder; the runbook is identical minus one step.</p>
+<h3 id="66-sancho-private-added-2026-09-30">6.6 Sancho-Private (added 2026-09-30)</h3>
+<p><code>~/Sancho-Private/</code>: a folder <strong>outside Sync</strong>, in its own small git repo with its own private GitHub remote, for material that must not leave Gordon's machines. Why its own repo rather than a corner of the main one: a folder outside <code>~/Sync/Sancho</code> can't be part of that worktree, and a separate repo keeps the content out of the main repo's history, which Leah may one day be given read access to for shared business skills. Same conventions as the tree (frontmatter, cites, indexes), same hourly autocommit script pointed at a second repo, encrypted secrets unchanged. Mounted in Cowork on request only ("open private"); the main tree never links into it, and the lint flags any path that does. Startup does not read it.</p>
 <h3 id="64-size-limits">6.4 Size limits</h3>
 <p>Per file: the existing 5 MB pre-commit cap stands. Per recording: nothing; a nine-hour ambient recording is kept as audio and transcribed once (v2 quarantined one such file; Sancho just processes it and lets the summary be short). Repo: review at 2 GB; the likely move then is one archive repo per past year.</p>
 <h2 id="7-write-discipline-decision-g-decided-2026-09-24-g-1-leases">7. Write discipline (Decision G: decided 2026-09-24; G-1 leases)</h2>
@@ -846,7 +855,7 @@ What it still doesn't do: inbox scans, calendar reads, meeting briefs, cadence d
 <p>Same six reads. The only difference is the size of the git delta and whether a dirty session note exists. Designing two startup paths was one of v2's nine definitions; Sancho has one.</p>
 <h3 id="85-handing-off-to-the-morning-routine-decided-h-1">8.5 Handing off to the morning routine (decided: H-1)</h3>
 <p>Each lobe has a morning routine skill (build items 10 and 11). Startup knows whether it has run today from a state line the routine writes (<code>_queue/routines/&lt;lobe&gt;-morning-&lt;date&gt;.md</code>, lifecycle: 1 day).
-- <strong>H-1. Offer, then nudge (chosen; persistence added 2026-09-29).</strong> If the routine hasn't run today and it's before noon, the last line of the first open is the offer ("Run the morning routine?"). If it's declined or ignored, each later open that day carries a one-word nudge on the greeting line ("routine: not yet") until it runs or until 1 pm; it never becomes a question again. A little persistence, no nagging.
+- <strong>H-1. Offer, then nudge (chosen; persistence added 2026-09-29).</strong> If the routine hasn't run today and it's before noon, the last line of the first open is the offer ("Run the morning routine?"). If it's declined or ignored, the next open that morning carries a one-word nudge on the greeting line ("routine: not yet"); after that, silence for the day. Point it out once, remind once, no third time (decided 2026-09-30).
 - <strong>H-2. Run it automatically</strong> if not yet run today. Saves one exchange; it is also exactly how v2's startup grew a 20-step chain, and an afternoon re-sync would still trigger a "morning" routine unless guarded.
 - <strong>H-3. Never offer.</strong> Gordon asks for it by name. Cleanest, and the habit he wants to build then depends entirely on him remembering, which is the thing the system exists to carry.</p>
 <h3 id="87-opening-and-closing-a-conversation-added-2026-09-29-one-conversation-per-topic-is-the-aim">8.7 Opening and closing a conversation (added 2026-09-29; one conversation per topic is the aim)</h3>
@@ -955,10 +964,10 @@ sources: [...]
 <li><strong>machine-confirmed</strong> (<code>[systematic]</code>): the auto bar is met, so the name is used for filing and in summaries, with the class recorded. The bar: person's <code>auto: allowed</code>; similarity ≥ 0.95 with ≥ 5 confirmed references (or ≥ 0.98 with 3–4); no sanity veto fires (calendar says that person wasn't there; the cluster refers to that person in the third person; the cluster has under 30 s of talk time; two clusters match the same person). Solo recordings: single cluster matching Gordon at ≥ 0.90.</li>
 <li><strong>human-confirmed</strong>: Gordon (or a document) said so. The only state that can enroll a <em>new</em> reference into the library; machine-confirmed matches never feed back into the embeddings, so a wrong auto-tag can't compound.
   A correction of any auto-tag flips that person to <code>auto: paused</code> for 90 days and lists their recent auto-tags for review. <code>recordings/STATUS.md</code> carries auto-tag counts and corrections per person, and the work Weekly Review's full pass reads them, so the bar can be tuned on evidence. Summaries carry one footer line naming which speakers were machine-confirmed; the body uses names plainly.</li>
-<li><strong>Enrollment quality:</strong> a person with fewer than 3 human-confirmed references is "thin": shown so in the people index, never auto-tagged; the ingest skill asks for confirmation when such a person appears, so thin profiles thicken naturally. (v3: 17 of 32 people had a single reference.)</li>
+<li><strong>Enrollment quality (revised 2026-09-30):</strong> a person is "thin" with fewer than <strong>5</strong> human-confirmed references, or with references from fewer than <strong>3 distinct recordings</strong> (diversity matters more than count: five clips from one call teach the model one room and one microphone). Thin people are shown so in the people index and never auto-tagged; the ingest skill asks for confirmation when one appears, so profiles thicken naturally. Auto-tag requires ≥5 references across ≥3 recordings (and the bar in state 2 above). (v3: 17 of 32 people had a single reference.)</li>
 </ul>
 <h3 id="103-corrections-flow-back-q9-7-q4">10.3 Corrections flow back (Q9 #7, Q4)</h3>
-<p>When Gordon says "that's not Roy, that's Mike," attribution-correction: (1) updates the <code>speakers.md</code> row (old value struck through, new row with <code>by: gordon</code>); (2) removes the wrong (R, N) record from the library source and adds the right one; rebuilds the library; (3) re-runs matching on every recording from the last 90 days where the wrong person was a candidate, and lists the ones whose top candidate changed for Gordon to confirm; (4) supersedes every fact filed from that recording under the wrong name, using the files' <code>sources:</code> lists (§5.4); (5) writes a decisions line and a receipt. The correction is not done until step 3's list is either empty or reviewed.</p>
+<p>When Gordon says "that's not Roy, that's Mike," attribution-correction: (1) updates the <code>speakers.md</code> row (old value struck through, new row with <code>by: gordon</code>); (2) removes the wrong (R, N) record from the library source and adds the right one; rebuilds the library; (3) re-runs matching on the recordings that could actually have been affected: every recording processed <strong>since the wrong reference was enrolled</strong> where that person was a candidate, capped at the most recent 20, and lists the ones whose top candidate changed for Gordon to confirm (revised 2026-09-30 from "last 90 days": a bad reference can only have influenced matches made after it existed); (4) supersedes every fact filed from that recording under the wrong name, using the files' <code>sources:</code> lists (§5.4); (5) writes a decisions line and a receipt. The correction is not done until step 3's list is either empty or reviewed.</p>
 <h3 id="104-contacts-sancho-is-the-single-point-of-truth-decided-2026-09-24-form-j-d1-sync-mirroring-accepted">10.4 Contacts: Sancho is the single point of truth (decided 2026-09-24; form J-D1; Sync mirroring accepted)</h3>
 <p>Gordon's call: Sancho holds his contacts, starting with a mine of Google Contacts and a de-dupe. (v2 had 138 rows in <code>gordonos-people.db</code> from the same source; v3 had 35 people folders; the two never met.) The form (decided: J-D1), as weighed:</p>
 <ul>
@@ -977,11 +986,12 @@ sources: [...]
 - <strong>The map (§14):</strong> regenerated by a command after every commit batch and nightly; the map's "changed in the last 7 days" view is a git query.
 - <strong>In git:</strong> transcripts and VTTs (§6, F-1), summaries, knowledge, people (incl. contact blocks, §10.4), skills, scripts, generated indexes and the map, <code>recordings/STATUS.md</code>, <code>_setup/</code>.
 - <strong>Not in git:</strong> <code>_queue/</code> (ephemeral state; results older than 90 days pruned by the watcher), audio and JSON sidecars (<code>Sancho-Audio/</code>), the ledger, secrets (<code>~/.config/sancho/</code>).
-- <strong>Sync.com conflict copies</strong> (<code>*-CONFLICT-*</code>) are a lint check; one appearing means a second writer got in (§7.2).</p>
+- <strong>Sync.com conflict copies</strong> (<code>*-CONFLICT-*</code>) are a lint check; one appearing means a second writer got in (§7.2).
+- <strong>Files the repo refuses (found 2026-09-30, fix in Phase 4).</strong> A file over 5 MB or binary is <em>not moved anywhere</em>: it stays in place, inside <code>~/Sync/Sancho</code>, so sync.com has already backed it up; only git declines it. The bug in what's built: <code>git-autocommit.sh</code> stages everything and lets the hook reject the whole commit, so one oversize file silently stalls every hourly commit until someone notices. Fix: the autocommit checks staged files itself, unstages offenders, commits the rest; offenders are listed in a generated <code>_setup/GIT-EXCLUDED.md</code> (path, size, reason, first seen) and surfaced in <code>HEALTH.md</code> so the greeting can say so. The pre-commit hook stays as the last line for hand commits. Nothing is moved automatically, because moving breaks every path that points at the file; a second copy beyond sync.com is a deliberate act. Rule of thumb: sync.com backs up everything in the folder; git backs up knowledge, with history and a GitHub copy; a large file loses the second, never the first.</p>
 <h2 id="12-built-in-memory-boundary-decision-l-decided-2026-09-22">12. Built-in memory boundary (Decision L: decided 2026-09-22)</h2>
 <p>Claude's account memory is not part of Sancho. Everything Sancho or the Copper Leaf kit needs to survive lives in Markdown files in the tree (job plans included). Built-in memory may hold nothing Sancho depends on; if it holds anything at all, it is a pointer to STATUS.md. Reason: durable, human-readable, survivable if Claude goes away, readable by any other system.</p>
 <h2 id="13-pipeline-design-decision-m-decided-2026-09-24-m-1-pushover">13. Pipeline design (Decision M: decided 2026-09-24; M-1, Pushover)</h2>
-<p>Decided so far: one runner, one Mac, no Mouth/Nerd, no ntfy, no Wrike; Groq transcription; SQLite as internal ledger with a generated status view; the black Mac keeps running v3's pipeline until this one is proven; sessions trigger it through the queue (§1). Speaker states and library rules: §10.2. Provenance: §5. Landing and filing: §3.5, §6.</p>
+<p>Decided so far: one runner, one Mac; no Mouth/Nerd <em>division of labour</em> (the host execution bridge, §1, is the one place a session hands work to the Mac, and Gordon may still call Cowork "Mouth" and Claude Code "Nerd" as nicknames); no ntfy, no Wrike; Groq transcription; SQLite as internal ledger with a generated status view; the black Mac keeps running v3's pipeline until this one is proven; sessions trigger it through the queue (§1). Speaker states and library rules: §10.2. Provenance: §5. Landing and filing: §3.5, §6.</p>
 <h3 id="131-stages-one-script-_setuppipelineearballspy-stdlib-the-same-libraries-v3-proved-each-stage-a-function-with-the-standard-header">13.1 Stages (one script, <code>_setup/pipeline/earballs.py</code>, stdlib + the same libraries v3 proved; each stage a function with the standard header)</h3>
 <div class="tw"><table>
 <thead>
@@ -997,13 +1007,13 @@ sources: [...]
 <td>1</td>
 <td>Plaud fetch</td>
 <td><code>plaud-sync.py</code> keep w/ edits</td>
-<td>Hourly launchd job + command <code>pipeline.sync</code>. Bearer token from <code>~/.config/sancho/env</code>; on 401 the health line says "Plaud token expired: re-capture" and stays red until fixed. Demo-serial filter kept. Window: newest known minus 7 days.</td>
+<td><strong>Every 5 minutes</strong> (decided 2026-09-30; Gordon often wants a recording soon after making it), made light by fetching <em>incrementally</em>: list newest-first and stop at the first already-known ID, so a quiet run is one request instead of v3's full 16-page walk. A full reconcile once a day. Plus command <code>pipeline.sync</code> for "sync now" from the phone. Bearer token from <code>~/.config/sancho/env</code>; on 401 the health line says "Plaud token expired: re-capture" and stays red until fixed. Demo-serial filter kept. Caveat: this is Plaud's private web API with a hand-captured token, not a supported API; if they rate-limit or change it, the interval backs off automatically and the greeting says so. Voice memos also arrive this way (they're Plaud recordings); nothing is hand-dropped except non-Plaud audio.</td>
 </tr>
 <tr>
 <td>2</td>
 <td>Download + ingest</td>
 <td>keep atomic rename, sha256, <code>rec_</code> IDs</td>
-<td>Writes <code>Sancho-Audio/processed/&lt;rec_id&gt;.ogg</code> + ledger row. Also watches <code>Sancho-Audio/inbox/</code> for hand-dropped files (Zoom audio, voice memos): same path, <code>source: external</code>.</td>
+<td>Writes <code>Sancho-Audio/processed/&lt;rec_id&gt;.ogg</code> + ledger row. <code>Sancho-Audio/inbox/</code> remains for the rare non-Plaud file (a forwarded audio message); same path, <code>source: external</code>.</td>
 </tr>
 <tr>
 <td>3</td>
@@ -1020,8 +1030,14 @@ sources: [...]
 <tr>
 <td>5</td>
 <td>Diarization + embeddings</td>
-<td><code>diarize.py</code> keep as-is</td>
-<td>pyannote pinned; embeddings to <code>Sancho-Audio/voiceprints/recordings/&lt;rec_id&gt;.npy</code>.</td>
+<td><code>diarize.py</code> keep, then improve</td>
+<td>pyannote pinned; embeddings to <code>Sancho-Audio/voiceprints/recordings/&lt;rec_id&gt;.npy</code>. <strong>Diarization (how many speakers, and who spoke when) was v3's weakest step; Gordon: "almost always wrong."</strong> Improvements in order of cost (13.7): pass a speaker-count prior from calendar attendees and Plaud's scene; merge over-split clusters whose voiceprints match the same person; let ingest confirm the count and re-run with it fixed; trial a hosted diarizer against pyannote on ten known recordings before choosing.</td>
+</tr>
+<tr>
+<td>5b</td>
+<td>Calendar feed</td>
+<td>new (v3's <code>calendar_hints.py</code> idea, fed properly)</td>
+<td><strong>Kept</strong> (decided 2026-09-30; a cross-check for diarization and a who-was-in-the-room prior). v3's cache depended on a session; Sancho fills it mechanically: a Mac-side command polls Gordon's private ICS feed (read-only, no OAuth) into <code>Sancho-Audio/calendar-cache/</code>, and stage 5 reads attendee counts and names from it.</td>
 </tr>
 <tr>
 <td>6</td>
@@ -1045,13 +1061,13 @@ sources: [...]
 <td>9</td>
 <td>Ingest</td>
 <td><strong>skill</strong>, not code</td>
-<td>On request (startup offers when inbox &gt; 0): confirm speakers, extract, file per §3.5, supersede, receipt. Eight extraction passes trimmed from v3's ten; health-sensitive facts always confirmed before filing.</td>
+<td>On request (startup offers when inbox &gt; 0): confirm speaker count and names, extract into the seven GTD buckets (§17.1), file per §3.5, supersede, receipt. Personal-state facts confirmed before filing.</td>
 </tr>
 <tr>
 <td>10</td>
 <td>Watchdog</td>
 <td><code>pipeline-watchdog.py</code> keep w/ edits</td>
-<td>Same checks (sync freshness with wake suppression, oldest waiting, stuck rows, disk, launchd counter, backup age). WARN → status view only. <strong>CRITICAL → status view + a push to Gordon's phone</strong> (channel: 13.6). Content: one plain, actionable line ("Pipeline: 2 recordings waiting 26 h, oldest Tue 9/22. Plaud token expired; re-capture it."). Cadence: on state change, then at most once a day while red; never a repeat every cycle. Destination hardcoded to Gordon in the script; no recipient parameter exists, so it cannot message anyone else.</td>
+<td>Same checks (sync freshness with wake suppression, oldest waiting, stuck rows, disk, launchd counter, backup age), <strong>with the Mac's sleep and offline states treated as known states, not failures</strong> (§16.3); Gordon expects false alarms at first and wants it dialed in from real behavior over the first weeks. WARN → status view only. <strong>CRITICAL → status view + a push to Gordon's phone</strong> (channel: 13.6). Content: one plain, actionable line ("Pipeline: 2 recordings waiting 26 h, oldest Tue 9/22. Plaud token expired; re-capture it."). Cadence: on state change, then at most once a day while red; never a repeat every cycle. Destination hardcoded to Gordon in the script; no recipient parameter exists, so it cannot message anyone else.</td>
 </tr>
 <tr>
 <td>11</td>
@@ -1061,11 +1077,11 @@ sources: [...]
 </tr>
 </tbody>
 </table></div>
-<p>Dropped: calendar-hints (needs a session to fill a cache; revisit when a calendar job exists), FTS search (ripgrep, §4.4), autotag/rehint/ignore as separate tools (folded into stage 6 with the rules in §10.2), all comms/mesh/notify tooling.</p>
+<p>Dropped: FTS search (ripgrep, §4.4), autotag/rehint/ignore as separate tools (folded into stage 6 with the rules in §10.2), all comms/mesh/notify tooling. Calendar hints were on this list and were <strong>kept</strong> on 2026-09-30 (stage 5b).</p>
 <h3 id="132-the-24-hour-loop-and-the-three-backlogs">13.2 The 24-hour loop and the three backlogs</h3>
 <ul>
 <li><strong>Fresh:</strong> anything recorded from cutover onward. SLA: transcribed within 24 h of upload; the status line turns amber at 12 h waiting, red at 24 h. Ingest is offered at every startup while the inbox is non-empty; the offer names the oldest.</li>
-<li><strong>Backlogs are a separate runner state, never in the fresh queue</strong> (v2's own lesson). <code>pipeline.backfill --era fresh|good|old --limit N</code> processes N recordings from the chosen era into <code>recordings/backlog/&lt;era&gt;/&lt;rec_id&gt;/</code>, transcribed and speaker-matched but not ingested. Order: era 3 (fresh backlog, May–Sep 2026) newest first, then era 2 (Mar–Jun 2026), then era 1 (Aug 2025–Feb 2026). <strong>The first ingest job of all is the notes-to-self</strong> (solo recordings, newest first, decisions.md 2026-09-22), which need no speaker confirmation.</li>
+<li><strong>Backlogs are a separate runner state, never in the fresh queue</strong> (v2's own lesson). <code>pipeline.backfill --era fresh|good|old --limit N</code> processes N recordings from the chosen era into <code>recordings/backlog/&lt;era&gt;/&lt;rec_id&gt;/</code>, transcribed and speaker-matched but not ingested. <strong>Drip rate (decided 2026-09-30):</strong> the backfill is throttled to stay inside Groq's free tier, leaving headroom for the fresh pipeline: about six audio-hours a day, run overnight, with a daily cap the watcher enforces from the ledger's Groq usage count. At ~770 audio-hours of backlog that's roughly four months; if fresh volume ever exceeds the remaining headroom, billing gets set up then (13.8), not before. Order: era 3 (fresh backlog, May–Sep 2026) newest first, then era 2 (Mar–Jun 2026), then era 1 (Aug 2025–Feb 2026). <strong>The first ingest job of all is the notes-to-self</strong> (solo recordings, newest first, decisions.md 2026-09-22), which need no speaker confirmation.</li>
 <li>v3's 704 transcripts are re-derived from audio, not copied (kickoff Phase 3); v2's 690 real recordings need their audio (291 <code>.ogg</code> in v2's <code>earballs-inbox/</code> plus whatever Plaud still holds; Plaud retains everything).</li>
 </ul>
 <h3 id="136-the-phone-channel-decided-p-1-pushover-on-trial">13.6 The phone channel (decided: P-1 Pushover, on trial)</h3>
@@ -1082,10 +1098,28 @@ Whichever channel: the same script also serves the personal lobe later (the noma
 - <strong>M-3. Keep it as v3 had it.</strong> Rejected: violates no-data-loss.</p>
 <h3 id="134-tests">13.4 Tests</h3>
 <p>A fixture recording set under <code>_setup/tests/pipeline/</code> (a 2-minute solo clip of Gordon, a 3-minute two-speaker clip, a silent clip, a corrupt file): the script must produce the expected <code>transcript.md</code>, <code>speakers.md</code> with the solo clip machine-confirmed as Gordon and the two-speaker clip left as candidates, a <code>refused</code> result for the corrupt file, and a correct <code>STATUS.md</code>. Runs as a command <code>pipeline.test</code>; startup reports the last test date.</p>
-<h3 id="135-cutover">13.5 Cutover</h3>
-<p>Run Sancho's pipeline against a copy of <code>Sancho-Audio/inbox/</code> for one week beside the black Mac's v3; compare recording counts and transcripts per day; when seven consecutive days match, retire v3's launchd jobs on the black Mac (procedure like <code>rainbow-rig-shutdown.md</code>) and revoke its Plaud token. Until then, both run.</p>
+<h3 id="135-cutover-revised-2026-09-30-no-parallel-week">13.5 Cutover (revised 2026-09-30: no parallel week)</h3>
+<p>Plaud is the durable upstream and retains everything, so a forward overlap buys nothing. Sancho's pipeline starts on the silver Mac <strong>as the first Phase 4 build</strong>, wherever the Mac is (Gordon is in Italy through Oct 6; Plaud's cloud and Groq are reachable from anywhere), with a <strong>backward overlap</strong>: the first sync pulls everything from seven days before the black Mac's last known transcript (2026-09-17) forward, so anything v3 processed but Sancho didn't is re-derived here, and nothing depends on reaching the black Mac. The black Mac's v3 jobs get retired whenever it's next reachable (procedure like <code>rainbow-rig-shutdown.md</code>) and its Plaud token revoked; until then it's a second consumer of the same cloud, harmless. v3's earlier transcripts stay as the backlog eras (13.2).</p>
+<h3 id="136-zoom-added-2026-09-30">13.6 Zoom (added 2026-09-30)</h3>
+<p>Gordon wants Zoom transcripts pulled automatically, and the recordings too. Zoom's cloud recordings API (a Server-to-Server OAuth app on his account, <code>recording:read</code>) lists finished recordings; a Mac-side command polls it every 15 minutes and downloads, per meeting: the <strong>VTT transcript</strong> (Zoom's cloud transcript carries <em>participant names as speaker labels</em>, which is better than any diarizer and a free source of human-quality voiceprint labels), the <strong>audio-only M4A</strong>, and the <strong>MP4 video</strong>. Storage: video and audio in <code>Sancho-Audio/zoom/&lt;YYYY-MM-DD&gt;_&lt;topic&gt;/</code> (outside git; check sync.com quota, since video is gigabytes a month); the VTT goes through the same landing zone as a recording (<code>recordings/inbox/</code>, <code>source: zoom</code>) and ingest files it to the client's <code>transcripts/</code> with a summary. Requires cloud recording and cloud transcript enabled on the Zoom plan; if the account lacks them, the fallback is the existing drag-in path (build item 13). Zoom audio can also run through diarization and voiceprint enrollment with the VTT's names as ground truth, which is the cheapest way to thicken the library.</p>
+<h3 id="137-making-diarization-less-wrong-added-2026-09-30">13.7 Making diarization less wrong (added 2026-09-30)</h3>
+<p>Why it fails: overlapping speech, phone or car audio, more than four people, and no prior on how many. In order of cost:
+1. <strong>Give it a count.</strong> Calendar attendees (stage 5b), Plaud's scene metadata, and the ingest step's confirmation ("were there three of you?") each supply <code>num_speakers</code>; pyannote is markedly better constrained than free. v3 exposed <code>--num-speakers</code> and never fed it.
+2. <strong>Merge by voiceprint.</strong> Two clusters whose embeddings match the same enrolled person at ≥0.85 are one speaker; v3 flagged over-splits and left them.
+3. <strong>Let the human fix it once.</strong> Ingest shows the speaker count and talk-time per cluster; Gordon corrects it in one word; the recording re-diarizes with the count fixed and the confirmed count becomes a reference for that meeting series.
+4. <strong>Trial a hosted diarizer</strong> (pyannoteAI's hosted model, Deepgram, or AssemblyAI) against local pyannote on ten recordings Gordon knows well; compare speaker counts and a spot-check of turns; adopt only if it's clearly better, since it adds a paid dependency and sends audio off-machine. An ICE item with a deadline, not a day-one build.</p>
+<h3 id="138-groq-are-we-on-the-free-tier">13.8 Groq: are we on the free tier?</h3>
+<p>Probably yes, and it matters. Groq's free tier for Whisper allows about 20 requests a minute, 2,000 a day, and roughly 8 hours of audio a day, with a 10-second minimum billed per request; the paid rate is about $0.111 per audio hour for whisper-large-v3 and $0.04 for the turbo model (<a href="https://www.eesel.ai/blog/groq-pricing">eesel</a>, <a href="https://www.cloudzero.com/blog/groq-pricing/">CloudZero</a>, <a href="https://freellm.net/models/groq/whisper-large-v3">freellm</a>). v3 logged 60 failed Groq attempts and 24 "groq exhausted" audits; free-tier limits are a plausible cause, and a backfill of 1,400 recordings would hit them at once. Recommendation: set up billing before the backfill starts; at Gordon's volume (~100 recordings a month, call it 80 hours) the fresh pipeline costs under $10 a month at the large-v3 rate. Verify the tier in the Groq console rather than trusting this.</p>
+<h3 id="139-solo-recordings-against-gordons-voiceprint">13.9 Solo recordings against Gordon's voiceprint</h3>
+<p>Yes, and it's already in the design (§10.2, state 2): a single-cluster recording is auto-confirmed as Gordon only if its embedding matches his library entry at ≥0.90. One cosine similarity; it catches the case v3 missed, a solo recording of someone else silently tagged as Gordon.</p>
 <h2 id="14-documentation-tests-living-map-decision-n-decided-2026-09-24-n-3-sequenced">14. Documentation, tests, living map (Decision N: decided 2026-09-24; N-3 sequenced)</h2>
-<p><strong>The requirement (kickoff):</strong> every component carries a header (why, what, reads, writes, how to test); nothing ships without a test Gordon can run; a script regenerates a visual map daily; if a component isn't on the map, it isn't done.</p>
+<p><strong>The requirement (kickoff, amended 2026-09-30):</strong> every component carries a header (why, what, reads, writes, how to test); nothing ships without a test; a script regenerates a visual map daily; if a component isn't on the map, it isn't done. <strong>Gordon does not design or run tests.</strong> His words: he is the executive, Sancho is the manager; he says do the job, and it is Sancho's job to do it <em>and</em> to make sure it keeps being done correctly. His involvement starts when he sees a result that's wrong and asks why. At that point Sancho produces all the evidence (the test board, the run logs, the receipts, the diff between what the test checks and what actually failed), and the troubleshooting is joint. The consequence for design: <strong>every test runs automatically</strong> on its schedule and after every change to its component; a test that exists only as instructions for a person ("open the app and check that…") does not count as a test, because nothing runs it; if a check can only be done by eye, the design turns it into something a script can check, or it is written down as a known gap; and the standing question for Sancho after any failure Gordon notices is "why did the end result fail while the tests passed?", which is itself logged, because that gap is where the next test comes from.</p>
+<h3 id="140-what-automatic-means-here">14.0 What "automatic" means here</h3>
+<ul>
+<li>Scripts, hooks, the lint, the pipeline, startup: tested by the queue on a schedule (nightly <code>test.all</code>) and on change (any commit touching a component's files triggers its tests through the watcher). Results land in the generated <code>TESTS.md</code> and in <code>HEALTH.md</code>; a red test appears in the greeting once and stays in the status view until green.</li>
+<li>Skills: the headless fixture runs (14.2) execute nightly for every skill and after any edit to a skill file. Gordon never invokes them.</li>
+<li>The one thing Gordon does: notice. When something he sees is wrong, he asks, and the answer is evidence, not reassurance: what ran, what it checked, what it saw, what the gap is, and a proposed new test that would have caught it.</li>
+</ul>
 <h3 id="141-the-header-enforced">14.1 The header, enforced</h3>
 <p>Every skill, script, job, template, and folder convention carries the same frontmatter block (§9.1 shows the skill form; scripts carry it as a docstring in the same key order: <code>name, type, description, why, reads, writes, test</code>, plus <code>triggers</code>/<code>must_not_trigger</code> for skills and <code>schedule</code> for jobs). The lint (§2) blocks the map build on a missing or empty key. Templates live in <code>_setup/templates/</code> and <code>new-component</code> is a command that copies the right template into place with the header pre-filled, so the cheap path is the compliant path.</p>
 <h3 id="142-what-tested-means">14.2 What "tested" means</h3>
@@ -1199,8 +1233,12 @@ Whichever channel: the same script also serves the personal lobe later (the noma
 </tbody>
 </table></div>
 <h3 id="144-the-living-map">14.4 The living map</h3>
-<p>Generated by <code>_setup/build-map.py</code> from three inputs, no hand-maintained registry: (1) every file's frontmatter (name, type, description, lobe, reads, writes, chain, triggers, schedule, test); (2) <code>_setup/commands.md</code> and the launchd plists; (3) git (<code>updated</code>, "changed in last 7 days"). It runs after every commit batch and nightly, as the last step after the lint and the index build, and writes:
-- <code>MAP.md</code> at the tree root: the folder tree to depth 3 with counts; the skill table (name, lobe, triggers, chain links); the chain diagrams; the pipeline stage diagram; the job and schedule table; the test board; the retired list (90 days); FOCUS and IN-FLIGHT verbatim; "changed this week."
+<p>Generated by <code>_setup/build-map.py</code> from three inputs, no hand-maintained registry: (1) every file's frontmatter (name, type, description, lobe, reads, writes, chain, triggers, schedule, test); (2) <code>_setup/commands.md</code> and the launchd plists; (3) git (<code>updated</code>, "changed in last 7 days"). It runs after every commit batch and nightly, as the last step after the lint and the index build.</p>
+<p><strong>Resolution (decided 2026-09-30): three zoom levels, and the top one is the point.</strong> Gordon needs to see, understand and <em>remember</em> the big parts and how they interact; the wiring exists for when something breaks.
+- <strong>Level 0, the system</strong> (one diagram, at most eight boxes, fits on a phone): Capture (Plaud, Zoom, calendar) → Pipeline (on the Mac) → Landing zone → Ingest (a session) → the Tree (spine, work, personal) ← Sessions (Cowork, Code, phone via Dispatch) ↔ the Queue/Mac (commands, schedules, watcher) → Outputs (indexes, map, Pushover). Each arrow is one sentence. This is the picture to hold in your head.
+- <strong>Level 1, the components</strong> (one diagram per Level-0 box): the pipeline's stages; the tree's lobes and areas; the skills grouped by family (thinking, GTD, ingest, routines) with their chain links; the commands and schedules; the devices. Each node is a component with a header; each still has one line of description.
+- <strong>Level 2, the wiring</strong> (tables, not diagrams): reads and writes per skill and command; triggers and must-not-triggers; the test board; the retired list; dangling-reference results. This is where a "why did it fail" investigation starts, and Gordon rarely needs to look at it unprompted.
+<code>MAP.md</code> holds all three, Level 0 first, each Level-1 diagram under its own heading, Level 2 as collapsed tables at the end. The HTML render (§14.5, later) adds click-to-zoom from a Level-0 box into its Level-1 diagram and from a component into its wiring row; until then, headings and the table of contents do the zooming. FOCUS is printed above Level 0; "changed this week" below it.
 - Diagrams as Mermaid source inside <code>MAP.md</code> (renders in GitHub, Obsidian, PhpStorm, and in an Artifact).
 - A dangling-reference check: any <code>reads:</code>/<code>writes:</code>/<code>chain:</code> target that doesn't exist fails the build. <strong>A component not reachable from the map (no header, or header not parsed) fails the build.</strong> That's the mechanical form of "if it isn't on the map, it isn't done."</p>
 <h3 id="145-where-the-map-renders-decided-n-3-sequenced">14.5 Where the map renders (decided: N-3, sequenced)</h3>
@@ -1216,8 +1254,8 @@ Whichever channel: the same script also serves the personal lobe later (the noma
 3. <strong>Where the kit's job plan lives:</strong> <code>~/Sync/Sancho/_queue/jobs/</code> like every other job (decisions.md 2026-09-22: all memory in files). The kit's Core Development Rule step 3 ("save the plan to memory") is repointed to write the job file; Sancho's registry entry for the kit records that. The kit stays self-contained otherwise.
 4. <strong>Sancho's registry for the kit:</strong> <code>work/copper-leaf/plugins/</code> with one file per plugin (repo, main file, prefix, version locations, related plugins, staging site, SSH alias, WP-CLI works?, error log verified?, quirks) and <code>_registry.md</code> generated from them. First entry of type tooling: the kit itself. Sancho <strong>tracks</strong> plugin jobs through the 16 stages as job files and <strong>launches</strong> the kit's skills; it never runs a stage itself.
 5. <strong>Lessons source of truth:</strong> the kit's <code>CLAUDE.md</code> §12 for anything about plugin development; Sancho holds a pointer, never a copy.</p>
-<h3 id="152-shared-thinking-skills-for-astra">15.2 Shared thinking skills for Astra</h3>
-<p>think-first, critical-thinking, triz, punnett-square, brief-me, and fact-check-anyone are written with <strong>no user-specific content in the skill body</strong>. Everything personal (the SELF dimension, the source manifest for brief-me, names, the one-line "why this exists") comes from a per-user parameter file the skill reads by a fixed relative path: <code>skills/_params/&lt;user&gt;.md</code> in Sancho, and the same path inside Astra's workspace. Leah consumes the skill files unchanged; Astra's current forks retire when hers are re-pointed. Work-side only (decisions.md 2026-09-22). The lint flags a shared skill whose body contains a name from <code>people/</code>.</p>
+<h3 id="152-shared-skills-for-astra-revised-2026-09-30-business-skills-not-thinking-skills">15.2 Shared skills for Astra (revised 2026-09-30: business skills, not thinking skills)</h3>
+<p>Gordon's call: think-first, critical-thinking, triz, punnett-square, brief-me and fact-check-anyone are <strong>his personal skills</strong> and are not shared with Astra; they may carry his context freely. What Astra shares are <strong>business skills</strong>, mainly Copper Leaf and Press Managed operations: the plugin kit's three (already shared as a plugin), and the coming ones (site updates with post-update tests, reporting, billing, whatever the review of Leah's work surfaces; <code>_design/seeds/work-ice.md</code>). The sharing mechanism is the same one drafted earlier, applied to those: no user-specific content in a shared skill's body; per-user parameters in <code>skills/_params/&lt;user&gt;.md</code> at the same relative path in both workspaces; Leah consumes the files unchanged. Shared skills carry <code>shared: astra</code> in their header; the lint flags a shared skill whose body names anyone in <code>people/</code> or reads from <code>personal/</code>. (This reverses the kickoff's assumption that the thinking skills would be the shared set.)</p>
 <h3 id="153-personal-material-placement-revised-2026-09-29-see-34">15.3 Personal material placement (revised 2026-09-29; see §3.4)</h3>
 <p><code>personal/me/</code> for health, neurology, identity; relationship material under <code>personal/</code>, by area not by secrecy. Never in CLAUDE.md (layering) and never in a shared skill body (Astra). The 120 relationship files under v3's <code>work/projects/</code> and v2's <code>health/</code> route to <code>personal/</code> in Phase 3 through the gate because that's where they belong, not because they're hidden.</p>
 <h3 id="154-backfill-plan-settled-in-132">15.4 Backfill plan (settled in §13.2)</h3>
@@ -1261,7 +1299,7 @@ Whichever channel: the same script also serves the personal lobe later (the noma
 <td>Leah's machine</td>
 <td>sync.com mirror; Astra's own workspace</td>
 <td>never (rule in CLAUDE.md; conflict-copy lint)</td>
-<td>shared thinking skills read from here by relative path (§15.2)</td>
+<td>shared business skills read from here by relative path (§15.2)</td>
 </tr>
 <tr>
 <td>Black Mac</td>
@@ -1281,6 +1319,17 @@ Whichever channel: the same script also serves the personal lobe later (the noma
 <p>Dispatch and every launchd job depend on <strong>the Mac being awake with the app open.</strong> In an RV on battery, the Mac will sleep, and v3's audit log shows what that looks like: bursts of activity with multi-day gaps, indistinguishable from a broken pipeline. Two rules follow:
 1. <strong>Sleep is a state the system knows about, not a failure it guesses at.</strong> The watchdog already reads <code>pmset -g log</code> for wake times (v3's wake suppression); Sancho's <code>HEALTH.md</code> and the startup line say "Mac slept 14 h, pipeline resumed 09:12" rather than "pipeline late." CRITICAL pushes fire only when the Mac has been awake long enough to have caught up and hasn't.
 2. <strong>Gordon decides the power stance, per situation, with one switch.</strong> A command <code>mac.stay-awake on|off</code> toggles <code>caffeinate</code> (or <code>pmset</code> display-off-but-awake) and records the state in HEALTH.md; the personal morning routine can offer it when the calendar shows he'll be away from the RV. On shore power: on. On battery: off, and the phone lives with delayed answers. This is a design decision Gordon makes daily by circumstance, so it must be one word, not a settings dive.</p>
+<h3 id="166-full-sancho-from-the-phone-when-the-mac-is-closed-added-2026-09-30-proposed">16.6 Full Sancho from the phone when the Mac is closed (added 2026-09-30; proposed)</h3>
+<p>Gordon's real case: when he reaches for the phone, the Mac is usually closed and offline. Dispatch needs a running desktop app, so "the Mac is the backbone" means "no Sancho when the Mac sleeps," which isn't good enough. Two tiers, built in this order:</p>
+<p><strong>Tier 1, now: a runner-less phone mode.</strong> Most phone use is reading and capturing, and neither needs a Mac:
+- <em>Read:</em> the Sancho repo is on GitHub; the Claude mobile app with the GitHub connector can read it directly. A phone conversation can brief him on a client, read a project's next action, search summaries, and answer "what did Roy say about radio" from the transcripts in git. Read-only, no Mac, no runner; the tree's structure (indexes, cites) makes it usable that way.
+- <em>Capture:</em> three ways, easiest first. (1) <strong>Plaud</strong>, device or app: the Plaud phone app records from the phone's own microphone when the device isn't handy (verify on Gordon's plan), uploads to the same cloud, and the recording flows through the full pipeline with speaker ID and filing; one tap, nothing new to learn. (2) <strong>Dictate into the Sancho conversation</strong> in the Claude app: this is text, not audio, so no transcription step; the session writes it as a <code>_queue/inbox/</code> note through the GitHub connector and the runner ingests it when the Mac wakes. Best for a quick thought that should be words, not a recording. (3) <strong>Android recorder → sync.com app → <code>Sancho-Audio/inbox/</code></strong>, for the rare non-Plaud audio. Plaud is the default; it's already the path and it keeps the audio.
+- <em>What it can't do:</em> run the pipeline, run commands, regenerate indexes. The greeting on the phone says so in one line ("Mac's asleep; I can read and capture, not run").</p>
+<p><strong>Tier 2, later: an always-on runner, and the rule that keeps two runners from becoming v2.</strong> The Rainbow Rig in Colorado (online, powered, retired from everything else) can host a second copy of the runner: the Claude desktop app open for Dispatch, the watcher, the pipeline, the schedules. That reopens multiple machines, and the v2 failure was three machines writing one tree with no rule about who was allowed to. The rule that makes it safe:
+- <strong>Exactly one machine holds the <em>runner role</em> at a time.</strong> The role is a file in Sync (<code>_setup/RUNNER.md</code>: which machine, since when, heartbeat), written only by the machine taking it, and a machine takes it only when the other's heartbeat is stale or on an explicit handoff command. The runner is the only machine that runs schedules, executes commands, runs the pipeline, and <strong>commits to git</strong>. The non-runner's launchd (or Task Scheduler) jobs check the role file and do nothing. Two runners writing is therefore impossible by construction, not by discipline.
+- <strong>Sync carries the tree, git is per machine, GitHub is the meeting point.</strong> Each machine has its own <code>.sancho.git</code>; only the runner commits and pushes; the standby pulls on taking the role. Conversation leases and session notes ride along in Sync as they do today.
+- <strong>Handoff is one word from the phone</strong> ("Sancho, run from the Rig") or automatic when the Mac's heartbeat is stale for an hour. The greeting always names the runner.
+- <strong>Costs to be honest about:</strong> the Rig is Windows (v3's pipeline is Mac-shaped: launchd, MPS; it's a port), it needs the Claude desktop app signed in and awake permanently, Sync.com latency means a file written on the Mac appears on the Rig seconds to minutes later, and secrets must be unlocked on both. A Mac mini on the Rig's shelf would remove the port and most of the risk, at a price. This tier is an ICE item for later (Gordon, 2026-09-30: dig into the Rig after the Mac is stable). Tier 1 is approved for a trial now.</p>
 <h3 id="164-phone-shaped-output">16.4 Phone-shaped output</h3>
 <p>Startup's eight lines already fit a phone screen; every skill's receipt is one line; brief-me's briefing is capped at two minutes' reading. A <code>phone</code> note in a skill header is not needed: the rule is that nothing Sancho says needs a wide screen, and the lint's line caps on generated views enforce it. Things that don't work from the phone and are stated plainly when asked: anything needing the built-in browser pane, approving a folder mount, watching the plugin kit test a staging site in Chrome.</p>
 <h3 id="165-two-phone-paths-worth-building-early">16.5 Two phone paths worth building early</h3>
@@ -1333,7 +1382,7 @@ Whichever channel: the same script also serves the personal lobe later (the noma
 </tr>
 </tbody>
 </table></div>
-<p><strong>Sancho's standing role (decided 2026-09-26, goes in CLAUDE.md):</strong> keep GTD running for <em>maximum effectiveness, not maximum strictness</em>. Offer the daily checksum and the weekly, monthly and quarterly reviews on their cadence; when Gordon is visibly working in a chaotic way (three topics in one message, tasks started mid-task, a project with no next action being worked on anyway), say so once, plainly, and offer the fix; never nag twice for the same thing in a day. The measure is whether the reviews happen and the exception count falls, not whether every rule was obeyed.</p>
+<p><strong>Sancho's standing role (decided 2026-09-26, goes in CLAUDE.md):</strong> keep GTD running for <em>maximum effectiveness, not maximum strictness</em>. Offer the daily checksum and the weekly, monthly and quarterly reviews on their cadence; when Gordon is visibly working in a chaotic way (three topics in one message, tasks started mid-task, a project with no next action being worked on anyway), say so once, plainly, and offer the fix; remind once more if nothing changed; never a third time that day (decided 2026-09-30). The measure is whether the reviews happen and the exception count falls, not whether every rule was obeyed.</p>
 <h3 id="172-the-weekly-review-skill-to-be-built-shape-only">17.2 The Weekly Review skill (to be built; shape only)</h3>
 <p>One skill, parameters <code>lobe</code> and <code>--mini</code>. <strong>Cadence (decided 2026-09-26):</strong> Work full review <strong>Monday</strong>, mini <strong>Thursday</strong> (both ahead of Gordon's meetings with Leah); Personal full review <strong>Friday</strong>, mini <strong>Tuesday</strong>; food planning stays <strong>Sunday</strong>; ICE monthly and quarterly. A mini is five minutes inside that morning's routine offer: today's three, stalled next actions, aging waiting-fors, nothing else. Six touchpoints a week is the ceiling; if the minis grow, they get cut before the full reviews do. Full-review steps, each ending in a write: (1) empty the inboxes: recordings waiting, ICE captures since last week, anything in <code>_queue/sessions/</code> left open; (2) walk every active project in the lobe: still active? has a next action? is it under 7 days old? is a waiting-for aging?; park or close what's dead; (3) read last week's focus and its exception count; (4) set this week's three; (5) glance up: month focus still right? any goal (H3) this week touches?; (6) receipt: what changed, written to <code>personal/reviews/YYYY-Www.md</code> or <code>work/reviews/</code>. Target: 20 minutes, driven by generated lists (<code>PROJECTS.md</code>, <code>STATUS.md</code>, ICE due list), never by memory. It is offered, like the morning routine (§8.5), never auto-run.</p>
 <h3 id="173-the-horizons-in-the-tree">17.3 The horizons in the tree</h3>
@@ -1390,13 +1439,13 @@ Whichever channel: the same script also serves the personal lobe later (the noma
 <h3 id="181-sanchos-character-in-claudemd-15-lines">18.1 Sancho's character (in CLAUDE.md, ≤ 15 lines)</h3>
 <p>Revised 2026-09-29 to Gordon's direction: <strong>confidant and lifelong companion</strong>, the chief of staff after a decade, not on day one. Reference points: a hint of JARVIS (capability, always there), a bit of Sancho (rides alongside, says the windmills are windmills), and mostly <strong>Leo McGarry</strong>: loyal without being deferential, carries the institutional memory, protective of the man from the man, blunt in private and discreet everywhere, and never leaves the room when it gets hard. Draft for Gordon to rewrite in his own words:
 - Knows the history and uses it. "You said the same thing in March, and here's what happened" is the job, cited.
-- Watches the blind spots he's been told to watch (18.3), and says so once, plainly, when one shows up. Doesn't flinch, doesn't lecture, doesn't repeat it that day. Doesn't estimate how long things will take unless asked; says what, not how long.
+- Watches the blind spots he's been told to watch (18.3), and says so once, plainly, when one shows up; reminds once if nothing changed; never a third time that day. Doesn't flinch, doesn't lecture. Doesn't estimate how long things will take unless asked; says what, not how long.
 - Warm, dry, direct. Conclusion first. Short by default, long when it's earned.
 - Pushes back, offers options with a pick, then does what Gordon decides. Protects his time, his focus, and his health as part of the work, not as a nag.
 - Can be told anything. What it's told goes to <code>personal/me/</code> under the layering rules, and never leaks into work, into a shared skill, or into small talk.
 - Never performs competence it doesn't have: "I don't have that" beats a confident guess; "unconfirmed" is said out loud; every claim about him or his world is citable.
 - Fixes obvious dictation slips silently; asks when a misread would change the meaning.
-- Holds the GTD line for effectiveness, not strictness.
+- Holds the GTD line for effectiveness, not strictness: point it out once, remind once, no third time.
 - No process chatter, no "great question," no recap, no narration of its own feelings.</p>
 <h3 id="182-what-actually-went-wrong-with-v2s-coremd-so-the-depth-is-kept-and-the-failure-isnt">18.2 What actually went wrong with v2's CORE.md (so the depth is kept and the failure isn't)</h3>
 <p>Gordon asked whether the 287-line CORE.md was a direct problem. Per the survey (§4a) and his own May 2026 notes, the depth of context was <strong>not</strong> the problem; four other things were:
@@ -1407,13 +1456,14 @@ Whichever channel: the same script also serves the personal lobe later (the noma
 So the design keeps the depth and moves it: the <em>behavioral</em> context loads every time (18.3, capped), the <em>factual</em> context is one cited read away (<code>personal/me/</code>, <code>people/</code>), and the <em>history</em> is the whole tree, searchable and citable, which is how a decade of relationship actually accrues. Depth comes from the archive and from Sancho using it, not from a bigger startup file.</p>
 <h3 id="183-the-gordon-brief-and-the-watch-list-loaded-at-startup-two-files-100-lines-together">18.3 The Gordon brief and the watch list (loaded at startup; two files, ≤ 100 lines together)</h3>
 <p><code>personal/me/brief.md</code> (≤ 60 lines): what the ten-year chief of staff knows without looking, and nothing a stranger shouldn't see:
-- Who he is in one paragraph: the businesses and his stake in each; the WoA partnership; Copper Leaf with Leah; living full-time in an RV, nomadic, chasing 60/85.
+- Who he is in one paragraph: the businesses and his stake in each; the WoA partnership; Copper Leaf with Leah; living full-time in an RV, nomadic, following a comfort band of overnight lows no warmer than about 60°F and daytime highs no hotter than about 85°F (routine 2).
 - How to work with him (from the kickoff and Phase 0): one question at a time; options with a recommended pick; structure he builds himself; push back when he's wrong; plain language, define jargon; dictated input, watch for homophones; recognition is strong, recall is weak, so surface and let him verify; a fast thinker who wants to think better.
-- The at-most-six people who come up daily, one line each, linking to <code>people/</code>.
+- The people who come up week to week, one line each, linking to <code>people/</code>. No fixed number (the "at most six" from Gordon's May notes was too tight; run it and see); the brief's 60-line cap is the only bound, and the quarterly review prunes.
 - Standing facts that change behavior: tasks live in Wrike and Google Tasks and he creates them; the review cadence; the two lobes and the wake phrases; the must-nevers by pointer.
 - <strong>Not in the brief:</strong> the deeper detail (diagnoses, medications, therapy, relationship history, finances). It lives in <code>personal/me/</code> as separate files and loads when a skill names it or a question needs it, for budget reasons only: the brief is what every session needs, the rest is one read away.</p>
 <p><code>personal/me/watch.md</code> (≤ 40 lines): <strong>the blind-spot list</strong>, which is what makes the relationship feel like a decade rather than a résumé. One line per pattern Gordon has asked Sancho to watch, with the agreed response: the pattern in his words, the tell (what it looks like in a session or a transcript), and what Sancho does (say it once; offer the fix; or just note it for the weekly review). Seeds from Phase 0 and the survey: enthusiastic building before the last thing is finished; half-baking cool things; overcommitting in meetings (commitments noticed in transcripts vs. capacity); skipping lunch and crashing; working in the wrong lobe by habit; treating a plan as done because it was described well; three topics in one message. Gordon writes and prunes this list; Sancho proposes additions only at the quarterly review, from evidence (the exception counts, the correction log), never mid-conversation. The neurology that explains a pattern stays in <code>personal/me/</code>; the watch list carries the pattern and the response, which is all a session needs.</p>
 <p>Both files are hand-written, versioned in git, lint-capped, and loaded at every startup (reads seven and eight; still under 30 seconds). The brief is the "who," the watch list is the "watch me," and everything deeper is one cited read away.</p>
+<p><code>personal/me/mantras.md</code> (added 2026-09-30, seed in <code>_design/seeds/mantras.md</code>) is the third file in this family but is <em>not</em> loaded at startup; a small selection step surfaces one mantra at the end of the morning routine, at a conversation close when the topic matches, or on request, choosing by tag match to today's focus or a blind spot just called, then least-recently-shown, never the same one within 14 days. The selection keeps state in <code>_queue/</code>, which is what v2's "rotate, don't repeat" never had.</p>
 <p><strong>Decided 2026-09-29:</strong> character draft accepted, to be tuned in use; both files load at every startup; the seven seed patterns are the initial watch list.</p>
 <h2 id="19-ice-at-scale-added-2026-09-29">19. ICE at scale (added 2026-09-29)</h2>
 <p>ICE is already granular: one Markdown file per idea, with frontmatter (<code>id, title, lobe, area, project, captured, source, status, next_review, log</code>). What scales it is the same pattern as everything else in the tree: <strong>files are the truth, indexes are generated, and placement is a field, not a folder.</strong></p>
@@ -1537,26 +1587,22 @@ sources: [rec_7f0ac58436]
 </code></pre>
 <h3 id="t6-job-file-see-92-t7-ice-item-see-93-t8-skill-header-see-91">T6. Job file — see §9.2.   T7. ICE item — see §9.3.   T8. Skill header — see §9.1.</h3>
 <hr />
-<h2 id="open-questions-for-gordon-consolidated-re-scanned-2026-09-29">Open questions for Gordon (consolidated, re-scanned 2026-09-29)</h2>
-<p>A full pass over the document for anything still marked open, pending, proposed, or awaiting. Everything section-level is decided. What remains, sorted by who owns it:</p>
-<p><strong>Yours, small, any time:</strong>
-1. Monthly focus cap: you set weekly and daily at three per lobe; the month is written as three too. Confirm or change. (§4.6)
-2. <code>MAP.html</code>: personal ICE queue (as written) or work. (§14.5)
-3. Where the to-read list lives at scaffold: <code>personal/learning/to-read.md</code> with a lobe flag per item (as written), or the spine, since both lobes reference it. (<code>_design/seeds/to-read.md</code>)
-4. The nomad routine's remaining components you couldn't recall on the 21st. (<code>routines-capture.md</code>, not this document)</p>
-<p><strong>Yours, and it closes Phase 2:</strong>
-5. Approve the document as a whole, or name changes.</p>
-<p><strong>Not yours to decide now; owned by Phase 3 design, listed so they aren't lost:</strong>
-6. The recurring-project shape (a project that never closes, reviewed quarterly, with a standing next action), needed for "Claude best." (§4.6, seeds/goals.md)
-7. The Weekly Review skill design, both gears, both lobes. (§17.2)
-8. earballs-ingest rewritten around the seven GTD buckets. (§17.1)
-9. Decisions generated from in-place markers; revisit ~2026-11-01 with usage in hand. (decisions.md 09-29)
-10. Build-order slots for fact-check-anyone, contacts import, the Weekly Review, and the personal-lobe routines.</p>
-<p><strong>Parked in ICE (yours to approve when reviewed, not now):</strong>
-11. <code>MAP.html</code>; read-only Wrike and Google Tasks access; a phone-side location post for the nomad routine; the think-better delivery mechanism.</p>
-<p><strong>Drafts that will be shaped by use, not by a decision:</strong>
-12. Sancho's character wording (§18.1) and the watch list seeds (§18.3).
-13. The personal-lobe folders (§3.2), which the routine captures will reshape.</p></article></div>
+<h2 id="open-questions-for-gordon-consolidated-re-scanned-2026-09-30-after-the-full-read">Open questions for Gordon (consolidated, re-scanned 2026-09-30 after the full read)</h2>
+<p><strong>Yours, and they close Phase 2:</strong>
+1. <strong>Does Sancho keep syncing to Leah's machine?</strong> Proposed no: Sancho syncs to sync.com's cloud only; Astra keeps its own workspace; shared business skills reach her as a plugin, like the kit. Independent of <code>~/Sancho-Private/</code>, which exists either way. (§6.6, decisions 09-30)
+2. <strong>Approve the document as a whole</strong>, or name changes. On approval: Phase 3 is short (migration plan, skill build order), and the Plaud pipeline build starts in Claude Code as Phase 4 item 1.</p>
+<p><strong>Deliberately open, with a date, not for now:</strong>
+3. Decisions generated from in-place markers instead of hand-written logs: revisit ~2026-11-01 with usage in hand.</p>
+<p><strong>Phase 3's, listed so they aren't lost:</strong>
+4. The recurring-project shape (a project with no end state, quarterly review, standing next action). (§4.6, seeds/goals.md)
+5. The Weekly Review skill, both gears, both lobes. (§17.2)
+6. earballs-ingest rewritten around the seven GTD buckets. (§17.1)
+7. Build-order slots for fact-check-anyone, contacts import, the Weekly Review, the personal routines, the site-update kit skill.
+8. "Never touch live" dialed in with the site-update skill: staging first, gated promotion. (seeds/work-ice.md)</p>
+<p><strong>Parked in ICE (yours to approve at a review, not now):</strong>
+9. Personal: <code>MAP.html</code>; think-better delivery; the phone-side location post. Work: read-only Wrike and Google Tasks access; the hosted-diarizer trial; the Rig (or a Mac mini) as an always-on second runner under the single-runner role; the four capability seeds (site updates, WoA reporting incl. LSA Phone Responsiveness, Wrike time → billing, the CLC operations map).</p>
+<p><strong>Drafts shaped by use, not by decision:</strong>
+10. Sancho's character wording and the watch-list seeds (§18); the personal-lobe folders (§3.2); the nomad routine's nine road-test components; the receipts and the greeting voice.</p></article></div>
   <div class="panel hidden" id="p-dec" role="tabpanel"><nav class="toc"><div class="toc">
 <ul></ul>
 </div>
@@ -1753,7 +1799,7 @@ sources: [rec_7f0ac58436]
 </tr>
 <tr>
 <td>2026-09-26</td>
-<td><strong>Devices (§16, drafted):</strong> the phone is a remote for the Mac via Dispatch, not a second runner; Pushover closes the loop back; Plaud and sync.com apps are the phone's capture paths. Mac sleep is a known state reported as such, never mistaken for pipeline failure; a one-word <code>mac.stay-awake</code> job sets the power stance. Awaiting Gordon's reaction.</td>
+<td><strong>Devices (§16, drafted):</strong> the phone is a remote for the Mac via Dispatch, not a second runner; Pushover closes the loop back; Plaud and sync.com apps are the phone's capture paths. Mac sleep is a known state reported as such, never mistaken for pipeline failure; a one-word <code>mac.stay-awake</code> command sets the power stance. Gordon reviewed §16 on 2026-09-30 and extended it (§16.6); taken as accepted.</td>
 <td>Dispatch runs on the desktop with the desktop awake; everything in Sancho already runs from that session.</td>
 </tr>
 <tr>
@@ -1774,7 +1820,7 @@ sources: [rec_7f0ac58436]
 <tr>
 <td>2026-09-26</td>
 <td><strong>Correction to the endeavor decision: endeavors are unlimited; Focus is what's limited.</strong> Endeavors = the projects inside each business and in personal life (work endeavors mirror Wrike projects), each with a job file and a Next Action; no cap. <strong>Focus = 3 per lobe, nested by horizon: month → week → day.</strong> Daily focus is set each morning and verbally checksummed against the week's three and the month's three. Next Actions: personal = Google Tasks items; work = Wrike tasks under Wrike projects (Gordon to use Wrike's project/task structure better). <strong>Stalled Next Action flag: 1 week.</strong> "job" stays as Sancho-internal lingo.</td>
-<td>Gordon, 2026-09-26. Nesting mechanics (when each horizon is set, how exceptions are handled) proposed by Claude, awaiting Gordon.</td>
+<td>Gordon, 2026-09-26. Nesting mechanics approved by Gordon 2026-09-26.</td>
 </tr>
 <tr>
 <td>2026-09-26</td>
@@ -1875,6 +1921,111 @@ sources: [rec_7f0ac58436]
 <td>2026-09-29</td>
 <td><strong>Greeting voice (§8.3, §8.7):</strong> the startup and open greetings are short spoken paragraphs in Sancho's voice, not field lists. Mandatory facts unchanged (date/place, lobe, today's three with next actions, pipeline/watcher state, what changed, left-open, routine state); problems first, once, with what to do; under eight lines; no labels or bullets. The test checks facts, not wording. <strong>No time estimates in Sancho's voice</strong> ("five minutes to…"): say what, not how long, unless asked. Goes in the character (§18.1).</td>
 <td>Gordon, 2026-09-29: "too technically sterile; not fluffy; a middle path"; time estimates "usually wrong, forced, grating."</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Monthly focus cap: 3 per lobe</strong>, same as weekly and daily. Gordon expects it to feel cramped; that pressure to complete and rotate is the point.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>MAP.html goes in the personal ICE queue.</strong></td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Reading lists: one per lobe</strong> (<code>personal/learning/to-read.md</code>, <code>work/to-read.md</code>), same columns; no spine copy.</td>
+<td>Gordon leans per-side; nothing needs a combined view.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Voiceprint thresholds revised (§10.2, proposed):</strong> "thin" = fewer than 5 human-confirmed references, or references from fewer than 3 distinct recordings; auto-tag requires ≥5 references across ≥3 recordings. Correction re-match window = recordings since the wrong reference was enrolled, capped at the last 20 where that person was a candidate (replaces "last 90 days"). <strong>Confirmed by Gordon 2026-09-30.</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Nomad routine components added</strong> (routines-capture.md): driving-weather warnings, freezing nights for plumbing, drive time/fuel/range, destination connectivity, campground availability, tank levels, time-zone change, calendar fixed points, destination events. Mail forwarding dropped. Road-test all, cut what's never acted on after two weeks; output stays under ten lines.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Oversize files and git (§11):</strong> never moved automatically; they stay in Sync (already backed up) and are excluded from git. Bug found in the built <code>git-autocommit.sh</code>: a rejected file stalls every hourly commit. Phase 4 fix: autocommit unstages offenders and commits the rest; offenders listed in generated <code>_setup/GIT-EXCLUDED.md</code> and surfaced in HEALTH.md and the greeting.</td>
+<td>Gordon's question, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Pipeline revisions (§13):</strong> Mouth/Nerd survive as nicknames (Cowork/Code); the bridge is the queue. Plaud fetch every 5 minutes, incremental (stop at first known ID), daily full reconcile, "sync now" command. Voice memos come via Plaud; inbox is for rare non-Plaud audio. <strong>Calendar hints kept</strong>, fed by a Mac-side ICS poll. Diarization improvement ladder (13.7): speaker-count priors, merge-by-voiceprint, human count fix, hosted-diarizer trial as ICE. Watchdog to be dialed in from real behavior; sleep/offline are known states. <strong>Zoom</strong> (13.6): Server-to-Server OAuth poll every 15 min; VTT + M4A + MP4; media in <code>Sancho-Audio/zoom/</code>; VTT names as voiceprint ground truth. <strong>Groq</strong> likely free tier; set up billing before backfill (13.8). Solo-vs-Gordon check confirmed (13.9). <strong>Cutover: no parallel week; start now on the silver Mac with a backward 7-day overlap from Plaud</strong>; retire the black Mac's jobs when reachable.</td>
+<td>Gordon, 2026-09-30 (traveling in Italy through Oct 6; black Mac offline).</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Tests are automatic; Gordon never runs them (§14.0).</strong> Executive/manager framing: Sancho does the job and ensures it keeps being done correctly; every test runs on schedule and on change; Gordon's involvement begins when he notices a wrong result and asks why, at which point Sancho produces the full evidence and the "why did the result fail while the tests passed" gap becomes the next test.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Backfill drips through Groq's free tier</strong> (~6 audio-hours a day overnight, watcher-enforced cap); billing only if fresh volume exceeds the headroom. <strong>Map has three zoom levels:</strong> Level 0 the system (≤8 boxes, the picture to remember), Level 1 components per box, Level 2 wiring tables; HTML render adds click-to-zoom later. "A test only a human would run doesn't count" clarified: a test that exists only as instructions for a person is not a test; eye-only checks become scriptable or are logged as gaps.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Shared-with-Astra set reversed:</strong> the thinking skills (think-first, critical-thinking, triz, punnett-square, brief-me, fact-check-anyone) are Gordon's personal skills, not shared. Shared skills are <strong>business skills</strong>, mainly CLC and Press Managed operations (kit skills, site updates, reporting, billing, whatever the review of Leah's work surfaces), marked <code>shared: astra</code>, no personal content in the body, per-user params. Reverses the kickoff's assumption.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Four work capabilities captured as ICE seeds</strong> (<code>_design/seeds/work-ice.md</code>): WP updates across client sites with post-update tests (needs a gated production exception in the kit); WoA monthly reporting by API incl. the LSA Phone Responsiveness score (smallest highest-ROI MVP, saves $160/mo); Wrike time → client billing sheets and a timesheet audit → invoice list; a read-only review of Leah's work email and Wrike for automation opportunities (findings to Leah too). None approved; reviewed at the first monthly work review.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong><code>~/Sancho-Private/</code>: a folder outside Sync, in git, for material that must not leave Gordon's machines.</strong> Decided by Gordon. Form: its own small repo with its own private GitHub remote (Claude's recommendation; reasons in chat: a folder outside the worktree can't join the main repo's tree, and a separate repo keeps the content out of the main repo's history, which Leah may one day read for shared skills). Mounted in Cowork on request only; never referenced from the main tree except by name. Whether Sancho stops syncing to Leah's machine remains proposed.</td>
+<td>2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Phone Tier 1 (§16.6) approved for a trial:</strong> read Sancho via the GitHub connector on the phone; capture via Plaud, voice memo, or a queued note; greeting says "read and capture, not run" when the Mac is asleep. Tier 2 (Rig or Mac mini as always-on runner under the single-runner role) goes to work ICE for later.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td>"Never touch live" to be dialed in when the site-update skill is designed: staging first, gated promotion to live. Workflow later.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Phone when the Mac is closed (§16.6, proposed):</strong> Tier 1 now, a runner-less phone mode (read the repo via the GitHub connector; capture via Plaud, voice memo, or a note the runner ingests when awake; greeting says "can read and capture, not run"). Tier 2 later (Q1 ICE), the Rainbow Rig or a Mac mini as an always-on second runner under a <strong>single runner role</strong>: one machine at a time holds <code>_setup/RUNNER.md</code> by heartbeat or explicit handoff; only the runner runs schedules, commands, the pipeline, and commits; the standby's jobs check the role and do nothing. Tier 1 approved for trial and Tier 2 parked in ICE, 2026-09-30 (next row).</td>
+<td>Gordon, 2026-09-30: phone use will mostly happen with the Mac closed.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Nag limit: point it out once, remind once, never a third time that day.</strong> Applies to blind-spot calls, GTD nudges, and the routine offer.</td>
+<td>Gordon, 2026-09-30 (raised from "never twice").</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Phone voice capture: Plaud is the default</strong> (device, or the Plaud app recording from the phone mic, to verify); dictating into the Sancho conversation is for quick text notes (no transcription; queued for the runner); the Android recorder → sync.com → inbox path is for rare non-Plaud audio.</td>
+<td>Gordon asked which is easiest.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Mantras</strong> (seed in <code>_design/seeds/mantras.md</code>): <code>personal/me/mantras.md</code> with tags per mantra; selection by tag match to today's focus / topic / a blind spot just called, then least-recently-shown, never repeated within 14 days; state kept in <code>_queue/</code>; shown at the end of the morning routine, at matching conversation closes, on request. Sources: Rainbow Rig wallpapers, v2 mantras and principles via the gate, a capture session.</td>
+<td>Gordon, 2026-09-30: v2 repeated the same one with no awareness of context.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Brief: no fixed cap on the people listed</strong> (was "at most six"); the 60-line cap bounds it; quarterly prune.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>Sancho stays in Sync, Leah's machine included</strong> (minus <code>~/Sancho-Private/</code>). Sync is backup redundancy; the private folder covers what must not travel.</td>
+<td>Gordon, 2026-09-30.</td>
+</tr>
+<tr>
+<td>2026-09-30</td>
+<td><strong>ARCHITECTURE APPROVED. Phase 2 closed.</strong> Gordon read all 19 sections; remaining items are Phase 3's or parked. Phase 3 begins: migration plan and skill build order; the Plaud pipeline is Phase 4 item 1 and starts in Claude Code as soon as Phase 3's build order is written.</td>
+<td>Gordon, 2026-09-30: "approved! Let's roll."</td>
 </tr>
 <tr>
 <td>2026-09-21</td>

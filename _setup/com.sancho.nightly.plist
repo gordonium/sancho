@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Sancho nightly 02:00: enqueues the 'nightly' command (index.build, lint, map.build) so the run shows in results/ and HEALTH.md. Runs on wake if the Mac slept through 02:00.
+  INSTALL / REINSTALL: bash ~/Sync/Sancho/_setup/install-mac.sh   (renders __HOME__, bootstraps every com.sancho.*.plist)
+  TEST: _setup/tests/install-mac/ (plists lint clean and point at scripts that exist)
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.sancho.nightly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/python3</string>
+    <string>__HOME__/Sync/Sancho/_setup/sancho-enqueue.py</string>
+    <string>nightly</string>
+    <string>--by=launchd</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Hour</key><integer>2</integer><key>Minute</key><integer>0</integer></dict>
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/sancho-schedules.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/sancho-schedules.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+</dict>
+</plist>

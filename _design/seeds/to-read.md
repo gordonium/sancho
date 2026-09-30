@@ -7,7 +7,7 @@ status: seed
 ---
 # To read
 
-Seed captured 2026-09-26 during Phase 2. Moves to its permanent home at scaffold (proposed: `personal/learning/to-read.md`, with `lobe:` per item so the work index can show work items; the spine rule says a list both lobes reference could live in the spine instead; Gordon to decide at scaffold). Until then this is the only copy.
+Seed captured 2026-09-26 during Phase 2. Decided 2026-09-30: one list per lobe at scaffold, `personal/learning/to-read.md` and `work/to-read.md`, same columns. This seed splits by the `lobe` column then; an item marked `both` goes to personal (the reading happens on personal time). Until then this is the only copy.
 
 Flags per item: **lobe** (work | personal | both) · **format** (paper | kindle | audiobook) · **length** (estimated read time or audio time) · **reread** (yes | no) · **when** (a context, GTD-style: "driving", "evening", "waiting room") · **status** (queued | reading | done | parked).
 

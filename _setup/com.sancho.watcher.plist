@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Sancho watcher: one tick on any change to _queue/requests/, and every 60 s. Runs allowlisted requests, writes results and HEALTH.md.
+  INSTALL / REINSTALL: bash ~/Sync/Sancho/_setup/install-mac.sh   (renders __HOME__, bootstraps every com.sancho.*.plist)
+  TEST: _setup/tests/install-mac/ (plists lint clean and point at scripts that exist)
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.sancho.watcher</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/python3</string>
+    <string>__HOME__/Sync/Sancho/_setup/sancho-watcher.py</string>
+  </array>
+  <key>WatchPaths</key>
+  <array><string>__HOME__/Sync/Sancho/_queue/requests</string></array>
+  <key>StartInterval</key>
+  <integer>60</integer>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/sancho-watcher.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/sancho-watcher.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+</dict>
+</plist>

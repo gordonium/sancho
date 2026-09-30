@@ -45,7 +45,21 @@ Format per routine: what it's for, when it fires, inputs, outputs, what "done an
 
 **Temperature range (confirmed):** overnight low no warmer than ~60°F, daytime high no hotter than ~85°F. Routing chases cooler, not warmer.
 
-**Components he can't remember yet.** He said there are a couple more. Leave a slot; ask again another day.
+**Additional components (decided 2026-09-30, from Claude's prompts; Gordon kept all but mail forwarding; "sounds like too much, but they're all useful; road-test and tweak"):**
+5. Wind and severe-weather warnings for the drive itself (distinct from comfort temperatures; an RV in crosswind is a driving decision).
+6. Freezing nights, for the plumbing: a separate threshold from the 60/85 comfort range.
+7. Drive time, fuel, and range for the day's candidate leg.
+8. Connectivity at the destination: cell coverage and Starlink line-of-sight.
+9. Campground or hookup availability and reservations at the destination.
+10. Propane, water, and tank levels as a "can I stay put another day" input (entered by hand for now; sensor integration is an ICE item if it ever matters).
+11. Time-zone change on the candidate leg (feeds the temporal check and the calendar).
+12. Fixed points from the calendar: Leah's Monday and Thursday meetings, anything else that pins a location or a connection window.
+13. Anything happening at the destination worth arriving for (events, people passing through).
+Dropped: mail and package forwarding (Gordon's call).
+
+**Road-test rule:** the first version reports all of these in one short paragraph after the weather and direction; after two weeks of use, anything Gordon never acts on is cut. The output stays under ten lines regardless; if it can't, the routine is doing too much.
+
+**Skill inputs implied:** a weather source with wind and overnight lows; a routing source for time/fuel; a coverage source (or a manual note); a campground source (or manual); tank levels by hand; the calendar; `personal/nomad/location.md`; the people-and-places list. Which of these need a Mac-side command with a key (weather, routing) and which are manual for v1 is a Phase 3 decision.
 
 **Inputs (first sketch).** Current location (how does Sancho know? phone location, a manual "I'm in X," or the RV's own GPS); weather forecast source (needs an API or web lookup); the people-and-places list (lives in the personal lobe, references `people/` in the spine, with locations and "want to see by" dates); the calendar (commitments that fix location on given days); Gordon's driving tolerance per day (max hours/miles).
 
