@@ -16,7 +16,7 @@ personal: (open) · (open) · (open)
 - ice/ · folder · 3 files
 - learning/ · folder · 1 files
 - me/ · folder · 3 files
-- nomad/ · folder · empty
+- nomad/ · folder · 1 files
 - projects/ · folder · 25 files
 - recordings/ · folder · empty
 - reviews/ · folder · empty

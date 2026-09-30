@@ -6,17 +6,17 @@ Read this first on any new session. Then continue from "Next step."
 - **Job file:** `_queue/jobs/2026-09-30_build-sancho.md` (stage `scaffold` done in Cowork; `mac-side` is next). Project: `work/copper-leaf/projects/build-sancho/`.
 - **Last completed step (2026-09-30, Cowork):** **B0 scaffold.** Tree created per §3; `CLAUDE.md` (37 lines); templates T1–T8 in `_setup/templates/`; `_setup/sancho_lib.py`, `build-index.py`, `lint-layers.py`, `build-map.py`, `test-all.py`, `ping.sh`; `_setup/commands.md` (allowlist + registry); `FOCUS.md`; `personal/me/brief.md`, `watch.md`, `mantras.md`; business.md for six businesses + two brand files; seeds moved home (to-read ×2, goals ×7, work ICE ×7, personal ICE ×3, food and nomad projects); tests: 6 suites, all green; lint green; 66 generated files; `MAP.md` in three levels.
 - 2026-09-30 later: `alaska-2027/` moved to `personal/projects/alaska-2027/` with a project.md (Gordon's say); frontmatter added to its 24 docs. Claude Code CLI installed on the silver Mac (v2.1.285, ~/.local/bin); shell wake phrases `hey sancho` / `sancho work` / `sancho nerd` in ~/.zshrc; **the mac-side build session was started by Gordon in Claude Code on 2026-09-30.** If two sessions are open (this Cowork one and that Claude Code one), the Claude Code session owns `_setup/` and `_queue/` until MAC-SETUP.md is done; Cowork stays read-only on those.
-- **Next step:** **`mac-side` stage, in Claude Code on the Mac** (Cowork's shell can't do it). Instructions: `_setup/MAC-SETUP.md`. Then `pipeline` (port v3's code per §13.1; backward 7-day overlap; STATUS.md; Pushover). Then back in Cowork: the `open` skill, then `earballs-ingest`.
+- **2026-09-30 evening, Claude Code: `mac-side` done.** Watcher live under launchd (ping round-trip 9 s; `_queue/HEALTH.md` every tick); schedules enqueue (nightly 02:00 index+lint+map, tests 02:30); autocommit hourly, excludes oversize/binary to `_setup/GIT-EXCLUDED.md`, logs push failures (they had failed silently since 09-22; 5 commits pushed); secrets locked in `Sancho-Secrets/sancho.env.age`, unlock verified, v3 `.env` deleted from the Sync copy; `~/Sancho-Private` on GitHub (copperleaf/sancho-private) with its own hourly autocommit; `notify.py`, `mac.stay-awake`, `install-mac.sh`; 13 test suites green. Decisions logged 2026-09-30 (Mac-side build calls).
+- **Next step:** **`pipeline` stage, in Claude Code** (active). Then (port v3's code per §13.1; backward 7-day overlap; STATUS.md; Pushover). Then back in Cowork: the `open` skill, then `earballs-ingest`.
 - **Gordon:** traveling in Italy through Oct 6; the Mac closes often. For the mac-side stage he needs to be at the Mac once (passphrase, Pushover signup, GitHub repo for Sancho-Private).
 
 ## Open for Gordon
-- Pushover account (user key + app token) when convenient.
-- Empty private GitHub repo for `~/Sancho-Private/` (like the kit: SSH only).
+- Pushover user key + app token (then `notify.test` proves the phone channel).
 
 ## What exists
 - `_design/`: architecture (approved), decisions, postmortem, survey, migration-plan, routines-capture, rainbow-rig-shutdown, seeds (now moved; originals kept), reading copy + standalone, tree page.
 - Tree: see `MAP.md` Level 0/1; `INDEX.md` everywhere; `work/PROJECTS.md`, `personal/PROJECTS.md`; `work/ice/ICE.md`, `personal/ice/ICE.md`; `_setup/TESTS.md`, `_setup/LINT.md`.
-- Not yet: watcher, launchd schedules beyond the hourly autocommit, secrets, Sancho-Audio, Sancho-Private, pipeline, any skill.
+- Not yet: pipeline, any skill, `_setup/RECOVERY.md`.
 
 ## Standing notes
 - Do not mount v2 or v3 in build sessions. Dev kit at `~/Dev/clc-plugins`.
