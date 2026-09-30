@@ -12,6 +12,6 @@ rec_id: rec_8d15ed467e
 
 | cluster | talk time | candidate (machine) | confirmed | by | when | note |
 |---|---|---|---|---|---|---|
-| SPEAKER_00 | 00:02:04 | none |  |  |  | no voiceprint library yet |
-| SPEAKER_01 | 00:10:52 | none |  |  |  | no voiceprint library yet |
-| SPEAKER_02 | 00:06:56 | none |  |  |  | no voiceprint library yet |
+| SPEAKER_00 | 00:02:04 | none |  |  |  | candidate by Gordon's account: his mother, ordering lunch; not meeting content [gordon 2026-09-30]; speaker not yet confirmed |
+| SPEAKER_01 | 00:10:52 | none |  |  |  | candidate by content: gordon (walks through the system, AI, migration); some of Peter's turns merged in (diarization over-merge); not yet confirmed |
+| SPEAKER_02 | 00:06:56 | none |  |  |  | candidate by content: peter-seirup (asks for templates, settings); not yet confirmed |

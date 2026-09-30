@@ -1,7 +1,7 @@
 """
 name: test-pipeline
 type: script
-description: earballs.py end to end against fake Plaud, Groq and Pushover servers in a temp tree: fresh recording → transcript/speakers/meta in recordings/inbox; corrupt download retried not lost; demo filtered; old recording listed into its era; incremental list stops at the first known ID; Groq 429 is rate-limited not failed; Plaud 401 turns STATUS red and pushes; metered mode refuses backfill; backfill lands in recordings/backlog; library rebuild enrolls only human-confirmed rows; the solo rule machine-confirms but never human-confirms.
+description: earballs.py end to end against fake Plaud, Groq and Pushover servers in a temp tree: fresh recording → transcript/speakers/meta in recordings/inbox; corrupt download retried not lost; demo filtered; old recording listed into its era; incremental list stops at the first known ID; Groq 429 is rate-limited not failed; Plaud 401 turns STATUS red and pushes; metered mode refuses backfill; backfill lands in recordings/backlog; the ledger follows a filed folder; library rebuild enrolls only human-confirmed rows; the solo rule machine-confirms but never human-confirms.
 why: The pipeline runs unattended; a regression here means recordings silently stop arriving (must-never 10). Gap: §13.4's real-voice fixture clips (Gordon solo, two speakers) need recordings Gordon picks; diarization itself is not exercised here.
 reads: _setup/pipeline/earballs.py, _setup/notify.py, _setup/sancho_lib.py
 writes: temp files only
@@ -92,6 +92,11 @@ if not (T / "audio/processed" / f"{rid}.json").exists(): fail("word json missing
 st = (tree / "recordings/STATUS.md").read_text()
 if "waiting for ingest (recordings/inbox/): 1" not in st or "| era3 | listed | 1 |" not in st: fail("STATUS.md:\n" + st)
 if not list((T / "audio/ledger-backups").glob("ledger.*.sqlite")): fail("no ledger backup")
+
+# 1b. ingest moves the folder; the ledger follows it
+dest = tree / "work/acme/clients/x/transcripts" / f"2026-09-28_{rid}"; dest.parent.mkdir(parents=True); d.rename(dest)
+run("status")
+if rows()["p1"]["location"] != str(dest.relative_to(tree)): fail(f"ledger did not follow the move: {rows()['p1']['location']}")
 
 # 2. incremental: stops at the first known id, no duplicates, no new Groq calls
 g0 = S["groq_calls"]; run("sync")

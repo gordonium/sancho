@@ -19,6 +19,7 @@ Gordon Seirup. Lives full-time in an RV, nomadic across North America, following
 - One question at a time; options with a recommended pick; show the reasoning and let him shape it. Push back when he's wrong; say when something is overbuilt.
 - He dictates: watch for homophones (Plaud, Wrike, Wizard of Ads, Eti); ask when a misread changes the meaning.
 - Recognition is strong, recall is weak: surface things and let him verify. Plain language; define jargon; conclusion first; no time estimates.
+- Speaker identification: always show him transcript chunks, in larger passages with context, never one-liners; he can't identify a voice from a label. [gordon 2026-09-30]
 - Tasks live in Wrike (work) and Google Tasks (personal); he creates them. Sancho notices and hands off.
 - GTD for effectiveness: focus is 3 per lobe per horizon; projects unlimited; every project has a next action.
 

@@ -984,8 +984,22 @@ def backup(c):
     meta_set(c, "last_backup", now_utc())
 
 
+def reconcile_locations(c):
+    """Ingest moves a recording's folder out of recordings/inbox/ (§3.5). Follow it so the ledger always knows where each rec_id lives."""
+    for r in c.execute("SELECT id, location FROM recordings WHERE status=? AND location IS NOT NULL", (ST_READY,)).fetchall():
+        if (ROOT / r["location"]).is_dir():
+            continue
+        hits = [p for p in ROOT.rglob(f"*{r['id']}") if p.is_dir() and ".git" not in p.parts and "_quarantine" not in p.parts]
+        if len(hits) == 1:
+            upd(c, r["id"], location=str(hits[0].relative_to(ROOT)))
+            audit(c, "locate", r["id"], "moved", f"{r['location']} → {hits[0].relative_to(ROOT)}")
+        else:
+            audit(c, "locate", r["id"], "not_found" if not hits else "ambiguous", ", ".join(str(h) for h in hits)[:500])
+
+
 def write_status(c):
-    """name: status · reads: the ledger, recordings/inbox/ · writes: recordings/STATUS.md (generated; the greeting's pipeline line)."""
+    """name: status · reads: the ledger, recordings/inbox/ · writes: recordings/STATUS.md (generated; the greeting's pipeline line); ledger locations of filed recordings."""
+    reconcile_locations(c)
     probs = problems(c)
     level = "RED" if any(p[0] == "critical" for p in probs) else "AMBER" if probs else "GREEN"
     counts = {r[0]: r[1] for r in c.execute("SELECT status, COUNT(*) FROM recordings WHERE era='fresh' GROUP BY status")}

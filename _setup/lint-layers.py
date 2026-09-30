@@ -44,7 +44,7 @@ def check_claude_md():
     if n > CLAUDE_MAX_LINES:
         problem(f"CLAUDE.md is {n} lines (cap {CLAUDE_MAX_LINES}); move procedure to a skill or facts to data")
     people = {f.stem for f in (ROOT / "people").glob("*.md") if not is_generated(f)}
-    for slug in people:
+    for slug in people - {"gordon"}:  # the principal is named in the kernel by design
         name = slug.replace("-", " ")
         if len(name) > 5 and re.search(r"\b" + re.escape(name) + r"\b", text, re.I):
             problem(f"CLAUDE.md names a person from people/ ({slug}); names belong in personal/me/brief.md")
