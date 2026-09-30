@@ -109,7 +109,7 @@ def main() -> int:
         with transcript.open("w") as out:
             p = subprocess.Popen(build_argv(PREAMBLE.format(rid=rid, by=by, task=task)), cwd=ROOT, stdout=out,
                                  stderr=subprocess.STDOUT, start_new_session=True,
-                                 env={**os.environ, "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"})
+                                 env={**os.environ, "SANCHO_IN_NERD": rid, "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"})
             try:
                 rc = p.wait(timeout=timeout)
                 status = "ok" if rc == 0 else f"failed (exit {rc})"

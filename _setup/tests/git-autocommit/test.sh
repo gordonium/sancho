@@ -7,7 +7,7 @@
 # writes: a temp repo only
 # test: (this is the test)
 set -u; HERE="$(cd "$(dirname "$0")" && pwd)"; SCRIPT="$HERE/../../git-autocommit.sh"
-T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
+T=$(mktemp -d) && [ -d "$T" ] || { echo "test-git-autocommit: FAIL: no temp dir"; exit 1; }; trap 'rm -rf "$T"' EXIT
 fail() { echo "test-git-autocommit: FAIL: $*"; exit 1; }
 cd "$T" && git init -q && git config user.email t@t && git config user.name t && mkdir -p _setup _queue/leases
 echo seed > seed.md && git add -A && git commit -qm seed

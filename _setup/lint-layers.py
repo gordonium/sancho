@@ -195,11 +195,16 @@ def check_secrets():
     import os
     plain = Path(os.environ.get("SANCHO_SECRETS_PLAIN", Path.home() / ".config/sancho/env"))
     enc = Path(os.environ.get("SANCHO_SECRETS_AGE", Path.home() / "Sync/Sancho-Secrets/sancho.env.age"))
-    if not plain.exists():
+    try:
+        if not plain.exists():
+            return
+        plain_m = plain.stat().st_mtime
+    except PermissionError:  # a sandboxed session (nerd.run) can't see the secrets; that's by design, not a lint failure
+        warn("secrets check skipped: this process can't see ~/.config/sancho (sandboxed)")
         return
     if not enc.exists():
         problem(f"secrets plaintext {plain} exists but {enc} does not; run sancho.lock-secrets")
-    elif plain.stat().st_mtime > enc.stat().st_mtime + 1:
+    elif plain_m > enc.stat().st_mtime + 1:
         problem(f"secrets plaintext {plain} is newer than {enc.name}; run sancho.lock-secrets in Terminal")
 
 
@@ -257,6 +262,16 @@ def check_errors_have_mechanisms():
                 problem(f"_setup/ERRORS.md '{head[:50]}': test path {m.group(1)} does not exist")
 
 
+def check_test_tempdirs():
+    """A test whose temp dir silently fails to appear runs against the real tree (ERRORS.md #6). Every
+    `X=$(mktemp -d)` in a shell test must be guarded on the same line by `[ -d "$X" ] || … exit`."""
+    for t in sorted((ROOT / "_setup" / "tests").glob("*/test.sh")):
+        for n, ln in enumerate(t.read_text(errors="replace").splitlines(), 1):
+            for var in re.findall(r"\b(\w+)=\$\(mktemp -d\)", ln):
+                if f'[ -d "${var}" ]' not in ln or "exit" not in ln:
+                    problem(f"{rel(t)}:{n}: `{var}=$(mktemp -d)` without a same-line `[ -d \"${var}\" ] || … exit` guard")
+
+
 def main():
     check_claude_md()
     check_capped(ROOT / "personal" / "me" / "brief.md", BRIEF_MAX)
@@ -269,6 +284,7 @@ def main():
     check_stated_not_inferred()
     check_errors_have_mechanisms()
     check_secrets()
+    check_test_tempdirs()
     out = [f"# LINT\ngenerated {today()} by lint-layers.py\n", f"**{len(problems)} problems, {len(warnings)} warnings**\n"]
     out += ["## Problems (block the build)"] + [f"- {p}" for p in problems] + ["", "## Warnings"] + [f"- {w}" for w in warnings]
     if not __import__("os").environ.get("SANCHO_LINT_NO_WRITE"):  # the watcher lints every tick without churning LINT.md

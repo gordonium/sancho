@@ -7,7 +7,7 @@
 # writes: temp files only
 # test: (this is the test)
 set -u; HERE="$(cd "$(dirname "$0")" && pwd)"; SRC="$(cd "$HERE/../.." && pwd)"
-T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
+T=$(mktemp -d) && [ -d "$T" ] || { echo "test-nightly: FAIL: no temp dir"; exit 1; }; trap 'rm -rf "$T"' EXIT
 fail() { echo "test-nightly: FAIL: $*"; exit 1; }
 mkdir -p "$T/_setup"; cp "$SRC/nightly.sh" "$T/_setup/"
 printf 'open("%s/order","a").write("index\\n")\n' "$T" > "$T/_setup/build-index.py"

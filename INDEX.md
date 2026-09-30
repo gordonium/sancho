@@ -7,4 +7,4 @@ generated 2026-09-30 by build-index.py · 7 entries
 - personal/ · folder · 34 files
 - recordings/ · folder · 58 files
 - skills/ · folder · 2 files
-- work/ · folder · 28 files
+- work/ · folder · 29 files

@@ -7,4 +7,4 @@ generated 2026-09-30 by build-index.py · 7 entries
 - docs/ · folder · empty
 - goals.md · doc · active · 2026-09-30 · One-to-two-year goals for copper-leaf; empty until the first quarterly review
 - plugins/ · folder · empty
-- projects/ · folder · 2 files
+- projects/ · folder · 3 files

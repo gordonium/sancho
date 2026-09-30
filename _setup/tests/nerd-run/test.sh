@@ -7,7 +7,7 @@
 # writes: temp files only
 # test: (this is the test)
 set -u; HERE="$(cd "$(dirname "$0")" && pwd)"; SRC="$(cd "$HERE/../.." && pwd)"
-T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
+T=$(mktemp -d) && [ -d "$T" ] || { echo "test-nerd-run: FAIL: no temp dir"; exit 1; }; trap 'rm -rf "$T"' EXIT
 fail() { echo "test-nerd-run: FAIL: $*"; exit 1; }
 mkdir -p "$T/tree/_setup" "$T/tree/_queue" "$T/state"; touch "$T/tree/CLAUDE.md"
 cp "$SRC/nerd-run.py" "$SRC/sancho_lib.py" "$SRC/nerd-settings.json" "$T/tree/_setup/"
@@ -15,12 +15,13 @@ cat > "$T/claude" <<'PY'
 #!/usr/bin/env python3
 import sys, json, os, time
 open(os.environ["FAKE_ARGV"], "w").write(json.dumps(sys.argv[1:]))
+open(os.environ["FAKE_ENV"], "w").write(os.environ.get("SANCHO_IN_NERD", ""))
 open(os.environ["FAKE_LEASES"], "w").write(" ".join(os.listdir(os.path.join(os.getcwd(), "_queue/leases"))))
 if os.environ.get("FAKE_HANG"): time.sleep(60)
 print(json.dumps({"type": "result", "subtype": "success", "is_error": False, "result": "did the thing\nReceipt: _setup/x.md"}))
 PY
 chmod +x "$T/claude"
-export SANCHO_ROOT="$T/tree" SANCHO_STATE="$T/state" SANCHO_CLAUDE_BIN="$T/claude" SANCHO_KIT="$T/kit" FAKE_ARGV="$T/argv.json" FAKE_LEASES="$T/leases.txt"
+export SANCHO_ROOT="$T/tree" SANCHO_STATE="$T/state" SANCHO_CLAUDE_BIN="$T/claude" SANCHO_KIT="$T/kit" FAKE_ARGV="$T/argv.json" FAKE_LEASES="$T/leases.txt" FAKE_ENV="$T/innerd.txt"
 R="$T/tree/_queue/req.md"; printf -- '---\ncommand: nerd.run\ntask: rebuild the widget index\nrequested_by: cowork\n---\n' > "$R"
 out=$(SANCHO_REQUEST_FILE="$R" SANCHO_REQUEST_ID=r1 python3 "$T/tree/_setup/nerd-run.py") || fail "run failed: $out"
 echo "$out" | grep -q "nerd-run: ok" && echo "$out" | grep -q "Receipt: _setup/x.md" || fail "no ok/receipt: $out"
@@ -44,6 +45,7 @@ need(sb.get("enabled") is True, "sandbox not enabled in nerd-settings.json")
 need(sb.get("allowUnsandboxedCommands") is False, "unsandboxed escape hatch not closed")
 PY
 grep -q "nerd-r1.md" "$T/leases.txt" || fail "no lease during the run"
+[ "$(cat "$T/innerd.txt")" = "r1" ] || fail "session not marked SANCHO_IN_NERD"
 [ -z "$(ls "$T/tree/_queue/leases")" ] || fail "lease left behind"
 [ -s "$T/tree/_queue/results/r1.transcript.jsonl" ] || fail "transcript not kept"
 # timeout kills a hung session

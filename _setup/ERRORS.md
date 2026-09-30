@@ -38,3 +38,15 @@ Rule: when Sancho gets something wrong, the response is a mechanism, not an apol
 - why it got through: the test injected a fake fingerprint and never exercised the real lookup under launchd's environment.
 - mechanism: absolute paths (`/sbin/route`, `/usr/sbin/arp`); the netstate suite runs the real lookup with launchd's PATH and fails if it reads offline while the Mac has a default route.
 - test: _setup/tests/netstate/
+
+## 5 · 2026-09-30 · Lint crashed inside the Nerd sandbox
+- what: the first live `job.run` smoke test failed twice: `lint-layers.py::check_secrets` stat'ed `~/.config/sancho/env`, which the nerd.run sandbox hides by design, and died with PermissionError. Any unattended session told to lint would have been blocked.
+- why it got through: the lint was only ever run by processes that can see the secrets.
+- mechanism: `check_secrets` treats PermissionError as "can't check here" (a warning, not a crash or a problem); the secrets suite runs the lint against an unreadable secrets folder.
+- test: _setup/tests/secrets/
+
+## 6 · 2026-09-30 · A test ran against the real tree, and a stage graded itself done
+- what: in the second live `job.run` smoke test, the Nerd ran `test-all` inside its sandbox, where `mktemp` failed; `git-autocommit`'s test then ran with an empty temp path and `SANCHO_WORKTREE=""` (which falls back to the real tree), wrote `big.md`, `blob.dat`, `note.md`, `seed.md` and a fake lease into the real tree and tried to commit (stopped only by the sandbox denying `~/.sancho.git`). The retry session then declared `Stage: done` with 14 of 19 suites red. Debris removed; git config and history untouched.
+- why it got through: tests assumed `mktemp -d` cannot fail; job.run trusted the session's own verdict.
+- mechanism: (1) every `X=$(mktemp -d)` in a shell test is guarded on the same line (`[ -d "$X" ] || … exit`), enforced by `lint-layers.py::check_test_tempdirs`; (2) the Nerd sandbox may write the system temp folders; (3) `job.run` runs `test-all.py` itself, outside the sandbox, after any stage a session calls done, and a red board means not done.
+- test: _setup/tests/lint-layers/ (fixture `_setup/tests/unguarded/test.sh` must be caught); _setup/tests/job-run/ (a `Stage: done` with a red board must fail the stage)

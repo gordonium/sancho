@@ -29,3 +29,4 @@ The watcher runs only what is listed here. Adding a command = one row here + one
 | net.status | _setup/netstate.py | 20 | every watcher tick (in-process) | which network, metered or not (router fingerprint vs _setup/metered-networks.md) |
 | net.mark | _setup/netstate.py | 20 | | args [mark, <label>, metered or unmetered]: record the network the Mac is on now |
 | nerd.run | _setup/nerd-run.py | 1900 | | headless Claude Code (the Nerd) for the task in the request (`task:`, `task_file:`, or body); allowlisted tools, OS sandbox, no MCP, no push/commit/web; one at a time; transcript in _queue/results/ |
+| job.run | _setup/job-run.py | 60 | | args [<job name or file>]: walk a job file stage by stage via nerd.run (detached; progress in the job file); stops at a human gate or after two failures of a stage, with one push |

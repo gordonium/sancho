@@ -7,7 +7,7 @@
 # writes: temp files only
 # test: (this is the test)
 set -u; HERE="$(cd "$(dirname "$0")" && pwd)"; SRC="$(cd "$HERE/../.." && pwd)"
-T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
+T=$(mktemp -d) && [ -d "$T" ] || { echo "test-netstate: FAIL: no temp dir"; exit 1; }; trap 'rm -rf "$T"' EXIT
 fail() { echo "test-netstate: FAIL: $*"; exit 1; }
 mkdir -p "$T/tree/_setup" "$T/tree/_queue/requests" "$T/state"; touch "$T/tree/CLAUDE.md"
 cp "$SRC/netstate.py" "$SRC/sancho_lib.py" "$SRC/sancho-watcher.py" "$SRC/sancho-enqueue.py" "$SRC/ping.sh" "$T/tree/_setup/"

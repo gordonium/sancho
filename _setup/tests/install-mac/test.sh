@@ -8,7 +8,7 @@
 # requires: mac
 # test: (this is the test)
 set -u; HERE="$(cd "$(dirname "$0")" && pwd)"; SRC="$(cd "$HERE/../.." && pwd)"
-T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
+T=$(mktemp -d) && [ -d "$T" ] || { echo "test-install-mac: FAIL: no temp dir"; exit 1; }; trap 'rm -rf "$T"' EXIT
 fail() { echo "test-install-mac: FAIL: $*"; exit 1; }
 printf '#!/usr/bin/env bash\necho "$@" >> %s/calls\n' "$T" > "$T/lc"; chmod +x "$T/lc"
 SANCHO_LAUNCH_AGENTS="$T/la" SANCHO_LAUNCHCTL="$T/lc" bash "$SRC/install-mac.sh" >/dev/null || fail "install failed"

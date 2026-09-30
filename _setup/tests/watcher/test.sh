@@ -7,7 +7,7 @@
 # writes: temp files only
 # test: (this is the test)
 set -u; HERE="$(cd "$(dirname "$0")" && pwd)"; SRC="$(cd "$HERE/../.." && pwd)"
-T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
+T=$(mktemp -d) && [ -d "$T" ] || { echo "test-watcher: FAIL: no temp dir"; exit 1; }; trap 'rm -rf "$T"' EXIT
 fail() { echo "test-watcher: FAIL: $*"; exit 1; }
 mkdir -p "$T/tree/_setup" "$T/tree/_queue/requests" "$T/tree/_queue/leases" "$T/state"
 touch "$T/tree/CLAUDE.md"

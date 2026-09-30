@@ -134,6 +134,8 @@ flowchart LR
 - _setup/install-mac.sh
 - _setup/lint-layers.py
 - _setup/metered-networks.md
+- _setup/nerd-run.py
+- _setup/nerd-settings.json
 - _setup/netstate.py
 - _setup/nightly.sh
 - _setup/notify-test.sh
@@ -149,9 +151,7 @@ flowchart LR
 - _setup/sancho-lock-secrets.sh
 - _setup/sancho-unlock.sh
 - _setup/sancho-watcher.py
-- _setup/sancho_lib.py
-- _setup/stay-awake.sh
-- … +330 more
+- … +339 more
 
 ## Level 2 · wiring
 
@@ -186,6 +186,7 @@ flowchart LR
 | net.status | _setup/netstate.py | 20 | every watcher tick (in-process) | which network, metered or not (router fingerprint vs _setup/metered-networks.md) |
 | net.mark | _setup/netstate.py | 20 | | args [mark, <label>, metered or unmetered]: record the network the Mac is on now |
 | nerd.run | _setup/nerd-run.py | 1900 | | headless Claude Code (the Nerd) for the task in the request (`task:`, `task_file:`, or body); allowlisted tools, OS sandbox, no MCP, no push/commit/web; one at a time; transcript in _queue/results/ |
+| job.run | _setup/job-run.py | 60 | | args [<job name or file>]: walk a job file stage by stage via nerd.run (detached; progress in the job file); stops at a human gate or after two failures of a stage, with one push |
 
 </details>
 
@@ -198,9 +199,10 @@ flowchart LR
 - `_setup/pipeline/earballs.py` · The recording pipeline. Plaud fetch (incremental every 5 min, full reconcile daily) → download → Groq transcription → pyannote diarization + embeddings → voiceprint match → transcript.md / speakers.md / meta.md in recordings/inbox/ → recordings/STATUS.md → watchdog push. Also backfill, reprocess, library rebuild.
 - `_setup/build-index.py` · Regenerate every INDEX.md in the tree (one line per child from frontmatter), each lobe's PROJECTS.md, the ICE views, the people index with completeness, and the skill index. Never hand-edited outputs.
 - `_setup/build-map.py` · Regenerate MAP.md, the living map, in three zoom levels: Level 0 the system (one Mermaid diagram, ≤8 boxes), Level 1 components per box, Level 2 wiring tables (reads/writes/triggers/tests/commands/retired). Built only from frontmatter, commands.md and git; no hand-kept registry. Fails if a component has no parsable header or a reads/writes/chain target does not exist.
+- `_setup/job-run.py` · Walk a job file (_queue/jobs/*.md) stage by stage, running each stage as a nerd.run session, advancing `current` on success, stopping at any `gate: human` stage; a failed stage is retried once, then the job stops. Pushes are info (silent): the greeting reports job state; warn is only for timely attention (Gordon, 2026-09-30). Detaches at once so the watcher stays free; progress lives in the job file.
 - `_setup/lint-layers.py` · Enforce the layering rule (architecture §2), the focus caps, the header rule, generated-file integrity, project next-action and waiting-for freshness, and dangling references. Exit 1 on any violation so the map build fails.
 - `_setup/nerd-run.py` · Run one headless Claude Code session (the Nerd) on the Mac for a task given in the request (frontmatter `task:`, `task_file:` inside the tree, or the request body). Fixed tool allowlist, OS sandbox (writes only in the tree and the kit; network only GitHub and Anthropic), no MCP connectors, no outbound messaging, timeout, lease while running, transcript kept, one-line receipt.
-- `_setup/notify.py` · Send one Pushover message to Gordon. Level sets priority (info -1, warn 0, alert 1). Info arrives silent and in-app only, so nothing Gordon needs to know uses it (2026-09-30). Deduped per key: sends when the message for a key changes, otherwise at most once a day.
+- `_setup/notify.py` · Send one Pushover message to Gordon. Level sets priority (info -1, warn 0, alert 1). Rule (Gordon, 2026-09-30): "Warn means WARN": warn makes his phone sound and is only for things needing his attention soon (today: the pipeline red, i.e. recordings not flowing). Everything else is info (silent, in-app) or nothing; no chatter. Deduped per key: sends when the message for a key changes, otherwise at most once a day.
 - `_setup/test-all.py` · Run every test under _setup/tests/*/ (test.sh or test.py), write _setup/TESTS.md (the test board), exit 1 if any fails. Off the Mac, suites whose header says `requires: mac` are skipped and the board is not written (ERRORS.md
 
 </details>
@@ -221,7 +223,7 @@ generated 2026-09-30 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-09-30 22:55 by test-all.py · 16 suites · 0 failing
+generated 2026-09-30 23:56 by test-all.py · 19 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -229,7 +231,9 @@ generated 2026-09-30 22:55 by test-all.py · 16 suites · 0 failing
 | build-map | PASS | test-build-map: PASS |
 | git-autocommit | PASS | test-git-autocommit: PASS |
 | install-mac | PASS | test-install-mac: PASS |
+| job-run | PASS | test-job-run: PASS |
 | lint-layers | PASS | test-lint-layers: PASS |
+| nerd-run | PASS | test-nerd-run: PASS |
 | netstate | PASS | test-netstate: PASS |
 | nightly | PASS | test-nightly: PASS |
 | notify | PASS | test-notify: PASS |
@@ -240,6 +244,7 @@ generated 2026-09-30 22:55 by test-all.py · 16 suites · 0 failing
 | stay-awake | PASS | test-stay-awake: PASS |
 | test-all | PASS | test-test-all: PASS |
 | watcher | PASS | test-watcher: PASS |
+| skill:checkback | PASS | test-skill-checkback: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:open | PASS | test-skill-open: PASS (structural; behavioral scenario runs on the Mac) |
 
 </details>

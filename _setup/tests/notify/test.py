@@ -1,7 +1,7 @@
 """
 name: test-notify
 type: script
-description: notify.py against a local fake Pushover endpoint: sends with the right fields and priority, skips a repeat within a day, sends again when the message for the key changes, fails cleanly without keys; no caller sends at info.
+description: notify.py against a local fake Pushover endpoint: sends with the right fields and priority, skips a repeat within a day, sends again when the message for the key changes, fails cleanly without keys; only the pipeline's red watchdog sends warn; everything else is info.
 why: A phone channel that silently stops sending is worse than none.
 reads: _setup/notify.py
 writes: temp state only
@@ -37,11 +37,14 @@ run("info", "pipeline recovered", "--key=pipe")
 if len(got) != 4: fail("not re-sent after a day")
 r = run("warn", "no keys", e={k: v for k, v in env.items() if not k.startswith("PUSHOVER")})
 if r.returncode != 1 or len(got) != 4: fail("sent or succeeded without keys")
-# nothing Gordon needs to see goes at info (silent, in-app only on his phone; decided 2026-09-30)
+# "Warn means WARN" (Gordon, 2026-09-30): the only warn sender is the pipeline watchdog's red state; every other push is info
 import re
 SETUP = NOTIFY.parent
+senders = {}
 for f in list(SETUP.glob("*.py")) + list(SETUP.glob("*.sh")) + list(SETUP.glob("pipeline/*.py")):
-    if f.name == "notify.py": continue
-    txt = f.read_text()
-    if "notify" in txt and re.search(r"""notify[^\n]{0,80}["']info["']|level = "info"|:-info}""", txt): fail(f"{f.name} sends a push at info level")
+    if f.name in ("notify.py", "notify-test.sh"): continue
+    for m in re.finditer(r"""(?:push\(|notify\)?,\s*|level = )["'](warn|alert)["']""", f.read_text()):
+        senders.setdefault(f.name, []).append(m.group(1))
+if set(senders) - {"earballs.py"}: fail(f"warn/alert sent outside the pipeline watchdog: {senders}")
+if senders.get("earballs.py", []) != ["warn"]: fail(f"earballs should have exactly one warn (the red watchdog): {senders.get('earballs.py')}")
 print("test-notify: PASS")

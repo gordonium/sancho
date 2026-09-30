@@ -972,7 +972,7 @@ def watchdog(c):
         meta_set(c, "watchdog_state", "red")
     else:
         if was == "red":
-            subprocess.run(["python3", str(notify), "warn", "Pipeline back to green.", "--key=pipeline"], env=env, capture_output=True, timeout=30)
+            subprocess.run(["python3", str(notify), "info", "Pipeline back to green.", "--key=pipeline"], env=env, capture_output=True, timeout=30)
         meta_set(c, "watchdog_state", "amber" if probs else "green")
 
 

@@ -88,3 +88,4 @@ _queue/HEALTH.md
 _queue/.HEALTH.md.tmp
 __pycache__/
 *.pyc
+_queue/deferred/

@@ -8,7 +8,7 @@
 # requires: mac
 # test: (this is the test)
 set -u; HERE="$(cd "$(dirname "$0")" && pwd)"; SRC="$(cd "$HERE/../.." && pwd)"
-T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
+T=$(mktemp -d) && [ -d "$T" ] || { echo "test-stay-awake: FAIL: no temp dir"; exit 1; }; trap 'rm -rf "$T"' EXIT
 fail() { echo "test-stay-awake: FAIL: $*"; exit 1; }
 printf '#!/usr/bin/env bash\necho "$@" >> %s/calls\n' "$T" > "$T/lc"; chmod +x "$T/lc"
 export SANCHO_LAUNCH_AGENTS="$T/la" SANCHO_STATE="$T/st" SANCHO_LAUNCHCTL="$T/lc"

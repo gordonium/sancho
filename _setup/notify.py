@@ -2,7 +2,7 @@
 """
 name: notify
 type: command
-description: Send one Pushover message to Gordon. Level sets priority (info -1, warn 0, alert 1). Info arrives silent and in-app only, so nothing Gordon needs to know uses it (2026-09-30). Deduped per key: sends when the message for a key changes, otherwise at most once a day.
+description: Send one Pushover message to Gordon. Level sets priority (info -1, warn 0, alert 1). Rule (Gordon, 2026-09-30): "Warn means WARN": warn makes his phone sound and is only for things needing his attention soon (today: the pipeline red, i.e. recordings not flowing). Everything else is info (silent, in-app) or nothing; no chatter. Deduped per key: sends when the message for a key changes, otherwise at most once a day.
 why: Must-never 10: the pipeline never falls behind silently. The phone channel is Pushover (architecture §13.6, P-1); dedupe keeps it from becoming noise he learns to ignore.
 reads: PUSHOVER_USER, PUSHOVER_TOKEN from the env (~/.config/sancho/env via the watcher); SANCHO_PUSHOVER_URL (tests only)
 writes: one HTTPS POST; ~/.local/state/sancho/notify.json (dedupe state)

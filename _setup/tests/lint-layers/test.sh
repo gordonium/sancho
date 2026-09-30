@@ -9,7 +9,7 @@
 set -u
 HERE="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
-FIX=$(mktemp -d); cp -R "$HERE/fixture/." "$FIX/"; find "$FIX" -name INDEX.md -delete; rm -f "$FIX/_setup/index-manifest.json"
+FIX=$(mktemp -d) && [ -d "$FIX" ] || { echo "test-lint-layers: FAIL: no temp dir"; exit 1; }; cp -R "$HERE/fixture/." "$FIX/"; find "$FIX" -name INDEX.md -delete; rm -f "$FIX/_setup/index-manifest.json"
 out=$(SANCHO_ROOT="$FIX" python3 "$ROOT/lint-layers.py" 2>&1 || true)
 fail=0
 expect(){ if echo "$out" | grep -q -- "$1"; then echo "ok   caught: $1"; else echo "MISS not caught: $1"; fail=1; fi; }
@@ -22,6 +22,7 @@ expect "external guidance file"
 expect "FOCUS.md today work: 4 items"
 expect "idea without next_review"
 expect "sync conflict copy"
+expect "without a same-line"       # unguarded mktemp in a test (ERRORS.md #6)
 expect "inferred.md:7: \`timezone\` cites \[gordon\] without his words"
 expect "inferred.md:8: inference words"
 if echo "$out" | grep -q "good.md"; then echo "FAIL good file flagged"; fail=1; else echo "ok   good file passed"; fi

@@ -6,7 +6,10 @@
   "filesystem": {
    "allowWrite": [
     "/Users/gordonium/Sync/Sancho/**",
-    "/Users/gordonium/Dev/clc-plugins/**"
+    "/Users/gordonium/Dev/clc-plugins/**",
+    "/private/var/folders/**",
+    "/private/tmp/**",
+    "/tmp/**"
    ],
    "denyRead": [
     "/Users/gordonium/.ssh/**",
@@ -17,7 +20,9 @@
   },
   "network": {
    "allowedDomains": [
-    "github.com"
+    "github.com",
+    "localhost",
+    "127.0.0.1"
    ]
   }
  },

@@ -13,6 +13,7 @@ import os, re, subprocess, sys, datetime
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 ON_MAC = os.environ.get("SANCHO_PLATFORM", sys.platform) == "darwin"
+IN_NERD = os.environ.get("SANCHO_IN_NERD")  # a sandboxed nerd.run session: its board is not the real one (localhost blocked)
 rows, failed, skipped = [], 0, 0
 suites = [d for d in sorted((ROOT / "tests").iterdir()) if d.is_dir() and d.name != "skills"]
 suites += [d for d in sorted((ROOT / "tests" / "skills").glob("*")) if d.is_dir()] if (ROOT / "tests" / "skills").exists() else []
@@ -29,8 +30,9 @@ for d in suites:
     last = (r.stdout.strip().splitlines() or [""])[-1][:120]
     rows.append(f"| {('skill:' if d.parent.name == 'skills' else '') + d.name} | {'PASS' if ok else 'FAIL'} | {last} |")
 stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-if not ON_MAC:
-    print("\n".join(rows)); print(f"test-all: {len(rows)} suites, {failed} failing, {skipped} skipped; not the Mac, board not written")
+if not ON_MAC or IN_NERD:
+    where = "inside a nerd.run sandbox" if IN_NERD else "not the Mac"
+    print("\n".join(rows)); print(f"test-all: {len(rows)} suites, {failed} failing, {skipped} skipped; {where}, board not written")
     sys.exit(1 if failed else 0)
 (ROOT / "TESTS.md").write_text(f"# TESTS\ngenerated {stamp} by test-all.py · {len(rows)} suites · {failed} failing\n\n| suite | result | last line |\n|---|---|---|\n" + "\n".join(rows) + "\n", encoding="utf-8")
 print("\n".join(rows)); print(f"test-all: {len(rows)} suites, {failed} failing")
