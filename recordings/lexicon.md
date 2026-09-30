@@ -1,0 +1,24 @@
+---
+name: Transcription lexicon
+type: data
+description: Spelling hints fed to Whisper on every transcription and used when reading Gordon's dictation; recurring corrections only, never one-offs
+lobe: both
+---
+# Lexicon
+
+Fed to Groq as the Whisper `prompt` (about 224 tokens; the pipeline truncates from the bottom, so keep the most-misheard terms at the top). Also the list Sancho reads against when Gordon dictates. Add a term only when it has been misheard more than once or is a name that will recur. One-off oddities belong in the recording's `corrections.md`.
+
+## Terms (misheard form → correct form, when known)
+- Wrike (Reich, Rike, Wright)
+- Plaud (Blumbo, plod, plaud)
+- Wizard of Ads (Wizard of Oz)
+- Eti (Eddie) · Etieno Essien
+- Sancho
+- Copper Leaf Creative
+- Home Directions · Peter Seirup, P.E.
+- Loveland, Colorado
+- SiteDistrict
+- Groq · pyannote · WordPress · ACF
+- RNA · Robert Nathan Allen
+- Grayson Erhard
+- Leah
