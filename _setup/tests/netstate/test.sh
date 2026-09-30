@@ -41,4 +41,9 @@ grep -q "METERED: heavy commands deferred (1 waiting)" "$T/tree/_queue/HEALTH.md
 export SANCHO_NET_FINGERPRINT=aa:bb:cc:dd:ee:01
 python3 "$T/tree/_setup/sancho-watcher.py" >/dev/null 2>&1
 grep -q "status: ok" "$T"/tree/_queue/results/*_big_*.md || fail "deferred request not run on unmetered network"
+# the real fingerprint must work under launchd's PATH (route/arp live in /sbin, /usr/sbin; found 2026-09-30)
+if [ "$(uname)" = "Darwin" ] && /sbin/route -n get default >/dev/null 2>&1; then
+  o=$(env -u SANCHO_NET_FINGERPRINT PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin python3 "$N")
+  echo "$o" | grep -q "offline" && fail "fingerprint reads offline under launchd's PATH: $o"
+fi
 echo "test-netstate: PASS"

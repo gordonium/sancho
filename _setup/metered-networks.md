@@ -15,3 +15,4 @@ To add the network the Mac is on now: say "this network is the hotel / my phone"
 
 | router | label | treat as | added |
 |---|---|---|---|
+| 66:de:f3:0c:e8:4e | phone-hotspot | metered | 2026-09-30 |

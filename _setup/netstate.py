@@ -26,12 +26,12 @@ def fingerprint() -> tuple[str, str]:
     if fake is not None:
         return fake, "test"
     try:
-        r = subprocess.run(["route", "-n", "get", "default"], capture_output=True, text=True, timeout=5).stdout
+        r = subprocess.run(["/sbin/route", "-n", "get", "default"], capture_output=True, text=True, timeout=5).stdout
         gw = re.search(r"gateway:\s*(\S+)", r)
         iface = re.search(r"interface:\s*(\S+)", r)
         if not gw:
             return "", ""
-        a = subprocess.run(["arp", "-n", gw.group(1)], capture_output=True, text=True, timeout=5).stdout
+        a = subprocess.run(["/usr/sbin/arp", "-n", gw.group(1)], capture_output=True, text=True, timeout=5).stdout
         mac = re.search(r" at ([0-9a-f:]+) ", a)
         norm = ":".join(f"{int(x, 16):02x}" for x in mac.group(1).split(":")) if mac else f"gw-{gw.group(1)}"
         return norm, iface.group(1) if iface else ""

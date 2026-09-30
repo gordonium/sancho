@@ -26,3 +26,15 @@ Rule: when Sancho gets something wrong, the response is a mechanism, not an apol
 - why it got through: the pmset parser counted `Wake Requests` lines (macOS scheduling its next wake) as wakes, so every maintenance cycle looked like a real wake and the "last sleep" was the last maintenance re-sleep. No test used a real pmset log.
 - mechanism: `sancho-watcher.py::parse_sleep` counts a full wake only on a `Wake from …` line (not `Wake Requests`, not `DarkWake`) and reports the window from the first Sleep after the previous full wake to the last full wake, with the maintenance-wake count; HEALTH.md also shows watcher ticks per hour for the last 12 h, an awake witness that doesn't depend on pmset.
 - test: _setup/tests/watcher/ (the captured `pmset-darkwake.txt` must yield 19:35:36 → 21:29:35 with 6 maintenance wakes; HEALTH.md must carry the ticks-per-hour line)
+
+## 4 · 2026-09-30 · Whole-file rewrite dropped another writer's lines
+- what: Cowork rewrote `personal/nomad/location.md` with a full Write (to correct the Europe/Rome inference) and, in doing so, dropped two lines the Nerd had added from Gordon's own words (Tropea; back October 7). The Nerd restored them.
+- why it got through: the Write tool replaces the whole file; nothing compared the new content to what was there; two sessions on one file with no lease.
+- mechanism: (a) Cowork rule, mechanical where possible: never whole-file Write an existing data file; use Edit (which requires a fresh read) or append. (b) Lint check `check_no_silent_removal` (owner: the Nerd, lint runs on the Mac with git): for every data file, compare the working tree with HEAD; any removed line that carried a cite (`[gordon …]`, `[rec_…]`, `[confirmed …]`) without a `[superseded …]` marker in the new content is a problem. This is must-never #6 (no silent overwrite) getting its first real check.
+- test: _setup/tests/lint-layers/ (fixture: a committed file with a cited line, a working copy that drops it → caught; a copy that strikes it through with `[superseded]` → passes)
+
+## 4 · 2026-09-30 · Network check blind under launchd
+- what: `netstate.py` called `route` and `arp` by name; under the watcher (launchd PATH has no `/sbin`, `/usr/sbin`) it read every network as "offline, unmetered", so `[heavy]` commands would have run on Gordon's phone hotspot. Caught by the Nerd within the hour when `net.mark` answered "offline"; nothing heavy ran.
+- why it got through: the test injected a fake fingerprint and never exercised the real lookup under launchd's environment.
+- mechanism: absolute paths (`/sbin/route`, `/usr/sbin/arp`); the netstate suite runs the real lookup with launchd's PATH and fails if it reads offline while the Mac has a default route.
+- test: _setup/tests/netstate/

@@ -128,6 +128,8 @@ flowchart LR
 - _setup/index-manifest.json
 - _setup/install-mac.sh
 - _setup/lint-layers.py
+- _setup/metered-networks.md
+- _setup/netstate.py
 - _setup/nightly.sh
 - _setup/notify-test.sh
 - _setup/notify.py
@@ -145,9 +147,7 @@ flowchart LR
 - _setup/sancho_lib.py
 - _setup/stay-awake.sh
 - _setup/templates/INDEX.md
-- _setup/templates/entity.md
-- _setup/templates/guidelines.md
-- … +323 more
+- … +328 more
 
 ## Level 2 · wiring
 
@@ -214,7 +214,7 @@ generated 2026-09-30 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-09-30 21:57 by test-all.py · 15 suites · 0 failing
+generated 2026-09-30 22:48 by test-all.py · 16 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -223,6 +223,7 @@ generated 2026-09-30 21:57 by test-all.py · 15 suites · 0 failing
 | git-autocommit | PASS | test-git-autocommit: PASS |
 | install-mac | PASS | test-install-mac: PASS |
 | lint-layers | PASS | test-lint-layers: PASS |
+| netstate | PASS | test-netstate: PASS |
 | nightly | PASS | test-nightly: PASS |
 | notify | PASS | test-notify: PASS |
 | ping | PASS | test-ping: PASS |
