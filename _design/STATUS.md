@@ -37,7 +37,7 @@ Read this first on any new session. Then continue from "Next step."
 - **Home Directions v4 plan drafted overnight** (`work/copper-leaf/projects/hd-system-rebuild/docs/plan.md`, with `requirements.md`, `current-system.md`, two surveys). Questions 1 to 3 block Phase 0. Dev-clone data census still needs the Chrome login. GitHub migration is done per hop 1 (23:27): `copperleaf/sancho` and `copperleaf/sancho-private` can be deleted.
 - What the backlog eras mean (§13.2 overlaps; dates used provisionally).
 - Pick two short real recordings for the pipeline's fixture set (Gordon solo; two speakers), §13.4.
-- **Interactive Nerd lease (one edit, from Terminal or an interactive Claude Code session; the Nerd sandbox can't write `~/.zshrc`):** in the v3 `sancho()` function, start each `claude --model …` as `python3 ~/Sync/Sancho/_setup/nerd-lease.py run --session "interactive" -- claude --model …`. Until then, cold hops and `job.run --auto` can't see an interactive session (Nerd, 2026-10-01).
+- ~~Interactive Nerd lease~~ **done 2026-10-01 20:00 (Claude Code, interactive):** `~/.zshrc` v3 `sancho()` now starts every session through `_sancho_claude`, which wraps `claude --model "$SANCHO_MODEL"` in `nerd-lease.py run --session "interactive"`; backup `~/.zshrc.bak-20261001-lease`; live check: lease present during a wrapped command, gone after. Takes effect in new Terminal windows.
 
 ## What exists
 - `_design/`: architecture (approved), decisions, postmortem, survey, migration-plan, routines-capture, rainbow-rig-shutdown, seeds (now moved; originals kept), reading copy + standalone, tree page.
