@@ -10,11 +10,11 @@ stages:
   - {name: scaffold,        status: done,    note: "tree, templates, lint, index, map, commands, FOCUS, brief, watch, job file (Cowork)"}
   - {name: mac-side,        status: done,    note: "done 2026-09-30: watcher + launchd, Sancho-Audio, Sancho-Secrets (age), Sancho-Private repo, autocommit fix, ping round-trip; Pushover keys still to add (Claude Code)"}
   - {name: pipeline,        status: active,  note: "port v3 code per §13.1; backward 7-day overlap; STATUS.md; Pushover test (Claude Code)"}
-  - {name: open-skill,      status: pending, note: "temporal check, morning packet, greeting voice, lease, session note, close"}
-  - {name: ingest-skill,    status: pending, note: "speaker confirmation, seven GTD buckets, filing, receipts"}
-  - {name: first-ingest,    gate: human,     status: pending, note: "Gordon spot-checks five facts"}
+  - {name: open-skill,      status: done,    note: "skills/open built 2026-09-30 (Cowork); checkback skill added 2026-09-30 and ran cold twice 09-30/10-01"}
+  - {name: ingest-skill,    status: done,    note: "skills/earballs-ingest built 2026-10-01 (Cowork): chunks, triage, seven buckets, corrections.md, lexicon, move, summary"}
+  - {name: first-ingest,    gate: human,     status: done,    note: "rec_0c571abb1d ingested 2026-10-01; Gordon confirmed all five spot-check facts [confirmed gordon 2026-10-01]"}
   - {name: batch-B2,        status: pending, note: "WoA clients"}
-current: pipeline
+current: batch-B2
 hops: 2
 hop_cap: 24
 waiting_on:

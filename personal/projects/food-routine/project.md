@@ -11,7 +11,7 @@ next_action: {text: "Design the Sunday session skill (build order #6); first ses
 waiting: []
 job:
 description: Food routine to habit; captured 2026-09-21, components added 2026-09-30
-sources: ["[gordon 2026-09-21]", "[gordon 2026-09-30]"]
+sources: ["[gordon 2026-09-21]", "[gordon 2026-09-30]", "[rec_0c571abb1d 2026-09-22]", "[gordon 2026-10-01]"]
 ---
 # Food routine to habit
 **Why it matters, in Gordon's words.** Leaving the house, the kitchen, and the people he cooked for is really hard. "My little Italian soul just wants to cook for people to show them my love, and I don't have anyone to cook for or host anymore, and I'm not very good at feeding myself." He was crying while dictating this. This routine is about care, not logistics. Sancho should treat it that way: warm, not clinical, and never make him feel managed.
@@ -19,7 +19,7 @@ sources: ["[gordon 2026-09-21]", "[gordon 2026-09-30]"]
 **The problem.** Feeding himself, alone, in an RV, while working. Three parts:
 
 1. **Breakfast.** Six years of half a bagel with cream cheese every morning. No bagels, no toaster now. The habit is gone and nothing replaced it.
-2. **Midday.** He tends to skip lunch and then crash. What worked for a couple of months: a batch of tuna salad (read from "to the salad"; confirm) kept in the fridge, eaten with Ritz crackers. He burnt out on it. Needs: **low-ingredient, very easy, shelf-stable or fridge-stable** things he can eat without stopping work, so calories get in.
+2. **Midday.** He tends to skip lunch and then crash. What worked for a couple of months: a batch of tuna salad (read from "to the salad"; confirm) kept in the fridge, eaten with Ritz crackers. He burnt out on it. Needs: **low-ingredient, very easy, shelf-stable or fridge-stable** things he can eat without stopping work, so calories get in [rec_0c571abb1d 2026-09-22]; **and fresh and healthy**: his mantra is "eat real food, the closer to being alive the better" [gordon 2026-10-01].
 3. **Dinner.** He's talked himself into being excited about his new small air fryer. Wants a "Julie and Julia" style cook-through of an air-fryer-cooking-for-one book, but hasn't found one he likes. Alternative: he and Sancho work through ingredients, meal plans, shopping, cooking, and eating for one together, over time. He has never cooked for one before.
 
 **What has worked (the pattern to build on).** A **Sunday session picking four meals for the week**, then each day picking whichever of the four feels best, knowing the choice was already made. The value is in having pre-decided, not in a rigid schedule.
@@ -38,3 +38,7 @@ sources: ["[gordon 2026-09-21]", "[gordon 2026-09-30]"]
 (Tuna salad confirmed.)
 
 ---
+
+## Notes
+- 2026-10-01 · ingest: the 09-21 dictation exists as audio, Tue 9/22 02:27, 5 min; the midday, dinner and "crying through this" lines above are now also cited to it. [rec_0c571abb1d 2026-09-22]
+- 2026-10-01 · first-ingest gate closed: Gordon confirmed the five spot-check facts; added "fresh and healthy" to the midday need and the "eat real food" mantra. [confirmed gordon 2026-10-01]

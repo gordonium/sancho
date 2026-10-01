@@ -1,10 +1,10 @@
 """
 name: sancho_lib
 type: script
-description: Shared helpers for Sancho's build scripts: find the tree, read YAML-ish frontmatter without PyYAML, walk files, ask git for last-updated dates.
+description: Shared helpers for Sancho's build scripts: find the tree, read YAML-ish frontmatter without PyYAML, walk files, ask git for last-updated dates; write requests; write and read Nerd leases.
 why: The lint, the index builder and the map builder must agree on what a file's frontmatter says; one reader, one answer.
 reads: any Markdown file in the tree; git log (read-only)
-writes: nothing
+writes: nothing itself; enqueue() and write_lease() write for their callers (_queue/requests/, _queue/leases/)
 schedule:
 test: _setup/tests/sancho_lib/
 """
@@ -165,3 +165,78 @@ def is_generated(path: Path) -> bool:
 
 def today() -> str:
     return datetime.date.today().isoformat()
+
+
+# ---------- leases (must-never 5: one writer at a time) ----------
+LEASE_STALE_H = 2
+
+
+def pid_alive(pid) -> bool:
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except PermissionError:  # exists, just not ours to signal
+        return True
+    except (OSError, ValueError, TypeError):
+        return False
+
+
+def live_leases(root: Path, prefix: str = "nerd-") -> list[tuple[Path, dict]]:
+    """Leases in _queue/leases/ named <prefix>*.md that are live: the `pid:` they carry is running, or, with
+    no pid (a lease written off the Mac), the file was touched within LEASE_STALE_H hours."""
+    import time
+    d = root / "_queue" / "leases"
+    out = []
+    for p in sorted(d.glob(f"{prefix}*.md")) if d.exists() else []:
+        fm, _ = read_frontmatter(p)
+        alive = pid_alive(fm["pid"]) if fm.get("pid") not in (None, "") else time.time() - p.stat().st_mtime < LEASE_STALE_H * 3600
+        if alive:
+            out.append((p, fm))
+    return out
+
+
+def enqueue(root: Path, command: str, args: list, by: str, session: str, job: str = "", body: str = "") -> Path:
+    """Write one request to _queue/requests/ (atomic; the shape sancho-enqueue.py writes)."""
+    import secrets
+    q = root / "_queue" / "requests"
+    q.mkdir(parents=True, exist_ok=True)
+    t = datetime.datetime.now(datetime.timezone.utc)
+    name = f"{t.strftime('%Y%m%dT%H%M%SZ')}_{command}_{secrets.token_hex(3)}.md"
+    fm = [f"command: {command}", f"args: [{', '.join(str(x) for x in args)}]", f"requested_by: {by}", f"session: {session}",
+          f"requested_at: {t.replace(microsecond=0).isoformat()}"] + ([f"job: {job}"] if job else [])
+    tmp = q / f".{name}.tmp"
+    tmp.write_text("---\n" + "\n".join(fm) + "\n---\n" + (body.rstrip() + "\n" if body else ""), encoding="utf-8")
+    os.replace(tmp, q / name)  # the watcher never sees a half-written request
+    return q / name
+
+
+def advance_pending(state: Path, job: str | None = None, why: str = "", drop: bool = False) -> dict:
+    """Jobs job.run could not advance because a Nerd held the tree; the watcher re-queues them when the leases clear.
+    With job: add it (or drop it); always returns the current {job: {since, why}}."""
+    import json, time
+    f = state / "advance-pending.json"
+    try:
+        d = json.loads(f.read_text())
+    except Exception:
+        d = {}
+    if job:
+        if drop:
+            d.pop(job, None)
+        else:
+            d.setdefault(job, {"since": time.time(), "why": why})
+        state.mkdir(parents=True, exist_ok=True)
+        f.write_text(json.dumps(d, indent=1))
+    return d
+
+
+def write_lease(root: Path, name: str, kind: str, session: str, pid: int, note: str = "") -> Path:
+    """One lease file: who holds the tree (kind, session, pid, since). Cowork reads it as text; the Mac also checks the pid."""
+    d = root / "_queue" / "leases"
+    d.mkdir(parents=True, exist_ok=True)
+    p = d / f"{name}.md"
+    stamp = datetime.datetime.now().astimezone().isoformat(timespec="seconds")
+    tmp = d / f".{name}.tmp"
+    tmp.write_text(f"---\nname: {name}\ntype: lease\nlobe: both\ndescription: {kind} Nerd session holds the tree ({session})\n"
+                   f"kind: {kind}\nsession: {session}\npid: {pid}\nstarted: {stamp}\n---\n{note[:500]}\n", encoding="utf-8")
+    os.replace(tmp, p)
+    return p

@@ -15,7 +15,7 @@ generated 2026-10-01 by build-index.py · 18 entries
 - pipeline/ · folder · empty
 - sancho_lib/ · folder · empty
 - secrets/ · folder · empty
-- skills/ · folder · 2 files
+- skills/ · folder · 3 files
 - stay-awake/ · folder · empty
 - test-all/ · folder · empty
 - watcher/ · folder · empty

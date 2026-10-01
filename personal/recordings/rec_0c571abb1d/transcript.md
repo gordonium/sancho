@@ -1,7 +1,7 @@
 ---
 name: Recording rec_0c571abb1d · 2026-09-22 02:27 · 5 min
 type: transcript
-description: Plaud recording, 5 min, 1 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 5 min, solo (gordon); ingested 2026-10-01, summary beside it; food and nomad routines dictation
 lobe: both
 sources: ["[rec_0c571abb1d 2026-09-22]"]
 rec_id: rec_0c571abb1d

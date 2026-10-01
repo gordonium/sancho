@@ -140,3 +140,6 @@ Order matters: freeze, census, archive, redirect, then retire.
 ## 13. What happens next
 
 Phase 0 is one conversation on questions 1 to 3, then the Nerd gets step 1 as a job with this document as the spec. Sancho's data census (step 10.1) runs as soon as the dev site login works in the Chrome tab.
+
+## History of corrections
+- 2026-10-01 evening (HD thread): five corrections to this draft are recorded in `phase0-brief.md` with their sources (Laravel 13 not 12; Workspace already exists on the domain per DNS; SiteDistrict is WordPress-only; Brevo already authenticated on the domain; inline question numbers in §4, §7, §8, §11 do not match the §12 list, which is the authority). The text above is left as drafted until Gordon decides questions 1 to 3; the revision folds them in.

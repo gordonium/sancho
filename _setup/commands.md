@@ -5,7 +5,7 @@ lobe: both
 description: The allowlist of scripts the watcher may run, with timeouts and schedules; also the map's command table
 ---
 # Commands: the allowlist and the registry
-The watcher runs only what is listed here. Adding a command = one row here + one script with a header. The map draws its command table from this file. `schedule` blank = on demand only. "Terminal only" = listed for the map, refused by the watcher (it needs a passphrase at a prompt). Request args: a list is passed as positional arguments. Schedules are launchd plists that enqueue a request (`sancho-enqueue.py`), so every scheduled run leaves a result; the hourly autocommit is the one exception, run by launchd directly so commits never depend on the watcher.
+The watcher runs only what is listed here. Adding a command = one row here + one script with a header. The map draws its command table from this file. `schedule` blank = on demand only. "Terminal only" = listed for the map, refused by the watcher (it needs a passphrase at a prompt). Request args: a list is passed as positional arguments. Every request carries `session:` (cowork hop N / interactive / nerd.run <id> / schedule <name>); results, logs and pushes echo it. Requests from launchd wait until the Mac has been awake 10 min (ERRORS.md #8). Nerd sessions hold a lease in `_queue/leases/` (`nerd-<id>.md`; interactive ones via `_setup/nerd-lease.py run -- claude`). Schedules are launchd plists that enqueue a request (`sancho-enqueue.py`), so every scheduled run leaves a result; the hourly autocommit is the one exception, run by launchd directly so commits never depend on the watcher.
 
 | command | script | timeout (s) | schedule | description |
 |---|---|---|---|---|
@@ -18,7 +18,7 @@ The watcher runs only what is listed here. Adding a command = one row here + one
 | git.commit | _setup/git-autocommit.sh | 120 | hourly (launchd direct, not via the queue); at conversation close | commit and push the tree (skips oversize files, lists them in GIT-EXCLUDED.md) |
 | nightly | _setup/nightly.sh | 300 | nightly 02:00 (com.sancho.nightly enqueues it) | index.build, then lint, then map.build; stops at the first failure |
 | notify.test | _setup/notify-test.sh | 30 | | args [info] / [warn] / [alert]: send one test push to Gordon's phone at that level |
-| notify.push | _setup/notify.py | 30 | | args [info or warn or alert, <message>]: one Pushover push to Gordon; warn only when he must act soon, info for FYI ("Warn means WARN", decisions 2026-09-30); deduped per key; a comma in the message arrives whole |
+| notify.push | _setup/notify.py | 30 | | args [info or warn or alert, --reason=<slug>, <message>]: one Pushover push to Gordon; info (silent) for completions and progress; warn (sound) when he must move, with a reason registered in _setup/notify-reasons.md; alert only for pipeline red / watcher dead, at priority 0 for now so quiet hours hold [gordon 2026-10-01]; the request's session is echoed; deduped per key; a comma in the message arrives whole |
 | mac.stay-awake | _setup/stay-awake.sh | 20 | | args [on] / [off] / [status]: keep the Mac from idle-sleeping (caffeinate under launchd) |
 | sancho.unlock | _setup/sancho-unlock.sh | 60 | Terminal only | decrypt Sancho-Secrets/sancho.env.age to ~/.config/sancho/env (asks for the passphrase) |
 | sancho.lock-secrets | _setup/sancho-lock-secrets.sh | 60 | Terminal only | re-encrypt ~/.config/sancho/env after an edit (asks for the passphrase twice) |
@@ -29,5 +29,5 @@ The watcher runs only what is listed here. Adding a command = one row here + one
 | pipeline.status | _setup/pipeline/earballs.sh | 60 | | args [status]: regenerate recordings/STATUS.md |
 | net.status | _setup/netstate.py | 20 | every watcher tick (in-process) | which network, metered or not (router fingerprint vs _setup/metered-networks.md) |
 | net.mark | _setup/netstate.py | 20 | | args [mark, <label>, metered or unmetered]: record the network the Mac is on now |
-| nerd.run | _setup/nerd-run.py | 1900 | | headless Claude Code (the Nerd) for the task in the request (`task:`, `task_file:`, or body); allowlisted tools, OS sandbox, no MCP, no push/commit/web; one at a time; transcript in _queue/results/ |
-| job.run | _setup/job-run.py | 60 | | args [<job name or file>]: walk a job file stage by stage via nerd.run (detached; progress in the job file); stops at a human gate or after two failures of a stage, with one push |
+| nerd.run | _setup/nerd-run.py | 1900 | | headless Claude Code (the Nerd) for the task in the request (`task_file:`, or a body ending with the line `-- end of task --`; ERRORS.md #7); allowlisted tools, OS sandbox, no MCP, no push/commit/web; one at a time; lease while running; transcript in _queue/results/; a result for a job with `advance: auto` queues job.run --auto |
+| job.run | _setup/job-run.py | 60 | | args [<job name or file>] (or [<job>, --auto], queued by the watcher): walk a job file stage by stage via nerd.run (detached; progress in the job file); up to 3 attempts per stage with evidence and diagnose-first, stopping early on an identical failure; `Stage: blocked` pauses at a gate; warn on every stop, info on completion |

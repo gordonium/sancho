@@ -2,7 +2,7 @@
 """
 name: nerd-run
 type: command
-description: Run one headless Claude Code session (the Nerd) on the Mac for a task given in the request (frontmatter `task:`, `task_file:` inside the tree, or the request body). Fixed tool allowlist, OS sandbox (writes only in the tree and the kit; network only GitHub and Anthropic), no MCP connectors, no outbound messaging, timeout, lease while running, transcript kept, one-line receipt.
+description: Run one headless Claude Code session (the Nerd) on the Mac for a task given in the request (`task_file:` inside the tree, or a request body ending with the line `-- end of task --`; a bare `task:` line is refused, ERRORS.md #7). Fixed tool allowlist, OS sandbox (writes only in the tree and the kit; network only GitHub and Anthropic), no MCP connectors, no outbound messaging, timeout, lease (kind, session, pid) while running, the request's `session:` echoed, transcript kept, one-line receipt.
 why: Gordon wants full rounds without being the messenger between Cowork and the Mac; scheduled Cowork is ruled out (decisions 2026-09-30). This is v2's spawn.sh idea made safe by the allowlist, the sandbox and the queue; it is also the harness skill scenarios run on.
 reads: the request file ($SANCHO_REQUEST_FILE); _setup/nerd-settings.json; CLAUDE.md (the session reads it itself)
 writes: _queue/results/<request id>.transcript.jsonl; _queue/leases/nerd-<request id>.md while running; whatever the task writes inside the tree or ~/Dev/clc-plugins
@@ -13,7 +13,7 @@ from __future__ import annotations
 import os, sys, json, time, signal, fcntl, argparse, datetime, subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from sancho_lib import tree_root, read_frontmatter
+from sancho_lib import tree_root, read_frontmatter, live_leases, write_lease
 
 ROOT = tree_root()
 KIT = Path(os.environ.get("SANCHO_KIT", Path.home() / "Dev/clc-plugins"))
@@ -33,7 +33,7 @@ DENIED = ["WebFetch", "WebSearch", "Agent", "Bash(curl *)", "Bash(wget *)", "Bas
           "Bash(git push *)", "Bash(git commit *)", "Bash(git reset *)", "Bash(git clean *)", "Bash(sudo *)",
           "Bash(launchctl *)", "Bash(osascript *)", "Bash(open *)", "Bash(mail *)", "Bash(sendmail *)"]
 
-PREAMBLE = """You are the Nerd: Sancho's Claude Code session on Gordon's Mac, started headless by the `nerd.run` command (request {rid}, from {by}).
+PREAMBLE = """You are the Nerd: Sancho's Claude Code session on Gordon's Mac, started headless by the `nerd.run` command (request {rid}, from {by}; session {session}).
 Read CLAUDE.md first; it applies to you, must-nevers included. Then read _design/STATUS.md if the task is about Sancho itself.
 You run unattended: nobody can answer a question. If the task needs a decision that is Gordon's, stop, write the question into _design/STATUS.md under "Open for Gordon", and end.
 You cannot push, commit, send anything outbound, or reach the network except through the tools allowed; the hourly autocommit commits your writes.
@@ -45,22 +45,32 @@ TASK:
 """
 
 
+END_MARK = "-- end of task --"
+
+
 def load_task(a) -> tuple[str, dict]:
+    """--task (job.run's own calls), task_file: inside the tree, or a request body ending with END_MARK.
+    A request's `task:` line or unmarked body is refused: shell-composed requests lost words silently (ERRORS.md #7)."""
     fm, body = {}, ""
     req = os.environ.get("SANCHO_REQUEST_FILE")
     if req and Path(req).exists():
         fm, body = read_frontmatter(Path(req))
-    task = a.task or fm.get("task") or ""
+    task = a.task or ""
     tf = a.task_file or fm.get("task_file")
-    if tf:
+    if tf and not task:
         p = (ROOT / str(tf)).resolve()
         if ROOT.resolve() not in p.parents:
             raise SystemExit(f"nerd-run: task_file must be inside the tree: {tf}")
         task = p.read_text(encoding="utf-8")
-    if not task:
-        task = body.strip()
+    if not task and body.strip():
+        lines = body.rstrip().splitlines()
+        if lines[-1].strip() != END_MARK:
+            raise SystemExit(f"nerd-run: refused: the request body does not end with the line `{END_MARK}` (it may have been cut or mangled; ERRORS.md #7). Write the task to a file and use task_file:")
+        task = "\n".join(lines[:-1]).strip()
+    if not task and fm.get("task"):
+        raise SystemExit("nerd-run: refused: a `task:` line in a request is no longer accepted (ERRORS.md #7); use task_file: or a body ending with " + END_MARK)
     if not str(task).strip():
-        raise SystemExit("nerd-run: no task (give task:, task_file:, or a request body)")
+        raise SystemExit(f"nerd-run: no task (give task_file:, or a request body ending with `{END_MARK}`)")
     return str(task), fm
 
 
@@ -86,6 +96,7 @@ def main() -> int:
     task, fm = load_task(a)
     rid = os.environ.get("SANCHO_REQUEST_ID") or datetime.datetime.now().strftime("manual-%Y%m%dT%H%M%S")
     by = os.environ.get("SANCHO_REQUESTED_BY") or fm.get("requested_by") or "unknown"
+    session = os.environ.get("SANCHO_SESSION") or fm.get("session") or "(none given)"
     timeout = int(a.timeout or fm.get("timeout") or DEFAULT_TIMEOUT)
     if not Path(CLAUDE).exists():
         print(f"nerd-run: claude not found at {CLAUDE}")
@@ -97,19 +108,21 @@ def main() -> int:
     except BlockingIOError:
         print("nerd-run: another Nerd session is running; one at a time")
         return 1
-    leases, results = ROOT / "_queue" / "leases", ROOT / "_queue" / "results"
-    leases.mkdir(parents=True, exist_ok=True)
+    results = ROOT / "_queue" / "results"
     results.mkdir(parents=True, exist_ok=True)
-    lease = leases / f"nerd-{rid}.md"
-    lease.write_text(f"---\nname: nerd.run {rid}\ntype: lease\nlobe: both\ndescription: headless Nerd session for request {rid}\nstarted: {datetime.datetime.now().astimezone().isoformat(timespec='seconds')}\nrequested_by: {by}\n---\n{task[:500]}\n")
+    others = [p.stem for p, fm in live_leases(ROOT) if fm.get("kind") == "interactive"]
+    if others:
+        print(f"nerd-run: note: an interactive Nerd holds a lease ({', '.join(others)}); this session runs beside it")
+    lease = write_lease(ROOT, f"nerd-{rid}", "nerd.run", f"{session} · requested by {by}", os.getpid(), task)
     transcript = results / f"{rid}.transcript.jsonl"
     started = time.time()
     status, final = "ok", ""
     try:
         with transcript.open("w") as out:
-            p = subprocess.Popen(build_argv(PREAMBLE.format(rid=rid, by=by, task=task)), cwd=ROOT, stdout=out,
+            p = subprocess.Popen(build_argv(PREAMBLE.format(rid=rid, by=by, session=session, task=task)), cwd=ROOT, stdout=out,
                                  stderr=subprocess.STDOUT, start_new_session=True,
-                                 env={**os.environ, "SANCHO_IN_NERD": rid, "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"})
+                                 env={**os.environ, "SANCHO_IN_NERD": rid, "SANCHO_SESSION": f"nerd.run {rid}",
+                                      "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"})
             try:
                 rc = p.wait(timeout=timeout)
                 status = "ok" if rc == 0 else f"failed (exit {rc})"
@@ -135,7 +148,7 @@ def main() -> int:
                 status = f"failed ({ev.get('subtype')})"
     receipt = next((l for l in reversed(final.splitlines()) if l.startswith("Receipt:")), "Receipt: (none given)")
     print(final[-3000:])
-    print(f"nerd-run: {status} in {int(time.time() - started)} s · transcript _queue/results/{transcript.name} · {receipt}")
+    print(f"nerd-run: {status} in {int(time.time() - started)} s · session {session} · transcript _queue/results/{transcript.name} · {receipt}")
     return 0 if status == "ok" else 1
 
 

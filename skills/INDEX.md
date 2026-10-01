@@ -1,5 +1,6 @@
 # skills · INDEX
-generated 2026-10-01 by build-index.py · 2 skills
+generated 2026-10-01 by build-index.py · 3 skills
 
 - checkback · both · A cold Cowork run (one-time scheduled task) checks whether the Nerd finished what a job is waiting on, logs planned-vs-actual timing, does the job's next mechanical stage if one is ready, pushes an info per hop, and schedules the next check-back while the job is unfinished and under its hop cap. · triggers: a scheduled-task prompt that says: open job <name>; run checkback, check on the Nerd, did the Nerd finish, where is job <name>
+- earballs-ingest · both · Files one processed recording: speakers confirmed with transcript chunks shown, mishearings triaged to the ones that sit on a fact, content clarified into the seven GTD buckets, facts filed with cites and superseded never overwritten, transcript moved to its home, summary written, receipt given. The clarify step of GTD for recordings. · triggers: ingest, process recordings, file that recording, the greeting shows recordings waiting and Gordon says go
 - open · both · Open a conversation as Sancho: temporal check, the morning packet, a lease scoped to the topic, a session note, and a spoken greeting; also the close. First skill, because every other skill runs inside a conversation this one opens. · triggers: Hey Sancho, hey sancho, any greeting addressed to Sancho, let's work

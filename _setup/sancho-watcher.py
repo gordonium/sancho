@@ -2,10 +2,10 @@
 """
 name: sancho-watcher
 type: script
-description: One tick of the host execution bridge. Runs every allowlisted request in _queue/requests/, writes one result per request to _queue/results/, then rewrites _queue/HEALTH.md. Exits; launchd calls it again on any change to requests/ and every 60 s.
+description: One tick of the host execution bridge. Runs every allowlisted request in _queue/requests/, writes one result per request to _queue/results/ (echoing the request's `session:`), then rewrites _queue/HEALTH.md. Scheduled requests (requested_by launchd) wait until the Mac has been awake SETTLE_MIN minutes (ERRORS.md #8). A nerd.run result for a job with `advance: auto` queues `job.run --auto`; jobs left waiting for a Nerd lease are re-queued when it clears. A failure of a request that names a job warns. Exits; launchd calls it again on any change to requests/ and every 60 s.
 why: A Cowork session can't run anything on the Mac; the queue is the one audited path for every Mac-side run (architecture §1). HEALTH.md is how a session knows the runner is alive instead of pretending a run happened.
 reads: _setup/commands.md (the allowlist); the lint's verdict on the tree (every tick); _queue/requests/*.md; ~/.config/sancho/env; _queue/leases/, _queue/sessions/; _setup/GIT-EXCLUDED.md; pmset -g log
-writes: _queue/results/<request name>; _queue/deferred/ (heavy requests while metered); _queue/log/<date>.log; _queue/HEALTH.md; state in ~/.local/state/sancho/ (lock, tick times, last status per command)
+writes: _queue/results/<request name>; _queue/requests/ (job.run --auto only); _queue/deferred/ (heavy requests while metered); _queue/log/<date>.log; _queue/HEALTH.md; state in ~/.local/state/sancho/ (lock, tick times, last status per command)
 schedule: launchd com.sancho.watcher (WatchPaths on _queue/requests/, StartInterval 60, RunAtLoad)
 test: _setup/tests/watcher/
 """
@@ -13,7 +13,7 @@ from __future__ import annotations
 import os, re, sys, json, time, fcntl, signal, shutil, datetime, subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from sancho_lib import tree_root, read_frontmatter
+from sancho_lib import tree_root, read_frontmatter, live_leases, enqueue, advance_pending, pid_alive
 
 ROOT = tree_root()
 Q = ROOT / "_queue"
@@ -22,6 +22,9 @@ STATE = Path(os.environ.get("SANCHO_STATE", Path.home() / ".local/state/sancho")
 ENV_FILE = Path(os.environ.get("SANCHO_SECRETS_PLAIN", Path.home() / ".config/sancho/env"))
 AGE_FILE = Path(os.environ.get("SANCHO_SECRETS_AGE", Path.home() / "Sync/Sancho-Secrets/sancho.env.age"))
 TAIL_LINES, RESULT_KEEP_DAYS, LEASE_STALE_H = 40, 90, 2
+# scheduled requests wait until the Mac has been awake this long: launchd fires missed schedules on a dark wake (ERRORS.md #8)
+SETTLE_MIN = float(os.environ.get("SANCHO_SETTLE_MIN", "10"))
+SCHEDULED_BY = ("launchd",)
 
 
 def now() -> datetime.datetime:
@@ -99,6 +102,8 @@ def run_one(req: Path, commands: dict, env: dict) -> str:
     fm, _ = read_frontmatter(claimed)
     cmd = str(fm.get("command") or "")
     rid = req.stem
+    job = str(fm.get("job") or "")
+    session = str(fm.get("session") or "") or f"(none given; requested_by {fm.get('requested_by') or '?'})"
     started = now()
     rel_log = f"_queue/log/{started.date().isoformat()}.log"
     c = commands.get(cmd)
@@ -106,19 +111,23 @@ def run_one(req: Path, commands: dict, env: dict) -> str:
         DEFERRED.mkdir(parents=True, exist_ok=True)
         os.replace(claimed, DEFERRED / req.name)
         write_result(req.name, {"command": cmd, "status": "deferred", "started_at": iso(started), "finished_at": iso(now()),
-                                "exit_code": "", "log": rel_log},
+                                "exit_code": "", "log": rel_log, "session": session, "job": job},
                      f"deferred: metered network ({NET.get('label')}); runs on its own when the Mac is on an unmetered network")
         log_line(f"{iso(started)} {rid} {cmd} deferred (metered: {NET.get('label')})")
         return "deferred"
     if c is None or c["terminal_only"]:
         why = "not in _setup/commands.md" if c is None else "runs only in Terminal (it asks for a passphrase)"
         write_result(req.name, {"command": cmd or "(none)", "status": "refused", "started_at": iso(started),
-                                "finished_at": iso(now()), "exit_code": "", "log": rel_log}, f"refused: `{cmd}` {why}")
-        log_line(f"{iso(started)} {rid} {cmd} refused ({why})")
+                                "finished_at": iso(now()), "exit_code": "", "log": rel_log, "session": session, "job": job},
+                     f"refused: `{cmd}` {why}")
+        log_line(f"{iso(started)} {rid} {cmd} refused ({why}) · session {session}")
         claimed.unlink()
+        if job:
+            notify_on_change(cmd or "(none)", "refused", f"`{cmd}` {why}", env, job, session)
         return "refused"
     script = ROOT / c["script"]
-    env = dict(env, SANCHO_REQUEST_ID=rid, SANCHO_REQUESTED_BY=str(fm.get("requested_by") or ""), SANCHO_REQUEST_FILE=str(claimed))
+    env = dict(env, SANCHO_REQUEST_ID=rid, SANCHO_REQUESTED_BY=str(fm.get("requested_by") or ""), SANCHO_REQUEST_FILE=str(claimed),
+               SANCHO_SESSION=session)
     status, code, out = "ok", 0, ""
     try:
         p = subprocess.Popen(argv_for(script, fm.get("args")), cwd=ROOT, env=env, stdout=subprocess.PIPE,
@@ -140,16 +149,45 @@ def run_one(req: Path, commands: dict, env: dict) -> str:
     body = f"{summary}\n\n```\n" + "\n".join(lines[-TAIL_LINES:]) + "\n```"
     write_result(req.name, {"command": cmd, "status": status, "started_at": iso(started), "finished_at": iso(finished),
                             "exit_code": code, "log": rel_log, "requested_by": fm.get("requested_by") or "",
-                            "job": fm.get("job") or ""}, body)
-    log_line(f"{iso(started)} {rid} {cmd} {status} exit={code} {(finished - started).seconds}s\n" +
+                            "session": session, "job": job}, body)
+    log_line(f"{iso(started)} {rid} {cmd} {status} exit={code} {(finished - started).seconds}s · session {session}\n" +
              "".join(f"    {l}\n" for l in lines))
     claimed.unlink()
-    notify_on_change(cmd, status, summary, env)
+    notify_on_change(cmd, status, summary, env, job, session)
+    if cmd == "nerd.run" and status == "ok" and job:
+        advance_after(job, rid)
     return status
 
 
-def notify_on_change(cmd: str, status: str, summary: str, env: dict):
-    """Push a failure, and a recovery after a failure; never a routine success."""
+def job_file(job: str) -> Path | None:
+    d = Q / "jobs"
+    cands = [d / f"{job}.md"] if (d / f"{job}.md").exists() else sorted(d.glob(f"*{job}*.md")) if d.exists() else []
+    return cands[0] if len(cands) == 1 else None
+
+
+def advance_after(job: str, rid: str):
+    """The Mac is the loop's engine (STATUS.md 2026-10-01): a nerd.run result for a job with `advance: auto` queues job.run --auto."""
+    jf = job_file(job)
+    if not jf or str(read_frontmatter(jf)[0].get("advance") or "manual") != "auto":
+        return
+    req = enqueue(ROOT, "job.run", [jf.stem, "--auto"], "watcher", f"watcher after {rid}", jf.stem)
+    log_line(f"{iso(now())} {rid} result for job {jf.stem} landed; queued {req.name}")
+
+
+def release_pending():
+    """Jobs job.run left waiting for a Nerd lease go back on the queue once no Nerd holds the tree."""
+    pend = advance_pending(STATE)
+    if not pend or live_leases(ROOT):
+        return
+    for job in pend:
+        advance_pending(STATE, job, drop=True)
+        if job_file(job):
+            req = enqueue(ROOT, "job.run", [job, "--auto"], "watcher", "watcher: Nerd lease cleared", job)
+            log_line(f"{iso(now())} job {job} released (no Nerd lease); queued {req.name}")
+
+
+def notify_on_change(cmd: str, status: str, summary: str, env: dict, job: str = "", session: str = ""):
+    """Push a failure, and a recovery after a failure; never a routine success. A failure that blocks a job warns (Gordon, 2026-10-01)."""
     f = STATE / "last-status.json"
     try:
         last = json.loads(f.read_text())
@@ -161,10 +199,11 @@ def notify_on_change(cmd: str, status: str, summary: str, env: dict):
     if status != "ok" or (prev and prev != "ok"):
         if not env.get("PUSHOVER_TOKEN") or not env.get("PUSHOVER_USER"):
             return
-        level = "info"  # a failed command is reported by HEALTH.md and the greeting; warn is reserved for timely attention (Gordon, 2026-09-30)
-        msg = f"{cmd} recovered" if status == "ok" else f"{cmd} {status}: {summary[:200]}"
-        subprocess.run(["python3", str(ROOT / "_setup" / "notify.py"), level, msg, f"--key=cmd:{cmd}"],
-                       env=env, capture_output=True, timeout=30)
+        # a plain failure is reported by HEALTH.md and the greeting (info); one that blocks a job needs Gordon to move (warn)
+        level, reason = ("warn", "command-blocks-job") if status != "ok" and job else ("info", "")
+        msg = f"{cmd} recovered" if status == "ok" else f"{cmd} {status}" + (f" (blocks job {job})" if job else "") + f": {summary[:200]}"
+        subprocess.run(["python3", str(ROOT / "_setup" / "notify.py"), level, msg, f"--key=cmd:{cmd}", f"--session={session}"]
+                       + ([f"--reason={reason}"] if reason else []), env=env, capture_output=True, timeout=30)
 
 
 def recover_orphans():
@@ -240,7 +279,23 @@ def ticks_line(tk: dict, t: datetime.datetime) -> str:
     return " ".join(cells)
 
 
-def health(commands: dict, ran: list, t: datetime.datetime):
+def settle(t: datetime.datetime) -> float:
+    """When the Mac last came awake: a tick more than 5 min after the previous one starts a new awake period.
+    Ticks are the witness (pmset can't tell a dark wake from a real one in time); stored beside the tick history."""
+    ticks = STATE / "ticks.json"
+    try:
+        tk = json.loads(ticks.read_text())
+    except Exception:
+        tk = {}
+    prev = tk.get("last")
+    if not prev or t.timestamp() - prev > 300 or not tk.get("awake_since"):
+        tk["awake_since"] = t.timestamp()
+        ticks.write_text(json.dumps(tk))
+    return float(tk["awake_since"])
+
+
+def health(commands: dict, ran: list, t: datetime.datetime, held: list | None = None, awake_since: float | None = None):
+    held = held or []
     ticks = STATE / "ticks.json"
     try:
         tk = json.loads(ticks.read_text())
@@ -267,7 +322,11 @@ def health(commands: dict, ran: list, t: datetime.datetime):
     leases, stale_leases = [], []
     for p in sorted((Q / "leases").glob("*.md")) if (Q / "leases").exists() else []:
         age_h = (time.time() - p.stat().st_mtime) / 3600
-        (stale_leases if age_h > LEASE_STALE_H else leases).append(f"{p.stem} ({age_h:.1f} h since last write)")
+        lf, _ = read_frontmatter(p)
+        who = f"{lf.get('kind')}, {lf.get('session')}, " if lf.get("kind") else ""
+        stale = not pid_alive(lf["pid"]) if lf.get("pid") not in (None, "") else age_h > LEASE_STALE_H
+        (stale_leases if stale else leases).append(f"{p.stem} ({who}{age_h:.1f} h since last write{'' if not stale or not lf.get('pid') else ', pid gone'})")
+    pend_text = ", ".join(f"{j} ({v.get('why', '')})" for j, v in advance_pending(STATE).items())
     lease_names = {p.stem for p in (Q / "leases").glob("*.md")} if (Q / "leases").exists() else set()
     stale_notes = [p.stem for p in (Q / "sessions").glob("*.md")] if (Q / "sessions").exists() else []
     stale_notes = [s for s in stale_notes if s not in lease_names]
@@ -322,12 +381,15 @@ def health(commands: dict, ran: list, t: datetime.datetime):
         f"- Mac: awake now; {mac_sleep_line(t)}; stay-awake {awake}",
         f"- watcher ticks per hour (last 12 h): {ticks_line(tk, t)}",
         f"- runs today: {len(runs)} ({len(fails)} failed); this tick ran {len(ran)}; waiting in requests/: {len(pending)}",
+        f"- awake since {datetime.datetime.fromtimestamp(awake_since or t.timestamp()).strftime('%H:%M')}; scheduled runs wait for {SETTLE_MIN:g} min awake: "
+        + (f"{len(held)} held ({', '.join(held)})" if held else "none held"),
+        f"- jobs waiting for a Nerd lease to clear: {pend_text or 'none'}",
         f"- git: {unpushed} commit(s) not pushed; {n_excl} file(s) excluded",
         f"- network: {NET.get('label', '?')}, {'METERED: heavy commands deferred (' + str(len(list(DEFERRED.glob('*.md'))) if DEFERRED.exists() else 0) + ' waiting)' if NET.get('metered') else 'unmetered'}",
         f"- secrets: {secrets}",
         f"- commands on the allowlist: {len(commands)}",
         f"- leases live: {', '.join(leases) or 'none'}",
-        f"- leases stale (> {LEASE_STALE_H} h): {', '.join(stale_leases) or 'none'}",
+        f"- leases stale (pid gone, or > {LEASE_STALE_H} h without one): {', '.join(stale_leases) or 'none'}",
         f"- session notes with no lease: {', '.join(stale_notes) or 'none'}",
     ]
     if lint_problems:
@@ -369,15 +431,21 @@ def main():
     env = load_env()
     recover_orphans()
     NET.update(check_network())
-    ran = []
+    awake_since = settle(now())
+    settled = time.time() - awake_since >= SETTLE_MIN * 60
+    release_pending()
+    ran, held = [], []
     for req in sorted(REQ.glob("*.md")) if REQ.exists() else []:
         if req.name.startswith("."):
+            continue
+        if not settled and str(read_frontmatter(req)[0].get("requested_by") or "") in SCHEDULED_BY:
+            held.append(req.name)  # left in requests/; a later tick runs it once the wake has settled
             continue
         st = run_one(req, commands, env)
         if st != "gone":
             ran.append((req.name, st))
     prune_results()
-    health(commands, ran, now())
+    health(commands, ran, now(), held, awake_since)
     for name, st in ran:
         print(f"{st}: {name}")
     print(f"sancho-watcher: tick done, {len(ran)} run(s)")

@@ -7,4 +7,5 @@
 # writes: one Pushover message
 # test: _setup/tests/notify/ (notify.py itself; this wrapper is one line)
 LEVEL="${1:-warn}"
-exec python3 "$(dirname "$0")/notify.py" "$LEVEL" "Sancho test push ($LEVEL) $(date '+%Y-%m-%d %H:%M %Z')" --key=notify.test
+REASON=test; [ "$LEVEL" = alert ] && REASON=test-alert
+exec python3 "$(dirname "$0")/notify.py" "$LEVEL" "Sancho test push ($LEVEL) $(date '+%Y-%m-%d %H:%M %Z')" --key=notify.test --reason=$REASON

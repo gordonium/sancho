@@ -222,3 +222,8 @@ status: active
   tags: []
   source: "Desktop background, Personal/Design/Backgrounds with Quotes/1920x1080/you-cant-be-done-if-there-are-still-things-to-write.jpg (made 2018-04-21; set updated 2024-11-15)"
   added: 2026-09-30
+
+- text: "Eat real food. / The closer to being alive, the better."
+  tags: [food, shopping, cooking, midday]
+  source: "Gordon in conversation, 2026-10-01, while closing the first ingest gate [gordon 2026-10-01]"
+  added: 2026-10-01

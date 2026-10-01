@@ -2,26 +2,30 @@
 """
 name: job-run
 type: command
-description: Walk a job file (_queue/jobs/*.md) stage by stage, running each stage as a nerd.run session, advancing `current` on success, stopping at any `gate: human` stage; a failed stage is retried once, then the job stops. Pushes are info (silent): the greeting reports job state; warn is only for timely attention (Gordon, 2026-09-30). Detaches at once so the watcher stays free; progress lives in the job file.
-why: Gordon wants full rounds without being the messenger; scheduled Cowork is ruled out (decisions 2026-09-30). State lives in the job file, never in memory (CLAUDE.md), so a crash or sleep loses nothing: rerun resumes at `current`.
-reads: the job file; stage fields `task:` / `task_file:` / `note:`; _setup/nerd-run.py; _setup/test-all.py (run after every stage the session calls done)
-writes: the job file (stage status, `current`, `history` lines in the body); _queue/results/<request id>.job.md (final summary); one Pushover message when it stops
+description: Walk a job file (_queue/jobs/*.md) stage by stage, running each stage as a nerd.run session, advancing `current` on success, stopping at any `gate: human` stage. A failing stage gets a troubleshoot loop: up to 3 attempts; attempt 2 and later carry the evidence (test board, failing suites' output, log tail, the failed session's transcript tail) and a diagnose-first instruction; two attempts failing on identical evidence stop early (no progress). A session may end `Stage: blocked: <what Gordon must do>`, which pauses the job at a gate instead of failing it. Pushes (Gordon, 2026-10-01): warn on every stop that needs him (gate, blocked, stopped) with the evidence path; info for completions. `--auto` (queued by the watcher after a nerd.run result for the job lands, only for jobs with `advance: auto`) never re-runs a failed or blocked stage and yields to a live Nerd lease. Detaches at once so the watcher stays free; progress lives in the job file.
+why: Gordon wants full rounds without being the messenger; cold Cowork runs cannot schedule their next hop, so the Mac is the loop's engine (STATUS.md 2026-10-01). "Retried once seems too fragile" [gordon 2026-10-01]. State lives in the job file, never in memory (CLAUDE.md), so a crash or sleep loses nothing: rerun resumes at `current`.
+reads: the job file; stage fields `task:` / `task_file:` / `note:`; _setup/nerd-run.py; _setup/test-all.py (run outside the sandbox after every attempt); _queue/log/; _queue/results/*.transcript.jsonl; _queue/leases/
+writes: the job file (stage status, `current`, `history` lines in the body); _queue/results/<id>-<stage>-evidence-<n>.md; _queue/results/<request id>.job.md (final summary); a continuation request after MAX_STAGES_PER_RUN; ~/.local/state/sancho/advance-pending.json; Pushover messages
 schedule:
 test: _setup/tests/job-run/
 """
 from __future__ import annotations
-import os, re, sys, fcntl, argparse, datetime, subprocess
+import os, re, sys, json, time, fcntl, argparse, datetime, subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from sancho_lib import tree_root, read_frontmatter, _parse_scalar
+from sancho_lib import tree_root, read_frontmatter, _parse_scalar, live_leases, enqueue, advance_pending
 
 ROOT = tree_root()
 SETUP = ROOT / "_setup"
+RESULTS = ROOT / "_queue" / "results"
 NERD = os.environ.get("SANCHO_NERD_BIN", str(SETUP / "nerd-run.py"))
 TEST_ALL = os.environ.get("SANCHO_TEST_ALL_BIN", str(SETUP / "test-all.py"))
 STATE = Path(os.environ.get("SANCHO_STATE", Path.home() / ".local/state/sancho"))
 MAX_STAGES_PER_RUN = 6
+MAX_ATTEMPTS = 3
+NERD_WAIT_S = int(os.environ.get("SANCHO_JOB_NERD_WAIT", "2400"))  # a nerd.run in flight finishes within its 30-min timeout
 STAGE_LINE = re.compile(r"^(\s*-\s*)(\{.*\})\s*(#.*)?$")
+SESSION = os.environ.get("SANCHO_SESSION") or "manual"
 
 
 def now() -> str:
@@ -58,11 +62,18 @@ def stages(text: str) -> list[tuple[int, dict]]:
     return out
 
 
+def flat(v: str, n: int = 160) -> str:
+    """A value safe inside a `{k: v, …}` stage line."""
+    return re.sub(r"[,{}\"'\n]+", " ", str(v)).strip()[:n]
+
+
 def set_stage(text: str, idx: int, **fields) -> str:
     lines = text.splitlines()
     ln = lines[idx]
     for k, v in fields.items():
-        if re.search(rf"\b{k}:\s*[^,}}]*", ln):
+        if v is None:
+            ln = re.sub(rf",\s*{k}:\s*[^,}}]*", "", ln, count=1)
+        elif re.search(rf"\b{k}:\s*[^,}}]*", ln):
             ln = re.sub(rf"\b{k}:\s*[^,}}]*", f"{k}: {v}", ln, count=1)
         else:
             ln = ln.replace("}", f", {k}: {v}}}", 1) if "}" in ln else ln
@@ -86,8 +97,9 @@ def write(p: Path, text: str):
     os.replace(tmp, p)
 
 
-def push(level: str, msg: str):
-    subprocess.run(["python3", str(SETUP / "notify.py"), level, msg[:500], "--key=job-run"], capture_output=True, timeout=30)
+def push(job: Path, level: str, msg: str, reason: str | None = None):
+    argv = ["python3", str(SETUP / "notify.py"), level, msg[:500], f"--key=job-run:{job.stem}", f"--session=job.run {job.stem} ({SESSION})"]
+    subprocess.run(argv + ([f"--reason={reason}"] if reason else []), capture_output=True, timeout=30)
 
 
 def task_for(job: Path, st: dict) -> str:
@@ -103,27 +115,132 @@ def task_for(job: Path, st: dict) -> str:
             f"without Gordon, write the question under 'Open for Gordon' in _design/STATUS.md.")
 
 
-STAGE_CONTRACT = ("\n\nThis is one stage of a job run by job.run. Before your Receipt line, end with exactly one line: "
-                  "`Stage: done` if the stage is complete and tested, or `Stage: blocked: <why>` if it is not. Anything else counts as blocked.")
+STAGE_CONTRACT = ("\n\nThis is one stage of a job run by job.run. Before your Receipt line, end with exactly one of these lines: "
+                  "`Stage: done` if the stage is complete and tested; `Stage: failed: <cause>` if you could not finish it and another "
+                  "attempt could; `Stage: blocked: <what Gordon must do>` only if nothing more can happen without Gordon (this pauses the job "
+                  "at a gate and warns him). A missing line counts as failed. job.run re-runs the test board itself, outside your sandbox.")
 
 
-def run_stage(job: Path, st: dict, rid: str, attempt: int) -> tuple[bool, str]:
-    env = {**os.environ, "SANCHO_REQUEST_ID": f"{rid}-{st.get('name')}-{attempt}", "SANCHO_REQUESTED_BY": f"job.run {job.stem}"}
+def retry_brief(attempt: int, prev_verdict: str, evidence: Path) -> str:
+    return (f"\n\nThis is attempt {attempt} of {MAX_ATTEMPTS} for this stage. The previous attempt failed: {prev_verdict}\n"
+            f"Evidence (read it first): {evidence.relative_to(ROOT)} (test board, failing suites' output, log tail, the failed session's last 40 lines).\n"
+            "Diagnose first: before changing anything, write one line starting `Cause:` naming what made the previous attempt fail, "
+            "citing the evidence. Then fix that cause, and only that, unless the evidence shows more.")
+
+
+def verdict_of(out: str) -> tuple[str, str]:
+    marks = [l.strip() for l in out.splitlines() if l.strip().startswith("Stage:")]
+    v = marks[-1] if marks else "Stage: (no verdict line)"
+    if v == "Stage: done":
+        return "done", v
+    if v.startswith("Stage: blocked"):
+        return "blocked", v
+    return "failed", v
+
+
+def board() -> tuple[bool, str]:
+    """The test board, run here (outside the sandbox): a session doesn't grade its own homework (ERRORS.md #6)."""
+    try:
+        t = subprocess.run(["python3", TEST_ALL, "--fail-tail", "30"], cwd=ROOT, capture_output=True, text=True, timeout=1200)
+    except subprocess.TimeoutExpired:
+        return False, "test-all timed out after 1200 s"
+    return t.returncode == 0, t.stdout.strip()
+
+
+def signature(text: str) -> str:
+    """Failure evidence with the noise taken out (temp paths, times, counts of seconds), to tell 'no progress' from 'different failure'."""
+    text = re.sub(r"/(?:private/)?(?:var/folders|tmp)/\S+", "<tmp>", text)
+    text = re.sub(r"\d{4}-\d\d-\d\d[ T]\d\d:\d\d(:\d\d)?\S*", "<time>", text)
+    text = re.sub(r"\b\d+(\.\d+)? ?s\b", "<n>s", text)
+    return text.strip()
+
+
+def tail_lines(p: Path, n: int, width: int = 400) -> str:
+    try:
+        return "\n".join(l[:width] for l in p.read_text(errors="replace").splitlines()[-n:])
+    except OSError:
+        return "(not found)"
+
+
+def write_evidence(rid: str, name: str, attempt: int, verdict: str, nerd_out: str, board_text: str) -> Path:
+    RESULTS.mkdir(parents=True, exist_ok=True)
+    p = RESULTS / f"{rid}-{name}-evidence-{attempt}.md"
+    logs = sorted((ROOT / "_queue" / "log").glob("*.log"))
+    body = (f"---\ncommand: job.run evidence\nstage: {name}\nattempt: {attempt}\nwritten_at: {now()}\n---\n"
+            f"# Evidence: stage `{name}`, attempt {attempt}\n\n## Verdict\n{verdict}\n\n"
+            f"## Test board (run by job.run outside the sandbox)\n```\n{board_text[-6000:] or '(not run)'}\n```\n\n"
+            f"## nerd-run output (tail)\n```\n{nerd_out.strip()[-3000:]}\n```\n\n"
+            f"## Watcher log (tail)\n```\n{tail_lines(logs[-1], 20) if logs else '(no log)'}\n```\n\n"
+            f"## Session transcript (last 40 lines, each cut at 400 chars)\n```\n{tail_lines(RESULTS / f'{rid}-{name}-{attempt}.transcript.jsonl', 40)}\n```\n")
+    p.write_text(body, encoding="utf-8")
+    return p
+
+
+def wait_for_nerd() -> str | None:
+    """None when no Nerd holds the tree; otherwise who does. An interactive Nerd is not waited for (it may run all day);
+    a nerd.run in flight is, up to NERD_WAIT_S (must-never 5: one writer)."""
+    end = time.monotonic() + NERD_WAIT_S
+    while True:
+        live = live_leases(ROOT)
+        inter = [p.stem for p, fm in live if fm.get("kind") == "interactive"]
+        if inter:
+            return f"interactive Nerd ({inter[0]})"
+        if not live:
+            return None
+        if time.monotonic() >= end:
+            return f"nerd.run still running ({live[0][0].stem})"
+        time.sleep(min(30, max(1, NERD_WAIT_S // 10)))
+
+
+def attempt_stage(job: Path, st: dict, rid: str, attempt: int, brief: str) -> tuple[str, str, str, str]:
+    """Run one attempt. Returns (kind done|blocked|failed, verdict, nerd output, board text)."""
+    name = st.get("name")
+    env = {**os.environ, "SANCHO_REQUEST_ID": f"{rid}-{name}-{attempt}", "SANCHO_REQUESTED_BY": f"job.run {job.stem}",
+           "SANCHO_SESSION": f"job.run {job.stem} stage {name} attempt {attempt}"}
     env.pop("SANCHO_REQUEST_FILE", None)
-    r = subprocess.run(["python3", NERD, "--task", task_for(job, st) + STAGE_CONTRACT], env=env, capture_output=True, text=True)
-    marks = [l.strip() for l in r.stdout.splitlines() if l.strip().startswith("Stage:")]
-    verdict = marks[-1] if marks else "Stage: (no verdict line)"
-    if r.returncode != 0 or verdict != "Stage: done":
-        return False, verdict
-    # a session doesn't grade its own homework (ERRORS.md #6): the board is run here, outside the sandbox
-    t = subprocess.run(["python3", TEST_ALL], cwd=ROOT, capture_output=True, text=True, timeout=1200)
-    if t.returncode != 0:
-        fails = [l for l in t.stdout.splitlines() if "| FAIL" in l]
-        return False, f"session said done but tests are red: {'; '.join(f.split('|')[1].strip() for f in fails)[:200] or t.stdout.strip()[-200:]}"
-    return True, verdict + " · tests green"
+    r = subprocess.run(["python3", NERD, "--task", task_for(job, st) + STAGE_CONTRACT + brief], env=env, capture_output=True, text=True)
+    kind, verdict = verdict_of(r.stdout)
+    if kind == "blocked":
+        return kind, verdict, r.stdout, ""
+    if r.returncode != 0 and kind == "done":
+        kind, verdict = "failed", f"nerd-run failed: {(r.stdout.strip().splitlines() or ['(no output)'])[-1][:200]}"
+    green, btext = board()
+    if kind == "done" and not green:
+        fails = [l.split("|")[1].strip() for l in btext.splitlines() if "| FAIL" in l]
+        kind, verdict = "failed", f"session said done but tests are red: {'; '.join(fails)[:200] or btext[-200:]}"
+    if kind == "done":
+        verdict += " · tests green"
+    return kind, verdict, r.stdout, btext
 
 
-def walk(job: Path, rid: str) -> str:
+def run_stage(job: Path, st: dict, rid: str) -> tuple[str, str, Path | None]:
+    """The troubleshoot loop. Returns (done|blocked|failed|busy, last verdict, evidence path or None)."""
+    name = st.get("name")
+    brief, prev_sig, evidence = "", None, None
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        busy = wait_for_nerd()
+        if busy:
+            return "busy", busy, evidence
+        kind, verdict, out, btext = attempt_stage(job, st, rid, attempt, brief)
+        if kind in ("done", "blocked"):
+            return kind, verdict, evidence
+        evidence = write_evidence(rid, name, attempt, verdict, out, btext)
+        sig = signature(btext if btext and "FAIL" in btext else verdict)
+        text = log(job.read_text(encoding="utf-8"), f"stage `{name}` attempt {attempt} failed ({flat(verdict)}); evidence {evidence.relative_to(ROOT)}")
+        write(job, text)
+        if sig == prev_sig:
+            return "failed", f"identical failure on attempts {attempt - 1} and {attempt} (no progress): {verdict}", evidence
+        prev_sig = sig
+        brief = retry_brief(attempt + 1, verdict, evidence)
+    return "failed", f"failed {MAX_ATTEMPTS} attempts: {verdict}", evidence
+
+
+def stage_idx(text: str, name: str) -> int:
+    return next(i for i, s in stages(text) if s.get("name") == name)
+
+
+def walk(job: Path, rid: str, auto: bool) -> tuple[str, bool]:
+    """Returns (outcome, stopped_for_a_problem)."""
     text = job.read_text(encoding="utf-8")
     fm, _ = read_frontmatter(job)
     ran = 0
@@ -133,66 +250,74 @@ def walk(job: Path, rid: str) -> str:
         pos = next((i for i, (_, s) in enumerate(sts) if s.get("name") == cur), None)
         if pos is None:
             pos = next((i for i, (_, s) in enumerate(sts) if s.get("status") not in ("done", "skipped")), None)
-        if pos is None:
-            text = log(text, "all stages done")
-            write(job, text)
-            push("info", f"Job {job.stem}: all stages done.")
-            return "all stages done"
+        if pos is None or (sts[pos][1].get("status") in ("done", "skipped") and pos + 1 >= len(sts)):
+            write(job, log(text, "all stages done"))
+            push(job, "info", f"Job {job.stem}: all stages done.")
+            return "all stages done", False
         idx, st = sts[pos]
-        name = st.get("name")
-        if st.get("status") in ("done", "skipped"):
-            nxt = sts[pos + 1][1].get("name") if pos + 1 < len(sts) else None
-            if not nxt:
-                text = log(text, "all stages done")
-                write(job, text)
-                push("info", f"Job {job.stem}: all stages done.")
-                return "all stages done"
+        name, status = st.get("name"), str(st.get("status") or "")
+        if status in ("done", "skipped"):
+            nxt = sts[pos + 1][1].get("name")
             text = set_current(text, nxt)
             fm["current"] = nxt
             continue
+        if auto and status in ("blocked", "failed", "waiting"):
+            # the warn went out when it stopped; an automatic pass neither re-runs it nor pushes again
+            write(job, log(text, f"auto: stage `{name}` is {status}; left for Gordon or a manual job.run"))
+            return f"left at {status} stage {name}", False
         if str(st.get("gate") or "") == "human":
-            text = set_stage(text, idx, status="waiting")
-            text = set_current(text, name)
-            text = log(text, f"stopped at human gate `{name}`")
-            write(job, text)
-            push("info", f"Job {job.stem} is waiting for you: {name}. {st.get('note', '')}")
-            return f"stopped at human gate {name}"
-        text = set_current(set_stage(text, idx, status="active"), name)
-        text = log(text, f"stage `{name}` started")
-        write(job, text)
-        ok, last = run_stage(job, st, rid, 1)
-        if not ok:
-            text = log(job.read_text(encoding="utf-8"), f"stage `{name}` failed once ({last[:160]}); retrying")
-            write(job, text)
-            ok, last = run_stage(job, st, rid, 2)
+            text = set_current(set_stage(text, idx, status="waiting"), name)
+            write(job, log(text, f"stopped at human gate `{name}`"))
+            push(job, "warn", f"Job {job.stem} is waiting for you at {name}: {st.get('note', '')}", reason="job-gate")
+            return f"stopped at human gate {name}", False
+        text = set_current(set_stage(text, idx, status="active", blocked=None), name)
+        write(job, log(text, f"stage `{name}` started"))
+        kind, last, evidence = run_stage(job, st, rid)
         text = job.read_text(encoding="utf-8")  # the stage's session may have edited the job file itself
-        idx = next(i for i, s in stages(text) if s.get("name") == name)
-        if not ok:
+        idx = stage_idx(text, name)
+        ev = f" Evidence: {evidence.relative_to(ROOT)}" if evidence else ""
+        if kind == "busy":
+            advance_pending(STATE, job.stem, last)
+            write(job, log(text, f"stage `{name}` not started: {last} holds the tree; the watcher resumes this job when the lease clears"))
+            push(job, "info", f"Job {job.stem}: waiting for {last} before stage {name}.")
+            return f"waiting: {last}", False
+        if kind == "blocked":
+            what = flat(re.sub(r"^Stage:\s*blocked:?\s*", "", last), 200) or "(no reason given)"
+            text = set_stage(text, idx, status="blocked", blocked=what)
+            write(job, log(text, f"stage `{name}` blocked, paused for Gordon: {what}"))
+            push(job, "warn", f"Job {job.stem} paused at {name}; needs you: {what}.{ev}", reason="job-gate")
+            return f"blocked at {name}: {what}", False
+        if kind == "failed":
             text = set_stage(text, idx, status="failed")
-            text = log(text, f"stage `{name}` failed twice; stopped ({last[:160]})")
-            write(job, text)
-            push("info", f"Job {job.stem} stopped: stage {name} failed twice. {last[:200]}")
-            return f"stage {name} failed twice"
+            write(job, log(text, f"stage `{name}` stopped: {flat(last, 300)}.{ev}"))
+            push(job, "warn", f"Job {job.stem} stopped at {name}: {last[:200]}.{ev}", reason="job-stopped")
+            return f"stage {name} failed: {last[:200]}", True
         text = set_stage(text, idx, status="done")
-        text = log(text, f"stage `{name}` done ({last[:160]})")
-        write(job, text)
+        write(job, log(text, f"stage `{name}` done ({flat(last)})"))
         fm, _ = read_frontmatter(job)
+        text = job.read_text(encoding="utf-8")
         ran += 1
-    push("info", f"Job {job.stem}: paused after {MAX_STAGES_PER_RUN} stages in one run; run job.run again to continue.")
-    return f"paused after {MAX_STAGES_PER_RUN} stages"
+    req = enqueue(ROOT, "job.run", [job.stem] + (["--auto"] if auto else []), "job.run", f"job.run continuation of {rid}", job.stem)
+    write(job, log(job.read_text(encoding="utf-8"), f"{MAX_STAGES_PER_RUN} stages in one run; continuation queued ({req.name})"))
+    push(job, "info", f"Job {job.stem}: {MAX_STAGES_PER_RUN} stages done in one run; continuing.")
+    return f"paused after {MAX_STAGES_PER_RUN} stages; continuation queued", False
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("job", help="job file name or path under _queue/jobs/")
     ap.add_argument("--foreground", action="store_true", help="walk here instead of detaching (tests, debugging)")
+    ap.add_argument("--auto", action="store_true", help="queued by the watcher: only for jobs with `advance: auto`; never re-runs a failed or blocked stage")
     a = ap.parse_args()
     job = resolve(a.job)
     rid = os.environ.get("SANCHO_REQUEST_ID") or datetime.datetime.now().strftime("manual-%Y%m%dT%H%M%S")
+    if a.auto and str(read_frontmatter(job)[0].get("advance") or "manual") != "auto":
+        print(f"job-run: {job.stem} is not `advance: auto`; nothing done")
+        return 0
     if not a.foreground:
-        subprocess.Popen(["python3", __file__, str(job), "--foreground"], cwd=ROOT, start_new_session=True,
+        subprocess.Popen(["python3", __file__, str(job), "--foreground"] + (["--auto"] if a.auto else []), cwd=ROOT, start_new_session=True,
                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, env={**os.environ, "SANCHO_REQUEST_ID": rid})
-        print(f"job-run: started on {job.relative_to(ROOT)} in the background; progress is written to the job file; a push comes when it stops")
+        print(f"job-run: started on {job.relative_to(ROOT)} in the background ({'auto' if a.auto else 'manual'}; session {SESSION}); progress is written to the job file; a push comes when it stops")
         return 0
     STATE.mkdir(parents=True, exist_ok=True)
     lock = open(STATE / f"job-run.{job.stem}.lock", "w")
@@ -201,12 +326,13 @@ def main() -> int:
     except BlockingIOError:
         print(f"job-run: {job.stem} is already being walked")
         return 1
-    outcome = walk(job, rid)
-    res = ROOT / "_queue" / "results" / f"{rid}.job.md"
-    res.parent.mkdir(parents=True, exist_ok=True)
-    res.write_text(f"---\ncommand: job.run\njob: {job.relative_to(ROOT)}\nfinished_at: {now()}\noutcome: {outcome}\n---\n{outcome}\n")
+    advance_pending(STATE, job.stem, drop=True)
+    outcome, problem = walk(job, rid, a.auto)
+    RESULTS.mkdir(parents=True, exist_ok=True)
+    (RESULTS / f"{rid}.job.md").write_text(f"---\ncommand: job.run\nstatus: {'failed' if problem else 'ok'}\njob: {job.relative_to(ROOT)}\n"
+                                          f"session: {SESSION}\nfinished_at: {now()}\noutcome: {flat(outcome, 300)}\n---\n{outcome}\n")
     print(f"job-run: {outcome}")
-    return 0 if "failed" not in outcome else 1
+    return 1 if problem else 0
 
 
 if __name__ == "__main__":

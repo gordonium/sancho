@@ -23,7 +23,7 @@ def fail(m):
 # --- temp tree
 tree = T / "tree"; (tree / "_setup/pipeline").mkdir(parents=True); (tree / "people").mkdir(); (tree / "recordings/inbox").mkdir(parents=True)
 (tree / "CLAUDE.md").write_text("x")
-for f in ("sancho_lib.py", "notify.py"): shutil.copy(SETUP / f, tree / "_setup" / f)
+for f in ("sancho_lib.py", "notify.py", "notify-reasons.md"): shutil.copy(SETUP / f, tree / "_setup" / f)
 shutil.copy(SETUP / "pipeline/earballs.py", tree / "_setup/pipeline/earballs.py")
 good = T / "good.ogg"
 subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i", "sine=frequency=440:duration=40", "-c:a", "libopus", "-b:a", "24k", str(good)], check=True)
@@ -116,6 +116,7 @@ S["plaud_401"] = True; run("sync")
 st = (tree / "recordings/STATUS.md").read_text()
 if "RED" not in st or "token expired" not in st: fail("401 not RED in STATUS:\n" + st[:600])
 if not any("token+expired" in p or "token%20expired" in p for p in S["pushes"]): fail(f"no push for expired token: {S['pushes']}")
+if not any("Sancho+ALERT" in p and "unregistered" not in p for p in S["pushes"]): fail(f"red watchdog not an alert with a registered reason: {S['pushes']}")
 n = len(S["pushes"]); run("sync")
 if len(S["pushes"]) != n: fail("push repeated within the day")
 S["plaud_401"] = False

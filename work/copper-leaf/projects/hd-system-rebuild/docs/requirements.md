@@ -77,13 +77,14 @@ Every line cites the transcript (`[hh:mm:ss]`, speaker as confirmed: 01 = Gordon
 - R7.4 Reassemble the database that "got blown apart" from backups to shrink the roughly two percent data loss, before printing the old PDFs. [21:50 Gordon]
 - R7.5 Retire the current system and "the Grayson system that's still online" (a predecessor, unconfirmed what it is). [21:36 Gordon]
 - R7.6 End state: an appointment record for every historical job (who, when, where) with its PDF attached, searchable (R6.2); all old systems permanently retired. [23:05 Gordon]
+- R7.8 The new system's database houses **all the legacy data going back to the early 1990s**, not only a file row with a PDF attached; "so we may need more tables." [gordon 2026-10-01] This strengthens R7.6. Which legacy fields become columns and which stay inside the archived PDF is not yet stated; the census decides what exists to carry.
 - R7.7 Peter's real need from history: "somebody calls me about a crack in a foundation and if I've been there, 35 years ago, 22 years ago; sometimes I wrote on the wall; if I have it in a report, those are really interesting to have." [22:31 Peter]
 
 ## R8. Out of scope, parked, or separate
 
 - Website changes: homedirections.net still has leftover inspection content; Peter wants a few changes; "some other time," together. [13:41 to 14:29]
 - "Revised on" revision box in the letter (R3.5): parked.
-- Tech stack: "to be determined, might still be WordPress, thinking not; doesn't much matter to you." Gordon to decide with the AI. [05:00 Gordon]
+- Tech stack: "to be determined, might still be WordPress, thinking not; doesn't much matter to you." Gordon to decide with the AI. [05:00 Gordon] **Decided 2026-10-01: Laravel.** [gordon 2026-10-01] [doc:phase0-brief.md Decisions]
 - Peter's ask about communication: email Gordon rather than text (texts are ephemeral; phone calls bad; email "dodgy" but best). [27:00 to 27:42]
 
 ## Facts that constrain the design (from the code, cited in the surveys)

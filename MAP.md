@@ -66,10 +66,14 @@ flowchart LR
   subgraph gtd
     open[open]
   end
+  subgraph ingest
+    earballs_ingest[earballs-ingest]
+  end
   subgraph other
     checkback[checkback]
   end
   checkback --> the
+  earballs_ingest --> attribution_correction
   open --> the
 ```
 ### Pipeline stages
@@ -87,7 +91,7 @@ flowchart LR
 - **Food routine to habit** (personal/food) · next: Design the Sunday session skill (build order #6); first session picks four dinners
 - **Nomad daily check** (personal/nomad) · next: Design the personal morning routine incl. the nomad check (build order #5)
 - **Build Sancho** (work/copper-leaf) · next: Claude Code on the Mac: watcher, launchd, Sancho-Audio, Sancho-Secrets, Sancho-Private, autocommit fix, ping
-- **Home Directions system rebuild** (work/copper-leaf) · next: Gordon reviews docs/plan.md and answers questions 1 to 3 (stack, Workspace, hosting); then Sancho runs the data census on the dev clone (needs the Chrome login) and the Nerd gets step 1 as a job
+- **Home Directions system rebuild** (work/copper-leaf) · next: Stack decided (Laravel). Sancho: hosting options with a pick (docs/hosting-options.md), the Laravel kit spec with the updates schedule (docs/laravel-kit-spec.md), then question 2 (Workspace) with Gordon; census on the dev clone still needs Gordon's login in the Chrome tab
 
 ## Changed this week
 
@@ -151,7 +155,7 @@ flowchart LR
 - _setup/retired/INDEX.md
 - _setup/sancho-enqueue.py
 - _setup/sancho-lock-secrets.sh
-- … +346 more
+- … +350 more
 
 ## Level 2 · wiring
 
@@ -160,6 +164,7 @@ flowchart LR
 | skill | lobe | triggers | must not | reads | writes | test |
 |---|---|---|---|---|---|---|
 | checkback | both | a scheduled-task prompt that says: open job <name>; run checkback, check on the Nerd, did the Nerd finish, where is job <name> | a conversation where Gordon is present and just asked the Nerd something himself, a job with no waiting_on block, any request to create tasks for Gordon, anything outbound | CLAUDE.md, _queue/jobs/<job>.md, _queue/checkbacks.md, _design/STATUS.md, _queue/results/, _queue/running/, _queue/HEALTH.md, _setup/commands.md | _queue/checkbacks.md (one row filled or appended), _queue/jobs/<job>.md (hops, waiting_on statuses, stage status), _design/STATUS.md (one line under ### Check-backs), _queue/requests/ (notify.push; nerd.run when it exists), the next scheduled task, or none | _setup/tests/skills/checkback/ |
+| earballs-ingest | both | ingest, process recordings, file that recording, the greeting shows recordings waiting and Gordon says go, a check-back or job stage named ingest | a recording mentioned in passing, a request to search transcripts ("what did Roy say"), a transcript whose speakers Gordon has not confirmed when the recording is not solo, any recording in recordings/backlog/ unless a backlog ingest job names it | recordings/inbox/<rec_id>/{transcript,speakers,meta}.md, recordings/lexicon.md, people/INDEX.md, the target lobe's INDEX.md and PROJECTS.md, the target entity's INDEX.md and project.md or entity.md, the recording's corrections.md if present, personal/me/watch.md | recordings/<home>/<rec_id>/speakers.md (confirmations), recordings/<home>/<rec_id>/corrections.md, recordings/lexicon.md, the entity's summaries/<date>_<rec_id>.md (T5), project.md / entity.md / knowledge.md / people/<slug>.md lines with cites, _queue/requests/ (pipeline.library when a speaker is newly human-confirmed; pipeline.status after the move), the transcript folder moved to its home, the session note's written: list | _setup/tests/skills/earballs-ingest/ |
 | open | both | Hey Sancho, hey sancho, any greeting addressed to Sancho, let's work, switch to work, switch to personal, done, thanks Sancho, that's it for this one, close | a message that continues an open conversation, a question inside a job, the word sancho used in the third person, a Nerd build session that already stated its task | CLAUDE.md, personal/me/brief.md, personal/me/watch.md, personal/nomad/location.md, <lobe>/INDEX.md, <lobe>/PROJECTS.md, recordings/STATUS.md, _queue/HEALTH.md, _queue/leases/, _queue/sessions/, _queue/routines/<lobe>-morning-<date>.md, the project.md of each project in today's focus, git log since the last clean close | _queue/leases/<session-id>.md, _queue/sessions/<date>_<topic>_<id>.md, on close: a receipt in the session note, the note folded into the project's history or the lobe's day log, the lease removed, a git.commit request in _queue/requests/ | _setup/tests/skills/open/ |
 
 </details>
@@ -175,7 +180,7 @@ flowchart LR
 | git.commit | _setup/git-autocommit.sh | 120 | hourly (launchd direct, not via the queue); at conversation close | commit and push the tree (skips oversize files, lists them in GIT-EXCLUDED.md) |
 | nightly | _setup/nightly.sh | 300 | nightly 02:00 (com.sancho.nightly enqueues it) | index.build, then lint, then map.build; stops at the first failure |
 | notify.test | _setup/notify-test.sh | 30 | | args [info] / [warn] / [alert]: send one test push to Gordon's phone at that level |
-| notify.push | _setup/notify.py | 30 | | args [info or warn or alert, <message>]: one Pushover push to Gordon; warn only when he must act soon, info for FYI ("Warn means WARN", decisions 2026-09-30); deduped per key; a comma in the message arrives whole |
+| notify.push | _setup/notify.py | 30 | | args [info or warn or alert, --reason=<slug>, <message>]: one Pushover push to Gordon; info (silent) for completions and progress; warn (sound) when he must move, with a reason registered in _setup/notify-reasons.md; alert only for pipeline red / watcher dead, at priority 0 for now so quiet hours hold [gordon 2026-10-01]; the request's session is echoed; deduped per key; a comma in the message arrives whole |
 | mac.stay-awake | _setup/stay-awake.sh | 20 | | args [on] / [off] / [status]: keep the Mac from idle-sleeping (caffeinate under launchd) |
 | sancho.unlock | _setup/sancho-unlock.sh | 60 | Terminal only | decrypt Sancho-Secrets/sancho.env.age to ~/.config/sancho/env (asks for the passphrase) |
 | sancho.lock-secrets | _setup/sancho-lock-secrets.sh | 60 | Terminal only | re-encrypt ~/.config/sancho/env after an edit (asks for the passphrase twice) |
@@ -186,25 +191,26 @@ flowchart LR
 | pipeline.status | _setup/pipeline/earballs.sh | 60 | | args [status]: regenerate recordings/STATUS.md |
 | net.status | _setup/netstate.py | 20 | every watcher tick (in-process) | which network, metered or not (router fingerprint vs _setup/metered-networks.md) |
 | net.mark | _setup/netstate.py | 20 | | args [mark, <label>, metered or unmetered]: record the network the Mac is on now |
-| nerd.run | _setup/nerd-run.py | 1900 | | headless Claude Code (the Nerd) for the task in the request (`task:`, `task_file:`, or body); allowlisted tools, OS sandbox, no MCP, no push/commit/web; one at a time; transcript in _queue/results/ |
-| job.run | _setup/job-run.py | 60 | | args [<job name or file>]: walk a job file stage by stage via nerd.run (detached; progress in the job file); stops at a human gate or after two failures of a stage, with one push |
+| nerd.run | _setup/nerd-run.py | 1900 | | headless Claude Code (the Nerd) for the task in the request (`task_file:`, or a body ending with the line `-- end of task --`; ERRORS.md #7); allowlisted tools, OS sandbox, no MCP, no push/commit/web; one at a time; lease while running; transcript in _queue/results/; a result for a job with `advance: auto` queues job.run --auto |
+| job.run | _setup/job-run.py | 60 | | args [<job name or file>] (or [<job>, --auto], queued by the watcher): walk a job file stage by stage via nerd.run (detached; progress in the job file); up to 3 attempts per stage with evidence and diagnose-first, stopping early on an identical failure; `Stage: blocked` pauses at a gate; warn on every stop, info on completion |
 
 </details>
 
 <details><summary>Scripts</summary>
 
+- `_setup/nerd-lease.py` · Leases for Nerd sessions in _queue/leases/, so a cold hop or job.run sees "a Nerd is active" mechanically. `run -- <cmd…>` wraps an interactive Claude Code session (the `sancho nerd` shell phrase): takes `nerd-interactive-<stamp>.md` carrying its pid, touches it every 5 min, removes it when the session ends. `take`/`release` for hooks; `status` lists live Nerd leases (exit 1 if any).
 - `_setup/netstate.py` · Which network the Mac is on and whether it is metered. Fingerprint = the default gateway's MAC (macOS hides the Wi-Fi name without Location permission). Policy from _setup/metered-networks.md; unknown networks are metered while the policy date runs. `mark <label> metered|unmetered` records the current network.
-- `_setup/sancho-enqueue.py` · Write one request file to _queue/requests/ (the documented name and frontmatter), optionally wait for its result and print it. Used by launchd schedules and by sessions that have a shell.
-- `_setup/sancho-watcher.py` · One tick of the host execution bridge. Runs every allowlisted request in _queue/requests/, writes one result per request to _queue/results/, then rewrites _queue/HEALTH.md. Exits; launchd calls it again on any change to requests/ and every 60 s.
-- `_setup/sancho_lib.py` · Shared helpers for Sancho's build scripts: find the tree, read YAML-ish frontmatter without PyYAML, walk files, ask git for last-updated dates.
+- `_setup/sancho-enqueue.py` · Write one request file to _queue/requests/ (the documented name and frontmatter, including `session:`, the sender), optionally wait for its result and print it. `--task-file` names a task file for nerd.run instead of a shell-composed body (ERRORS.md
+- `_setup/sancho-watcher.py` · One tick of the host execution bridge. Runs every allowlisted request in _queue/requests/, writes one result per request to _queue/results/ (echoing the request's `session:`), then rewrites _queue/HEALTH.md. Scheduled requests (requested_by launchd) wait until the Mac has been awake SETTLE_MIN minutes (ERRORS.md #8). A nerd.run result for a job with `advance: auto` queues `job.run --auto`; jobs left waiting for a Nerd lease are re-queued when it clears. A failure of a request that names a job warns. Exits; launchd calls it again on any change to requests/ and every 60 s.
+- `_setup/sancho_lib.py` · Shared helpers for Sancho's build scripts: find the tree, read YAML-ish frontmatter without PyYAML, walk files, ask git for last-updated dates; write requests; write and read Nerd leases.
 - `_setup/pipeline/earballs.py` · The recording pipeline. Plaud fetch (incremental every 5 min, full reconcile daily) → download → Groq transcription → pyannote diarization + embeddings → voiceprint match → transcript.md / speakers.md / meta.md in recordings/inbox/ → recordings/STATUS.md → watchdog push. Also backfill, reprocess, library rebuild.
 - `_setup/build-index.py` · Regenerate every INDEX.md in the tree (one line per child from frontmatter), each lobe's PROJECTS.md, the ICE views, the people index with completeness, and the skill index. Never hand-edited outputs.
 - `_setup/build-map.py` · Regenerate MAP.md, the living map, in three zoom levels: Level 0 the system (one Mermaid diagram, ≤8 boxes), Level 1 components per box, Level 2 wiring tables (reads/writes/triggers/tests/commands/retired). Built only from frontmatter, commands.md and git; no hand-kept registry. Fails if a component has no parsable header or a reads/writes/chain target does not exist.
-- `_setup/job-run.py` · Walk a job file (_queue/jobs/*.md) stage by stage, running each stage as a nerd.run session, advancing `current` on success, stopping at any `gate: human` stage; a failed stage is retried once, then the job stops. Pushes are info (silent): the greeting reports job state; warn is only for timely attention (Gordon, 2026-09-30). Detaches at once so the watcher stays free; progress lives in the job file.
+- `_setup/job-run.py` · Walk a job file (_queue/jobs/*.md) stage by stage, running each stage as a nerd.run session, advancing `current` on success, stopping at any `gate: human` stage. A failing stage gets a troubleshoot loop: up to 3 attempts; attempt 2 and later carry the evidence (test board, failing suites' output, log tail, the failed session's transcript tail) and a diagnose-first instruction; two attempts failing on identical evidence stop early (no progress). A session may end `Stage: blocked: <what Gordon must do>`, which pauses the job at a gate instead of failing it. Pushes (Gordon, 2026-10-01): warn on every stop that needs him (gate, blocked, stopped) with the evidence path; info for completions. `--auto` (queued by the watcher after a nerd.run result for the job lands, only for jobs with `advance: auto`) never re-runs a failed or blocked stage and yields to a live Nerd lease. Detaches at once so the watcher stays free; progress lives in the job file.
 - `_setup/lint-layers.py` · Enforce the layering rule (architecture §2), the focus caps, the header rule, generated-file integrity, project next-action and waiting-for freshness, and dangling references. Exit 1 on any violation so the map build fails.
-- `_setup/nerd-run.py` · Run one headless Claude Code session (the Nerd) on the Mac for a task given in the request (frontmatter `task:`, `task_file:` inside the tree, or the request body). Fixed tool allowlist, OS sandbox (writes only in the tree and the kit; network only GitHub and Anthropic), no MCP connectors, no outbound messaging, timeout, lease while running, transcript kept, one-line receipt.
-- `_setup/notify.py` · Send one Pushover message to Gordon. Level sets priority (info -1, warn 0, alert 1). Rule (Gordon, 2026-09-30): "Warn means WARN": warn makes his phone sound and is only for things needing his attention soon (today: the pipeline red, i.e. recordings not flowing). Everything else is info (silent, in-app) or nothing; no chatter. Deduped per key: sends when the message for a key changes, otherwise at most once a day.
-- `_setup/test-all.py` · Run every test under _setup/tests/*/ (test.sh or test.py), write _setup/TESTS.md (the test board), exit 1 if any fails. Off the Mac, suites whose header says `requires: mac` are skipped and the board is not written (ERRORS.md
+- `_setup/nerd-run.py` · Run one headless Claude Code session (the Nerd) on the Mac for a task given in the request (`task_file:` inside the tree, or a request body ending with the line `-- end of task --`; a bare `task:` line is refused, ERRORS.md #7). Fixed tool allowlist, OS sandbox (writes only in the tree and the kit; network only GitHub and Anthropic), no MCP connectors, no outbound messaging, timeout, lease (kind, session, pid) while running, the request's `session:` echoed, transcript kept, one-line receipt.
+- `_setup/notify.py` · Send one Pushover message to Gordon. Levels (Gordon, 2026-10-01): info -1 (silent: completions, recoveries, progress); warn 0 (sound: he must move: a job at a gate, stopped or blocked, a chain end); alert 0 for now with its own title and sound (pipeline red, watcher dead); priority 1 is reserved, so Pushover's quiet hours hold for every push. warn and alert carry `--reason=<slug>` from _setup/notify-reasons.md. The sender's session (`--session` or $SANCHO_SESSION) is echoed in the message. Deduped per key: sends when the message for a key changes, otherwise at most once a day.
+- `_setup/test-all.py` · Run every test under _setup/tests/*/ (test.sh or test.py), write _setup/TESTS.md (the test board), exit 1 if any fails. Off the Mac, suites whose header says `requires: mac` are skipped and the board is not written (ERRORS.md #2). PATH is set explicitly, so launchd's short PATH can't fail a suite (ERRORS.md #8); a suite during which the Mac slept says so on its row. `--fail-tail N` prints the last N lines of each failing suite (job.run's evidence).
 
 </details>
 
@@ -213,9 +219,10 @@ flowchart LR
 # LINT
 generated 2026-10-01 by lint-layers.py
 
-**0 problems, 0 warnings**
+**1 problems, 0 warnings**
 
 ## Problems (block the build)
+- work/copper-leaf/projects/hd-system-rebuild/docs/phase0-brief.md:87: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 
 ## Warnings
 
@@ -224,10 +231,11 @@ generated 2026-10-01 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-09-30 23:59 by test-all.py · 19 suites · 0 failing
+generated 2026-10-01 16:19 by test-all.py · 20 suites · 3 failing
 
 | suite | result | last line |
 |---|---|---|
+| .claude | no test file | - |
 | build-index | PASS | test-build-index: PASS |
 | build-map | PASS | test-build-map: PASS |
 | git-autocommit | PASS | test-git-autocommit: PASS |
@@ -235,7 +243,7 @@ generated 2026-09-30 23:59 by test-all.py · 19 suites · 0 failing
 | job-run | PASS | test-job-run: PASS |
 | lint-layers | PASS | test-lint-layers: PASS |
 | nerd-run | PASS | test-nerd-run: PASS |
-| netstate | PASS | test-netstate: PASS |
+| netstate | FAIL | test-netstate: FAIL: fingerprint reads offline under launchd's PATH: netstate: offline (-): unmetered · no network |
 | nightly | PASS | test-nightly: PASS |
 | notify | PASS | test-notify: PASS |
 | ping | PASS | test-ping: PASS |
@@ -244,7 +252,7 @@ generated 2026-09-30 23:59 by test-all.py · 19 suites · 0 failing
 | secrets | PASS | test-secrets: PASS |
 | stay-awake | PASS | test-stay-awake: PASS |
 | test-all | PASS | test-test-all: PASS |
-| watcher | PASS | test-watcher: PASS |
+| watcher | FAIL | no result after 15 s; check _queue/HEALTH.md for when the watcher last ran |
 | skill:checkback | PASS | test-skill-checkback: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:open | PASS | test-skill-open: PASS (structural; behavioral scenario runs on the Mac) |
 

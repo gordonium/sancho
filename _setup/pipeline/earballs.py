@@ -968,7 +968,7 @@ def watchdog(c):
     env = {**os.environ, **{k: v for k, v in ENV.items() if k.startswith("PUSHOVER")}}
     if crit:
         msg = "Pipeline: " + " ".join(p[2] for p in crit)
-        subprocess.run([sys.executable if sys.executable else "python3", str(notify), "warn", msg, "--key=pipeline"], env=env, capture_output=True, timeout=30)
+        subprocess.run([sys.executable if sys.executable else "python3", str(notify), "alert", msg, "--key=pipeline", "--reason=pipeline-red"], env=env, capture_output=True, timeout=30)
         meta_set(c, "watchdog_state", "red")
     else:
         if was == "red":

@@ -11,7 +11,7 @@ next_action: {text: "Design the personal morning routine incl. the nomad check (
 waiting: []
 job:
 description: Nomad daily check; captured 2026-09-21, components added 2026-09-30
-sources: ["[gordon 2026-09-21]", "[gordon 2026-09-30]"]
+sources: ["[gordon 2026-09-21]", "[gordon 2026-09-30]", "[rec_0c571abb1d 2026-09-22]"]
 ---
 # Nomad daily check
 **Big picture.** Gordon lives in his RV full-time. Years ago he found a map on Imgur: a 9,000-mile, 12-month road trip through North America that chases an average of 70°F. He is not doing that exact trip; he's taking the concept and overlaying it with **where his favorite and most important people are**, so he keeps his social exposure during a solo adventure. That social contact is very important to his mental well-being. This routine is as much about people as weather.
@@ -53,3 +53,6 @@ Dropped: mail and package forwarding (Gordon's call).
 - The people-and-places list is a first concrete consumer of the spine's `people/` design (decision #8): people need a `location` field and a "last seen / want to see" field.
 
 ---
+
+## Notes
+- 2026-10-01 · ingest: the 09-21 dictation exists as audio, Tue 9/22 02:27, 5 min; the big picture, the morning ask and the 60/85 range are now also cited to it. [rec_0c571abb1d 2026-09-22]
