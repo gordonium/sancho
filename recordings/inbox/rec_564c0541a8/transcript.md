@@ -1,7 +1,7 @@
 ---
 name: Recording rec_564c0541a8 · 2026-09-10 13:01 · 24 min
 type: transcript
-description: Plaud recording, 24 min, 3 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 24 min, Gordon and Peter Nevland after the D&M call: the Ignite (Mankato MN) website, whether Gordon rebuilds it, Nathan as a possible partner; speakers confirmed and ingested 2026-10-01, summary beside it (summary.md); home pending Gordon's call (copper-leaf client vs wizard-of-ads client)
 lobe: both
 sources: ["[rec_564c0541a8 2026-09-10]"]
 rec_id: rec_564c0541a8

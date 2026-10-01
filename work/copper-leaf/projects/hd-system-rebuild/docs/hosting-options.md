@@ -4,108 +4,161 @@ type: doc
 business: copper-leaf
 entity: work/copper-leaf/projects/hd-system-rebuild/
 lobe: work
-description: Answer to "can v4 run on Cloudflare's edge, and if not where"; four research angles each re-checked at the vendor's own pages on 2026-10-01; Sancho's pick (Laravel Forge with an own-account production server), what it costs, what the maintainer still owns, and what must be true before committing
-sources: ["[gordon 2026-10-01]", "[doc:phase0-brief.md]", "[doc:plan.md]", "[sancho subagents 2026-10-01, workflow wf_36d1b645-ad7: 8 agents, 227 claims, 216 confirmed at the vendor's page, 1 wrong, 1 outdated, 9 could not be verified]", "[web: vendor pages listed under Sources]"]
-status: for Gordon's decision; nothing here is approved
+description: Where to host v4 and the Laravel apps after it; Cloudflare's edge ruled out; Forge compared with a bare server ("dev in place") and with the other contenders, weighed for simplicity because Gordon said cost is not the issue; Sancho's pick, what it costs, what the maintainer still owns, the production boundary, what is unverified
+sources: ["[gordon 2026-10-01]", "[doc:hosting-claims.md: 227 researched claims; 210 confirmed at the vendor's page by a second reader, 6 with no verdict matched in the record (3 of those corroborated in the checkers' notes), 1 wrong, 1 outdated, 9 could not be verified]", "[doc:phase0-brief.md]", "[doc:plan.md]", "[doc:laravel-kit-spec.md]", "[sancho subagent review 2026-10-01, workflow wf_4aaefbba-f62: numbers audit of draft 1]", "[web: vendor pages listed under Sources]"]
+status: draft 2 for Gordon's decision, revised after an independent numbers audit and after Gordon's "simplicity over complexity, cost isn't an issue"; nothing here is approved
 ---
 # Hosting options for v4 (and the Laravel apps after it)
 
-Gordon asked: "Where should we host it? Can we do it on Cloudflare Edge? Otherwise, we need a task to shop hosting options." [gordon 2026-10-01] This is the shopping, done. Prices and limits were read at the vendors' own pages on 2026-10-01 and each claim was re-checked by a second reader; anything not confirmed is marked.
+Gordon, first: "Where should we host it? Can we do it on Cloudflare Edge?" Then: "Do we really need Laravel Forge, or can we just 'dev in place' at a staging address directly in Digital Ocean? The cost isn't an issue, just looking for simplicity over complexity. What advantages does Laravel Forge offer us? What are the other top contenders ... and their pros & cons?" [gordon 2026-10-01]
+
+Prices and limits were read at the vendors' own pages on 2026-10-01 and each claim re-checked by a second reader; the record is `hosting-claims.md`. Anything not confirmed is marked.
 
 ## The short answer
 
-- **Cloudflare as the host: no.** Workers does not run PHP; Cloudflare's container product runs it but has no persistent disk and no supported Laravel database path.
-- **Cloudflare in front: yes, later and optionally.** DNS is already there. [dns:homedirections.net NS, 2026-10-01]
-- **Pick: Laravel Forge (Hobby, $12) managing a production server in a DigitalOcean account Gordon owns, plus a small Forge-billed staging server. About $34 a month, flat, and the next Laravel apps ride on the same pair for nothing extra.**
+- **Cloudflare as the host: no.** Detail below.
+- **A bare DigitalOcean server with no Forge: it works, and it is not the simpler choice.** It trades one vendor for a dozen hand-built parts that we would then own.
+- **Pick: two small servers in a DigitalOcean account Gordon owns, with Laravel Forge managing them.** About $47 a month with cost set aside as he asked ($34 in the leaner variant). Later Laravel apps go on the same pair.
+
+## Forge, or a bare server
+
+**What Forge is.** A control panel, not a host. It logs in to servers you own and sets them up, and it keeps a button for each routine job. If Forge vanished the servers would keep running; they are ordinary Ubuntu.
+
+**What it does that we would otherwise build and maintain by hand:**
+
+| Job | With Forge | On a bare server |
+|---|---|---|
+| A new server, hardened (firewall, keys only, weekly security updates) | a form | a setup script we write and keep current |
+| Web server and a site | a form | Nginx config by hand |
+| Certificates, issued and renewed | automatic | certbot, and watching that renewal keeps working |
+| PHP installed; a new PHP version switched in | a click per version | package work by hand each year |
+| The queue worker, kept alive across crashes and reboots | a form | a Supervisor or systemd unit we write |
+| The scheduler | a toggle | a cron line |
+| Deploys that do not interrupt the site, the last four kept, a way back | built in | a release-folder script we write, and a rollback script |
+| A Deploy button and a deploy log Gordon can read | built in | Gordon runs a command over SSH, or we build a trigger |
+| Each site under its own user; the database file kept across releases | settings | by hand |
+| A check after each deploy that the site answers | built in (plan to confirm) | by hand |
+| The next app | repeat the forms | repeat all of the above |
+
+[web:laravel.com/forge/docs: servers/security.md, sites/deployments.md, server-providers.md] [doc:hosting-claims.md]
+
+**What Forge costs in complexity.** It is one more account, and it has defaults that must be set right once: deploy-on-push is on for new sites; organisation-level keys are copied to every server; its GitHub connection reaches every repository unless limited. The kit spec's checklist covers each. [doc:laravel-kit-spec.md §7 laravel-new, §8.1]
+
+**What Forge does not do, either way:** reboot after a kernel fix; update PHP by itself; move the server to a new Ubuntu every five years or so; back up a SQLite file; alert on thresholds below its $39 plan. [doc:hosting-claims.md]
+
+**"Dev in place".** Two different things hide in the phrase.
+- *A staging address that always shows the current work.* Yes. That is in the pick: the agent pushes, staging updates within a minute or so, Gordon looks.
+- *Editing the code on the staging server itself, as its only home.* That is the part to avoid. The working copy on the Mac is what the hourly snapshot protects and what the guard watches; a server that can push to GitHub holds a credential that can write to the repository; and tests run on a server holding client data have a way of wiping the wrong database. Laravel is built to run and be tested on the developer's machine in seconds, which WordPress never was.
+  One consequence Gordon should know: **this Mac has no PHP or Composer today** (checked 2026-10-01; Node and SQLite are present). Local development needs PHP installed, which is one free app (Laravel Herd) and needs his say, as any new tool does.
+
+**Verdict.** For one app, a hand-built server is perhaps a day of setup and looks simpler on day one. Over ten years and several apps it is the more complex choice, because every part in the right-hand column is ours to remember. Forge is the thing that makes an owned server simple. Keep Forge.
+
+## The contenders
+
+| | What it is | Monthly | Simple on day one | Simple over ten years | Fits the plan as drafted | Main risk |
+|---|---|---|---|---|---|---|
+| **Forge + two DigitalOcean servers (pick)** | Laravel's panel on servers Gordon owns | about $47 (lean: $34) | yes: forms, and a checklist done once | chores remain: monthly updates and a reboot, yearly PHP, a server move about 2031 | yes: SQLite, worker, cron, DomPDF, nothing in front of webhooks | the chores being skipped; Forge's defaults set wrong |
+| **Bare DigitalOcean server, hand-built** | the same servers, no panel | about $28 for the same pair | looks simplest; a day of scripts | the most to own: everything Forge does, by hand, per app | yes | hand-built parts rot; no Deploy button; no one else's docs to lean on |
+| **Laravel Cloud** | Laravel's managed platform; no server at all | about $15 awake ($5 asleep) | yes: connect the repo | nothing to patch; but the platform moves under you (several features retired in its first 19 months) | **no**: no SQLite; PDF by DomPDF unproven; queue and file storage done its way; its firewall cannot be tuned on the cheap plans | forced changes; a webhook silently blocked |
+| **Ploi + own servers** | a Forge-like panel from a small Dutch firm | about $44 | yes | as Forge; its $16 plan adds file backups to Google Drive and monitoring, which Forge keeps for $39 | yes | a smaller vendor for a ten-year bet; none of Laravel's own docs assume it |
+| **Fly.io** | containers on their machines | about $10 | no: we own a Dockerfile | no OS to patch; but short outage on every deploy, and the layout this app needs is the one their docs advise against | partly: SQLite on one machine only | company changed chief executive and direction in July 2026; frequent incidents |
+| **Cloudways** | a managed server (DigitalOcean underneath) with a panel | $14 to $28 | yes | they patch the server; their bot protection sits in front | probably: worker and SQLite support unconfirmed | webhooks against their bot filter, untested |
+| **Cloudflare's edge** | Workers or Containers | n/a | no | no | **no** | n/a |
+
+Monthly figures are arithmetic from listed rates for staging plus production, not quotes. [doc:hosting-claims.md]
+
+How the six real ones differ, in a sentence each:
+- **Forge + own servers** keeps the app boring and the servers ours, at the price of a short list of recurring chores that go on the updates schedule.
+- **A bare server** has the fewest logins and the most homework.
+- **Laravel Cloud** has no homework and changes the app: a database service instead of a file, files in object storage, their queue. If "simple" means "nothing to maintain, ever", this is the one, and the plan would be redrawn around it. It is also the youngest product on the list.
+- **Ploi** is Forge with better backups on the cheaper plan and a smaller company behind it.
+- **Fly.io** is cheap and clever, and neither is what was asked for.
+- **Cloudways** is the closest to how SiteDistrict feels (they run the server), with two unknowns that would need a trial.
 
 ## Why not Cloudflare's edge
 
-1. **Workers has no PHP.** The supported languages are JavaScript, TypeScript, Python and Rust, plus WebAssembly. [web:developers.cloudflare.com/workers/languages/] The only PHP route is a one-person community WebAssembly build whose own notes list no held-open database transactions, one PHP execution at a time per isolate, a 96 MiB memory ceiling and an in-memory filesystem. [web:github.com/seanmorris/php-wasm CLOUDFLARE.md] No place for a queue worker.
-2. **Cloudflare Containers runs PHP, against the grain.** Generally available since 2026-04-13 on the $5 Workers Paid plan. [web:developers.cloudflare.com/changelog 2026-04-13] The disk is ephemeral: after a sleep the next start is a fresh disk. [web:developers.cloudflare.com/containers/faq/] So SQLite on a file is out. The D1 database is reachable from a container only through hand-written HTTP glue; Cloudflare has no official Laravel driver and the one community package it lists last changed in October 2023. [web:developers.cloudflare.com/d1/reference/community-projects/] [web:github.com/renoki-co/l1] A resident queue worker and an every-minute scheduler have to be assembled from a Worker, a Durable Object and a Cron Trigger. The product was redesigned on 2026-09-30 around "agent sandboxes". [web:blog.cloudflare.com/faster-agent-sandboxes/] That is the wrong direction for a system meant to sit still for ten years.
-3. **What Cloudflare is good for here**, at $0: DNS (already), and optionally Access in front of the login (free to 50 users) and a Tunnel so the server has no open ports. [web:cloudflare.com/sase/products/access/] [web:developers.cloudflare.com/tunnel/] Two cautions if the hostname is ever proxied: the free plan's Bot Fight Mode cannot be exempted by rule, so it must stay off or Calendly and mail-provider webhooks can be challenged [web:developers.cloudflare.com/bots/get-started/bot-fight-mode/]; and Browser Integrity Check, on by default, needs a skip rule for the webhook paths. [web:developers.cloudflare.com/waf/tools/browser-integrity-check/] The pick below starts with the hostname unproxied (DNS only), which avoids both.
-
-## The options that fit, side by side
-
-| | Forge + own DigitalOcean server (pick) | Forge + Laravel VPS only | Laravel Cloud (Starter) | Fly.io | Plain server, no panel |
-|---|---|---|---|---|---|
-| Monthly, app one, staging + production | about $33.60: Forge $12, 2 GB droplet $12, daily backups $3.60, 1 GB staging $6 | $24 (two 1 GB) to $31 (2 GB production) | about $5 asleep, about $15 with production awake | about $9.50 | about $17 |
-| Apps two and three | $0 extra on the same pair | $0 extra | about $14 to $15 each if awake | about $9.50 each | $0 extra |
-| SQLite on a real disk | yes, documented | yes | **no**, not supported | yes, on one machine only | yes |
-| Queue worker and scheduler | built in (Supervisor, cron) | built in | built in, but sleeps; managed queues are the intended route | hand-built in one machine | hand-built |
-| Webhooks | always on, nothing in front | same | pass a firewall that cannot be tuned on Starter | always on if never stopped | always on |
-| DomPDF | yes | yes | Laravel's own guide says the Dompdf renderer does not work there | yes | yes |
-| Agent cannot reach production | by keys and a switch (below) | same | by a scoped token (best of the set) | by a per-app token | by keys |
-| Who patches the server | Forge applies Ubuntu security updates weekly; reboots, PHP updates and the OS upgrade every few years are ours | same | nobody: no server | we own the Dockerfile | everything is ours |
-| Server survives leaving the vendor | yes, it is our droplet | **no**: deleted when removed from Forge | no server; standard code and a database dump | Dockerfile and one file | yes |
-| Track record | Forge: over a decade | same | changelog starts February 2025; several features already retired | new chief executive July 2026, strategy now "computers for agents"; about two dozen status entries in August 2026 | n/a |
-
-Sources for the rows are listed at the end. The monthly totals are arithmetic from the vendors' listed rates, not quotes.
+1. **Workers has no PHP.** The supported languages are JavaScript, TypeScript, Python and Rust, plus WebAssembly. [web:developers.cloudflare.com/workers/languages/] The only PHP route is a one-person community WebAssembly build whose own notes list no held-open database transactions, one PHP execution at a time per isolate and a 96 MiB memory ceiling. [web:github.com/seanmorris/php-wasm CLOUDFLARE.md] No place for a queue worker.
+2. **Cloudflare Containers runs PHP, against the grain.** Generally available since 2026-04-13 on the $5 Workers Paid plan. The disk is ephemeral: after a sleep the next start is a fresh disk, so SQLite on a file is out. There is no Cloudflare database with a maintained Laravel driver (the one community package Cloudflare lists last changed in October 2023); an outside MySQL or Postgres is implied reachable but undocumented. A resident queue worker and an every-minute scheduler have to be assembled from a Worker, a Durable Object and a Cron Trigger. The product was redesigned on 2026-09-30 around "agent sandboxes". [doc:hosting-claims.md, Cloudflare]
+3. **What Cloudflare is good for here:** DNS (already there [dns:homedirections.net NS, 2026-10-01]). Optionally, later, Access in front of the login and a Tunnel so the server has no open ports; both mean proxying the hostname through Cloudflare, which also brings a 100 MB upload cap, a 125-second timeout, an allow rule for Forge's health checks, dependence on Cloudflare being up, and two bot features that must be kept off or skipped for the webhook paths (the free plan's Bot Fight Mode cannot be exempted by rule). [doc:hosting-claims.md] The pick starts with the hostname unproxied, which avoids all of it.
 
 ## The pick, in full
 
-**Laravel Forge, Hobby plan, with production on a 2 GB DigitalOcean droplet in New York in an account Gordon owns, and staging on a 1 GB Forge-billed server.**
+**Laravel Forge managing two servers in a DigitalOcean account Gordon owns: production (2 GB, New York, daily backups) and staging (2 GB).**
+
+| Item | Monthly |
+|---|---|
+| Forge Growth (needed for two servers of our own; Hobby allows one) | $19.00 |
+| Production droplet, 2 GB | $12.00 |
+| Daily backups of production (30 percent) | $3.60 |
+| Staging droplet, 2 GB | $12.00 |
+| **Total** | **$46.60** |
+
+The leaner variant in draft 1 was $33.60: Forge Hobby ($12), the same production server and backups, and a 1 GB staging server billed through Forge ($6). The difference buys two things: both servers are ours (a Forge-billed server cannot be kept if we leave Forge), and staging is the same size as production, so a deploy that fits one fits the other. [web:laravel.com/forge/pricing] [web:digitalocean.com/pricing/droplets] [web:docs.digitalocean.com/products/backups/details/pricing/]
 
 Why this one:
 1. **It keeps the plan as drafted.** SQLite on a disk, copied nightly to Drive; a resident queue worker; cron; DomPDF. [doc:plan.md §2, §5] Forge documents SQLite through a shared path that survives releases. [web:laravel.com/forge/docs/sites/deployments.md]
-2. **Nothing sits in front of the webhooks.** No bot filter, no cold start.
-3. **Flat cost that does not grow with the next apps.** Forge Hobby allows unlimited sites, unlimited Forge-billed servers and one outside server. [web:laravel.com/forge/pricing] Gordon expects more Laravel projects. [gordon 2026-10-01]
-4. **The production server is ours.** A server in our own DigitalOcean account can be detached from Forge and keeps running; a Forge-billed server cannot be archived or kept and is destroyed when removed. [web:laravel.com/forge/docs/servers/the-basics.md] For a ten-year system that asymmetry matters more than the $10 it costs.
-5. **Provider-level daily backups of the whole production server** (30 percent of the droplet price) on top of the nightly SQLite copy. [web:docs.digitalocean.com/products/backups/details/pricing/] Forge's own backup feature needs the $39 plan and covers MySQL, MariaDB and Postgres only, not a SQLite file. [web:laravel.com/forge/docs/resources/databases.md]
+2. **Nothing sits in front of the webhooks.**
+3. **Later apps cost nothing extra while they fit on the same pair** (how many a small server carries was not verifiable; unconfirmed). Gordon expects more Laravel projects. [gordon 2026-10-01]
+4. **The servers are ours.** They can be detached from Forge and keep running. [web:laravel.com/forge/docs/servers/the-basics.md] Ownership itself costs nothing: a 2 GB droplet is $12 against $13 billed through Forge.
+5. **Provider-level daily backups of the whole production server** on top of the nightly SQLite copy. Forge's own backup feature lists MySQL, MariaDB and Postgres only; SQLite is not listed (inferred from that, not stated outright). [web:laravel.com/forge/docs/resources/databases.md]
 6. **Longest track record of the candidates**, and it is Laravel's own.
 
-Why 2 GB for production: Composer and the asset build run on the server inside a 10-minute deploy limit [web:laravel.com/forge/docs/sites/deployments.md], and headless Chrome, if it is ever wanted for PDFs, does not fit beside PHP in 1 GB (judgement, not a vendor statement). The 1 GB size at $6 would work today and saves $7.80 a month; resizing up later is supported, down is not.
+The 2 GB size is judgement, not evidence: it buys memory headroom for the build on the server (deploys are limited to 10 minutes) and for headless Chrome later. 1 GB would work today at $6.
 
-## What we still own on this pick (the honest list)
+Why DigitalOcean: New York is confirmed, and Forge provisions it directly. Provider stability over ten years was not researched for any of them. With backups, Vultr would be $3.60 a month cheaper and Akamai (Linode, Newark) $1.10; Hetzner roughly tripled its US prices on 2026-06-15 and is out. [doc:hosting-claims.md, servers]
+
+## What we still own on this pick
 
 - **Reboots.** Forge installs security updates weekly but does not reboot; a kernel fix takes effect only after a manual reboot of each server. [web:laravel.com/forge/docs/knowledge-base/cve-2026-31431.md]
-- **PHP updates.** Patch releases are a click per version; a new PHP minor is installed and switched by hand. [web:laravel.com/forge/docs/servers/security.md]
-- **The operating system, about every five years.** Ubuntu 26.04 has standard support to spring 2031. [web:ubuntu.com/about/release-cycle] An in-place upgrade is recognised by Forge since March 2026; a rebuild is the other route. [web:laravel.com/forge/docs/changelog.md]
-- **Backups and a tested restore.** Ours on every Forge plan.
-- **Monitoring.** Threshold alerts are documented as $39-plan only; the pricing page and the docs disagree on what Hobby includes, so heartbeats and health checks must be confirmed in the dashboard. Unconfirmed.
+- **PHP updates.** Patch releases are a click per version; a new PHP minor is installed and switched by hand. [web:laravel.com/forge/docs/servers/php.md]
+- **The operating system.** Ubuntu 26.04 has standard support to spring 2031. Forge's docs strongly advise against upgrading in place and recommend a new server and moving the sites; a self-upgraded server has been recognised since March 2026. Plan on a rebuild-and-move of each server about 2031 and again about 2035. [doc:hosting-claims.md]
+- **Backups and a tested restore.**
+- **Monitoring.** Threshold alerts are documented as $39-plan only; the pricing page and the docs disagree on what the cheaper plans include, so heartbeats and health checks must be confirmed in the dashboard. Unconfirmed.
+- **Support.** On the cheaper plans it is community, best effort, no response time; Growth states a 24-hour goal on business days. [doc:hosting-claims.md]
 
-All of these become rows in the updates schedule in `laravel-kit-spec.md`, so none depends on memory.
+All of these become rows in the updates schedule in `laravel-kit-spec.md` §9.
 
-## The production boundary on this pick (this shapes the kit's guard)
+## The production boundary on this pick
 
-The WordPress kit's release gate rests on one fact: pushing does not ship. [doc:~/Dev/clc-plugins/CLAUDE.md §9] On Forge the default is the opposite: push-to-deploy is on for new sites. [web:laravel.com/forge/docs/sites/deployments.md] So the boundary has to be built, and the second reader found three ways the obvious version leaks:
+The WordPress kit's release gate rests on one fact: pushing does not ship. [doc:~/Dev/clc-plugins/CLAUDE.md §9] On Forge the default is the opposite. The boundary has to be built, and the review found six places where the obvious version leaks. The kit spec's section 8 is the full design; in short:
 
-1. Forge API tokens are per user account with no documented per-server limit. **The agent holds no Forge token at all.**
-2. By default Forge adds each server's key to the GitHub account, which gives the server access to every repository that account can reach. [web:laravel.com/forge/docs/ssh.md] **Untick that option and use a read-only deploy key per site.**
-3. Whoever can push to the production branch can deploy production while push-to-deploy is on. **Turn push-to-deploy off for the production site. Gordon presses Deploy in Forge.** That restores the WordPress kit's shape exactly: Claude pushes the commit and the tag; Gordon's own action ships. Branch protection on GitHub would be a second lock, but for private repositories it needs a paid GitHub plan [web:docs.github.com/en/get-started/learning-about-github/githubs-plans]; which plan the Copper Leaf organisation is on is not on disk. Unconfirmed.
+1. **The agent holds no Forge token.** They are per user account with no documented per-server limit.
+2. **No server key on GitHub.** Untick the option that adds it; each site gets its own read-only deploy key; Forge's GitHub connection is limited to the app's repository. [web:laravel.com/forge/docs/ssh.md] [web:laravel.com/forge/docs/sites/repository-access.md]
+3. **Deploy-on-push is off for production. Gordon presses Deploy.**
+4. **The Mac's key goes on the staging server only, never at organisation or account level.** Forge copies organisation keys to every server. [web:laravel.com/forge/docs/ssh.md]
+5. **The production deploy-hook address is never stored anywhere the agent can read.** Every site has one, and it deploys for whoever holds it. [web:laravel.com/forge/docs/sites/deployments]
+6. **Forge, DigitalOcean and GitHub's settings are signed in only in a browser the agent cannot drive.** The agent works through Gordon's real Chrome; a signed-in panel there is one click from Deploy.
 
-And: **no production SSH key and no production database credentials on the Mac.** Two servers, so the staging key opens staging only; this is stronger than the WordPress arrangement, where one staging key opens the whole hosting account. [doc:~/Dev/clc-plugins/docs/HANDOFF-plugin-dev-workflows.md §4]
+No production SSH key and no production database credentials on the Mac. Two servers, so the staging key opens staging only; in the WordPress arrangement one staging key opens the whole hosting account. [doc:~/Dev/clc-plugins/docs/HANDOFF-plugin-dev-workflows.md §4]
 
 ## What would change the pick
 
-- **"I never want to own a server."** Then Laravel Cloud, at about $15 a month, and four things change: the database becomes MySQL or Postgres (no SQLite) [web:laravel.com/cloud/docs/knowledge-base/sqlite.md]; PDFs need a different renderer [web:laravel.com/cloud/docs/knowledge-base/generating-pdfs.md]; the queue design follows Cloud's managed queues; and webhooks pass a firewall we cannot tune on the $5 plan, which Laravel itself warns can flag server-to-server calls. [web:laravel.com/cloud/docs/network.md] Cloud's scoped tokens are the cleanest agent boundary of any option. [web:laravel.com/cloud/docs/api/authentication.md] It is also the youngest product here.
-- **"Cheapest possible."** Forge with two 1 GB Forge-billed servers is $24; the cost is that the production server cannot outlive the Forge subscription and its region is not published.
-- **A different server provider.** Akamai (Linode) in Newark is the same price with a flat $2.50 backup add-on. Hetzner is out: it roughly tripled US prices on 2026-06-15 (the 2 GB plan went from $6.99 to $20.49). [web:docs.hetzner.com/general/infrastructure-and-availability/price-adjustment/] Vultr is $2 cheaper; nothing was found against it and nothing for it on stability.
+- **"I never want to maintain a server, and I accept redrawing the plan."** Then Laravel Cloud. The database becomes MySQL or Postgres [web:laravel.com/cloud/docs/knowledge-base/sqlite.md]; PDFs may need a different renderer (Laravel's guide says the Dompdf renderer in its billing package does not work there; standalone DomPDF is untested) [web:laravel.com/cloud/docs/knowledge-base/generating-pdfs.md]; the queue follows Cloud's managed queues; webhooks pass a firewall that cannot be tuned on the cheaper plans. [web:laravel.com/cloud/docs/network.md] Its tokens can be limited to one environment, the cleanest agent boundary of any option (whether on the cheapest plan is unconfirmed). [web:laravel.com/cloud/docs/api/authentication.md]
+- **"Someone else should run the server, the way SiteDistrict does."** Then a trial of Cloudways, to settle its two unknowns.
 
-## Before committing (small, and mostly Gordon's to look at)
+## Before committing
 
 1. Does Gordon already have a Forge or DigitalOcean account? Nothing on disk says. [unconfirmed]
-2. Which GitHub plan is the organisation on (branch protection for private repositories)? [unconfirmed]
-3. In the Forge dashboard: which regions the Forge-billed staging server offers, and whether Hobby includes heartbeats and health checks. [unconfirmed at any public page]
-4. Whether the app's hostname stays unproxied at Cloudflare (pick: yes at first).
+2. Which GitHub plan is the organisation on? Protected branches on private repositories need a paid one. [unconfirmed]
+3. PHP on the Mac (Laravel Herd): his say.
+4. In the Forge dashboard, once it exists: whether the plan includes heartbeats and health checks.
 
 ## Also learned, useful later
 
-- **Calendly retries failed webhooks for 24 hours with backoff, then disables the subscription.** Source is a Calendly employee's community post from 2023-12-14, not the developer docs, which could not be fetched. [secondary; unconfirmed at primary] A day-long failure therefore needs a monitor, because the subscription must be re-created by hand.
-- **Laravel Vapor is closed to new signups.** [web:vapor.laravel.com] Evidence that Laravel does retire products; Forge is the one with a decade behind it.
-- **PHP 8.5, not 8.4**, for a server built now: Forge has provisioned 8.5 by default since May 2026 and 8.4 leaves active support on 2026-12-31. [web:laravel.com/forge/docs/changelog.md] [web:php.net/supported-versions.php] This supersedes the "PHP 8.4" in `phase0-brief.md`.
+- **Calendly retries failed webhooks for 24 hours with backoff, then disables the subscription.** Source: a Calendly employee's community post from 2023-12-14, not the developer docs. [secondary; unconfirmed at primary] A day-long failure therefore needs a monitor.
+- **Laravel Vapor is closed to new signups.** [web:vapor.laravel.com]
+- **PHP 8.5, not 8.4**, for a server built now. [web:php.net/supported-versions.php] Supersedes "PHP 8.4" in `phase0-brief.md`.
 
 ## What was not verified
 
-Nine of 227 claims could not be confirmed at a vendor page: Forge's annual prices; Forge-billed server regions; Forge object-storage price; how many sites a 1 GB server carries; whether Forge-billed servers have any server-level backup; the Railway and Upsun totals (estimates from rates); and whether SiteGround allows a resident worker. One claim was wrong (whether a Cloudflare container can open non-web ports: the docs imply yes) and one outdated (Cloudflare shipped per-Worker tokens on 2026-09-15). Neither changes a verdict.
+Of 227 claims: 9 could not be confirmed at a vendor page (Forge's annual prices; Forge-billed server regions; Forge object-storage price; how many sites a small server carries; whether Forge-billed servers have any server-level backup; the Railway and Upsun totals; whether SiteGround allows a resident worker); 6 have no second-reader verdict matched in the record, three of them bearing on Laravel Cloud (its firewall warning, its scoped tokens, its sleep behaviour) and corroborated in the checkers' notes; 1 was wrong and 1 outdated, neither changing a verdict. Vendor pages were not re-fetched for this revision.
 
 ## Sources
 
-Cloudflare: developers.cloudflare.com/workers/languages/ · developers.cloudflare.com/changelog/post/2026-04-13-containers-sandbox-ga/ · developers.cloudflare.com/containers/faq/ · developers.cloudflare.com/containers/platform-details/workers-connections/ · developers.cloudflare.com/d1/reference/community-projects/ · blog.cloudflare.com/faster-agent-sandboxes/ · developers.cloudflare.com/bots/get-started/bot-fight-mode/ · developers.cloudflare.com/waf/custom-rules/skip/ · developers.cloudflare.com/tunnel/ · cloudflare.com/sase/products/access/ · developers.cloudflare.com/r2/pricing/
+The per-claim record, with pages and verdicts: `hosting-claims.md`.
 
-Laravel: laravel.com/forge/pricing · vps.forge.laravel.com/api/prices · laravel.com/forge/docs/servers/laravel-vps.md · laravel.com/forge/docs/servers/the-basics.md · laravel.com/forge/docs/servers/security.md · laravel.com/forge/docs/sites/deployments.md · laravel.com/forge/docs/ssh.md · laravel.com/forge/docs/resources/databases.md · laravel.com/forge/docs/knowledge-base/cve-2026-31431.md · laravel.com/forge/docs/server-providers.md · laravel.com/cloud/pricing · laravel.com/cloud/docs/pricing.md · laravel.com/cloud/docs/knowledge-base/sqlite.md · laravel.com/cloud/docs/knowledge-base/generating-pdfs.md · laravel.com/cloud/docs/network.md · laravel.com/cloud/docs/compute.md · laravel.com/cloud/docs/api/authentication.md · vapor.laravel.com
+Cloudflare: developers.cloudflare.com/workers/languages/ · developers.cloudflare.com/changelog/post/2026-04-13-containers-sandbox-ga/ · developers.cloudflare.com/containers/faq/ · developers.cloudflare.com/d1/reference/community-projects/ · blog.cloudflare.com/faster-agent-sandboxes/ · developers.cloudflare.com/bots/get-started/bot-fight-mode/ · developers.cloudflare.com/waf/tools/browser-integrity-check/
 
-Servers: digitalocean.com/pricing/droplets · docs.digitalocean.com/products/backups/details/pricing/ · docs.digitalocean.com/platform/regional-availability/ · api.linode.com/v4/linode/types · api.vultr.com/v2/plans · docs.hetzner.com/general/infrastructure-and-availability/price-adjustment/ · aws.amazon.com/lightsail/pricing/ · ubuntu.com/about/release-cycle
+Laravel: laravel.com/forge/pricing · laravel.com/forge/docs (servers/the-basics.md, servers/security.md, servers/php.md, sites/deployments.md, sites/repository-access.md, ssh.md, resources/databases.md, knowledge-base/cve-2026-31431.md, server-providers.md) · laravel.com/cloud/pricing · laravel.com/cloud/docs (knowledge-base/sqlite.md, knowledge-base/generating-pdfs.md, network.md, api/authentication.md) · vapor.laravel.com
 
-Platforms: docs.fly.io/about/pricing/ · docs.fly.io/volumes/overview/ · docs.fly.io/security/tokens/ · fly.io/news (2026-07-24) · status.flyio.net/history · docs.railway.com/reference/pricing/plans · docs.railway.com/reference/volumes · cloudways.com/en/pricing.php · docs.github.com/en/get-started/learning-about-github/githubs-plans
-
-The full per-claim record (claim, page, verdict, correction) is in the workflow journal named in the frontmatter.
+Servers and platforms: digitalocean.com/pricing/droplets · docs.digitalocean.com/products/backups/details/pricing/ · api.linode.com/v4/linode/types · api.vultr.com/v2/plans · docs.hetzner.com/general/infrastructure-and-availability/price-adjustment/ · ploi.io/pricing · docs.fly.io/about/pricing/ · fly.io/news (2026-07-24) · cloudways.com/en/pricing.php · docs.github.com/en/get-started/learning-about-github/githubs-plans

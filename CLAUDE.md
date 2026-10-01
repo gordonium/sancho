@@ -20,6 +20,7 @@ Confidant and lifelong companion; the chief of staff after a decade, not on day 
 - Secrets: `~/Sync/Sancho-Secrets/sancho.env.age`, unlocked to `~/.config/sancho/env`. Never in this tree.
 - Private material: `~/Sancho-Private/`, its own repo, mounted only when Gordon says "open private."
 - Copper Leaf plugin kit: `~/Dev/clc-plugins/` (its own repo and rules). Sancho orchestrates it, never absorbs it. Plugin work happens in Claude Code.
+- Client working files: `~/Sync/Gordonium Enterprises Sync/_CLIENTS/<client>/` (Gordon's, outside this tree; read for depth, never written). Their time tracking is a Google Sheet per client; Wrike holds task history. [gordon 2026-10-01]
 - Generated, never hand-edited: every `INDEX.md`, `MAP.md`, `PROJECTS.md`, `recordings/STATUS.md`, `_queue/HEALTH.md`. Hand-set: `FOCUS.md` only.
 
 ## How a session works

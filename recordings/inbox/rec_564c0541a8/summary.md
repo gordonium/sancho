@@ -1,0 +1,52 @@
+---
+name: Summary · 2026-09-10 Gordon and Peter Nevland · the Ignite website
+type: summary
+business: copper-leaf            # pending Gordon's call; alternative wizard-of-ads (Peter's client)
+entity: work/copper-leaf/clients/ignite/   # does not exist; home pending
+lobe: work
+recording: rec_564c0541a8
+recorded_at: 2026-09-10T13:01:51-04:00
+duration: 24m27s
+speakers: {gordon: human, peter-nevland: human}
+description: Gordon rejoins Peter Nevland after the D&M call. Peter walks the Ignite (Mankato, MN; owner Isaac) website and asks what to do; Gordon says no full rebuild without being on the team, names orange flags with Isaac as a web-maintenance client, offers Nathan as a project builder, and agrees to a clarifying Zoom with Isaac. Gordon's travel and winter build load come up.
+sources: ["[rec_564c0541a8 2026-09-10]", "[confirmed gordon 2026-10-01]"]
+---
+## What happened
+- Peter opens with the Meta "betting on people" AI ad, then shares the Ignite site (Minnesota; owner Isaac, not Bruce). [rec_564c0541a8 00:00:00]
+- Peter's problems with the site: navigation dumps into product lists, dead specials, core values not clickable, "a mishmash"; copy has been rewritten; Isaac still hasn't provided photos though he says he'd pay for a good site. [rec_564c0541a8 00:01:21]
+- Gordon: "no design, an open hole into which someone dumped content"; suggests an announcement bar under the header tied to the current radio call-to-action (the Ignite Comfort Club) so landing page doesn't matter — doable on the current site; Leah can knock it out. [rec_564c0541a8 00:03:21, 00:04:42, 00:17:16]
+- Gordon splits the choice: Peter does strategy and copy and Copper Leaf points-and-clicks, or Gordon joins the team and does the full rebuild; he does not do separate project work. [rec_564c0541a8 00:05:43, 00:10:38]
+- Gordon's friction with Isaac as a maintenance client: squirrely on bills, poor at communicating, never delivers what's asked then asks why it isn't done; "orange flags," two-thirds to three-quarters hesitant. Peter: Isaac is a smart, honest guy with four young kids (twins), wife handles social media, still in the day-to-day; the squirreliness comes from that. [rec_564c0541a8 00:06:38, 00:07:53, 00:13:10]
+- Both agree mass media comes first; the site is "a catcher's mitt" and the Ignite ads (about a year in) have momentum; the site is grieving Isaac's soul but probably not hurting him. [rec_564c0541a8 00:08:32, 00:09:18]
+- Gordon offers Nathan (his business coach ~5 years ago; built the D&M site as Gordon's sub) as a project builder, and says he has talked to Jake about Nathan as a potential partner; Jake wants Carmyn kept busy first; Gordon has drinks with Carmyn tomorrow. [rec_564c0541a8 00:10:38]
+- Gordon's strategy pitch for the Isaac call: burn down old SEO sites, build 12-page human-centric sites; HVAC build window starts Oct–Nov, launch by Feb–Mar; he already has three builds booked for the winter and won't take a fourth. [rec_564c0541a8 00:14:00]
+- Gordon's calendar: NYC next week; Italy 9/24–10/8; back in Milwaukee for D&M "Monday the 9th" and the 10th with Lizzie Mack, pickleball with Peter proposed. Four partner-meeting videos outlined but unmade ("my life got chaotic"). [rec_564c0541a8 00:12:34, 00:15:34, 00:16:08]
+- Peter: his kids gave him pickleball shoes for his birthday. [rec_564c0541a8 00:15:55]
+
+## Decisions
+- No full Ignite rebuild by Gordon unless he joins the team; a clarifying Zoom with Isaac first, before Italy or in early October. [rec_564c0541a8 00:10:38, 00:16:55]
+- Announcement bar for the Comfort Club on the current site, via Leah. [rec_564c0541a8 00:17:16]
+
+## Commitments noticed
+- Gordon: email Peter availability for the Isaac Zoom. [rec_564c0541a8 00:16:55]
+- Gordon: the partner-meeting videos (four, copy outlined). [rec_564c0541a8 00:15:34]
+- Gordon: raise Nathan with Jake again. [rec_564c0541a8 00:11:50]
+- Peter: ask Leah for the announcement bar. [rec_564c0541a8 00:17:16]
+
+## Facts to file
+Home pending (copper-leaf client vs wizard-of-ads client); nothing filed yet, listed in recordings/inbox/_pending-requests.md.
+- Ignite, Mankato MN; owner Isaac; mascot/voice "Iggy"; Ignite Comfort Club; Peter Nevland's WoA client ~1 year; Copper Leaf does web maintenance [rec_564c0541a8 00:01:04, 00:07:15, 00:09:46] → clients/ignite/entity.md · pending
+- Isaac: hasn't delivered photos; billing and communication orange flags (Gordon) [rec_564c0541a8 00:01:21, 00:06:38] → clients/ignite/entity.md or people/isaac.md · pending (read back)
+- Isaac's family and load (four kids under five incl. twins; wife does social media) [rec_564c0541a8 00:07:53, 00:13:10] → people/isaac.md · awaiting Gordon's yes
+- Nathan: Gordon's former business coach; built the D&M site as a sub; potential WoA partner (Jake consulted) [rec_564c0541a8 00:10:38] → people/nathan.md · pending
+- Gordon's web stance: no separate project work; 12-page human-centric sites as catcher's mitt; HVAC build window Oct–Nov → launch Feb–Mar; three winter builds booked, no fourth [rec_564c0541a8 00:10:38, 00:14:00] → work/copper-leaf/business.md or guidelines.md · awaiting Gordon's yes
+- Gordon's travel: NYC week of 9/14; Italy 9/24–10/8; D&M in person Mon the 9th + Lizzie Mack the 10th [rec_564c0541a8 00:12:34, 00:16:08] → personal/nomad/ or personal/me/brief.md · awaiting Gordon's yes
+- Peter: kids, pickleball, birthday around 9/10 [rec_564c0541a8 00:15:55] → people/peter-nevland.md · pending
+
+## Questions and corrections needed
+- Home: work/copper-leaf/clients/ignite/ (web maintenance client) or work/wizard-of-ads/clients/ignite/ (Peter's account)?
+- "Monday the 9th": Nov 9, 2026 is a Monday; Oct 9 is not. Confirm.
+- Mankato spelling inferred; Carmyn spelling inferred.
+
+## Speakers
+- SPEAKER_01 + SPEAKER_00 gordon · SPEAKER_02 peter-nevland — human-confirmed by Gordon 2026-10-01.

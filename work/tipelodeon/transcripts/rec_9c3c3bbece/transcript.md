@@ -1,7 +1,7 @@
 ---
 name: Recording rec_9c3c3bbece · 2026-09-11 14:37 · 16 min
 type: transcript
-description: Plaud recording, 16 min, 2 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 16 min, Gordon and Grayson Erhard: Tipelodeon lyrics licensing, DMCA safe harbor, ship without auto-lyrics; ingested 2026-10-01, summary at work/tipelodeon/summaries/2026-09-11_rec_9c3c3bbece.md
 lobe: both
 sources: ["[rec_9c3c3bbece 2026-09-11]"]
 rec_id: rec_9c3c3bbece

@@ -1,7 +1,7 @@
 ---
 name: Recording rec_640701d84d · 2026-09-14 11:00 · 44 min
 type: transcript
-description: Plaud recording, 44 min, 3 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 44 min, Gordon and Leah's Monday check-in (mixed work/personal); ingested 2026-10-01, summaries beside it (summary-work.md, summary-personal.md)
 lobe: both
 sources: ["[rec_640701d84d 2026-09-14]"]
 rec_id: rec_640701d84d

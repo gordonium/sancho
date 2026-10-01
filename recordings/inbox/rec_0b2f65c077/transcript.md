@@ -1,7 +1,7 @@
 ---
 name: Recording rec_0b2f65c077 · 2026-09-10 12:01 · 48 min
 type: transcript
-description: Plaud recording, 48 min, 9 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 48 min, D&M Heating & Air Conditioning monthly Zoom with Peter Nevland (Wizard of Ads); speakers confirmed 2026-10-01; ingested 2026-10-01, summary beside it (summary.md); awaiting move to the D&M client folder once it exists
 lobe: both
 sources: ["[rec_0b2f65c077 2026-09-10]"]
 rec_id: rec_0b2f65c077

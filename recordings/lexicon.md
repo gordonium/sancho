@@ -17,6 +17,12 @@ Fed to Groq as the Whisper `prompt` (about 224 tokens; the pipeline truncates fr
 - Copper Leaf Creative
 - Home Directions · Peter Seirup, P.E.
 - Loveland, Colorado
+- D&M Heating & Air Conditioning (DNM, D and M) · Karen Dodge · Jeff Goff · Tim Silva · dmheating.com
+- Peter Nevland · Kevin Skalure (spelling unconfirmed)
+- LifeGiver · Boiler Expert · Installing Is Our Calling (D&M ad titles)
+- Ignite (Mankato, Minnesota; Isaac; Iggy; Ignite Comfort Club)
+- Filmadelphia (film Adelphia) · ChanceLight · CheckVet · Comfort Masters DFW
+- Racquet Depot (Racket Depot) · Jabas Labs (Javas)
 - SiteDistrict
 - Groq · pyannote · WordPress · ACF
 - RNA · Robert Nathan Allen
