@@ -4,223 +4,152 @@ lobe: both
 entity: people/
 created: 2026-10-01
 by: cowork
-advance: manual   # paused by Gordon 2026-10-01 22:1x: "moderate this before it runs amok"; was auto
+advance: auto   # resumed after Gordon's moderation 2026-10-01 (groups B, C, H, D, E, F; 135 people)
 hops: 0
 hop_cap: 400
 wip_limit: 1
 stages:
-  - {name: census, status: done, note: "people/_backfill-census.md, 208 rows (P1 119, P2 10, P3 79), subagent 2026-10-01"}
+  - {name: census, status: done, note: "people/_backfill-census.md, 208 rows; moderated by Gordon 2026-10-01 into groups A to H"}
   - {name: adam-donmoyer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adam-donmoyer}, priority: 1, status: blocked, blocked: Gordon must confirm whether the  Adam  in rec_36f02fd22c (2026-09-24  Milwaukee radio  November meeting in Austin) is Adam Donmoyer; the file is written with those three lines marked inferred.}
   - {name: albert-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: albert-plunkett}, priority: 1, status: done}
   - {name: alex-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alex-post}, priority: 1, status: blocked, blocked: the file and census row are written; Gordon must say which year the reconnection coffee was (v2 contradicts itself  2025 or 2026) and whether the closely held material in rec_868fb07db8 is filed in pe}
-  - {name: moderation, gate: human, status: waiting, note: "Gordon prunes the census before the job continues [gordon 2026-10-01]"}
-  - {name: alicia-mitchells-magic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alicia-mitchells-magic}, priority: 1, status: pending}
-  - {name: allie-wickham, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: allie-wickham}, priority: 1, status: pending}
-  - {name: amanda-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amanda-moore}, priority: 1, status: pending}
-  - {name: andrew-mccanse, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: andrew-mccanse}, priority: 1, status: pending}
-  - {name: brian-brushwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brian-brushwood}, priority: 1, status: pending}
-  - {name: brittany-mitchells-magic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brittany-mitchells-magic}, priority: 1, status: pending}
-  - {name: calvert-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: calvert-plunkett}, priority: 1, status: pending}
-  - {name: carmyn-wilson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: carmyn-wilson}, priority: 1, status: pending}
-  - {name: charlie-moger, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: charlie-moger}, priority: 1, status: pending}
-  - {name: chelsea-entomat, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chelsea-entomat}, priority: 1, status: pending}
-  - {name: chris-comfort-masters, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-comfort-masters}, priority: 1, status: pending}
-  - {name: chris-noco-sportscenter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-noco-sportscenter}, priority: 1, status: pending}
-  - {name: chris-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-plunkett}, priority: 1, status: pending}
-  - {name: chris-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-torbay}, priority: 1, status: pending}
-  - {name: christy-secoy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: christy-secoy}, priority: 1, status: pending}
-  - {name: clarissa-dm-heating, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: clarissa-dm-heating}, priority: 1, status: pending}
-  - {name: cody-travis-crawford, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: cody-travis-crawford}, priority: 1, status: pending}
-  - {name: craig-arthur, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: craig-arthur}, priority: 1, status: pending}
-  - {name: dan-griffiths, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dan-griffiths}, priority: 1, status: pending}
-  - {name: danelle-bullock, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: danelle-bullock}, priority: 1, status: pending}
-  - {name: daniel-whittington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: daniel-whittington}, priority: 1, status: pending}
-  - {name: dave-young, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dave-young}, priority: 1, status: pending}
-  - {name: david-comfort-masters, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: david-comfort-masters}, priority: 1, status: pending}
-  - {name: david-mckinnis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: david-mckinnis}, priority: 1, status: pending}
-  - {name: devin-wright, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: devin-wright}, priority: 1, status: pending}
-  - {name: dirk-dm-heating, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dirk-dm-heating}, priority: 1, status: pending}
-  - {name: doug-huckaba, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: doug-huckaba}, priority: 1, status: pending}
-  - {name: dr-hepworth, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dr-hepworth}, priority: 1, status: pending}
-  - {name: dr-johnson-checkvet, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dr-johnson-checkvet}, priority: 1, status: pending}
-  - {name: dr-scheller, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dr-scheller}, priority: 1, status: pending}
-  - {name: dustin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dustin}, priority: 1, status: pending}
-  - {name: elliott-stark, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-stark}, priority: 1, status: pending}
-  - {name: erica-comfort-masters, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: erica-comfort-masters}, priority: 1, status: pending}
-  - {name: etieno-essien, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: etieno-essien}, priority: 1, status: pending}
-  - {name: evan-mitchells-magic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: evan-mitchells-magic}, priority: 1, status: pending}
-  - {name: george-mitchells-magic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: george-mitchells-magic}, priority: 1, status: pending}
-  - {name: gordon, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gordon}, priority: 1, status: pending}
-  - {name: gordon-atkinson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gordon-atkinson}, priority: 1, status: pending}
-  - {name: grayson-erhard, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: grayson-erhard}, priority: 1, status: pending}
-  - {name: greg-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-moore}, priority: 1, status: pending}
-  - {name: isaac, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: isaac}, priority: 1, status: pending}
-  - {name: jack-heald, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jack-heald}, priority: 1, status: pending}
-  - {name: jaden-lewis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jaden-lewis}, priority: 1, status: pending}
-  - {name: jake-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jake-williams}, priority: 1, status: pending}
-  - {name: james-gilbert, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: james-gilbert}, priority: 1, status: pending}
-  - {name: jane-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jane-brewer}, priority: 1, status: pending}
-  - {name: jane-fisher, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jane-fisher}, priority: 1, status: pending}
-  - {name: jared-james, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jared-james}, priority: 1, status: pending}
-  - {name: jason-skaggs, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jason-skaggs}, priority: 1, status: pending}
-  - {name: jeff-carpenter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-carpenter}, priority: 1, status: pending}
-  - {name: jeff-collins, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-collins}, priority: 1, status: pending}
-  - {name: jeff-goff, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-goff}, priority: 1, status: pending}
-  - {name: jenn-rahn, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jenn-rahn}, priority: 1, status: pending}
-  - {name: jeremy-vargas, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeremy-vargas}, priority: 1, status: pending}
-  - {name: jesse-olson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jesse-olson}, priority: 1, status: pending}
-  - {name: jessica-happy-outlet, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jessica-happy-outlet}, priority: 1, status: pending}
-  - {name: johnny-molson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: johnny-molson}, priority: 1, status: pending}
-  - {name: jordan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jordan-ohlmann}, priority: 1, status: pending}
-  - {name: josh-bullock, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: josh-bullock}, priority: 1, status: pending}
-  - {name: josh-plunkett-web, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: josh-plunkett-web}, priority: 1, status: pending}
-  - {name: karen-dodge, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: karen-dodge}, priority: 1, status: pending}
-  - {name: ken-goodrich, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ken-goodrich}, priority: 1, status: pending}
-  - {name: kevin-lin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kevin-lin}, priority: 1, status: pending}
-  - {name: kevin-skalure, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kevin-skalure}, priority: 1, status: pending}
-  - {name: kyle-caldwell, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-caldwell}, priority: 1, status: pending}
-  - {name: kyle-collins, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-collins}, priority: 1, status: pending}
-  - {name: larry-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: larry-bloom}, priority: 1, status: pending}
-  - {name: lathan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lathan}, priority: 1, status: pending}
-  - {name: leah, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: leah}, priority: 1, status: pending}
-  - {name: lizzie-mack, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lizzie-mack}, priority: 1, status: pending}
-  - {name: luis-castaneda, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luis-castaneda}, priority: 1, status: pending}
-  - {name: maria-pia-seirup, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: maria-pia-seirup}, priority: 1, status: pending}
-  - {name: mark-mitchells-magic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-mitchells-magic}, priority: 1, status: pending}
-  - {name: marty-greer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: marty-greer}, priority: 1, status: pending}
-  - {name: matt-dm-heating, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-dm-heating}, priority: 1, status: pending}
-  - {name: matt-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-willis}, priority: 1, status: pending}
-  - {name: megan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: megan-ohlmann}, priority: 1, status: pending}
-  - {name: mick-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mick-torbay}, priority: 1, status: pending}
-  - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, priority: 1, status: pending}
-  - {name: nathan-ingram, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nathan-ingram}, priority: 1, status: pending}
-  - {name: nicole-checkvet, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nicole-checkvet}, priority: 1, status: pending}
-  - {name: olivia-la, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: olivia-la}, priority: 1, status: pending}
-  - {name: patience-checkvet, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: patience-checkvet}, priority: 1, status: pending}
-  - {name: peter-nevland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: peter-nevland}, priority: 1, status: pending}
-  - {name: peter-seirup, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: peter-seirup}, priority: 1, status: pending}
-  - {name: piper-comfort-masters, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: piper-comfort-masters}, priority: 1, status: pending}
-  - {name: rick-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rick-willis}, priority: 1, status: pending}
-  - {name: robert-nathan-allen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robert-nathan-allen}, priority: 1, status: pending}
-  - {name: robin-kressbach, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-kressbach}, priority: 1, status: pending}
-  - {name: rondell-comfort-masters, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rondell-comfort-masters}, priority: 1, status: pending}
-  - {name: roy-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: roy-williams}, priority: 1, status: pending}
-  - {name: ryan-chute, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-chute}, priority: 1, status: pending}
-  - {name: sarah-service-excellence, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sarah-service-excellence}, priority: 1, status: pending}
-  - {name: scarlett-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scarlett-plunkett}, priority: 1, status: pending}
-  - {name: sosa-travis-crawford, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sosa-travis-crawford}, priority: 1, status: pending}
-  - {name: stephanie-dm-heating, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephanie-dm-heating}, priority: 1, status: pending}
-  - {name: stephen-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-moore}, priority: 1, status: pending}
-  - {name: stephen-semple, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-semple}, priority: 1, status: pending}
-  - {name: stett-comfort-masters, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stett-comfort-masters}, priority: 1, status: pending}
-  - {name: steve-rae, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: steve-rae}, priority: 1, status: pending}
-  - {name: stevie-comfort-masters, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stevie-comfort-masters}, priority: 1, status: pending}
-  - {name: syre-klenke, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: syre-klenke}, priority: 1, status: pending}
-  - {name: tammy-parker, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tammy-parker}, priority: 1, status: pending}
-  - {name: tara-checkvet, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tara-checkvet}, priority: 1, status: pending}
-  - {name: tim-silva, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tim-silva}, priority: 1, status: pending}
-  - {name: todd-comfort-masters, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: todd-comfort-masters}, priority: 1, status: pending}
-  - {name: todd-lyles, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: todd-lyles}, priority: 1, status: pending}
-  - {name: tom-wanek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-wanek}, priority: 1, status: pending}
-  - {name: travis-crawford, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: travis-crawford}, priority: 1, status: pending}
-  - {name: tricia-lewis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tricia-lewis}, priority: 1, status: pending}
-  - {name: trish-precision-chiro, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: trish-precision-chiro}, priority: 1, status: pending}
-  - {name: tyler-mitchells-magic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tyler-mitchells-magic}, priority: 1, status: pending}
-  - {name: vi-wickam, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: vi-wickam}, priority: 1, status: pending}
-  - {name: wes-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: wes-brewer}, priority: 1, status: pending}
-  - {name: william-lordan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: william-lordan}, priority: 1, status: pending}
-  - {name: zakk-mitchells-magic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: zakk-mitchells-magic}, priority: 1, status: pending}
-  - {name: cedric-yau, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: cedric-yau}, priority: 2, status: pending}
-  - {name: dnelle-dowis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dnelle-dowis}, priority: 2, status: pending}
-  - {name: dom-mcclellan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dom-mcclellan}, priority: 2, status: pending}
-  - {name: guy-hanington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: guy-hanington}, priority: 2, status: pending}
-  - {name: jeff-sexton, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-sexton}, priority: 2, status: pending}
-  - {name: josh-agajanian, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: josh-agajanian}, priority: 2, status: pending}
-  - {name: laura-holden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: laura-holden}, priority: 2, status: pending}
-  - {name: lucy-entomat, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lucy-entomat}, priority: 2, status: pending}
-  - {name: temple-grandin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: temple-grandin}, priority: 2, status: pending}
-  - {name: zac-smith, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: zac-smith}, priority: 2, status: pending}
-  - {name: adrian-van-zelfden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adrian-van-zelfden}, priority: 3, status: pending}
-  - {name: alexia-blackwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alexia-blackwood}, priority: 3, status: pending}
-  - {name: ali-woll, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ali-woll}, priority: 3, status: pending}
-  - {name: amanda-mikhail-partner, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amanda-mikhail-partner}, priority: 3, status: pending}
-  - {name: amber-crummy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amber-crummy}, priority: 3, status: pending}
-  - {name: amy-ehrhardt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amy-ehrhardt}, priority: 3, status: pending}
-  - {name: ansel-courant, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ansel-courant}, priority: 3, status: pending}
-  - {name: beatrice-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: beatrice-ratte}, priority: 3, status: pending}
-  - {name: billy-walker, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: billy-walker}, priority: 3, status: pending}
-  - {name: bob-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: bob-ratte}, priority: 3, status: pending}
-  - {name: brent-ballard, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brent-ballard}, priority: 3, status: pending}
-  - {name: brian-neighbor, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brian-neighbor}, priority: 3, status: pending}
-  - {name: chad-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chad-cohen}, priority: 3, status: pending}
-  - {name: chris-lema, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-lema}, priority: 3, status: pending}
-  - {name: dan-morman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dan-morman}, priority: 3, status: pending}
-  - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, priority: 3, status: pending}
-  - {name: donna-thomas, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: donna-thomas}, priority: 3, status: pending}
-  - {name: dora-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dora-ratte}, priority: 3, status: pending}
-  - {name: dr-mitch-janosik, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dr-mitch-janosik}, priority: 3, status: pending}
-  - {name: ella-jess-daughter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ella-jess-daughter}, priority: 3, status: pending}
-  - {name: elliott-scott, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-scott}, priority: 3, status: pending}
-  - {name: emily-sheehan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: emily-sheehan}, priority: 3, status: pending}
-  - {name: eric-pommier, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: eric-pommier}, priority: 3, status: pending}
-  - {name: felix, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: felix}, priority: 3, status: pending}
-  - {name: gene-vann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gene-vann}, priority: 3, status: pending}
-  - {name: gina-cizek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gina-cizek}, priority: 3, status: pending}
-  - {name: greg-verbanic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-verbanic}, priority: 3, status: pending}
-  - {name: gwen-goldrich, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gwen-goldrich}, priority: 3, status: pending}
-  - {name: hazel, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: hazel}, priority: 3, status: pending}
-  - {name: holly-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: holly-cohen}, priority: 3, status: pending}
-  - {name: isabel-jackson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: isabel-jackson}, priority: 3, status: pending}
-  - {name: jamie-joseph, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jamie-joseph}, priority: 3, status: pending}
-  - {name: jeffrey-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeffrey-ratte}, priority: 3, status: pending}
-  - {name: jess-paula-cousin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jess-paula-cousin}, priority: 3, status: pending}
-  - {name: joan-tropiano-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: joan-tropiano-tucci}, priority: 3, status: pending}
-  - {name: john-mark-patterson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-mark-patterson}, priority: 3, status: pending}
-  - {name: john-marron, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-marron}, priority: 3, status: pending}
-  - {name: john-metcalf, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-metcalf}, priority: 3, status: pending}
-  - {name: kay-ullman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kay-ullman}, priority: 3, status: pending}
-  - {name: kyle-heustis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-heustis}, priority: 3, status: pending}
-  - {name: leslie-hong, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: leslie-hong}, priority: 3, status: pending}
-  - {name: lily-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lily-post}, priority: 3, status: pending}
-  - {name: luke-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luke-bernander}, priority: 3, status: pending}
-  - {name: mark-benn, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-benn}, priority: 3, status: pending}
-  - {name: mark-effinger, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-effinger}, priority: 3, status: pending}
-  - {name: mark-goldrich, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-goldrich}, priority: 3, status: pending}
-  - {name: matt-builder, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-builder}, priority: 3, status: pending}
-  - {name: matt-mcintosh, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-mcintosh}, priority: 3, status: pending}
-  - {name: megan-together-financial, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: megan-together-financial}, priority: 3, status: pending}
-  - {name: mike-catan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-catan}, priority: 3, status: pending}
-  - {name: mike-orth, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-orth}, priority: 3, status: pending}
-  - {name: mikhail-voloshin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mikhail-voloshin}, priority: 3, status: pending}
-  - {name: nathan-gutters, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nathan-gutters}, priority: 3, status: pending}
-  - {name: nicole-laura-friend, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nicole-laura-friend}, priority: 3, status: pending}
-  - {name: paige, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paige}, priority: 3, status: pending}
-  - {name: patrick-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: patrick-rauland}, priority: 3, status: pending}
-  - {name: paula-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paula-bernander}, priority: 3, status: pending}
-  - {name: pegeen-reilly, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pegeen-reilly}, priority: 3, status: pending}
-  - {name: pennie-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pennie-williams}, priority: 3, status: pending}
-  - {name: pierre-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pierre-ratte}, priority: 3, status: pending}
-  - {name: ren-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ren-rauland}, priority: 3, status: pending}
-  - {name: rex-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rex-williams}, priority: 3, status: pending}
-  - {name: rob-rowe, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rob-rowe}, priority: 3, status: pending}
-  - {name: robin-neighbor, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-neighbor}, priority: 3, status: pending}
-  - {name: russell-quintero, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: russell-quintero}, priority: 3, status: pending}
-  - {name: ryan-deiss, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-deiss}, priority: 3, status: pending}
-  - {name: ryan-painter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-painter}, priority: 3, status: pending}
-  - {name: sara-moorehead, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sara-moorehead}, priority: 3, status: pending}
-  - {name: sawyer-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sawyer-rauland}, priority: 3, status: pending}
-  - {name: scott-beasley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scott-beasley}, priority: 3, status: pending}
-  - {name: shannon-janelle, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: shannon-janelle}, priority: 3, status: pending}
-  - {name: stan-tucci-sr, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stan-tucci-sr}, priority: 3, status: pending}
-  - {name: stanley-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stanley-tucci}, priority: 3, status: pending}
-  - {name: stephanie-steward, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephanie-steward}, priority: 3, status: pending}
-  - {name: ted-klontz, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ted-klontz}, priority: 3, status: pending}
-  - {name: teri-ashley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: teri-ashley}, priority: 3, status: pending}
-  - {name: tom-boldt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-boldt}, priority: 3, status: pending}
-  - {name: tom-godaddy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-godaddy}, priority: 3, status: pending}
-  - {name: tom-merritt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-merritt}, priority: 3, status: pending}
+  - {name: amanda-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amanda-moore}, group: B, status: done}
+  - {name: stephen-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-moore}, group: B, status: blocked, blocked: Gordon must say whether Stephen s  why  story should read two daughters or three (the copy says two; v2 and the client photo say three) and whether Stephen is a speaker in rec_1dc87f7565; the file and}
+  - {name: dan-griffiths, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dan-griffiths}, group: B, status: done}
+  - {name: danelle-bullock, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: danelle-bullock}, group: B, status: done}
+  - {name: josh-bullock, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: josh-bullock}, group: B, status: done}
+  - {name: greg-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-moore}, group: B, status: blocked, blocked: the file and census row are written; Gordon must confirm the spelling (Greg vs Gregg  his own photo folder says Gregg) and ask Greg which is right where the sources contradict: 2 or 4 years with the e}
+  - {name: jane-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jane-brewer}, group: B, status: blocked, blocked: Gordon must say whether the Sopris-list  Jane Brewer  (Fort Collins  2023) is her and current  and which month Trish s notice  Wes s mother s death and Leo s death fell in (v2 says early March 2026 an}
+  - {name: wes-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: wes-brewer}, group: B, status: blocked, blocked: Gordon must say whether the  Wes  in rec_5565f30055 (2026-08-27) is Wes Brewer  and which month Wes s mother died (v2 says early March 2026 but its 2026-02-04 call already has the memorial  next day )}
+  - {name: olivia-la, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: olivia-la}, group: B, status: active}
+  - {name: jared-james, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jared-james}, group: B, status: pending}
+  - {name: jesse-olson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jesse-olson}, group: B, status: pending}
+  - {name: ken-goodrich, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ken-goodrich}, group: B, status: pending}
+  - {name: jordan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jordan-ohlmann}, group: B, status: pending}
+  - {name: megan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: megan-ohlmann}, group: B, status: pending}
+  - {name: marty-greer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: marty-greer}, group: B, status: pending}
+  - {name: jeff-carpenter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-carpenter}, group: B, status: pending}
+  - {name: chris-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-plunkett}, group: B, status: pending}
+  - {name: scarlett-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scarlett-plunkett}, group: B, status: pending}
+  - {name: travis-crawford, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: travis-crawford}, group: B, status: pending}
+  - {name: karen-dodge, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: karen-dodge}, group: B, status: pending}
+  - {name: jeff-goff, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-goff}, group: B, status: pending}
+  - {name: tim-silva, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tim-silva}, group: B, status: pending}
+  - {name: kevin-skalure, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kevin-skalure}, group: B, status: pending}
+  - {name: william-lordan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: william-lordan}, group: B, status: pending}
+  - {name: brian-brushwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brian-brushwood}, group: C, status: pending}
+  - {name: carmyn-wilson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: carmyn-wilson}, group: C, status: pending}
+  - {name: chris-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-torbay}, group: C, status: pending}
+  - {name: mick-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mick-torbay}, group: C, status: pending}
+  - {name: craig-arthur, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: craig-arthur}, group: C, status: pending}
+  - {name: daniel-whittington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: daniel-whittington}, group: C, status: pending}
+  - {name: dave-young, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dave-young}, group: C, status: pending}
+  - {name: devin-wright, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: devin-wright}, group: C, status: pending}
+  - {name: elliott-stark, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-stark}, group: C, status: pending}
+  - {name: gordon-atkinson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gordon-atkinson}, group: C, status: pending}
+  - {name: jack-heald, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jack-heald}, group: C, status: pending}
+  - {name: jake-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jake-williams}, group: C, status: pending}
+  - {name: jason-skaggs, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jason-skaggs}, group: C, status: pending}
+  - {name: johnny-molson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: johnny-molson}, group: C, status: pending}
+  - {name: kyle-caldwell, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-caldwell}, group: C, status: pending}
+  - {name: luis-castaneda, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luis-castaneda}, group: C, status: pending}
+  - {name: matt-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-willis}, group: C, status: pending}
+  - {name: rick-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rick-willis}, group: C, status: pending}
+  - {name: peter-nevland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: peter-nevland}, group: C, status: pending}
+  - {name: robin-kressbach, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-kressbach}, group: C, status: pending}
+  - {name: roy-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: roy-williams}, group: C, status: pending}
+  - {name: ryan-chute, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-chute}, group: C, status: pending}
+  - {name: stephen-semple, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-semple}, group: C, status: pending}
+  - {name: steve-rae, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: steve-rae}, group: C, status: pending}
+  - {name: syre-klenke, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: syre-klenke}, group: C, status: pending}
+  - {name: todd-lyles, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: todd-lyles}, group: C, status: pending}
+  - {name: tom-wanek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-wanek}, group: C, status: pending}
+  - {name: vi-wickam, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: vi-wickam}, group: C, status: pending}
+  - {name: cedric-yau, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: cedric-yau}, group: C, status: pending}
+  - {name: jeff-sexton, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-sexton}, group: C, status: pending}
+  - {name: zac-smith, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: zac-smith}, group: C, status: pending}
+  - {name: mike-catan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-catan}, group: C, status: pending}
+  - {name: nathan-ingram, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nathan-ingram}, group: C, status: pending}
+  - {name: david-mckinnis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: david-mckinnis}, group: H, status: pending}
+  - {name: adrian-van-zelfden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adrian-van-zelfden}, group: H, status: pending}
+  - {name: pennie-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pennie-williams}, group: H, status: pending}
+  - {name: rex-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rex-williams}, group: H, status: pending}
+  - {name: mark-effinger, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-effinger}, group: H, status: pending}
+  - {name: pegeen-reilly, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pegeen-reilly}, group: H, status: pending}
+  - {name: ryan-deiss, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-deiss}, group: H, status: pending}
+  - {name: etieno-essien, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: etieno-essien}, group: D, status: pending}
+  - {name: temple-grandin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: temple-grandin}, group: D, status: pending}
+  - {name: amy-ehrhardt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amy-ehrhardt}, group: D, status: pending}
+  - {name: lathan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lathan}, group: D, status: pending}
+  - {name: maria-pia-seirup, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: maria-pia-seirup}, group: E, status: pending}
+  - {name: elliott-scott, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-scott}, group: E, status: pending}
+  - {name: leslie-hong, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: leslie-hong}, group: E, status: pending}
+  - {name: bob-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: bob-ratte}, group: E, status: pending}
+  - {name: dora-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dora-ratte}, group: E, status: pending}
+  - {name: jeffrey-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeffrey-ratte}, group: E, status: pending}
+  - {name: pierre-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pierre-ratte}, group: E, status: pending}
+  - {name: beatrice-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: beatrice-ratte}, group: E, status: pending}
+  - {name: sara-moorehead, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sara-moorehead}, group: E, status: pending}
+  - {name: gina-cizek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gina-cizek}, group: E, status: pending}
+  - {name: joan-tropiano-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: joan-tropiano-tucci}, group: E, status: pending}
+  - {name: stan-tucci-sr, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stan-tucci-sr}, group: E, status: pending}
+  - {name: stanley-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stanley-tucci}, group: E, status: pending}
+  - {name: luke-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luke-bernander}, group: E, status: pending}
+  - {name: paula-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paula-bernander}, group: E, status: pending}
+  - {name: teri-ashley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: teri-ashley}, group: E, status: pending}
+  - {name: tom-boldt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-boldt}, group: E, status: pending}
+  - {name: ansel-courant, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ansel-courant}, group: E, status: pending}
+  - {name: donna-thomas, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: donna-thomas}, group: E, status: pending}
+  - {name: allie-wickham, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: allie-wickham}, group: F, status: pending}
+  - {name: doug-huckaba, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: doug-huckaba}, group: F, status: pending}
+  - {name: james-gilbert, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: james-gilbert}, group: F, status: pending}
+  - {name: larry-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: larry-bloom}, group: F, status: pending}
+  - {name: alexia-blackwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alexia-blackwood}, group: F, status: pending}
+  - {name: ali-woll, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ali-woll}, group: F, status: pending}
+  - {name: amber-crummy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amber-crummy}, group: F, status: pending}
+  - {name: brent-ballard, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brent-ballard}, group: F, status: pending}
+  - {name: chad-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chad-cohen}, group: F, status: pending}
+  - {name: holly-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: holly-cohen}, group: F, status: pending}
+  - {name: dan-morman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dan-morman}, group: F, status: pending}
+  - {name: dnelle-dowis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dnelle-dowis}, group: F, status: pending}
+  - {name: emily-sheehan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: emily-sheehan}, group: F, status: pending}
+  - {name: eric-pommier, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: eric-pommier}, group: F, status: pending}
+  - {name: laura-holden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: laura-holden}, group: F, status: pending}
+  - {name: gene-vann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gene-vann}, group: F, status: pending}
+  - {name: greg-verbanic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-verbanic}, group: F, status: pending}
+  - {name: isabel-jackson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: isabel-jackson}, group: F, status: pending}
+  - {name: jamie-joseph, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jamie-joseph}, group: F, status: pending}
+  - {name: john-marron, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-marron}, group: F, status: pending}
+  - {name: john-metcalf, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-metcalf}, group: F, status: pending}
+  - {name: kyle-heustis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-heustis}, group: F, status: pending}
+  - {name: lily-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lily-post}, group: F, status: pending}
+  - {name: matt-mcintosh, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-mcintosh}, group: F, status: pending}
+  - {name: mike-orth, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-orth}, group: F, status: pending}
+  - {name: mikhail-voloshin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mikhail-voloshin}, group: F, status: pending}
+  - {name: patrick-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: patrick-rauland}, group: F, status: pending}
+  - {name: ren-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ren-rauland}, group: F, status: pending}
+  - {name: sawyer-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sawyer-rauland}, group: F, status: pending}
+  - {name: rob-rowe, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rob-rowe}, group: F, status: pending}
+  - {name: russell-quintero, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: russell-quintero}, group: F, status: pending}
+  - {name: scott-beasley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scott-beasley}, group: F, status: pending}
+  - {name: shannon-janelle, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: shannon-janelle}, group: F, status: pending}
+  - {name: kay-ullman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kay-ullman}, group: F, status: pending}
+  - {name: mark-benn, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-benn}, group: F, status: pending}
+  - {name: ted-klontz, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ted-klontz}, group: F, status: pending}
+  - {name: dr-mitch-janosik, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dr-mitch-janosik}, group: F, status: pending}
+  - {name: stephanie-steward, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephanie-steward}, group: F, status: pending}
+  - {name: guy-hanington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: guy-hanington}, group: F, status: pending}
+  - {name: chris-lema, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-lema}, group: F, status: pending}
+  - {name: hazel, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: hazel}, group: F, status: pending}
+  - {name: paige-austin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paige-austin}, group: F, status: pending}
+  - {name: robin-neighbor, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-neighbor}, group: F, status: pending}
+  - {name: matt-builder, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-builder}, group: F, status: pending}
+  - {name: ryan-painter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-painter}, group: F, status: pending}
+  - {name: tom-godaddy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-godaddy}, group: F, status: pending}
+  - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
+  - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: moderation
+current: olivia-la
 waiting_on: []
 ---
 # Backfill people
@@ -233,3 +162,21 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-01T22:11:44+02:00 job.run: stage `alex-post` started
 - 2026-10-01T22:14:48+02:00 job.run: stage `alex-post` blocked, recorded, job continues: the file and census row are written; Gordon must say which year the reconnection coffee was (v2 contradicts itself  2025 or 2026) and whether the closely held material in rec_868fb07db8 is filed in pe
 - 2026-10-01T22:14:48+02:00 job.run: stopped at human gate `moderation`
+- 2026-10-01T23:12:12+02:00 job.run: stage `amanda-moore` started
+- 2026-10-01T23:17:02+02:00 job.run: stage `amanda-moore` done (Stage: done · tests green)
+- 2026-10-01T23:17:02+02:00 job.run: stage `stephen-moore` started
+- 2026-10-01T23:22:41+02:00 job.run: stage `stephen-moore` blocked, recorded, job continues: Gordon must say whether Stephen s  why  story should read two daughters or three (the copy says two; v2 and the client photo say three) and whether Stephen is a speaker in rec_1dc87f7565; the file and
+- 2026-10-01T23:22:41+02:00 job.run: stage `dan-griffiths` started
+- 2026-10-01T23:27:00+02:00 job.run: stage `dan-griffiths` done (Stage: done · tests green)
+- 2026-10-01T23:27:00+02:00 job.run: stage `danelle-bullock` started
+- 2026-10-01T23:31:55+02:00 job.run: stage `danelle-bullock` done (Stage: done · tests green)
+- 2026-10-01T23:31:55+02:00 job.run: stage `josh-bullock` started
+- 2026-10-01T23:37:17+02:00 job.run: stage `josh-bullock` done (Stage: done · tests green)
+- 2026-10-01T23:37:17+02:00 job.run: stage `greg-moore` started
+- 2026-10-01T23:42:49+02:00 job.run: stage `greg-moore` blocked, recorded, job continues: the file and census row are written; Gordon must confirm the spelling (Greg vs Gregg  his own photo folder says Gregg) and ask Greg which is right where the sources contradict: 2 or 4 years with the e
+- 2026-10-01T23:42:49+02:00 job.run: 6 stages in one run; continuation queued (20261001T214249Z_job.run_ea2bc0.md)
+- 2026-10-01T23:42:50+02:00 job.run: stage `jane-brewer` started
+- 2026-10-01T23:47:09+02:00 job.run: stage `jane-brewer` blocked, recorded, job continues: Gordon must say whether the Sopris-list  Jane Brewer  (Fort Collins  2023) is her and current  and which month Trish s notice  Wes s mother s death and Leo s death fell in (v2 says early March 2026 an
+- 2026-10-01T23:47:09+02:00 job.run: stage `wes-brewer` started
+- 2026-10-01T23:51:40+02:00 job.run: stage `wes-brewer` blocked, recorded, job continues: Gordon must say whether the  Wes  in rec_5565f30055 (2026-08-27) is Wes Brewer  and which month Wes s mother died (v2 says early March 2026 but its 2026-02-04 call already has the memorial  next day )
+- 2026-10-01T23:51:40+02:00 job.run: stage `olivia-la` started

@@ -1,5 +1,5 @@
 # TESTS
-generated 2026-10-01 22:11 by test-all.py · 26 suites · 0 failing
+generated 2026-10-01 23:37 by test-all.py · 27 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -27,5 +27,6 @@ generated 2026-10-01 22:11 by test-all.py · 26 suites · 0 failing
 | skill:checkback | PASS | test-skill-checkback: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:earballs-ingest | PASS | test-skill-earballs-ingest: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:open | PASS | test-skill-open: PASS (structural; behavioral scenario runs on the Mac) |
+| skill:personal-morning | PASS | test-skill-personal-morning: PASS (structural) |
 | skill:v2-read | PASS | test-skill-v2-read: PASS (structural) |
 | skill:write-it-down | PASS | test-skill-write-it-down: PASS (structural) |

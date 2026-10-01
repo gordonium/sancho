@@ -23,4 +23,4 @@ Venture led by Elizabeth (Lizzie) Mack; partners Etieno (Eti) Essien and Robert 
 - VFW board update: new VFW leadership (RNA spoke with Jake and Chris); tentative for the first Tuesday, 2026-10-06; RNA wanted product in hand first [rec_d6eab89744 00:09:53, 00:10:06]
 - Umbrella company: needs a name; pitch line that lands is "the Unilever of bug protein and waste disposal"; Lizzie proposes the umbrella hold Entomat, the whiskey company and her professional training business, with her Harper TX land left out for now; Umbrella Corporation joked about (Konami trademark; Lizzie: trademarks are class-specific) [rec_d6eab89744 00:27:46, 00:30:15, 00:31:25]
 - Family foundation contact (Chelsea) wants options for all the companies; Lizzie to reach out, CC RNA, Gordon and Eti, in Sept–Oct [rec_d6eab89744 00:27:46, 00:32:41]
-
+- Wizard of Ads: classic WoA brand-building, so Roy Williams gets 15% of Gordon's distributions and sale proceeds when they happen; verbal, on trust [rec_c7110cf37e 2026-09-21 00:51:20–00:51:28]

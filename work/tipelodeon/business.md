@@ -30,3 +30,4 @@ Formerly SongTipper; Grayson Erhard is founder, owner and primary developer; Gor
 - Design standard (Gordon): simple, obvious, convenient, every screen [rec_0d8753ed18 00:47:55]
 - Weekly Gordon–Grayson call: on for 9/23, skipped 9/30 and 10/7, back 10/14 [rec_0d8753ed18 00:28:18]
 - Website copy: not written before Italy; Gordon amended this with Grayson: he'll power-dump the copy on the flights home (~2026-10-07) [gordon 2026-10-01]
+- Wizard of Ads: Roy Williams waived his 15% on Gordon's Tipelodeon cut, 2026-09-21, "this is not a precedent"; his read: a goofy tech startup, selling to musicians is the hard part, a coin toss at best [rec_c7110cf37e 2026-09-21 00:48:07, 00:51:45, 00:52:34]

@@ -65,6 +65,7 @@ flowchart TB
 flowchart LR
   subgraph gtd
     open[open]
+    personal_morning[personal-morning]
   end
   subgraph ingest
     attribution_correction[attribution-correction]
@@ -81,6 +82,7 @@ flowchart LR
   checkback --> the
   earballs_ingest --> attribution_correction
   open --> the
+  personal_morning --> food_routine
   v2_read --> the
   write_it_down --> the
 ```
@@ -99,7 +101,7 @@ flowchart LR
 - **Food routine to habit** (personal/food) · next: Design the Sunday session skill (build order #6); first session picks four dinners
 - **Nomad daily check** (personal/nomad) · next: Design the personal morning routine incl. the nomad check (build order #5)
 - **Build Sancho** (work/copper-leaf) · next: Claude Code on the Mac: watcher, launchd, Sancho-Audio, Sancho-Secrets, Sancho-Private, autocommit fix, ping
-- **Home Directions system rebuild** (work/copper-leaf) · next: Phase 1 only. Gordon: open Herd once to finish its setup; decide kit D5 (upgrade the GitHub organisation from Free so main can be protected, or go without). Sancho: plan questions 4 to 12 one at a time, then plan.md revised for approval. WARN GORDON BEFORE ANY REAL CODE (he raises effort and starts a build thread)
+- **Home Directions system rebuild** (work/copper-leaf) · next: Gordon: read docs/plan-v2.md and approve or change it (eight small open items in its section 11, none blocking). On approval the next act is REAL CODE: warn Gordon, he raises the effort level, and the build moves to its own thread at step A (the kit's first slice). This planning thread stops there
 
 ## Changed this week
 
@@ -123,6 +125,7 @@ flowchart LR
 - _design/seeds/to-read.md
 - _design/seeds/work-ice.md
 - _quarantine/.gitkeep
+- _quarantine/2026-10-01_ingest-pending-requests.md
 - _queue/checkbacks.md
 - _queue/jobs/2026-09-30_build-sancho.md
 - _queue/jobs/2026-10-01_backfill-people.md
@@ -162,8 +165,7 @@ flowchart LR
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
 - _setup/pipeline/install-venv.sh
-- _setup/pipeline/requirements.txt
-- … +503 more
+- … +511 more
 
 ## Level 2 · wiring
 
@@ -176,6 +178,7 @@ flowchart LR
 | checkback | both | a scheduled-task prompt that says: open job <name>; run checkback, check on the Nerd, did the Nerd finish, where is job <name> | a conversation where Gordon is present and just asked the Nerd something himself, a job with no waiting_on block, any request to create tasks for Gordon, anything outbound | CLAUDE.md, _queue/jobs/<job>.md, _queue/checkbacks.md, _design/STATUS.md, _queue/results/, _queue/running/, _queue/HEALTH.md, _setup/commands.md | _queue/checkbacks.md (one row filled or appended), _queue/jobs/<job>.md (hops, waiting_on statuses, stage status), _design/STATUS.md (one line under ### Check-backs), _queue/requests/ (notify.push; nerd.run when it exists), the next scheduled task, or none | _setup/tests/skills/checkback/ |
 | earballs-ingest | both | ingest, process recordings, file that recording, the greeting shows recordings waiting and Gordon says go, a check-back or job stage named ingest | a recording mentioned in passing, a request to search transcripts ("what did Roy say"), a transcript whose speakers Gordon has not confirmed when the recording is not solo, any recording in recordings/backlog/ unless a backlog ingest job names it | recordings/inbox/<rec_id>/{transcript,speakers,meta}.md, recordings/lexicon.md, people/INDEX.md, the target lobe's INDEX.md and PROJECTS.md, the target entity's INDEX.md and project.md or entity.md, the recording's corrections.md if present, personal/me/watch.md | recordings/<home>/<rec_id>/speakers.md (confirmations), recordings/<home>/<rec_id>/corrections.md, recordings/lexicon.md, the entity's summaries/<date>_<rec_id>.md (T5), project.md / entity.md / knowledge.md / people/<slug>.md lines with cites, _queue/requests/ (pipeline.library when a speaker is newly human-confirmed; pipeline.status after the move), the transcript folder moved to its home, the session note's written: list | _setup/tests/skills/earballs-ingest/ |
 | open | both | Hey Sancho, hey sancho, any greeting addressed to Sancho, let's work, switch to work, switch to personal, done, thanks Sancho, that's it for this one, close | a message that continues an open conversation, a question inside a job, the word sancho used in the third person, a Nerd build session that already stated its task | CLAUDE.md, personal/me/brief.md, personal/me/watch.md, personal/nomad/location.md, <lobe>/INDEX.md, <lobe>/PROJECTS.md, recordings/STATUS.md, _queue/HEALTH.md, _queue/leases/, _queue/sessions/, _queue/routines/<lobe>-morning-<date>.md, the project.md of each project in today's focus, git log since the last clean close | _queue/leases/<session-id>.md, _queue/sessions/<date>_<topic>_<id>.md, on close: a receipt in the session note, the note folded into the project's history or the lobe's day log, the lease removed, a git.commit request in _queue/requests/ | _setup/tests/skills/open/ |
+| personal-morning | personal | run the morning routine, good morning Sancho" after the open skill's offer is accepted, "nomad check", "should I drive today", "what's the weather looking like | the work lobe's morning (separate skill), a second run on the same day unless Gordon asks again, any afternoon open (the offer is before noon only), a plain weather question for somewhere he is not | personal/nomad/location.md, personal/nomad/thresholds.md, personal/nomad/brief-<date>.md (written by the nomad.brief command), personal/nomad/people-and-places.md, people/*.md location and want_to_see_by fields (via the generated people/_geo.json), FOCUS.md, personal/PROJECTS.md, personal/food/plan-<week>.md if it exists, personal/me/mantras.md, _queue/mantras-shown.md, today's calendar through the Google Calendar connector | _queue/requests/ (nomad.brief), personal/nomad/log/<date>.md (the day's brief and verdict), _queue/routines/personal-morning-<date>.md (ran, or declined), FOCUS.md today line when Gordon sets today's three, _queue/mantras-shown.md, personal/nomad/location.md when Gordon says where he is | _setup/tests/skills/personal-morning/ |
 | v2-read | both | what did v2 say about, check v2, check v3, the old system had, any migration batch that needs legacy evidence, a people or client file that needs its v2 history | a question answerable from the Sancho tree, a request to run or copy a v2 skill or tool, anything about the current Copper Leaf kit | nothing in the legacy trees directly, _setup/quarantine-paths.md | the subagent's extract to the asking thread's outputs folder, then the cited lines into the target Sancho file, _queue/log/quarantine-access.log (by the guard, not by this skill) | _setup/tests/skills/v2-read/ |
 | write-it-down | both | write that down, note that, remember that, log that, a decision or correction stated in conversation with no skill running, the end of any turn in which a fact about Gordon or his world was said | a request to summarize what was said (that is a read), small talk, a fact already on disk with the same cite | the session note, the target file's INDEX, "the target file (to supersede, never overwrite)" | the target file: project.md, entity.md, knowledge.md, people/<slug>.md, decisions.md, personal/me/*.md, or the session note when nothing else fits, _setup/ERRORS.md when the phrase was needed | _setup/tests/skills/write-it-down/ |
 
@@ -232,22 +235,29 @@ flowchart LR
 # LINT
 generated 2026-10-01 by lint-layers.py
 
-**13 problems, 1 warnings**
+**20 problems, 1 warnings**
 
 ## Problems (block the build)
 - work/copper-leaf/projects/hd-system-rebuild/docs/wp-kit-map.md: data file contains an instruction to Claude ('you must'); describe the preference instead
+- people/_sopris-locations.md:129: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/lizzie-mack.md:31: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/clients/home-directions/entity.md:24: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/project.md:24: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/project.md:25: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-2026-10-01.md:19: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:21: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:136: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/hosting-options.md:21: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/laravel-kit-spec.md:48: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/laravel-kit-spec.md:176: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/legacy-sources.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/phase0-brief.md:87: inference words under a [gordon] cite; mark [inferred] or write `unknown`
-- work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:80: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/phase0-brief.md:136: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/phase0-brief.md:147: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/plan-v2.md:173: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:81: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:82: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:83: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 
 ## Warnings
 - secrets check skipped: this process can't see ~/.config/sancho (sandboxed)
@@ -257,7 +267,7 @@ generated 2026-10-01 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-01 22:11 by test-all.py · 26 suites · 0 failing
+generated 2026-10-01 23:37 by test-all.py · 27 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -285,6 +295,7 @@ generated 2026-10-01 22:11 by test-all.py · 26 suites · 0 failing
 | skill:checkback | PASS | test-skill-checkback: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:earballs-ingest | PASS | test-skill-earballs-ingest: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:open | PASS | test-skill-open: PASS (structural; behavioral scenario runs on the Mac) |
+| skill:personal-morning | PASS | test-skill-personal-morning: PASS (structural) |
 | skill:v2-read | PASS | test-skill-v2-read: PASS (structural) |
 | skill:write-it-down | PASS | test-skill-write-it-down: PASS (structural) |
 

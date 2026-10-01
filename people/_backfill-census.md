@@ -17,7 +17,7 @@ Pointers only: name, aliases, role word and where each person appears. Nothing h
 | alex-post | Alex Post | Alex, Alexandra, Andrea | yes (thin); people/alex-post.md; work/tipelodeon/summaries/2026-09-15_rec_0d8753ed18.md | alex-post.md; MANIFEST.md row | alex-post (voice profile only) | friend | 1 | done | yes | v2 gives legal name Andrea. 2026-10-01: existing file thickened, 55 cited lines added, 3 existing lines kept; sources: v2 people (alex-post, lily-post, brent-ballard, ali-woll, paula-bernander, laura-holden, mark-benn, tom-boldt, MANIFEST), v2 client file prime-directive, v3 voice profile (enrollment history only), _CLIENTS/Prime Directive Counseling (listing), rec_640701d84d, rec_0d8753ed18; no contact details found; asks Gordon: which year the reconnection coffee was (v2 dates contradict), where things stand with Jake, and whether rec_868fb07db8 (inbox, closely held material) is filed here or in Private |
 | alicia-mitchells-magic | Alicia |  | no; entity.md + knowledge.md mitchells-magic | no | alicia (voice profile only) | client person (marketing coordinator) | 1 |  |  | surname not given |
 | allie-wickham | Allie Wickham | Allie | no; recordings/2026/rec_640701d84d/summary-personal.md ("Allie & Mike's wedding") | allie-wickham.md; MANIFEST.md row | no | friend | 1 |  |  | v2 flags Ali Woll vs Allie Wickham as a voice-to-text disambiguation risk; fiance Mike has no file |
-| amanda-moore | Amanda Moore | Amanda | no; entity.md + knowledge.md comfort-masters-dfw | amanda-moore.md | no | client person (Comfort Masters co-owner) | 1 |  |  |  |
+| amanda-moore | Amanda Moore | Amanda | no; entity.md + knowledge.md comfort-masters-dfw | amanda-moore.md | no | client person (Comfort Masters co-owner) | 1 | done | yes | 2026-10-01: new file, 51 cited lines; sources: v2 people (amanda-moore, steven-moore, adam-donmoyer, jack-heald, peter-nevland, gene-vann, MANIFEST), v2 clients (comfort-masters-dfw, whitespark-keywords, aeo-strategy, content-map), Sancho entity + knowledge files and stephen-moore.md, _CLIENTS/comfortmastersdfw (listing only), rec_1dc87f7565; no v3, no v2 partners; no contact details found; asks Gordon whether SPEAKER_04 in rec_1dc87f7565 is her; open: co-owner vs office manager title in v2, "Amanda" in the CSR list |
 | andrew-mccanse | Andrew McCanse | Dr. Andrew McCanse | no; knowledge.md precision-chiro | no | no | client-adjacent (Vermont practice) | 1 |  |  |  |
 | brian-brushwood | Brian Brushwood | Brian, Brushwood, shwood | no; knowledge.md travis-crawford-hvac (referenced, not on the account); work/wizard-of-ads/clients/_roster-evidence-v2.md (LottoEdge) | partners/brian-brushwood.md | brian-brushwood (voice profile only) | WoA partner | 1 |  |  |  |
 | brittany-mitchells-magic | Brittany Bullock | Brittany, Bernie (transcript error) | no; entity.md + knowledge.md mitchells-magic | no | brittany-bullock (voice profile only) | client person | 1 |  |  | v3 gives surname Bullock; Sancho slug could become brittany-bullock |
@@ -33,8 +33,8 @@ Pointers only: name, aliases, role word and where each person appears. Nothing h
 | clarissa-dm-heating | Clarissa |  | no; entity.md + knowledge.md dm-heating | clarissa-dm-heating.md | no | client person (former front desk) | 1 |  |  | surname not given |
 | cody-travis-crawford | Cody |  | no; knowledge.md travis-crawford-hvac ("electronic guy next door") | no | no | client-side contact | 1 |  |  | surname not given |
 | craig-arthur | Craig Arthur | Craig | no; entity.md + knowledge.md action-air; knowledge.md plunkett-home-services names a "Craig (surname not given)" on the 2026-04-06 call | partners/craig-arthur.md | no | WoA partner | 1 |  |  | the Plunkett "Craig" may be the same person; unconfirmed |
-| dan-griffiths | Dan Griffiths | Daniel Griffiths, Dan Greer (v2 error) | no; entity.md + knowledge.md checkvet | no | no | client person (CheckVet co-owner) | 1 |  |  | v2 wrote the surname as Greer; the signed MSA has Griffiths per knowledge.md |
-| danelle-bullock | Danelle Bullock | Danelle | no; entity.md + knowledge.md mitchells-magic | no | no | client person | 1 |  |  |  |
+| dan-griffiths | Dan Griffiths | Daniel Griffiths, Dan Greer (v2 error) | no; entity.md + knowledge.md checkvet | no | no | client person (CheckVet co-owner) | 1 | done | yes | v2 wrote the surname as Greer; the signed MSA has Griffiths per knowledge.md. 2026-10-01: new file, 19 cited lines; sources: v2 client file checkvet (the only legacy file naming him), Sancho entity + knowledge files and roster evidence, _CLIENTS/Check In and Out Vet (listing; signed MSA is a scan, not re-read this pass); no v2 people/partners file, no v3, no recordings; no contact details found; asks Gordon to confirm the surname Griffiths |
+| danelle-bullock | Danelle Bullock | Danelle, Danelle Bulloch (v2 Zoom log spelling) | no; entity.md + knowledge.md mitchells-magic | no | no | client person | 1 | done | yes | 2026-10-01: new file, 29 cited lines; sources: v2 client file mitchells-magic (the only legacy file naming her), Sancho entity + knowledge files and roster evidence, rec_b24483399a (inbox, speakers unconfirmed), _CLIENTS/_Wizards of Ads CLIENTS/mitchellsmagic (listing; no document names her); no v2 people/partners file, no v3; contact field left empty (a Gmail address in v2 comes from a Zoom transcript, spelling unverified); asks Gordon: surname Bullock vs Bulloch, and whether the "Danelle" on the 2026-09-22 call is her; open: whether she holds ownership, "Ashley" has no file or census row |
 | daniel-whittington | Daniel Whittington | Daniel | no; entity.md + knowledge.md plunkett-home-services | partners/daniel-whittington.md | daniel-whittington (voice profile only) | WoA partner; friend | 1 |  |  |  |
 | dave-young | Dave Young | Dave | no; entity.md + knowledge.md plunkett-home-services | partners/dave-young.md | no | WoA partner | 1 |  |  |  |
 | david-comfort-masters | David |  | no; knowledge.md comfort-masters-dfw (video producer) | no | no | vendor (inferred) | 1 |  |  | surname not given |
@@ -54,13 +54,13 @@ Pointers only: name, aliases, role word and where each person appears. Nothing h
 | gordon | Gordon Seirup | Gordon, Gordonium, Gordo | yes (thin); people/gordon.md | gordon-seirup.md (pointer to v2 CORE.md) | gordon (voice profile only) | principal | 1 |  |  | v2 adds alias Gordo |
 | gordon-atkinson | Gordon Atkinson | Atkinson | no; entity.md + knowledge.md society-hill-plumbing | partners/gordon-atkinson.md; MANIFEST.md row | no | WoA partner (writer) | 1 |  |  | not to be confused with gordon (Seirup) |
 | grayson-erhard | Grayson Erhard | Grayson, Erhard, Grayson Ehrhardt | yes (full); people/grayson-erhard.md; work/tipelodeon; personal/ice/ice-2026-10-01-camping-with-grayson.md | grayson-ehrhardt.md; grayson.md (auto stub) | no | venture (Tipelodeon) | 1 |  |  | v2 spells the surname Ehrhardt; Sancho and lexicon use Erhard; grayson.md stub is the same person |
-| greg-moore | Greg Moore | Greg | no; entity.md + knowledge.md society-hill-plumbing | no | no | client person (Society Hill owner) | 1 |  |  |  |
+| greg-moore | Greg Moore | Greg, Gregg (folder-name spelling in _CLIENTS) | no; entity.md + knowledge.md society-hill-plumbing | no | no | client person (Society Hill owner) | 1 | done | yes | 2026-10-01: new file, 75 cited lines; sources: v2 client files (society-hill, greg-voice-profile, meet-greg FINAL, uncovery extraction 2026-06-10), v2 handoff 2026-06-11, v2 partners/gordon-atkinson, v2 retreat agenda, v3 client stub society-hill, v3 legacy transcripts (8, speakers unconfirmed), Sancho entity + knowledge + guidelines, _CLIENTS/_Wizards of Ads CLIENTS/societyhillplumbing (listing, about-us.html, build-decisions, handoff-to-mac; the signed PDF could not be opened this pass); no v2 people/partners file, no v3 people folder, no Sancho recording; contact: phone only, from documents; asks Gordon: Greg vs Gregg spelling, and two contradictions only Greg can settle (2 or 4 years with the excavator; 35+ or 40 years a Master Plumber); open: other Gregs in the legacy transcripts kept apart, whether the new site has launched |
 | isaac | Isaac | Iggy (lexicon) | no (pending people/isaac.md); recordings/inbox/rec_564c0541a8/summary.md (Ignite owner, Mankato MN); recordings/lexicon.md | no | no | client person (Ignite; CLC web-maintenance client per the summary) | 1 |  |  | surname not given; pending request uses slug isaac; client folder home (copper-leaf vs wizard-of-ads) undecided |
 | jack-heald | Jack Heald | Jack | no; entity.md + knowledge.md comfort-masters-dfw | jack-heald.md; partners/jack-heald.md | no | WoA partner (writer) | 1 |  |  | two v2 files (people and partners) |
 | jaden-lewis | Jaden Lewis | Jay Lewis | no; knowledge.md comfort-masters-dfw | no | no | client person (CSR) | 1 |  |  |  |
 | jake-williams | Jake Williams | Jake | no; recordings/inbox/rec_564c0541a8/summary.md ("Jake", inferred to be Jake Williams) | MANIFEST.md row only (no file) | no | WoA (president) (inferred) | 1 |  |  | identity of the "Jake" in rec_564c0541a8 is inferred from the v2 MANIFEST role; unconfirmed |
 | james-gilbert | James Gilbert | James | yes (thin); people/james-gilbert.md | james-gilbert.md | no | friend | 1 |  |  | v2 names a partner Felix in the first lines (see felix row) |
-| jane-brewer | Jane Brewer | Dr. Jane Brewer | no; entity.md + knowledge.md precision-chiro | no (v2 has a client entity jane-brewer-precision-chiro, not a person file) | no | client person (Precision Chiro owner); CLC-PM client | 1 |  |  |  |
+| jane-brewer | Jane Brewer | Dr. Jane Brewer | no; entity.md + knowledge.md precision-chiro | no (v2 has a client entity jane-brewer-precision-chiro, not a person file) | no | client person (Precision Chiro owner); CLC-PM client | 1 | done | yes | 2026-10-01: new file, 75 cited lines; sources: v2 client files (jane-brewer-precision-chiro, jane-brewer-stay-sharp-stand-tall), v2 dashboard, copper-leaf-creative, press-managed, presentation-frameworks, gordonos-v3-planning, v2 people (lizzie-mack, MANIFEST row), v3 client folder precision-chiro (olivia-bio-final, olivia-bio-draft-v1), Sancho entity + knowledge + guidelines, people/_sopris-locations.md, _CLIENTS/_Wizards of Ads CLIENTS/Precision Chiropractic (listing; no document opened this pass); no v2 people/partners file, no v3 people folder, no Sancho recording; contact field left empty (the only phone and address found are the practice's); asks Gordon: whether the Sopris-list "Jane Brewer" (Fort Collins, 2023) is her and current, and which month the Trish notice / Wes's mother's death / Leo fell in (v2 says early March 2026 and also logs them in a 2026-02-04 call); open: front desk start dates, Feb 2026 trip length, annual revenue, "Ashley" vs Olivia |
 | jane-fisher | Jane Fisher |  | no; entity.md + knowledge.md dm-heating | no | no | media buyer (local) | 1 |  |  |  |
 | jared-james | Jared James | Jared | no; work/wizard-of-ads/clients/_roster-evidence-v2.md (LottoEdge) | jared-james.md | no | client person (LottoEdge founder) | 1 |  |  |  |
 | jason-skaggs | Jason Skaggs | Jason, Skaggs | no; entity.md + knowledge.md action-air; knowledge.md dm-heating | partners/jason-skaggs.md | no | WoA partner (writer) | 1 |  |  |  |
@@ -73,7 +73,7 @@ Pointers only: name, aliases, role word and where each person appears. Nothing h
 | jessica-happy-outlet | Jessica |  | no; entity.md + knowledge.md happy-outlet | no | no | client person (staff) | 1 |  |  | surname not given |
 | johnny-molson | Johnny Molson | Johnny | no; entity.md + knowledge.md checkvet | partners/johnny-molson.md | johnny-molson (voice profile only) | WoA partner | 1 |  |  |  |
 | jordan-ohlmann | Jordan Ohlmann | Jordan | no; entity.md + knowledge.md action-air | no | no | client person (Action Air owner) | 1 |  |  |  |
-| josh-bullock | Josh Bullock | Josh | no; entity.md + knowledge.md mitchells-magic | no | josh-bullock (voice profile only) | client person (Mitchell's Magic owner) | 1 |  |  |  |
+| josh-bullock | Josh Bullock | Josh | no; entity.md + knowledge.md mitchells-magic | no | josh-bullock (voice profile only) | client person (Mitchell's Magic owner) | 1 | done | yes | 2026-10-01: new file, 58 cited lines; sources: v2 client file mitchells-magic, v2 partners (peter-nevland, tom-wanek), v2 earballs ingest notes 2026-04-07, v3 voice profile (enrollment history only), Sancho entity + knowledge files and danelle-bullock.md, _CLIENTS/mitchellsmagic (listing only), rec_b24483399a; no v2 people file; contact left empty (v2's cell number comes from a machine transcript); asks Gordon whether SPEAKER_03 in rec_b24483399a is him and to state the cell number; open: Cullins ownership ("confirm" in v2), surname spelling shared with Danelle |
 | josh-plunkett-web | Josh | Yosh | no; knowledge.md plunkett-home-services (previous web developer) | no | no | vendor (inferred) | 1 |  |  | name heard as Yosh/Josh; surname not given |
 | karen-dodge | Karen Dodge | Karen, Karen Sartler | no (pending request to create); entity.md dm-heating lists karen-sartler; recordings/inbox/rec_0b2f65c077/speakers.md has karen-dodge human-confirmed 2026-10-01; recordings/lexicon.md | karen-sartler.md (auto stub) | karen-sartler (voice profile only) | client person (D&M Heating owner) | 1 |  |  | NAME CONFLICT: v2, v3, entity.md and knowledge.md say Sartler; Sancho speakers.md and lexicon say Dodge [confirmed gordon 2026-10-01]; two Sancho slugs (karen-sartler, karen-dodge) for one person |
 | ken-goodrich | Ken Goodrich | Ken | no; entity.md + knowledge.md happy-outlet | no | no | client-side advisor (inferred) | 1 |  |  |  |
@@ -111,7 +111,7 @@ Pointers only: name, aliases, role word and where each person appears. Nothing h
 | scarlett-plunkett | Scarlett Plunkett | Scarlett | no; entity.md + knowledge.md plunkett-home-services | no | no | client person (ops manager) | 1 |  |  |  |
 | sosa-travis-crawford | Sosa |  | no; knowledge.md travis-crawford-hvac (previous digital/social person; last name unknown) | no | no | client person (former) | 1 |  |  | name as given |
 | stephanie-dm-heating | Stephanie |  | no; knowledge.md dm-heating (office assistant) | no | no | client person | 1 |  |  | surname not given |
-| stephen-moore | Stephen Moore | Steven Moore, Steve, Stephen, Steven | no; entity.md + knowledge.md comfort-masters-dfw | steven-moore.md | no | client person (Comfort Masters owner) | 1 |  |  | v2 file name uses Steven; name field says Stephen |
+| stephen-moore | Stephen Moore | Steven Moore, Steve, Stephen, Steven | no; entity.md + knowledge.md comfort-masters-dfw | steven-moore.md | no | client person (Comfort Masters owner) | 1 | done | yes | v2 file name uses Steven; name field says Stephen. 2026-10-01: existing file thickened, 67 cited lines added, 5 existing lines kept; sources: v2 people (steven-moore, jack-heald, peter-nevland, gene-vann), v2 clients (comfort-masters-dfw, aeo-strategy), Sancho entity + knowledge files and amanda-moore.md, _CLIENTS/comfortmastersdfw (the "Why" docx, Brandable Chunks, folder listing), rec_d32d657ed1, rec_d46f439a37, rec_1dc87f7565; no v3 folder, no v2 partners; no contact details found; asks Gordon: two daughters or three (the "Why" copy says two, v2 and the client photo say three), and whether he speaks in rec_1dc87f7565; open: the "prison" and Detroit references, who Donnie is |
 | stephen-semple | Stephen Semple | Stephen, Semple | no; entity.md + knowledge.md travis-crawford-hvac | partners/stephen-semple.md | stephen-semple (voice profile only) | WoA partner | 1 |  |  |  |
 | stett-comfort-masters | Stett |  | no; knowledge.md comfort-masters-dfw (tech trainer) | no | no | client person | 1 |  |  | surname not given |
 | steve-rae | Steve Rae | Steve | no; entity.md + knowledge.md society-hill-plumbing | MANIFEST.md row only (no file) | no | WoA partner (media buyer/advisor) | 1 |  |  |  |
@@ -128,7 +128,7 @@ Pointers only: name, aliases, role word and where each person appears. Nothing h
 | trish-precision-chiro | Trish |  | no; knowledge.md precision-chiro (former office manager) | no | no | client person | 1 |  |  | surname not given |
 | tyler-mitchells-magic | Tyler |  | no; knowledge.md mitchells-magic (technician) | no | no | client person | 1 |  |  | surname not given |
 | vi-wickam | Vi Wickam | Vi, Vi Wickham | no; entity.md dm-heating (referral); _roster-evidence-v2.md (Service Professionals) | partners/vi-wickam.md | vi-wickam (voice profile only) | WoA partner (senior) | 1 |  |  | v2 spells Wickam; allie-wickham.md spells the family name Wickham |
-| wes-brewer | Wes Brewer |  | no; entity.md + knowledge.md precision-chiro | no | no | client person (Jane's husband) | 1 |  |  |  |
+| wes-brewer | Wes Brewer |  | no; entity.md + knowledge.md precision-chiro | no | no | client person (Jane's husband) | 1 | done | yes | 2026-10-01: new file, 26 cited lines; sources: v2 client file jane-brewer-precision-chiro, v2 relationships/leah.md, v2 tickler 2026-08-01, v2 backlog table of contents (calendar line), v2 transcripts rec_15536f3c3d and rec_c7e406fa14, v3 transcripts rec_3860b59c59 and rec_5565f30055, Sancho entity + knowledge files and jane-brewer.md, _CLIENTS/Precision Chiropractic (listing only); no v2 people/partners file, no v3 people folder; no contact details found; asks Gordon whether the "Wes" in rec_5565f30055 is him and which month his mother died (v2 contradicts itself); open: "Wes prefers first class" vs the transcript, whose dad booked the Caribbean cruise |
 | william-lordan | William Lordan | Bill Lordan, Dr. Lordan | no; knowledge.md precision-chiro (Precision Chiro CT) | no | no | CLC-PM client (DINABY site) | 1 |  |  | separate CLC client under _CLIENTS/Precision Chiro CT per knowledge.md |
 | zakk-mitchells-magic | Zakk |  | no; knowledge.md mitchells-magic (Charlie Moger's team) | no | no | vendor (inferred) | 1 |  |  | surname not given |
 | cedric-yau | Cedric Yau | Cedric | no | partners/cedric-yau.md | no | WoA partner (SEO) | 2 |  |  |  |
@@ -269,3 +269,293 @@ shane-mares (Ali Woll's husband), christina and mike (Allie Wickham's mother and
 - v3 memory/people: every folder was kept as a row; most hold only a voice-profile.md (voiceprint enrollment record, no biography). hazel and tom-merritt have no role anywhere.
 
 Census notes added by Cowork 2026-10-01: `karen-dodge` and `karen-sartler` are one person (Dodge is the maiden name, back in use after a divorce; Sartler was the married name) [gordon 2026-10-01]; file `people/karen-dodge.md` seeded; the backfill stage adds to it and `karen-sartler` gets no file of its own.
+
+## Recomb 2026-10-01 (Cowork, after Gordon's moderation; proposal, job gated until he says go)
+
+Rule learned [gordon 2026-10-01]: a slug that is a first name plus a client company is an employee of that company and belongs in the client's `knowledge.md` People section under the right name, not in a person file; first-name-only slugs are noise unless Gordon knows the person. Groups:
+
+
+### A_noise_to_client_knowledge (44)
+1. albert-plunkett
+2. alicia-mitchells-magic
+3. brittany-mitchells-magic
+4. clarissa-dm-heating
+5. jessica-happy-outlet
+6. lucy-entomat
+7. megan-together-financial
+8. charlie-moger
+9. jaden-lewis
+10. tricia-lewis
+11. jeremy-vargas
+12. kyle-collins
+13. jeff-collins
+14. kevin-lin
+15. andrew-mccanse
+16. josh-plunkett-web
+17. calvert-plunkett
+18. dr-scheller
+19. dr-johnson-checkvet
+20. chelsea-entomat
+21. chris-comfort-masters
+22. chris-noco-sportscenter
+23. cody-travis-crawford
+24. david-comfort-masters
+25. dirk-dm-heating
+26. erica-comfort-masters
+27. evan-mitchells-magic
+28. george-mitchells-magic
+29. mark-mitchells-magic
+30. matt-dm-heating
+31. nicole-checkvet
+32. patience-checkvet
+33. piper-comfort-masters
+34. rondell-comfort-masters
+35. sarah-service-excellence
+36. sosa-travis-crawford
+37. stephanie-dm-heating
+38. stett-comfort-masters
+39. stevie-comfort-masters
+40. todd-comfort-masters
+41. trish-precision-chiro
+42. tyler-mitchells-magic
+43. zakk-mitchells-magic
+44. tara-checkvet
+
+
+### B_client_principals (28)
+1. amanda-moore
+2. stephen-moore
+3. christy-secoy
+4. dan-griffiths
+5. danelle-bullock
+6. josh-bullock
+7. greg-moore
+8. jane-brewer
+9. wes-brewer
+10. olivia-la
+11. tammy-parker
+12. dr-hepworth
+13. jared-james
+14. jesse-olson
+15. ken-goodrich
+16. jordan-ohlmann
+17. megan-ohlmann
+18. marty-greer
+19. jeff-carpenter
+20. chris-plunkett
+21. scarlett-plunkett
+22. travis-crawford
+23. karen-dodge
+24. jeff-goff
+25. tim-silva
+26. kevin-skalure
+27. jane-fisher
+28. william-lordan
+
+
+### C_woa_partners_team_vendors (41)
+1. adam-donmoyer
+2. brian-brushwood
+3. carmyn-wilson
+4. chris-torbay
+5. mick-torbay
+6. craig-arthur
+7. daniel-whittington
+8. dave-young
+9. devin-wright
+10. elliott-stark
+11. gordon-atkinson
+12. jack-heald
+13. jake-williams
+14. jason-skaggs
+15. johnny-molson
+16. kyle-caldwell
+17. luis-castaneda
+18. matt-willis
+19. rick-willis
+20. peter-nevland
+21. robin-kressbach
+22. roy-williams
+23. ryan-chute
+24. stephen-semple
+25. steve-rae
+26. syre-klenke
+27. todd-lyles
+28. tom-wanek
+29. vi-wickam
+30. cedric-yau
+31. jeff-sexton
+32. zac-smith
+33. david-mckinnis
+34. nathan-ingram
+35. adrian-van-zelfden
+36. pennie-williams
+37. rex-williams
+38. mark-effinger
+39. pegeen-reilly
+40. ryan-deiss
+41. chris-lema
+
+
+### D_ventures (6)
+1. etieno-essien
+2. dom-mcclellan
+3. josh-agajanian
+4. temple-grandin
+5. amy-ehrhardt
+6. billy-walker
+
+
+### E_family (20)
+1. maria-pia-seirup
+2. elliott-scott
+3. leslie-hong
+4. bob-ratte
+5. dora-ratte
+6. jeffrey-ratte
+7. pierre-ratte
+8. beatrice-ratte
+9. sara-moorehead
+10. gina-cizek
+11. joan-tropiano-tucci
+12. stan-tucci-sr
+13. stanley-tucci
+14. luke-bernander
+15. paula-bernander
+16. teri-ashley
+17. tom-boldt
+18. ansel-courant
+19. donna-thomas
+20. guy-hanington
+
+
+### F_friends_personal (40)
+1. alex-post
+2. allie-wickham
+3. doug-huckaba
+4. james-gilbert
+5. larry-bloom
+6. alexia-blackwood
+7. ali-woll
+8. amber-crummy
+9. brent-ballard
+10. chad-cohen
+11. holly-cohen
+12. dan-morman
+13. dnelle-dowis
+14. emily-sheehan
+15. eric-pommier
+16. laura-holden
+17. gene-vann
+18. greg-verbanic
+19. isabel-jackson
+20. jamie-joseph
+21. john-marron
+22. john-metcalf
+23. kyle-heustis
+24. lily-post
+25. matt-mcintosh
+26. mike-catan
+27. mike-orth
+28. mikhail-voloshin
+29. patrick-rauland
+30. rob-rowe
+31. russell-quintero
+32. scott-beasley
+33. shannon-janelle
+34. kay-ullman
+35. mark-benn
+36. ted-klontz
+37. dr-mitch-janosik
+38. stephanie-steward
+39. john-mark-patterson
+40. mark-goldrich
+
+
+### G_gordon_decides (23)
+1. dustin
+2. isaac
+3. lathan
+4. delia
+5. felix
+6. hazel
+7. paige
+8. brian-neighbor
+9. robin-neighbor
+10. matt-builder
+11. nathan-gutters
+12. ryan-painter
+13. tom-godaddy
+14. gwen-goldrich
+15. amanda-mikhail-partner
+16. ella-jess-daughter
+17. jess-paula-cousin
+18. nicole-laura-friend
+19. ren-rauland
+20. sawyer-rauland
+21. molly-bloom
+22. tom-merritt
+23. jenn-rahn
+
+
+### existing_full (6)
+1. gordon
+2. leah
+3. grayson-erhard
+4. lizzie-mack
+5. robert-nathan-allen
+6. peter-seirup
+
+## Gordon's moderation, 2026-10-01 (every line [gordon 2026-10-01]; the backfill stage for a slug writes its line into the file, cited)
+
+### Reclassified out of "WoA partner" (still get files; group H, Wizard Academy circle)
+- david-mckinnis: not a WoA partner; a seriously major donor to Wizard Academy.
+- adrian-van-zelfden: not a partner; Roy Williams's CPA and attorney.
+- pennie-williams: not a partner; Roy Williams's wife.
+- rex-williams: not a partner; Roy Williams's son. Gordon's read: probably at least a low-level sociopath.
+- mark-effinger: major Wizard Academy donor; former employee of David McKinnis; seriously into mushrooms, last Gordon checked.
+- pegeen-reilly: Wizard Academy board member.
+- ryan-deiss: Wizard Academy board member.
+- chris-lema: not related to WoA at all; WordPress world. Moves to group F (industry contact).
+- mike-catan: IS a WoA partner. Moves from F to C.
+
+### Not in Gordon's mental rolodex (files still built from evidence, flagged `needs_gordon`; "the fact they're not in my mental rolodex says something")
+- christy-secoy (Mitchell's Magic office/admin per v2), tammy-parker (fractional HR who ran Precision Chiro's front-desk hiring per v2), jane-fisher (D&M's local media buyer per v2): Gordon does not recognise them. Rule applies: client-side staff and vendors fold into the client's knowledge.md (group A), no person file.
+- dom-mcclellan, josh-agajanian, billy-walker (venture-adjacent per v2 inference), john-mark-patterson (v2: a no-show attorney, no prior interaction), mark-goldrich (v2 manifest only): Gordon does not recognise them. Dropped from the job; rows kept here.
+
+### Too small for a file
+- dr-hepworth: known, but folds into precision-chiro/knowledge.md (group A).
+
+### Group G, decided
+- dustin: strike; D&M employee, into dm-heating/knowledge.md.
+- isaac: Ignite HVAC client contact; into the Ignite client file (Copper Leaf client; folder to be created in B3/B4), no person file.
+- lathan: partner in Evel Spirits (American Icon Spirits); keep, file.
+- delia: ambiguous: Delia Marchison (friend) or Viader (client)? Gordon unsure; stage must show both readings and ask.
+- felix: James Gilbert's partner; into people/james-gilbert.md, no own file.
+- hazel: keep; aka Zach, and Azazel; last name unknown.
+- paige: Paige Austin; former housecleaner, friend; keep.
+- brian-neighbor: strike; into robin-neighbor's file.
+- robin-neighbor: keep; pickleballer.
+- matt-builder: keep.
+- nathan-gutters: strike.
+- ryan-painter: keep; Intermountain Painting; Gordon wants to refer him ("he's great").
+- tom-godaddy: business contact, not a friend; keep as contact-only.
+- gwen-goldrich: Gordon has no idea who this is; dropped.
+- amanda-mikhail-partner: into people/mikhail-voloshin.md, no own file.
+- ella-jess-daughter: strike; into paula-bernander's file.
+- jess-paula-cousin: strike; into paula-bernander's file.
+- nicole-laura-friend: strike.
+- ren-rauland: keep; married to Patrick Rauland; friend; owns Audacious Immersive.
+- sawyer-rauland: keep; Patrick and Ren's daughter.
+- molly-bloom: keep; may become relevant later.
+- tom-merritt: Gordon does not know who this is; dropped.
+- jenn-rahn: Gordon does not know who this is; dropped.
+
+### Corrections to kinds
+- guy-hanington: not family; Leah's new boyfriend.
+- larry-bloom: former professor more than a friend; a friend of Mark Benn.
+- mark-benn: former professor and Gordon's shrink (psychologist).
+- dr-mitch-janosik: Gordon's GP; friendly, never met outside the office.
+
+### Sopris address book (2026-10-01)
+`people/_sopris-locations.md` holds 104 kept households with addresses [gordon 2026-10-01 moderation]. A backfill stage for a slug that appears there fills `location.city` and the `contact.address` from that row, cited `[doc:people/_sopris-locations.md post <id>]` (an address Gordon keeps on his own list counts as stated by him). Melissa Meli's address is flagged for update; do not treat it as current.

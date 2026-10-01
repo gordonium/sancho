@@ -5,6 +5,7 @@ type: person
 lobe: work
 description: Vehicle-wrap installer for Plunkett Home Services' trucks (Tucson); first name only, one v2 line, unconfirmed
 tier: thin
+status: retired   # 2026-10-01: an employee/vendor name, not a person file (Gordon's rule); his line lives in plunkett-home-services/knowledge.md
 mbti:
 skills: [vehicle-wrap installation]
 availability: {as_of: , note: ""}

@@ -1,7 +1,7 @@
 ---
 name: Recording rec_c7110cf37e · 2026-09-21 10:08 · 80 min
 type: transcript
-description: Plaud recording, 80 min, 2 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 1 h 20 min, Roy Williams and Gordon on Zoom (mixed): the one-year sabbatical rule, Copper Leaf as a limited partnership, the 15% on Gordon's three ventures, Roy's art giveaway on 10/12; ingested 2026-10-01, summaries beside it (summary-work.md, summary-personal.md)
 lobe: both
 sources: ["[rec_c7110cf37e 2026-09-21]"]
 rec_id: rec_c7110cf37e

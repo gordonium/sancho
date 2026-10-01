@@ -40,7 +40,7 @@ Every line cites the transcript (`[hh:mm:ss]`, speaker as confirmed: 01 = Gordon
 ## R3. The letter (the product)
 
 - R3.1 The letter is a Google Doc, created from a template that carries the letterhead and the standard layout for the client's address block. [07:30 Gordon]
-- R3.2 File name: `YYYY-MM-DD_<client last name>_<property address>`, plus something that says Home Directions so the client recognises it (the client sees the file, not just the report, from now on). [07:50 Gordon, 17:19 to 18:07]
+- R3.2 File name: `YYYY-MM-DD_<client last name>_<property address>`, plus something that says Home Directions so the client recognises it (the client sees the file, not just the report, from now on). [07:50 Gordon, 17:19 to 18:07] **Superseded 2026-10-01, final form:** `Home-Directions-letter_YYYYMMDD_property-address_client-name`, for example `Home-Directions-letter_20261014_12-Shad-Hill-Rd-Ridgefield_Smith`. (Gordon first restated it with the fixed words at the end, then: "Let's move 'Home-Directions-letter' to the front." [gordon 2026-10-01])
 - R3.3 The doc is linked from the file; Peter (and Mom) edit it in Google Docs, as long as they like, in multiple tabs; nothing about that is dangerous any more. [09:30 Gordon]
 - R3.4 Peter drafts by voice or text into email and pastes into the doc. [09:30 Gordon]
 - R3.5 When sent, the client gets read-only access (anyone with the link can view). If Peter edits after sending, the client's link shows the newest version; Peter accepted that ("You like the fact that the link updates. Let's just leave that as is"). A "revised on" box like building drawings was floated and parked as too complicated. [10:02 to 10:59]
@@ -77,6 +77,7 @@ Every line cites the transcript (`[hh:mm:ss]`, speaker as confirmed: 01 = Gordon
 - R7.4 Reassemble the database that "got blown apart" from backups to shrink the roughly two percent data loss, before printing the old PDFs. [21:50 Gordon]
 - R7.5 Retire the current system and "the Grayson system that's still online" (a predecessor, unconfirmed what it is). [21:36 Gordon]
 - R7.6 End state: an appointment record for every historical job (who, when, where) with its PDF attached, searchable (R6.2); all old systems permanently retired. [23:05 Gordon]
+- R7.13 **What cutover includes** (Phase 1): every job from the twelve months before cutover is migrated into the new Google Doc format, "so he can continue to revisit and edit them in the new system rather than having to work from two systems for a while"; and the historic client database is imported from WordPress at the start, "it's our only truth right now anyway", to be improved as the legacy data is merged in. [gordon 2026-10-01] This moves R7.1 from Phase 2 into the cutover.
 - R7.12 **Order of work.** The legacy data is Phase 2. Phase 1 is building the new system and cutting over from v3; "Then we can backfill the historic data and files". [gordon 2026-10-01] [gordon 2026-09-30] Scope of the Phase 2 audit as Gordon set it: the most recent Access backup only (the older ones are "not the era in which the problems happened"); v1 gone through although "probably fine"; v2 "under a microscope", on a dedicated thread; the Word files audited as they are attached to client records and turned into PDFs. [gordon 2026-10-01]
 - R7.11 No single existing copy is the source of truth for the old jobs. The v2 tables inside WordPress are "good data, but probably incomplete and maybe a little messy"; the audit goes "all the way back into original MS Access database backups if we can". [gordon 2026-10-01] Each source is a witness; the migration reconciles them and records where every row came from.
 - R7.9 The legacy data is in more places than WordPress and must be **audited and merged in**: v2 (built by Grayson, live at hdonline.homedirections.net/hdonline/), v1 "legacy" (not live; backups), an MS Access booking database, and Word files. "the bulk of the legacy data is in WP, but there is even more legacy data - fragmented and fractured - that needs to be audited and merged in." [gordon 2026-10-01] This names what R7.5 called "the Grayson system" and supersedes its "unconfirmed what it is".
@@ -94,7 +95,7 @@ Every line cites the transcript (`[hh:mm:ss]`, speaker as confirmed: 01 = Gordon
 
 ## R8. Out of scope, parked, or separate
 
-- Website changes: homedirections.net still has leftover inspection content; Peter wants a few changes; "some other time," together. [13:41 to 14:29]
+- Website changes: homedirections.net still has leftover inspection content; Peter wants a few changes; "some other time," together. [13:41 to 14:29] (Closed: "website cleanup is actually already done." [gordon 2026-10-01])
 - "Revised on" revision box in the letter (R3.5): parked.
 - Tech stack: "to be determined, might still be WordPress, thinking not; doesn't much matter to you." Gordon to decide with the AI. [05:00 Gordon] **Decided 2026-10-01: Laravel.** [gordon 2026-10-01] [doc:phase0-brief.md Decisions]
 - Peter's ask about communication: email Gordon rather than text (texts are ephemeral; phone calls bad; email "dodgy" but best). [27:00 to 27:42]

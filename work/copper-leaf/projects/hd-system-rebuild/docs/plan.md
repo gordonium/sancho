@@ -6,9 +6,11 @@ entity: work/copper-leaf/projects/hd-system-rebuild/
 lobe: work
 description: The rebuild plan: what v4 is, the stack decision with options and Sancho's pick, the data model, the Google Docs and email mechanics, build order with gates, the Phase 2 migration, risks, and the numbered questions for Gordon
 sources: ["[doc:requirements.md]", "[doc:current-system.md]", "[doc:survey-hdonline.md]", "[doc:survey-hdonline-home-directions.md]", "[rec_8d15ed467e 2026-09-29]", "[gordon 2026-09-30]"]
-status: draft for Gordon's review, 2026-10-01
+status: SUPERSEDED 2026-10-01 night by plan-v2.md, which carries Gordon's decisions; kept as the record of the first draft and its fifteen questions
 ---
 # Home Directions v4: the plan
+
+**Superseded by `plan-v2.md` (2026-10-01 night).** Everything below is the first draft, unchanged. Its picks that did not survive: Postmark (now Brevo), two-server hosting and PHP 8.3 (now one server, PHP 8.5), a credential acting as any Workspace user (dropped), Phase 2 as the place where the last year's letters move (now part of cutover), and the upgrade clock of "every two years" (it is yearly).
 
 Draft written overnight 2026-09-30/10-01 from the code surveys, the 09-29 transcript and homedirections.net. Nothing here is built. Every fork has options and a pick; the picks are Sancho's and are the first thing to argue about. Numbered questions for Gordon are at the end; the ones that block Phase 0 are marked **blocks**.
 

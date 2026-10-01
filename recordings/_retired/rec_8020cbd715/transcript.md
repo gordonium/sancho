@@ -1,7 +1,7 @@
 ---
 name: Recording rec_8020cbd715 · 2026-09-17 22:21 · 2 min
 type: transcript
-description: Plaud recording, 2 min, 2 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 2 min, accidental (Gordon and a companion at a NYC concert, 2026-09-17); retired by Gordon 2026-10-01 ("just nuke this one"); nothing filed, no summary
 lobe: both
 sources: ["[rec_8020cbd715 2026-09-17]"]
 rec_id: rec_8020cbd715
