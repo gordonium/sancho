@@ -1,11 +1,11 @@
 # recordings · STATUS
-generated 2026-10-01 05:04 CEST by earballs.py · pipeline GREEN
+generated 2026-10-01 06:04 CEST by earballs.py · pipeline AMBER
 
-**GREEN**: keeping up.
+**AMBER**: 1 recording(s) failed 5 times; see recordings/STATUS.md.
 
 - waiting for ingest (recordings/inbox/): 19; oldest rec_0b2f65c077 recorded 2026-09-10 12:01
-- fresh in the pipeline: 0 to download, 1 to transcribe, 20 ready in total, 1 junk
-- last Plaud list: 2026-10-01T03:04 · last full reconcile: 2026-10-01T00:03 · token: ok · network: online
+- fresh in the pipeline: 0 to download, 0 to transcribe, 20 ready in total, 1 junk
+- last Plaud list: 2026-10-01T04:04 · last full reconcile: 2026-10-01T00:03 · token: ok · network: online
 - Groq today: 0.0 audio-hours in 0 requests (0.0 h backfill of 6 h cap)
 - voiceprint library: 0 people · diarization: pyannote/speaker-diarization-3.1
 - ledger backup: 2026-10-01T00:03
@@ -21,4 +21,4 @@ generated 2026-10-01 05:04 CEST by earballs.py · pipeline GREEN
 
 ## Needs attention
 
-- rec_1716cb70ff (downloaded): transcribe: CalledProcessError: Command '['ffmpeg', '-y', '-loglevel', 'error', '-ss', '0.000', '-t', '1080', '-i', '/Users/gordonium/Sync/Sancho-Audio/processe
+- rec_1716cb70ff (failed): transcribe: CalledProcessError: Command '['ffmpeg', '-y', '-loglevel', 'error', '-ss', '0.000', '-t', '1080', '-i', '/Users/gordonium/Sync/Sancho-Audio/processe
