@@ -1,5 +1,5 @@
 # TESTS
-generated 2026-10-01 19:53 by test-all.py · 21 suites · 0 failing
+generated 2026-10-01 21:13 by test-all.py · 23 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -16,6 +16,7 @@ generated 2026-10-01 19:53 by test-all.py · 21 suites · 0 failing
 | notify | PASS | test-notify: PASS (7 sounding pushes, all with registered reasons) |
 | ping | PASS | test-ping: PASS |
 | pipeline | PASS | test-pipeline: PASS |
+| quarantine-guard | PASS | test-quarantine-guard: PASS |
 | sancho_lib | PASS | test-sancho_lib: PASS |
 | secrets | PASS | test-secrets: PASS |
 | stay-awake | PASS | test-stay-awake: PASS |
@@ -24,3 +25,4 @@ generated 2026-10-01 19:53 by test-all.py · 21 suites · 0 failing
 | skill:checkback | PASS | test-skill-checkback: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:earballs-ingest | PASS | test-skill-earballs-ingest: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:open | PASS | test-skill-open: PASS (structural; behavioral scenario runs on the Mac) |
+| skill:v2-read | PASS | test-skill-v2-read: PASS (structural) |

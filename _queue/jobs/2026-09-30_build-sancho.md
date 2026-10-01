@@ -13,7 +13,7 @@ stages:
   - {name: open-skill,      status: done,    note: "skills/open built 2026-09-30 (Cowork); checkback skill added 2026-09-30 and ran cold twice 09-30/10-01"}
   - {name: ingest-skill,    status: done,    note: "skills/earballs-ingest built 2026-10-01 (Cowork): chunks, triage, seven buckets, corrections.md, lexicon, move, summary"}
   - {name: first-ingest,    gate: human,     status: done,    note: "rec_0c571abb1d ingested 2026-10-01; Gordon confirmed all five spot-check facts [confirmed gordon 2026-10-01]"}
-  - {name: batch-B2,        status: pending, note: "WoA clients"}
+  - {name: batch-B2,        status: active,  note: "2026-10-01: ten WoA client folders built from cited v2/_CLIENTS evidence (entity, knowledge, guidelines where a voice file existed); people slugs referenced but people/ files are B5; former clients and CLC/PM clients not yet folders"}
 current: batch-B2
 hops: 2
 hop_cap: 24

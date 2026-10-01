@@ -71,10 +71,12 @@ flowchart LR
   end
   subgraph other
     checkback[checkback]
+    v2_read[v2-read]
   end
   checkback --> the
   earballs_ingest --> attribution_correction
   open --> the
+  v2_read --> the
 ```
 ### Pipeline stages
 ```mermaid
@@ -91,7 +93,7 @@ flowchart LR
 - **Food routine to habit** (personal/food) · next: Design the Sunday session skill (build order #6); first session picks four dinners
 - **Nomad daily check** (personal/nomad) · next: Design the personal morning routine incl. the nomad check (build order #5)
 - **Build Sancho** (work/copper-leaf) · next: Claude Code on the Mac: watcher, launchd, Sancho-Audio, Sancho-Secrets, Sancho-Private, autocommit fix, ping
-- **Home Directions system rebuild** (work/copper-leaf) · next: Stack decided (Laravel). Sancho: hosting options with a pick (docs/hosting-options.md), the Laravel kit spec with the updates schedule (docs/laravel-kit-spec.md), then question 2 (Workspace) with Gordon; census on the dev clone still needs Gordon's login in the Chrome tab
+- **Home Directions system rebuild** (work/copper-leaf) · next: Gordon: hosting (docs/hosting-options.md: Forge plus two own servers, or Laravel Cloud); the three shaping decisions in docs/laravel-kit-spec.md section 2 (Readability Rule in Laravel, the release gate, a browser the agent cannot use for the hosting panel); commit the guard fix or not; say where the v2 database, its backups, v1, the Access file and the Word files are; run the three mail tests. Sancho: revise plan.md for the census findings, then plan questions 4 to 15 one at a time
 
 ## Changed this week
 
@@ -140,10 +142,12 @@ flowchart LR
 - _setup/job-run.py
 - _setup/lint-layers.py
 - _setup/metered-networks.md
+- _setup/nerd-lease.py
 - _setup/nerd-run.py
 - _setup/nerd-settings.json
 - _setup/netstate.py
 - _setup/nightly.sh
+- _setup/notify-reasons.md
 - _setup/notify-test.sh
 - _setup/notify.py
 - _setup/ping.sh
@@ -153,9 +157,7 @@ flowchart LR
 - _setup/pipeline/install-venv.sh
 - _setup/pipeline/requirements.txt
 - _setup/retired/INDEX.md
-- _setup/sancho-enqueue.py
-- _setup/sancho-lock-secrets.sh
-- … +350 more
+- … +398 more
 
 ## Level 2 · wiring
 
@@ -166,6 +168,7 @@ flowchart LR
 | checkback | both | a scheduled-task prompt that says: open job <name>; run checkback, check on the Nerd, did the Nerd finish, where is job <name> | a conversation where Gordon is present and just asked the Nerd something himself, a job with no waiting_on block, any request to create tasks for Gordon, anything outbound | CLAUDE.md, _queue/jobs/<job>.md, _queue/checkbacks.md, _design/STATUS.md, _queue/results/, _queue/running/, _queue/HEALTH.md, _setup/commands.md | _queue/checkbacks.md (one row filled or appended), _queue/jobs/<job>.md (hops, waiting_on statuses, stage status), _design/STATUS.md (one line under ### Check-backs), _queue/requests/ (notify.push; nerd.run when it exists), the next scheduled task, or none | _setup/tests/skills/checkback/ |
 | earballs-ingest | both | ingest, process recordings, file that recording, the greeting shows recordings waiting and Gordon says go, a check-back or job stage named ingest | a recording mentioned in passing, a request to search transcripts ("what did Roy say"), a transcript whose speakers Gordon has not confirmed when the recording is not solo, any recording in recordings/backlog/ unless a backlog ingest job names it | recordings/inbox/<rec_id>/{transcript,speakers,meta}.md, recordings/lexicon.md, people/INDEX.md, the target lobe's INDEX.md and PROJECTS.md, the target entity's INDEX.md and project.md or entity.md, the recording's corrections.md if present, personal/me/watch.md | recordings/<home>/<rec_id>/speakers.md (confirmations), recordings/<home>/<rec_id>/corrections.md, recordings/lexicon.md, the entity's summaries/<date>_<rec_id>.md (T5), project.md / entity.md / knowledge.md / people/<slug>.md lines with cites, _queue/requests/ (pipeline.library when a speaker is newly human-confirmed; pipeline.status after the move), the transcript folder moved to its home, the session note's written: list | _setup/tests/skills/earballs-ingest/ |
 | open | both | Hey Sancho, hey sancho, any greeting addressed to Sancho, let's work, switch to work, switch to personal, done, thanks Sancho, that's it for this one, close | a message that continues an open conversation, a question inside a job, the word sancho used in the third person, a Nerd build session that already stated its task | CLAUDE.md, personal/me/brief.md, personal/me/watch.md, personal/nomad/location.md, <lobe>/INDEX.md, <lobe>/PROJECTS.md, recordings/STATUS.md, _queue/HEALTH.md, _queue/leases/, _queue/sessions/, _queue/routines/<lobe>-morning-<date>.md, the project.md of each project in today's focus, git log since the last clean close | _queue/leases/<session-id>.md, _queue/sessions/<date>_<topic>_<id>.md, on close: a receipt in the session note, the note folded into the project's history or the lobe's day log, the lease removed, a git.commit request in _queue/requests/ | _setup/tests/skills/open/ |
+| v2-read | both | what did v2 say about, check v2, check v3, the old system had, any migration batch that needs legacy evidence, a people or client file that needs its v2 history | a question answerable from the Sancho tree, a request to run or copy a v2 skill or tool, anything about the current Copper Leaf kit | nothing in the legacy trees directly, _setup/quarantine-paths.md | the subagent's extract to the asking thread's outputs folder, then the cited lines into the target Sancho file, _queue/log/quarantine-access.log (by the guard, not by this skill) | _setup/tests/skills/v2-read/ |
 
 </details>
 
@@ -200,6 +203,7 @@ flowchart LR
 
 - `_setup/nerd-lease.py` · Leases for Nerd sessions in _queue/leases/, so a cold hop or job.run sees "a Nerd is active" mechanically. `run -- <cmd…>` wraps an interactive Claude Code session (the `sancho nerd` shell phrase): takes `nerd-interactive-<stamp>.md` carrying its pid, touches it every 5 min, removes it when the session ends. `take`/`release` for hooks; `status` lists live Nerd leases (exit 1 if any).
 - `_setup/netstate.py` · Which network the Mac is on and whether it is metered. Fingerprint = the default gateway's MAC (macOS hides the Wi-Fi name without Location permission). Policy from _setup/metered-networks.md; unknown networks are metered while the policy date runs. `mark <label> metered|unmetered` records the current network.
+- `_setup/quarantine-guard.py` · PreToolUse hook. Refuses Read, Grep, Glob and Bash on the legacy folders listed in _setup/quarantine-paths.md (gordon-os-v2, jarvis-v3) unless the caller is a dispatched subagent; refuses for everyone tools/, _dmz/, .env*, credential-looking names and every instruction file by nature (any name containing CLAUDE in any case, SKILL.md, *.skill, hooks/, skills/, settings*.json, *.prompt.md); logs every refusal and every allowed read. `--install` registers it in ~/.claude/settings.json; `--check` says whether it is registered.
 - `_setup/sancho-enqueue.py` · Write one request file to _queue/requests/ (the documented name and frontmatter, including `session:`, the sender), optionally wait for its result and print it. `--task-file` names a task file for nerd.run instead of a shell-composed body (ERRORS.md
 - `_setup/sancho-watcher.py` · One tick of the host execution bridge. Runs every allowlisted request in _queue/requests/, writes one result per request to _queue/results/ (echoing the request's `session:`), then rewrites _queue/HEALTH.md. Scheduled requests (requested_by launchd) wait until the Mac has been awake SETTLE_MIN minutes (ERRORS.md #8). A nerd.run result for a job with `advance: auto` queues `job.run --auto`; jobs left waiting for a Nerd lease are re-queued when it clears. A failure of a request that names a job warns. Exits; launchd calls it again on any change to requests/ and every 60 s.
 - `_setup/sancho_lib.py` · Shared helpers for Sancho's build scripts: find the tree, read YAML-ish frontmatter without PyYAML, walk files, ask git for last-updated dates; write requests; write and read Nerd leases.
@@ -219,10 +223,17 @@ flowchart LR
 # LINT
 generated 2026-10-01 by lint-layers.py
 
-**1 problems, 0 warnings**
+**8 problems, 0 warnings**
 
 ## Problems (block the build)
+- work/copper-leaf/projects/hd-system-rebuild/docs/wp-kit-map.md: data file contains an instruction to Claude ('you must'); describe the preference instead
+- people/lizzie-mack.md:31: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/project.md:24: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/census-2026-10-01.md:19: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:21: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/phase0-brief.md:87: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:80: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:81: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 
 ## Warnings
 
@@ -231,29 +242,30 @@ generated 2026-10-01 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-01 16:19 by test-all.py · 20 suites · 3 failing
+generated 2026-10-01 19:53 by test-all.py · 21 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
-| .claude | no test file | - |
 | build-index | PASS | test-build-index: PASS |
 | build-map | PASS | test-build-map: PASS |
 | git-autocommit | PASS | test-git-autocommit: PASS |
 | install-mac | PASS | test-install-mac: PASS |
 | job-run | PASS | test-job-run: PASS |
 | lint-layers | PASS | test-lint-layers: PASS |
+| nerd-lease | PASS | test-nerd-lease: PASS |
 | nerd-run | PASS | test-nerd-run: PASS |
-| netstate | FAIL | test-netstate: FAIL: fingerprint reads offline under launchd's PATH: netstate: offline (-): unmetered · no network |
+| netstate | PASS | test-netstate: PASS |
 | nightly | PASS | test-nightly: PASS |
-| notify | PASS | test-notify: PASS |
+| notify | PASS | test-notify: PASS (7 sounding pushes, all with registered reasons) |
 | ping | PASS | test-ping: PASS |
 | pipeline | PASS | test-pipeline: PASS |
 | sancho_lib | PASS | test-sancho_lib: PASS |
 | secrets | PASS | test-secrets: PASS |
 | stay-awake | PASS | test-stay-awake: PASS |
 | test-all | PASS | test-test-all: PASS |
-| watcher | FAIL | no result after 15 s; check _queue/HEALTH.md for when the watcher last ran |
+| watcher | PASS | test-watcher: PASS |
 | skill:checkback | PASS | test-skill-checkback: PASS (structural; behavioral scenario runs on the Mac) |
+| skill:earballs-ingest | PASS | test-skill-earballs-ingest: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:open | PASS | test-skill-open: PASS (structural; behavioral scenario runs on the Mac) |
 
 </details>

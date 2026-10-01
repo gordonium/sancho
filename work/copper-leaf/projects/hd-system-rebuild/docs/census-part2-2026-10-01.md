@@ -18,6 +18,8 @@ status: complete for the clone; the v2 database itself and the backups have not 
 4. **The report bodies of v2 are not here.** The clone holds v2's job and contact rows, not the notes chosen for each report. Those live only in v2's own database (and its backups), which is where the 2015 damage is too.
 5. **Legacy rows are substantial, not stubs:** fee, address, square footage, water supply and sewage are filled on nearly every row back to 1983.
 
+**Gordon's caution on finding 1, the same night:** "even those tables in WP are suspect. Good data, but probably incomplete and maybe a little messy. We should dig all the way back into original MS Access database backups if we can." [gordon 2026-10-01] So `REPORTS` and `CONTACTS` are a convenient witness, not the truth: they are what v2 held in 2020, after the 2014 bulk load and whatever that load dropped. Section "What this changes", item 1, is to be read with that: migrate from them, and reconcile against every older source that can be found.
+
 ## How this was read
 
 `wp db query` over SSH in the clone's folder on host-2, one statement per call, `SELECT` only, counts and dates only. No names, emails, addresses or phone numbers were printed. Nothing was written. WP-CLI cannot load WordPress on that host (its shell has PHP 7.3; WordPress 7.1.2 needs 7.4), as the kit's handoff predicted [doc:~/Dev/clc-plugins/docs/HANDOFF-plugin-dev-workflows.md §8], but the database command does not need WordPress loaded. The queries in `census-part2-queries.md` were adapted as they ran (MariaDB; no trailing semicolons, which the guard now refuses).
@@ -131,7 +133,7 @@ In WordPress today: 9,741 contacts; 4,682 have an email (4,429 distinct); 3,359 
 | 2009-05 | 18 |
 | 2009-06 | 48 |
 
-None of the twelve 2008 rows has a type or a fee; 89 of 2009's 263 have no type. At the surrounding rate of 20 to 40 jobs a month, the ten empty months are roughly 200 to 350 jobs. An estimate. What happened in December 2007 is not on disk; the shape (a clean stop, a gap, a restart with fewer fields) is what a change of system looks like. Whether that is the move off the Access booking database is a question for Gordon.
+None of the twelve 2008 rows has a type or a fee; 89 of 2009's 263 have no type. At the surrounding rate of 20 to 40 jobs a month, the ten empty months are roughly 200 to 350 jobs. An estimate. What happened in December 2007 is not on disk; the shape (a clean stop, a gap, a restart with fewer fields) is what a change of system looks like. Whether that is the move off the Access booking database is a question for Gordon. (Answered the same night: "2008 is probably when v1 launched, replacing the Access DB." [gordon 2026-10-01] Probable, in his word; the file dates in `legacy-sources.md` agree.)
 
 ## A first look at v2, live
 

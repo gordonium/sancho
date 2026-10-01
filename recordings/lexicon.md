@@ -25,6 +25,7 @@ Fed to Groq as the Whisper `prompt` (about 224 tokens; the pipeline truncates fr
 - Racquet Depot (Racket Depot) · Jabas Labs (Javas)
 - SiteDistrict
 - Groq · pyannote · WordPress · ACF
-- RNA · Robert Nathan Allen
-- Grayson Erhard
+- RNA (R&A) · Robert Nathan Allen
+- Entomat (intimate) · Evel Spirits (evil spirits) · American Icon Spirits · Lizzie Mack · Enviroflight · frass · Lathan (Latham) · Whiskey Sherpa · Thrival
+- Grayson Erhard · Tipelodeon (typolodian) · LyricFind · Musixmatch · Ultimate Guitar · ChordPro · Harry Fox Agency · Hal Leonard
 - Leah

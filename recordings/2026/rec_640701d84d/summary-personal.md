@@ -38,7 +38,7 @@ sources: ["[rec_640701d84d 2026-09-14]", "[confirmed gordon 2026-10-01]"]
 - Parents' 50th; Muffin, his mother's Sheltie → people/peter-seirup.md · filed → people/peter-seirup.md
 
 ## Questions and corrections needed
-- Italy departure: from the calendar plus the 9/10 call, Thu 9/24; there's no flight event to confirm it. The Plaud stamps for 9/22–9/24 recordings say +02:00 while the calendar has Gordon in Colorado; flagged for the pipeline.
+- Italy departure: Thu 9/24, confirmed by Gordon 2026-10-01 (his trips live on the gordones@gmail.com calendar, shared to gordon@copperleafcreative.com). The Plaud stamps for 9/22–9/24 recordings say +02:00 while the calendar has Gordon in Colorado; flagged for the pipeline.
 - Seeding Leah and James from v2/v3 is pending a subagent read.
 
 ## Speakers

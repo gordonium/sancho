@@ -1,5 +1,5 @@
 # work · ICE
-generated 2026-10-01 by build-index.py · 7 ideas
+generated 2026-10-01 by build-index.py · 8 ideas
 
 | idea | status | area | project | captured | next review | file |
 |---|---|---|---|---|---|---|
@@ -10,3 +10,4 @@ generated 2026-10-01 by build-index.py · 7 ideas
 | WordPress updates across all client sites, with post-update tests | captured | copper-leaf |  | 2026-09-30 | 2026-11-02 | ice-2026-09-30-wp-updates-with-tests.md |
 | Read-only Wrike and Google Tasks access for the Weekly Review | captured | copper-leaf | build-sancho | 2026-09-30 | 2026-11-02 | ice-2026-09-30-wrike-gtasks-readonly.md |
 | Wrike time logs → client billing sheets; timesheet audit → invoice list | captured | copper-leaf |  | 2026-09-30 | 2026-11-02 | ice-2026-09-30-wrike-time-to-billing.md |
+| Tipelodeon radio, 52 weeks in Nashville | captured | tipelodeon |  | 2026-10-01 | 2026-11-02 | ice-2026-10-01-nashville-radio.md |

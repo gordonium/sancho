@@ -6,7 +6,7 @@ entity: work/copper-leaf/projects/hd-system-rebuild/
 lobe: work
 description: The exact command texts handed to the Copper Leaf plugin kit's live-site guard on 2026-10-01 and what it answered; eight shapes it allows that it should refuse; evidence for laravel-kit-spec.md section 11 item P-1; nothing in the kit was changed and no server was contacted
 sources: ["[sancho test 2026-10-01 late: /usr/bin/python3 ~/Dev/clc-plugins/bin/sitedistrict-live-site-guard.py, one hook-shaped JSON input per case on stdin]", "[doc:~/Dev/clc-plugins/bin/sitedistrict-live-site-guard.py at kit HEAD d15e66f, file sha256 beginning 7c96cd93a251f53a]", "[doc:wp-kit-map.md, mechanisms weaknesses]", "[sancho subagent review 2026-10-01, workflow wf_4aaefbba-f62]"]
-status: evidence, then the fix: Gordon said "Go ahead and fix the WP guard hole" [gordon 2026-10-01] and seven of the eight were closed the same evening (section "The fix, as applied"); not committed; an independent review of the fix was started and its outcome is appended when it returns
+status: evidence, then the fix: Gordon said "Go ahead and fix the WP guard hole" [gordon 2026-10-01] and seven of the eight were closed the same evening (section "The fix, as applied"); not committed; an independent three-reader review of the fix then found more holes, older ones included, and a second round closed those too (last section)
 ---
 # Live-site guard check (2026-10-01)
 
@@ -67,3 +67,38 @@ Re-run of the table above against the fixed guard: C1 allow, C2 block, C3 block,
 What the fix costs in ordinary use: an ssh command to a staging site must be one line on its own, chained with `&&` only. A multi-line shell call with an ssh line in it, or a trailing `; echo done`, is now refused, with a message saying what to do instead.
 
 Not changed, and still as the reader reported them: the guard allows a command when it cannot read its input, and a crash or timeout lets a command through; the self-test hook fires only on Write and Edit. These are design choices recorded in the guard itself or in the hook, and are items for the shared guard core in `laravel-kit-spec.md` section 8.3.
+
+## The independent review of the fix, and the second round (2026-10-01 night)
+
+Three readers who had not written the fix: one hunting ways past the guard, one hunting ordinary documented work the fix now refuses, one reviewing the code. Between them they ran 496 command texts through the guard (as text; no server contacted). [sancho subagent review 2026-10-01, workflow wf_e0959670-dcd] Verdicts: "not ready", "sound with fixes", "sound with fixes". 32 findings: 5 blockers, 9 major, 18 minor.
+
+**The blockers were holes that the first round had not closed. Four of the five are older than today's change.** Each is something an agent could write by mistake:
+- **A connection check with a second line.** `echo ok`, a line break, then any command made of plain words: allowed, and it runs in the home folder, beside every live site. The rule for commands that name no folder split on `;` and `&&` but not on line breaks, and the `echo` pattern swallowed the next line as echo's own words.
+- **`find / -name wp-config.php`, `du -sh /*`, `ls //home/...`.** The absolute-path rule needed a letter after the slash, so the root folder itself, and any path starting `//` or `/` then a digit, dot or star, was not seen.
+- **`rm -rf $PLUGIN_DIR/*`.** Shell variables do not survive from one call to the next, so the variable is empty and the server receives `rm -rf /*`.
+- **`wp --ssh=<server>:~/sites/<live site> ...`.** WP-CLI's own way of running over ssh; the word "ssh" glued to dashes was not seen.
+
+**Second round, applied the same night** (same files, still not committed):
+- Connection checks must be one line (Rule M).
+- The root folder, and `/` followed by anything but a letter, are refused (Rule I). The glued-option check now also covers digits in the option and `//`.
+- A variable followed by `/`, and `$OLDPWD`, are refused (Rule H).
+- `wp --ssh=` aimed at a SiteDistrict server is refused outright, with the message saying how to write it as an ordinary ssh command.
+- The server and the program are recognised in capital letters, and a server name with a trailing dot is still that server.
+- Rule N's message now says plainly that it covers everything after the server name, the closing quote included, and that rewriting the command as the message describes is the expected fix. (The first-round message told the agent how to rewrite and, in the same breath, not to rephrase.)
+- The regular expressions added today are explained piece by piece, as the kit's Readability Rule asks.
+- Tests: 86 cases, all pass. The 49 added today name the server in full and pass with an empty home folder; the 37 older ones still depend on two nicknames in this Mac's SSH config, and the test file now says so.
+- `skills/plugin-edit/SKILL.md` Step 2 lists each newly refused shape with its rewrite; the handoff's section 6.1 carries a dated note.
+
+**Check that nothing got looser:** all 496 reviewer cases were run against the guard as it was this morning (from git) and as it is now. None that was blocked is now allowed. 164 that were allowed are now blocked: the holes, and the false alarms below.
+
+**What the fix costs.** The regression reader found 44 ordinary command shapes that the first round newly refuses, all with a rewrite that passes. The common ones: anything after the closing quote of an ssh command other than `&&`, a pipe or a redirection (`; echo done`, `|| true`, a loop around ssh); a `;` or `&` inside a quoted URL, SQL statement, PHP snippet or browser user-agent string; `|| echo ...` after a `grep` that may find nothing. Two per-project files document workflows that now need rewording and were **not** edited, because they are plugin repos: `phillyfilm/CLAUDE.md` (server-local `curl` with a Chrome user-agent, which contains `;`) and `copper-leaf-filmadelphia-festival-calendar/CLAUDE.md` (lint over stdin in a loop). The rewrites are in plugin-edit Step 2.
+
+**Still open, and now written in the guard's own "honest limit":**
+- an account-wide command after a valid `cd` (H3 above);
+- a script file, on staging or on this Mac, that itself does the damage;
+- anything that travels over ssh without being one of the four programs: `git push` to a server path, sshfs, autossh, a WP-CLI `@alias`;
+- a server named by its number address;
+- deliberate disguise: a backslash inside the program name, a variable holding it, a quote trick after a staging folder name, a decoy first mention of the server.
+- Not changed, by design choice recorded in the guard: when it cannot read its input it allows the command; a crash or timeout lets the command through. The reviewers confirmed these behave as before.
+
+**One thing for Gordon to settle in the rules file.** `CLAUDE.md` section 10 says: if the guard blocks you, do not rephrase, stop and tell Gordon. The guard's Rule N message and plugin-edit now say that writing the command the way the message describes is the expected fix. Both are consistent with the file's own "how to write remote commands so the guard accepts them", but the sentence in section 10 reads more strictly than that. It was left as it is.

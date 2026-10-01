@@ -6,13 +6,49 @@ entity: work/copper-leaf/projects/hd-system-rebuild/
 lobe: work
 description: Where to host v4 and the Laravel apps after it; Cloudflare's edge ruled out; Forge compared with a bare server ("dev in place") and with the other contenders, weighed for simplicity because Gordon said cost is not the issue; Sancho's pick, what it costs, what the maintainer still owns, the production boundary, what is unverified
 sources: ["[gordon 2026-10-01]", "[doc:hosting-claims.md: 227 researched claims; 210 confirmed at the vendor's page by a second reader, 6 with no verdict matched in the record (3 of those corroborated in the checkers' notes), 1 wrong, 1 outdated, 9 could not be verified]", "[doc:phase0-brief.md]", "[doc:plan.md]", "[doc:laravel-kit-spec.md]", "[sancho subagent review 2026-10-01, workflow wf_4aaefbba-f62: numbers audit of draft 1]", "[web: vendor pages listed under Sources]"]
-status: draft 2 for Gordon's decision, revised after an independent numbers audit and after Gordon's "simplicity over complexity, cost isn't an issue"; nothing here is approved
+status: DECIDED by Gordon 2026-10-01: Laravel Forge, one server, on condition of automatic off-site backups (section "Decision"); the sections after it are the comparison as written before the decision, kept as the record
 ---
 # Hosting options for v4 (and the Laravel apps after it)
 
 Gordon, first: "Where should we host it? Can we do it on Cloudflare Edge?" Then: "Do we really need Laravel Forge, or can we just 'dev in place' at a staging address directly in Digital Ocean? The cost isn't an issue, just looking for simplicity over complexity. What advantages does Laravel Forge offer us? What are the other top contenders ... and their pros & cons?" [gordon 2026-10-01]
 
 Prices and limits were read at the vendors' own pages on 2026-10-01 and each claim re-checked by a second reader; the record is `hosting-claims.md`. Anything not confirmed is marked.
+
+## Decision (2026-10-01)
+
+**Forge, on one DigitalOcean server that Gordon owns, with automatic backups stored somewhere else.**
+
+Gordon: "Forge sounds awesome". Then: "one machine is fine under one condition: we need a good schedule of automatic backups that get stored somewhere else. Otherwise, the risks are ok. This is a very infrequently used system by one person, my dad, so little downtimes are likely never going to be noticed, let alone a big problem." And: "For more robust client systems in the future, we'll probably expand to two." [gordon 2026-10-01]
+
+So: staging and production are two sites on the same machine, each under its own user. The Mac's key is installed for the staging site's user only. Sancho's pick had been two servers; Gordon weighed the risks and chose one, and the reasoning for two is kept below for the day a client system needs it.
+
+| Item | Monthly |
+|---|---|
+| Forge Hobby (one server of our own) | $12.00 |
+| Droplet, 2 GB, New York | $12.00 |
+| DigitalOcean daily backups of the machine (30 percent) | $3.60 |
+| Off-site backup storage | about $0 at this size |
+| **Total** | **about $27.60** |
+
+### The backup schedule (Gordon's condition)
+
+DigitalOcean's own backups are kept **in the same datacenter as the server** [web:docs.digitalocean.com/products/backups/details/features/, read 2026-10-01], so they do not count as "somewhere else". They are the fast way back after a bad day; the off-site copy is what survives losing the provider or the account. Both run by themselves.
+
+| What | When | Where it goes | Kept |
+|---|---|---|---|
+| The database (a consistent copy of the SQLite file) and the stored PDFs, in one encrypted archive | every night | a storage bucket at a different company from the server | 14 daily, 8 weekly, 12 monthly, then one a year, kept |
+| The same archive | before every deploy that changes the database; the deploy stops if it fails | same | with the dailies |
+| The whole machine | daily, by DigitalOcean | DigitalOcean, same datacenter | DigitalOcean's rolling window (length not confirmed at their page) |
+| A restore test: last night's archive loaded onto the staging site and its counts compared | every quarter, and once before go-live | staging | the result is written down |
+| A check that last night's archive arrived | every morning | an alert to Gordon when it did not | n/a |
+
+- **Where "somewhere else" is.** Pick: a bucket at Cloudflare (R2), where the domain's DNS already lives. It is a third company, independent of both DigitalOcean and Google; Laravel reads and writes it with its built-in driver; storage is free up to 10 GB. [web:developers.cloudflare.com/r2/pricing/] [web:laravel.com/docs/13.x/filesystem] The alternative is a folder in the firm's Google Drive, which Gordon and Peter could see without any tool, but the letters live in that same Google account, so one lock-out would take the letters and their backups together.
+- **The letters themselves** are Google Docs and are not in these archives. Each sent letter's PDF snapshot is. A copy of the letters folder outside Google is a separate question for the plan.
+- **The credential** the server uses for the bucket can reach that one bucket and nothing else.
+- **Restoring is Gordon's action**, from a short written procedure the first restore test produces.
+- The backup tool the research found (spatie/laravel-backup, which handles SQLite and writes to any storage Laravel knows) and its failure behaviour are confirmed at build. [doc:laravel-tooling-research.md]
+
+What one machine costs in protection, as accepted: a runaway job on staging can slow or stop the live app; the wall between the agent and production is a permission between two users on the same machine, not a separate computer; system-level changes cannot be tried on staging first. The kit's checklist for a new project adds one test for this arrangement: from the staging site's user, production's folder cannot be read.
 
 ## The short answer
 
@@ -106,6 +142,18 @@ Why this one:
 The 2 GB size is judgement, not evidence: it buys memory headroom for the build on the server (deploys are limited to 10 minutes) and for headless Chrome later. 1 GB would work today at $6.
 
 Why DigitalOcean: New York is confirmed, and Forge provisions it directly. Provider stability over ten years was not researched for any of them. With backups, Vultr would be $3.60 a month cheaper and Akamai (Linode, Newark) $1.10; Hetzner roughly tripled its US prices on 2026-06-15 and is out. [doc:hosting-claims.md, servers]
+
+## Why two servers, and whether one would do
+
+Gordon asked. [gordon 2026-10-01] One server would do: Forge can run the staging site and the production site side by side, each under its own user, with the Mac's key installed for the staging site's user only. It is one machine to update, reboot and eventually move, instead of two. What the second server buys:
+
+1. **The wall is a different machine, not a setting.** With two servers, the key on this Mac opens a computer that has no production data on it. With one, it opens the computer that holds forty years of client records, and what keeps the agent out of them is a file-permission boundary between two users. That boundary is real, but it is a configuration that can be set wrong, and Forge's own main login can read every site on the server. [doc:hosting-claims.md]
+2. **Staging is where things go wrong on purpose.** The legacy import will be rehearsed there many times: large files, long jobs, a disk that fills. On a shared machine a rehearsal that runs away takes the live app down with it.
+3. **Server changes get tried first.** A new PHP version can be tried per site on one machine; a system update, a new package (headless Chrome), or the move to a new Ubuntu cannot.
+
+What it costs: a second machine on the monthly update-and-reboot list, and $12 to $19 a month, which Gordon has said is not the issue.
+
+Pick: two. If one is preferred for simplicity, it is a sound choice with the per-site users set up as above, and splitting later is a small job in Forge (create the second server, move the staging site).
 
 ## What we still own on this pick
 

@@ -1,5 +1,5 @@
 # _setup/tests · INDEX
-generated 2026-10-01 by build-index.py · 18 entries
+generated 2026-10-01 by build-index.py · 20 entries
 
 - build-index/ · folder · empty
 - build-map/ · folder · empty
@@ -7,12 +7,14 @@ generated 2026-10-01 by build-index.py · 18 entries
 - install-mac/ · folder · empty
 - job-run/ · folder · empty
 - lint-layers/ · folder · 11 files
+- nerd-lease/ · folder · empty
 - nerd-run/ · folder · empty
 - netstate/ · folder · empty
 - nightly/ · folder · empty
 - notify/ · folder · empty
 - ping/ · folder · empty
 - pipeline/ · folder · empty
+- quarantine-guard/ · folder · empty
 - sancho_lib/ · folder · empty
 - secrets/ · folder · empty
 - skills/ · folder · 3 files

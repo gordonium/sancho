@@ -14,7 +14,7 @@ rec_id: rec_640701d84d
 | 00:05:43 | "Chancelight" | ChanceLight (Copper Leaf plugin client) | [sancho 2026-10-01] | recurring; added to lexicon |
 | 00:41:39 | "Peter Nevlin" | Peter Nevland | [sancho 2026-10-01] | lexicon already has it |
 | 00:25:28 | "run the plod" | run the Plaud | [sancho 2026-10-01] | lexicon already has it |
-| 00:11:00 | "press releases for a check" | press releases for CheckVet (Dr. Marty Greer's practice; Johnny Molson is lead WoA partner) | pending gordon | client name; asked |
+| 00:11:00 | "press releases for a check" | press releases for CheckVet (Dr. Marty Greer's practice; Johnny Molson is lead WoA partner) | [confirmed gordon 2026-10-01] | client name; lexicon has CheckVet |
 | 00:23:46 | "meatery in Alt" | meadery in Ault, CO | [sancho 2026-10-01] | mundane |
 | 00:24:28, 00:25:08 | "Syntax" / "Tex wheat whiskey" | Syntax (Greeley distillery) wheat whiskey | [sancho 2026-10-01] | mundane |
 | 00:34:57 | "rainbow bitch" | rainbow bridge | [sancho 2026-10-01] | mundane |

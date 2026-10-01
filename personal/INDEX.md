@@ -9,15 +9,15 @@ personal: (open) · (open) · (open)
 ## today · 2026-09-30
 personal: (open) · (open) · (open)
 
-- finances/ · folder · empty
+- finances/ · folder · 1 files
 - food/ · folder · empty
 - goals.md · doc · active · 2026-09-30 · Horizon 3 goals, one to two years out; businesses keep their own goals.md and point here for the personal ones
 - horizons/ · folder · empty
-- ice/ · folder · 3 files
+- ice/ · folder · 4 files
 - learning/ · folder · 1 files
 - me/ · folder · 3 files
 - nomad/ · folder · 1 files
 - projects/ · folder · 25 files
-- recordings/ · folder · empty
+- recordings/ · folder · 5 files
 - reviews/ · folder · empty
 - rv/ · folder · empty

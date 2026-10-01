@@ -1,0 +1,25 @@
+{
+  "_note": "NOT a capture. Built from Claude Code's documented PreToolUse input (session_id, transcript_path, cwd, permission_mode, hook_event_name, tool_name, tool_input, tool_use_id; agent_id and agent_type present only inside a subagent). Replace main and subagent with real lines from _queue/log/quarantine-probe.log once the hook is registered and one direct Read and one dispatched Read have run.",
+  "main": {
+    "session_id": "00000000-0000-0000-0000-000000000001",
+    "transcript_path": "/Users/gordonium/.claude/projects/-Users-gordonium-Sync-Sancho/00000000-0000-0000-0000-000000000001.jsonl",
+    "cwd": "/Users/gordonium/Sync/Sancho",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {"file_path": "REPLACED_BY_TEST"},
+    "tool_use_id": "toolu_fixture_main"
+  },
+  "subagent": {
+    "session_id": "00000000-0000-0000-0000-000000000001",
+    "transcript_path": "/Users/gordonium/.claude/projects/-Users-gordonium-Sync-Sancho/00000000-0000-0000-0000-000000000001.jsonl",
+    "cwd": "/Users/gordonium/Sync/Sancho",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {"file_path": "REPLACED_BY_TEST"},
+    "tool_use_id": "toolu_fixture_sub",
+    "agent_id": "a0000000000000001",
+    "agent_type": "general-purpose"
+  }
+}

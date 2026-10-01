@@ -7,7 +7,7 @@ recording: rec_640701d84d
 recorded_at: 2026-09-14T11:00:31-04:00
 duration: 43m39s
 speakers: {gordon: human, leah: human}
-description: Copper Leaf ops from the Monday check-in: ChanceLight DPDs and updates, Racquet Depot's sale and payment terms, Jabas Labs paid by ACH, CheckVet press releases (pending), Michener's WSI consultant, Apple TV duplicate charge, Gordon's week before Italy, autoresponder policy
+description: Copper Leaf ops from the Monday check-in: ChanceLight DPDs and updates, Racquet Depot's sale and payment terms, Jabas Labs paid by ACH, CheckVet press releases, Michener's WSI consultant, Apple TV duplicate charge, Gordon's week before Italy, autoresponder policy
 sources: ["[rec_640701d84d 2026-09-14]", "[confirmed gordon 2026-10-01]"]
 ---
 ## What happened
@@ -16,7 +16,7 @@ sources: ["[rec_640701d84d 2026-09-14]", "[confirmed gordon 2026-10-01]"]
 - Matt (developer) has been slower to respond since getting married. [rec_640701d84d 00:07:37]
 - Racquet Depot: Bruce's Parkinson's has gotten significantly worse; he's selling the business; the buyer is to pay the outstanding second half of the invoice. Gordon: no hardball, no proration; let the new owner out if they want; if Bruce keeps it, run the full term and stop at renewal if it stays unpaid; half a year likely covered hard costs. [rec_640701d84d 00:07:37–00:09:34]
 - Jabas Labs: card kept failing, so it was paid by ACH ($99 license renewal + $9.90 for the horsemanship site); Leah filed his emailed info and check copy as consent; a very happy client. [rec_640701d84d 00:09:40–00:10:58]
-- Press releases (client pending Gordon's word: "a check" → CheckVet?): three drafts in the newsroom: one by Johnny, one by Claude ("pedigrees to pups" online), one by Newsworthy's AI, which invented quotes; notes in Gordon's task. Gordon hasn't looked. [rec_640701d84d 00:11:00–00:11:51]
+- CheckVet press releases ("a check" → CheckVet, confirmed gordon 2026-10-01): three drafts in the newsroom: one by Johnny, one by Claude ("pedigrees to pups" online), one by Newsworthy's AI, which invented quotes; notes in Gordon's task. Gordon hasn't looked. [rec_640701d84d 00:11:00–00:11:51]
 - Marty: Leah checks in constantly and uploads podcasts to the Google Business Profile; "she pays her bills." [rec_640701d84d 00:11:56–00:12:18]
 - Michener's outside WSI digital consultant claims Google flagged their ads; Leah asked for the original Google notice and is handling it. [rec_640701d84d 00:12:25]
 - Apple TV duplicate charge on the business card; Leah is disputing through Chase, one at a time, and won't chase the second $12 by phone; Apple TV is now off the account with the business card. [rec_640701d84d 00:13:37–00:15:49]
@@ -39,7 +39,7 @@ sources: ["[rec_640701d84d 2026-09-14]", "[confirmed gordon 2026-10-01]"]
 - Matt (developer) slower since marrying → no file yet; who Matt is isn't on disk
 
 ## Questions and corrections needed
-- "a check" → CheckVet? Context given to Gordon 2026-10-01.
+- "a check" → CheckVet, confirmed by Gordon 2026-10-01.
 
 ## Speakers
 - SPEAKER_02 gordon · SPEAKER_00 + SPEAKER_01 leah — human-confirmed by Gordon 2026-10-01.

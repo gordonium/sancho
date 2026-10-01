@@ -4,7 +4,7 @@ name: sancho-watcher
 type: script
 description: One tick of the host execution bridge. Runs every allowlisted request in _queue/requests/, writes one result per request to _queue/results/ (echoing the request's `session:`), then rewrites _queue/HEALTH.md. Scheduled requests (requested_by launchd) wait until the Mac has been awake SETTLE_MIN minutes (ERRORS.md #8). A nerd.run result for a job with `advance: auto` queues `job.run --auto`; jobs left waiting for a Nerd lease are re-queued when it clears. A failure of a request that names a job warns. Exits; launchd calls it again on any change to requests/ and every 60 s.
 why: A Cowork session can't run anything on the Mac; the queue is the one audited path for every Mac-side run (architecture §1). HEALTH.md is how a session knows the runner is alive instead of pretending a run happened.
-reads: _setup/commands.md (the allowlist); the lint's verdict on the tree (every tick); _queue/requests/*.md; ~/.config/sancho/env; _queue/leases/, _queue/sessions/; _setup/GIT-EXCLUDED.md; pmset -g log
+reads: _setup/commands.md (the allowlist); the lint's verdict on the tree (every tick); _queue/requests/*.md; ~/.config/sancho/env; _queue/leases/, _queue/sessions/; _setup/GIT-EXCLUDED.md; pmset -g log; _queue/log/quarantine-access.log and ~/.claude/settings.json (is the quarantine guard registered; ERRORS.md #9)
 writes: _queue/results/<request name>; _queue/requests/ (job.run --auto only); _queue/deferred/ (heavy requests while metered); _queue/log/<date>.log; _queue/HEALTH.md; state in ~/.local/state/sancho/ (lock, tick times, last status per command)
 schedule: launchd com.sancho.watcher (WatchPaths on _queue/requests/, StartInterval 60, RunAtLoad)
 test: _setup/tests/watcher/
@@ -294,6 +294,40 @@ def settle(t: datetime.datetime) -> float:
     return float(tk["awake_since"])
 
 
+def quarantine_section(t: datetime.datetime) -> tuple:
+    """(problems, HEALTH lines) from _queue/log/quarantine-access.log, written by quarantine-guard.py (ERRORS.md #9).
+    Today's allowed and refused reads of the legacy folders; a refusal from a main thread is listed by time."""
+    guard, log = ROOT / "_setup" / "quarantine-guard.py", LOG / "quarantine-access.log"
+    problems, allowed, refused, main_refusals = [], 0, 0, []
+    today = t.date().isoformat()
+    for ln in log.read_text(encoding="utf-8", errors="replace").splitlines() if log.exists() else []:
+        f = ln.split("\t")
+        if len(f) < 5 or not f[0].startswith(today):
+            continue
+        if f[1] == "allowed":
+            allowed += 1
+        else:
+            refused += 1
+            if f[2] == "main":
+                main_refusals.append(f"- refused, main thread, {f[0][11:16]}: {f[3]} {f[4][:120]}")
+    out = []
+    if guard.exists():  # the hook only works once ~/.claude/settings.json names it
+        settings = Path(os.environ.get("SANCHO_CLAUDE_SETTINGS", Path.home() / ".claude/settings.json"))
+        try:
+            registered = "quarantine-guard.py" in settings.read_text(encoding="utf-8")
+        except Exception:
+            registered = False
+        if registered:
+            out.append("- guard registered in ~/.claude/settings.json")
+        else:
+            problems.append("quarantine guard not registered (run `python3 _setup/quarantine-guard.py --install` in Terminal)")
+            out.append("- guard NOT registered in ~/.claude/settings.json: nothing is refused until `python3 _setup/quarantine-guard.py --install` is run")
+    if not out and not allowed and not refused:
+        return problems, []
+    out.append(f"- today: {allowed} allowed, {refused} refused ({len(main_refusals)} from a main thread)")
+    return problems, ["", "## Quarantine reads"] + out + main_refusals[-20:]
+
+
 def health(commands: dict, ran: list, t: datetime.datetime, held: list | None = None, awake_since: float | None = None):
     held = held or []
     ticks = STATE / "ticks.json"
@@ -370,6 +404,8 @@ def health(commands: dict, ran: list, t: datetime.datetime, held: list | None = 
         problems.append(f"{len(stale_leases)} stale lease(s)")
     if "NEWER" in secrets:
         problems.append("secrets plaintext newer than the encrypted copy")
+    q_problems, q_lines = quarantine_section(t)
+    problems += q_problems
 
     out = [
         "# HEALTH",
@@ -394,9 +430,10 @@ def health(commands: dict, ran: list, t: datetime.datetime, held: list | None = 
     ]
     if lint_problems:
         out += ["", "## Lint (this tick)"] + [f"- {p}" for p in lint_problems[:20]] + ([f"- … and {len(lint_problems) - 20} more"] if len(lint_problems) > 20 else [])
+    out += q_lines
     if fails:
         out += ["", "## Failures today"] + [f"- {f}" for f in fails]
-    tmp = Q / ".HEALTH.md.tmp"
+    tmp =Q / ".HEALTH.md.tmp"
     tmp.write_text("\n".join(out) + "\n", encoding="utf-8")
     os.replace(tmp, Q / "HEALTH.md")
 

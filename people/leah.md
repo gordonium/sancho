@@ -28,6 +28,7 @@ sources: ["[gordon 2026-10-01]", "[rec_640701d84d 2026-09-14]", "work/copper-lea
 - Keeps an eye on the Gordon–Leah joint account through the separation transition [rec_640701d84d 00:34:01] [gordon 2026-10-01] → personal/finances/joint-account.md
 - Anthem claim: zero balance as of 2026-09-14; now between Anthem and UCHealth. It was a coding issue: billed as inpatient, should have been observation. About $71k at stake; Leah says Claude worked it out after ChatGPT bundled the history [rec_640701d84d 2026-09-14 00:16:38–00:19:24] [confirmed gordon 2026-10-01]
 - Health (as of 2026-09-14): re-pinched the nerve in her right hip moving a rug around 2026-09-05, the same problem that sent her for an MRI two weeks earlier (Saturday MRI billed $4,200); no exercise since, ibuprofen daily, stretching makes it worse, no feeling in either pinky toe, which affects balance; can't do long walks, wary of lifting [rec_640701d84d 2026-09-14 00:20:46–00:23:10] [confirmed gordon 2026-10-01]
+- Gordon, on his family: Leah made the stress of his family trips worse because she was so sensitive to and intolerant of certain kinds of conflict; Gordon grew up with it and lets it roll off [rec_0d8753ed18 2026-09-15 00:59:59] [confirmed gordon 2026-10-01]
 ## Open threads
 ## History with Gordon
 - 2026-09-14 weekly check-in (rec_640701d84d), speaker human-confirmed by Gordon 2026-10-01

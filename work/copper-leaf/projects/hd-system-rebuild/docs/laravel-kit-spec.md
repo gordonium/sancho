@@ -6,7 +6,7 @@ entity: work/copper-leaf/projects/hd-system-rebuild/
 lobe: work
 description: Spec for a Laravel development kit built to the standard of the Copper Leaf WordPress plugin kit (rules, skills, guard, backup, handoff), plus the updates schedule for every Laravel project and the mechanism that keeps the two kits compared; what carries over, what changes, what the Laravel kit adds, what the WordPress kit should take back; decisions for Gordon; build order for the Nerd
 sources: ["[gordon 2026-10-01]", "[doc:wp-kit-map.md]", "[doc:~/Dev/clc-plugins/CLAUDE.md]", "[doc:~/Dev/clc-plugins/skills/]", "[doc:~/Dev/clc-plugins/bin/]", "[doc:~/Dev/clc-plugins/docs/HANDOFF-plugin-dev-workflows.md]", "[doc:hosting-options.md]", "[doc:hosting-claims.md]", "[doc:laravel-tooling-research.md]", "[doc:guard-check-2026-10-01.md]", "[sancho subagent review 2026-10-01, workflow wf_4aaefbba-f62: five independent readers, 113 findings on draft 1]"]
-status: draft 2, revised after an independent review of draft 1 (4 blockers, 59 major, 50 minor findings across this and three other documents; what was changed is listed in section 16); nothing is built; hosting is Sancho's pick, not yet Gordon's decision; lives here until the kit has a home of its own
+status: draft 2 (D1 decided 2026-10-01: the Readability Rule is WordPress-only; hosting decided: Forge, one server), revised after an independent review of draft 1 (4 blockers, 59 major, 50 minor findings across this and three other documents; what was changed is listed in section 16); nothing is built; hosting is Sancho's pick, not yet Gordon's decision; lives here until the kit has a home of its own
 ---
 # Laravel kit: spec (draft 2)
 
@@ -14,7 +14,7 @@ Gordon, 2026-10-01: "let's start building a similar skill harness for Laravel an
 
 Sancho plans; the Nerd builds; nothing below exists yet. The WordPress kit was read line by line first (465 cited items in `wp-kit-map.md`), so this is a mapping, not a fresh invention. Draft 1 was then given to five independent readers who were asked to break it. They did, in the production boundary above all. This draft is the repaired version, and it marks plainly which protections are mechanical and which rest on instruction.
 
-Sections 7 and 8 are written for Laravel Forge, the host Sancho picks in `hosting-options.md`. Gordon has not chosen it. On another host those two sections are redone; the rest stands.
+Sections 7 and 8 are written for Laravel Forge. **Decided 2026-10-01: Forge, and for this first app one server, with staging and production as two sites under separate users, on condition of automatic off-site backups.** [gordon 2026-10-01] [doc:hosting-options.md, Decision] Sections 7 and 8 below were written for two servers and are to be read with that change: wherever they say "separate servers" or "the staging key opens staging only", the boundary for this app is the per-site user on one machine, the Mac's key is installed for the staging site's user only, and the new-project checklist tests that the staging user cannot read production's folder. Two servers remain the kit's default for "more robust client systems in the future". [gordon 2026-10-01]
 
 ## 1. The shape
 
@@ -30,13 +30,12 @@ Three shape everything else. The rest have a pick that stands unless he objects.
 
 ### The three
 
-**D1. The Readability Rule in Laravel.** The rule is "the most important style rule": full `if`/`else`, no ternary, no `??`, no short-circuit tricks, no closures or chained array functions "where a plain loop would be clearer". [CLAUDE.md:67-76] Laravel's own style leans on exactly those. This needs a ruling.
-*Pick: keep the rule for the code we write, and name the framework shapes that are allowed.*
-- In full, for our own logic (controllers, actions, jobs, services, models): full `if`/`else`; no ternary, `??`, `??=`, `?->`, arrow functions or short-circuit statements; full-word names; a comment block on every function saying WHAT and WHY; Laravel behaviour explained as if the reader has never seen it.
-- Allowed because the framework requires the shape: the closure in a route group, a migration, a query-builder or relationship callback; the closure the test tool requires around each test, and its expectation chains, one call per line; the config files as Laravel ships them; the framework's own fluent chains, one call per line, with a comment.
-- Not allowed even though common: collection pipelines where a `foreach` is clearer.
-- Checked by a script: a token-based check over our code fails on the banned operators. Nothing checks the rule in either kit today; the reviewers are told "No style nitpicks". [plugin-review:28]
-- Two tools must be kept from undoing it. The template proves once that code passing the check is left unchanged by the formatter, and switches off any formatter rule that rewrites it. The upgrade tools (Rector, Boost's upgrade prompt, Shift) write the banned shapes; their output goes through the check before review.
+**D1. The Readability Rule in Laravel. DECIDED 2026-10-01: it does not apply.** Gordon: "those rules should apply to WP only. Let's go whole-hog elegant inside Laravel, as I never intend to read the code. That's all you, boo." [gordon 2026-10-01] So Laravel code is written the way good Laravel is written: idiomatic, concise, the framework's own conventions, with comments where a reader who knows Laravel would want one. The WordPress kit's rule ("the most important style rule" there [CLAUDE.md:67-76]) stays in the WordPress kit, where Gordon and Leah do read the code. What follows from the decision:
+- No readability check script, and no sixth "readability" reviewer (D11).
+- The standard is mechanical where it can be: the formatter (Pint), the analyser (Larastan), the tests, the architecture tests.
+- Plain language still governs everything Gordon reads: plans, hand-overs, the change log, the per-project file. That rule is about him, not about the code.
+- In the parity ledger this is a recorded difference between the kits, with its reason, not a gap.
+(Draft 2 proposed keeping the rule for our own logic with a list of allowed framework shapes and a token-based check; superseded by this decision.)
 
 **D2. The release gate: `main` is production's branch, and nothing reaches it unattended.**
 *Pick:*
@@ -59,13 +58,13 @@ This replaces draft 1, in which the agent pushed `main` before review and update
 
 **D7. The yearly Laravel upgrade.** Laravel Boost's upgrade prompt first (first-party, free), a Laravel Shift run ($19) as the cross-check on the first app, then decide which to keep.
 
-**D8. Laravel Boost otherwise.** Boost writes each app's `CLAUDE.md` from vendor guidelines and keeps its own rule store; its database tool is documented two ways (read-only on one page, "execute a query" on another). [doc:laravel-tooling-research.md] *Pick: not installed in the app; used only on the upgrade branch and removed before merge.* Then each app's `CLAUDE.md` is ours, as in the WordPress kit. Text generated by a vendor tool is reference, never rules.
+**D8. Laravel Boost otherwise.** Boost is Laravel's own kit for AI agents: version-matched guidelines, a documentation search limited to the installed versions, and tools that read the app (routes, schema, logs, last error). [doc:laravel-tooling-research.md] *Pick, changed after D1: install it, as a development-only package.* Draft 2 kept it out because its vendor guidelines would have fought the Readability Rule; with idiomatic Laravel now the goal, its guidelines are an asset, and its documentation search matters because Laravel 13 is newer than much of what an agent knows by heart. Three conditions: its database tool is treated as able to write until checked, so the local `.env` never points at anything but a local database; its own rule store is switched off so rules live in one place; and its generated text is reference, never rules, where it differs from the kit.
 
 **D9. Versions for a project started now.** Laravel 13, **PHP 8.5** (8.4 leaves active support 2026-12-31), **Pest 5** (what the installer resolves on PHP 8.5; one reader read this in the installer's source), Larastan 3, Pint 1, Composer 2.10, Node 24 until Node 26 has been LTS for sixty days. Supersedes "PHP 8.4" in `phase0-brief.md`.
 
 **D10. One guard for both kits.** One shared core that reads a small rules file per host, built in the Laravel kit first; the WordPress guard moves onto it later, with Gordon's say. [HANDOFF §17.5] With two guards, a hole fixed in one stays open in the other; eight are open in the WordPress guard today (section 11).
 
-**D11. How many reviewers.** The WordPress chain runs three, every time, about 210k tokens. [HANDOFF:88] *Pick: six* (the three, plus tests, deploy readiness, readability), every time, with the same small-fix exception. About double the cost per ship. Fallback: four.
+**D11. How many reviewers.** The WordPress chain runs three, every time, about 210k tokens. [HANDOFF:88] *Pick: five* (the three, plus tests, and deploy readiness), every time, with the same small-fix exception. Under double the cost per ship. Fallback: four. (Was six; the readability reviewer went with D1.)
 
 **D12. Continuous integration.** GitHub Actions running the gate on pushes to `feature/**`, `updates/**`, `staging` and `main`, on pull requests, and nightly on `main`. Never on the hourly `wip/**` snapshots. It holds no secret of any kind.
 
@@ -132,7 +131,7 @@ About half the kit is about working with an agent and an owner, not about WordPr
 
 ## 5. What the Laravel kit adds
 
-1. **A gate script, in the kit, not in the app.** In order: clear the cached config; Pint in check mode; Larastan; the test suite including architecture tests; `composer audit`; the readability check. Judged by exit code. It runs on a clean commit and records that commit's ID. It also lists every change in the branch to the files that control the gate itself (the analysis config and its baseline, the formatter config, the test config, the audit ignore list, the CI workflow, the bot config, `.gitignore`, the deploy script), and any drop in the number of tests or rise in skipped ones. A non-empty list is "controls changed" and needs Gordon's explicit yes before ship. The script lives in the kit because a gate that sits in the app can be loosened in the same change that needs it green.
+1. **A gate script, in the kit, not in the app.** In order: clear the cached config; Pint in check mode; Larastan; the test suite including architecture tests; `composer audit`. Judged by exit code. It runs on a clean commit and records that commit's ID. It also lists every change in the branch to the files that control the gate itself (the analysis config and its baseline, the formatter config, the test config, the audit ignore list, the CI workflow, the bot config, `.gitignore`, the deploy script), and any drop in the number of tests or rise in skipped ones. A non-empty list is "controls changed" and needs Gordon's explicit yes before ship. The script lives in the kit because a gate that sits in the app can be loosened in the same change that needs it green.
 2. **A job file.** One Markdown file per job: the plan, who approved it and when, each gate run with its commit, each review verdict, the parity proof, and the state ("awaiting Gordon's deploy"). The WordPress kit saves only the plan (to memory, deleted at ship); test results and review verdicts are reported in the chat and never written down, so ship cannot check them. [doc:wp-kit-map.md, skills weaknesses] At the end the job file is closed, not deleted; it is the record. It holds no client data, no credential and no account of how a hole is reached. Path: `.kit/jobs/<date>-<slug>.md` in the app repo, tracked.
 3. **One ship script.** `main` is moved by this script and nothing else. It checks that the commit is the gated one plus, at most, changes to the version file, `CHANGELOG.md` and `.kit/jobs/`; reruns the gate on it; confirms staging ran it; then pushes `main` and the tag. The guard refuses any other `git push` that names `main` or a tag, a bare `git push`, `--all`, `--mirror` and `--tags`.
 4. **"No test touches a live service", three ways.** Stray requests through Laravel's HTTP client are switched off in the base test case. That switch does not cover libraries with their own HTTP client, Google's among them. So: the test config sets dummy credentials for every integration, the in-memory mailer and the in-process queue; and each outside service is reached through one wrapper class that tests replace with a fake, with an architecture test forbidding the vendor client anywhere else. CI holds no real credential.
@@ -148,7 +147,7 @@ Same twelve sections, same numbering, so a line in one kit has a neighbour in th
 
 1. Core development rule: unchanged, with "memory" replaced by the job file and "clean up" by "close". One list, not two (the WordPress file has a six-step and an eight-step version that differ). [CLAUDE.md:23-41]
 2. Data and migrations.
-3. Coding standards: Pint; the Readability Rule as ruled in D1; naming; no em dashes.
+3. Coding standards: Pint and idiomatic Laravel (D1: the WordPress Readability Rule does not apply here); naming; no em dashes in anything a person reads.
 4. Security.
 5. Safety: unchanged, plus: no production credential on this machine, ever; staging data is real client data; **no tinker and no one-off scripts on staging, every data change is a committed, reviewed migration or command**; ask and back up before editing a server's environment file.
 6. Architecture and guardrails.
@@ -165,7 +164,7 @@ Six skills. Their descriptions name Laravel and the folder; the WordPress skills
 
 One staging site means **one job on staging at a time**. That is a limit of this design, stated so nobody is surprised by it.
 
-**laravel-new** (once per project). From the kit's template: Laravel at D9's versions; the formatter, the analyser, the tests, the readability check, the three isolation measures, lazy-loading prevention, the destructive-command switch; the log probe and the version line; the deploy script; `.gitattributes` and the required `.gitignore`; bot and CI config; the per-project `CLAUDE.md`; an entry in the updates calendar. Then the host, done by Gordon from a checklist, each item confirmed before the first deploy:
+**laravel-new** (once per project). From the kit's template: Laravel at D9's versions; the formatter, the analyser, the tests, the three isolation measures, lazy-loading prevention, the destructive-command switch; the log probe and the version line; the deploy script; `.gitattributes` and the required `.gitignore`; bot and CI config; the per-project `CLAUDE.md`; an entry in the updates calendar. Then the host, done by Gordon from a checklist, each item confirmed before the first deploy:
 - staging and production sites on separate servers, each site with its own isolated user;
 - the Mac's staging key added to the staging server only, for that site's user, never at organisation or account level; the production server's key list read and its fingerprints recorded;
 - each site created with its own read-only deploy key; the option that adds the server's key to GitHub unticked; Forge's GitHub connection limited to the app's repository;
@@ -176,13 +175,12 @@ One staging site means **one job on staging at a time**. That is a limit of this
 
 **laravel-edit.** 0. Ask the three things. 1. Preflight (5.7); repo clean; on a branch cut from `main`. 2. Connect to staging; confirm it reports itself as staging and that command-line PHP and web PHP are the same version; record facts. 3. Investigate. 4. Plan, approval, job file. 5. Implement, tests written with the change. 6. Commit; run the gate; green is required. 7. Push the branch and move `staging` to it; confirm the commit staging reports equals the pushed one, nothing is pending in `migrate:status`, and `/up` answers. If staging did not move, the deploy failed and the old release is still live; the deploy script keeps its output where it can be read over SSH. 8. Hand tests under the rules in section 4; prove the log is alive, then read its new lines. 9. Hand over to review.
 
-**laravel-review.** Gate green on the branch's head first. Then six read-only reviewers in parallel on `main...<branch>`, same report format as the WordPress chain:
+**laravel-review.** Gate green on the branch's head first. Then five read-only reviewers in parallel on `main...<branch>`, same report format as the WordPress chain:
 1. Backward compatibility and data safety (migrations forward and back, legacy rows, queued jobs that outlive a deploy, cached shapes, public contracts).
 2. Security (section 4's list; trace each value from entry to output; sweep the siblings).
 3. Performance (query counts before and after on legacy-sized data; indexes; queue use).
 4. Tests and isolation (every changed behaviour has a test that fails without it; nothing reaches a live service; **nothing in the gate's own controls was loosened**).
 5. Deploy, environment and rollback (the deploy script; the SQLite shared path; new environment variable names; the written rollback).
-6. Readability (could a novice follow each changed function; is every comment true).
 Outcome handling is the WordPress skill's, unchanged. [plugin-review:57-62]
 
 **laravel-ship.** Preconditions read from the job file. Then:
@@ -312,7 +310,7 @@ CI and the bot run themselves. The monthly, quarterly and yearly rows are agent 
 
 These came out of reading the kit closely. None is applied. P-1 should not wait.
 
-**P-1. The live-site guard allowed eight command shapes it should refuse. Seven are now closed.** Gordon said to fix it [gordon 2026-10-01]; the change was made the same evening in `bin/sitedistrict-live-site-guard.py`, with twenty new test cases (57 pass), and the two documents that tell an agent how to write commands were brought into line. It is in the working tree, not committed. The eighth (an account-wide verb such as the scheduled-jobs table) has no small fix in a guard that checks paths, and is now named in the guard's own "honest limit". An independent three-reader attack on the fixed guard was started the same evening; its outcome goes in `guard-check-2026-10-01.md` when it returns. The original finding, as checked by Sancho on 2026-10-01 by handing the guard script sample command text on this Mac; no command was run and no server was contacted. The exact strings and answers are in `guard-check-2026-10-01.md`.
+**P-1. The live-site guard had holes. Closed on 2026-10-01 on Gordon's say, in two rounds; not committed.** Gordon: "Go ahead and fix the WP guard hole." [gordon 2026-10-01] Round one closed seven of the eight shapes below. An independent three-reader review of that fix then found five more, four of them older than the change and each something an agent could write by mistake: a second line after a connection check (it ran in the home folder); `find /` and other root-folder paths; a variable followed by `/` that turns into `/*` when empty; and `wp --ssh=`. Round two closed those. 86 tests pass; across 496 reviewer cases nothing that was blocked before is allowed now. What remains open is listed in the guard's own "honest limit" and in `guard-check-2026-10-01.md`: an account-wide verb, script files, programs other than the four it knows, and deliberate disguise. The fix makes the guard stricter about how a command is written (one line, `&&` only); the rewrites are in plugin-edit Step 2. Two per-project rules files document command shapes that now need rewording and were not touched. The original finding, as checked by Sancho on 2026-10-01 by handing the guard script sample command text on this Mac; no command was run and no server was contacted. The exact strings and answers are in `guard-check-2026-10-01.md`.
 - **The same live-site command that is blocked as `ssh ...` is allowed as `/usr/bin/ssh ...`.** Writing the program by its full path takes the command out of the guard's sight.
 - A remote command that starts with a valid `cd <staging> && <command>` and then continues after `;`, after `||`, after a single `&`, or after a line break. (`cd <staging> ; ...` with nothing between is already blocked.) The danger case: a mistyped staging folder that still contains `sitedistrict.com` makes the `cd` fail, and what follows runs in the home folder that holds every live site.
 - An account-wide verb after a valid `cd` (the test used the scheduled-jobs table).
@@ -368,7 +366,7 @@ Each step ends with its own tests green and a line in the kit's handoff.
 2. **Scaffold:** folder, repo, rules file with IDs, per-project template and its lint, lessons file seeded (section 4), the ledger seeded from `wp-kit-map.md`, the installer.
 3. **Both guards** (shell and browser) with tests that do not depend on this Mac, the wrapper, the self-test, the registration check. Before any staging key exists. The eight cases in `guard-check-2026-10-01.md` are in the first test file.
 4. **The gate script and the ship script**, in the kit, tested against a throwaway repo.
-5. **Project template** (`laravel-new`): readability check, architecture tests, the three isolation measures, log probe, version line, deploy script, CI workflow, bot config.
+5. **Project template** (`laravel-new`): architecture tests, the three isolation measures, log probe, version line, deploy script, CI workflow, bot config.
 6. **Skills:** edit, review, ship, written against the template.
 7. **Updates:** the calendar file, the "what is due" script, `laravel-update`.
 8. **Pilot:** Home Directions v4, step 1 of its build plan, run end to end. The WordPress skills were revised after their first real job; expect the same. [doc:~/Dev/clc-plugins git log, commit 925dc4f] [plugin-review:47, 59]
@@ -378,7 +376,7 @@ Each step ends with its own tests green and a line in the kit's handoff.
 
 - On a real Forge site: that a release keeps enough of the repository for the deploy script to record the commit; at which step the shared paths are linked; which credential a site with its own deploy key really uses to fetch; the exact rollback steps; whether the cheapest plan includes the health check; whether an API token can be limited to one server (assumed not); whether the deploy-hook address still works with deploy-on-push off (assumed yes).
 - Claude Code: what a hook timeout or crash does to the command (assumed: lets it through); whether system-owned settings can carry hooks; whether the shell's network allowlist covers SSH.
-- Laravel: how to keep `migrate:rollback` usable with the destructive-command switch on; that the template's formatter leaves readable code alone.
+- Laravel: how to keep `migrate:rollback` usable with the destructive-command switch on; (the formatter question in draft 2 went away with D1).
 - GitHub: the organisation's plan and the price of the one that has protected branches.
 - The backup command's exit code on failure, before the deploy script relies on it.
 - Laravel 14's date; the day Laravel 13's bug fixes end; Ubuntu's support month.
