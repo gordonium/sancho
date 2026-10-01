@@ -20,6 +20,12 @@ ls = os.listdir(os.path.join(os.getcwd(), "_queue/leases"))
 open(os.environ["FAKE_LEASES"], "w").write(" ".join(ls))
 if ls: open(os.environ["FAKE_LEASES"].replace("leases.txt", "lease-copy"), "w").write(open(os.path.join(os.getcwd(), "_queue/leases", ls[0])).read())
 if os.environ.get("FAKE_HANG"): time.sleep(60)
+open(os.environ["FAKE_ENV"] + ".reader", "w").write(os.environ.get("SANCHO_QUARANTINE_READER", "unset"))
+if os.environ.get("FAKE_LEGACY"):  # a Read under a fenced folder; FAKE_LEGACY=logged also leaves the guard's log line
+    print(json.dumps({"type": "assistant", "message": {"content": [{"type": "tool_use", "name": "Read", "input": {"file_path": "/x/gordon-os-v2/people/a.md"}}]}}))
+    if os.environ["FAKE_LEGACY"] == "logged":
+        os.makedirs("_queue/log", exist_ok=True); open("_queue/log/quarantine-access.log", "a").write("t\tallowed\tnerd-reader\tRead\t/x\tr\n")
+print(json.dumps({"type": "assistant", "message": {"content": [{"type": "tool_use", "name": "Edit", "input": {"file_path": "/t/a.md", "new_string": "the word gordon-os-v2/x"}}]}}))
 print(json.dumps({"type": "result", "subtype": "success", "is_error": False, "result": "did the thing\nReceipt: _setup/x.md"}))
 PY
 chmod +x "$T/claude"
@@ -43,6 +49,10 @@ need(a[a.index("--permission-mode") + 1] == "dontAsk", "permission mode not dont
 need(a[a.index("--setting-sources") + 1] == "project", "user settings not excluded")
 need("--strict-mcp-config" in a and a[a.index("--mcp-config") + 1] == '{"mcpServers":{}}', "MCP not disabled")
 need(a[a.index("--settings") + 1].endswith("nerd-settings.json"), "settings file not passed")
+eff = json.load(open(a[a.index("--settings") + 1]))
+need(eff.get("sandbox") == json.load(open(sys.argv[2])).get("sandbox") and eff.get("permissions") == json.load(open(sys.argv[2])).get("permissions"), "the session's settings lost the sandbox or the permissions of nerd-settings.json")
+hooks = [h.get("command", "") for e in eff.get("hooks", {}).get("PreToolUse", []) for h in e.get("hooks", []) if all(t in e.get("matcher", "") for t in ("Read", "Grep", "Glob", "Bash"))]
+need(len(hooks) == 1 and hooks[0].endswith('_setup/quarantine-guard.py"'), f"the quarantine guard is not a PreToolUse hook of the session: {hooks}")
 den = a[a.index("--disallowedTools") + 1:]
 for d in ("WebFetch", "WebSearch", "Bash(git push *)", "Bash(git commit *)", "Bash(rm *)", "Bash(curl *)"):
     need(d in den, f"{d} not denied")
@@ -54,6 +64,7 @@ PY
 grep -q "nerd-r1.md" "$T/leases.txt" || fail "no lease during the run"
 grep -q "kind: nerd.run" "$T/lease-copy" && grep -q "^pid: [0-9]" "$T/lease-copy" && grep -q "^session: cowork hop 7 · requested by cowork" "$T/lease-copy" || fail "lease lacks kind/pid/session: $(cat "$T/lease-copy")"
 [ "$(cat "$T/innerd.txt")" = "r1" ] || fail "session not marked SANCHO_IN_NERD"
+[ "$(cat "$T/innerd.txt.reader")" = "unset" ] || fail "a request body got the reader flag"
 [ -z "$(ls "$T/tree/_queue/leases")" ] || fail "lease left behind"
 [ -s "$T/tree/_queue/results/r1.transcript.jsonl" ] || fail "transcript not kept"
 # timeout kills a hung session
@@ -74,4 +85,20 @@ mkdir -p "$T/tree/_queue/inbox"; printf 'from a file: `Stage: done` stays\n' > "
 printf -- '---\ncommand: nerd.run\ntask_file: _queue/inbox/t.md\n---\n' > "$R"
 out=$(SANCHO_REQUEST_FILE="$R" SANCHO_REQUEST_ID=r6 python3 "$T/tree/_setup/nerd-run.py") || fail "task_file run failed: $out"
 python3 -c "import json,sys; a=json.load(open('$T/argv.json')); sys.exit(0 if 'from a file: \`Stage: done\` stays' in a[a.index('-p')+1] else 1)" || fail "task_file not used verbatim"
+[ "$(cat "$T/innerd.txt.reader")" = "unset" ] || fail "an unflagged task file got the reader flag"
+# reader flag: only a task FILE whose frontmatter says quarantine_reader: true sets SANCHO_QUARANTINE_READER=1; never inherited; --append lands after the task
+printf -- '---\nname: t\nquarantine_reader: true\n---\nbackfill x\n-- end of task --\n' > "$T/tree/_queue/inbox/reader.md"
+out=$(SANCHO_REQUEST_ID=r7 python3 "$T/tree/_setup/nerd-run.py" --task-file _queue/inbox/reader.md --append " CONTRACT-TAIL") || fail "reader run failed: $out"
+[ "$(cat "$T/innerd.txt.reader")" = "1" ] || fail "reader-flagged task file did not set SANCHO_QUARANTINE_READER=1"
+echo "$out" | grep -q "quarantine reader" || fail "result line does not say quarantine reader: $out"
+python3 -c "import json,sys; a=json.load(open('$T/argv.json')); p=a[a.index('-p')+1]; sys.exit(0 if 'backfill x' in p and p.rstrip().endswith('CONTRACT-TAIL') else 1)" || fail "--append not after the task"
+out=$(SANCHO_QUARANTINE_READER=1 SANCHO_REQUEST_ID=r8 python3 "$T/tree/_setup/nerd-run.py" --task-file _queue/inbox/t.md) || fail "run failed: $out"
+[ "$(cat "$T/innerd.txt.reader")" = "unset" ] || fail "SANCHO_QUARANTINE_READER inherited from the caller's environment"
+printf -- '---\ncommand: nerd.run\nquarantine_reader: true\n---\nread v2\n-- end of task --\n' > "$R"
+out=$(SANCHO_REQUEST_FILE="$R" SANCHO_REQUEST_ID=r9 python3 "$T/tree/_setup/nerd-run.py") || fail "run failed: $out"
+[ "$(cat "$T/innerd.txt.reader")" = "unset" ] || fail "a request's own frontmatter set the reader flag (only a task file may)"
+# a session that read under a legacy folder while the guard logged nothing is failed (the hook is not firing); with the guard's line it is ok
+out=$(FAKE_LEGACY=silent SANCHO_REQUEST_ID=r10 python3 "$T/tree/_setup/nerd-run.py" --task-file _queue/inbox/reader.md) && fail "legacy read without a guard log line reported ok"
+echo "$out" | grep -q "quarantine guard did not fire" || fail "wrong failure: $out"
+out=$(FAKE_LEGACY=logged SANCHO_REQUEST_ID=r11 python3 "$T/tree/_setup/nerd-run.py" --task-file _queue/inbox/reader.md) || fail "guarded legacy read failed: $out"
 echo "test-nerd-run: PASS"

@@ -4,15 +4,16 @@ lobe: both
 entity: people/
 created: 2026-10-01
 by: cowork
-advance: auto
+advance: manual   # paused by Gordon 2026-10-01 22:1x: "moderate this before it runs amok"; was auto
 hops: 0
 hop_cap: 400
 wip_limit: 1
 stages:
   - {name: census, status: done, note: "people/_backfill-census.md, 208 rows (P1 119, P2 10, P3 79), subagent 2026-10-01"}
-  - {name: adam-donmoyer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adam-donmoyer}, priority: 1, status: pending}
-  - {name: albert-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: albert-plunkett}, priority: 1, status: pending}
-  - {name: alex-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alex-post}, priority: 1, status: pending}
+  - {name: adam-donmoyer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adam-donmoyer}, priority: 1, status: blocked, blocked: Gordon must confirm whether the  Adam  in rec_36f02fd22c (2026-09-24  Milwaukee radio  November meeting in Austin) is Adam Donmoyer; the file is written with those three lines marked inferred.}
+  - {name: albert-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: albert-plunkett}, priority: 1, status: done}
+  - {name: alex-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alex-post}, priority: 1, status: blocked, blocked: the file and census row are written; Gordon must say which year the reconnection coffee was (v2 contradicts itself  2025 or 2026) and whether the closely held material in rec_868fb07db8 is filed in pe}
+  - {name: moderation, gate: human, status: waiting, note: "Gordon prunes the census before the job continues [gordon 2026-10-01]"}
   - {name: alicia-mitchells-magic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alicia-mitchells-magic}, priority: 1, status: pending}
   - {name: allie-wickham, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: allie-wickham}, priority: 1, status: pending}
   - {name: amanda-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amanda-moore}, priority: 1, status: pending}
@@ -219,8 +220,16 @@ stages:
   - {name: tom-godaddy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-godaddy}, priority: 3, status: pending}
   - {name: tom-merritt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-merritt}, priority: 3, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: adam-donmoyer
+current: moderation
 waiting_on: []
 ---
 # Backfill people
 One stage per person from the census, priority 1 first (referenced in the Sancho tree), then live client and partner people from v2/v3, then everyone else. Each stage is a reader-flagged nerd.run session running skills/backfill-person. Runs overnight unattended; `advance: auto`; a `Stage: blocked` parks that person with the question in Open threads and the job moves on to the next stage (this job's exception to "blocked pauses the job": a blocked person is not a blocked job; record it and continue). Gordon reviews at the end. [gordon 2026-10-01: "backfill all my people, run overnight tonight"]
+- 2026-10-01T22:04:53+02:00 job.run: start check: test board green
+- 2026-10-01T22:04:53+02:00 job.run: stage `adam-donmoyer` started
+- 2026-10-01T22:07:54+02:00 job.run: stage `adam-donmoyer` blocked, recorded, job continues: Gordon must confirm whether the  Adam  in rec_36f02fd22c (2026-09-24  Milwaukee radio  November meeting in Austin) is Adam Donmoyer; the file is written with those three lines marked inferred.
+- 2026-10-01T22:07:54+02:00 job.run: stage `albert-plunkett` started
+- 2026-10-01T22:11:44+02:00 job.run: stage `albert-plunkett` done (Stage: done · tests green)
+- 2026-10-01T22:11:44+02:00 job.run: stage `alex-post` started
+- 2026-10-01T22:14:48+02:00 job.run: stage `alex-post` blocked, recorded, job continues: the file and census row are written; Gordon must say which year the reconnection coffee was (v2 contradicts itself  2025 or 2026) and whether the closely held material in rec_868fb07db8 is filed in pe
+- 2026-10-01T22:14:48+02:00 job.run: stopped at human gate `moderation`

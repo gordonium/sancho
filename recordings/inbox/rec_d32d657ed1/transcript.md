@@ -1,7 +1,7 @@
 ---
 name: Recording rec_d32d657ed1 · 2026-09-15 17:25 · 3 min
 type: transcript
-description: Plaud recording, 3 min, 2 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 3 min, Stephen Moore (Comfort Masters DFW) gives Gordon copy feedback on the 'why' page; ingested 2026-10-01, summary beside it (summary.md); still in the inbox: speakers confirmed, filing blocked until the Comfort Masters DFW client folder exists
 lobe: both
 sources: ["[rec_d32d657ed1 2026-09-15]"]
 rec_id: rec_d32d657ed1

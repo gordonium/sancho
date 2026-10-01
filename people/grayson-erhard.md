@@ -11,7 +11,7 @@ availability: {as_of: , note: ""}
 location: {city: , as_of: , source: ""}
 roles: [{context: work/tipelodeon, role: founder-owner-developer}]
 last_seen: 2026-09-11
-want_to_see_by:
+want_to_see_by: 2027-spring   # camping; personal/nomad/people-and-places.md
 cadence:
 contact: {emails: [], phones: [], address: "", birthday: "", google_id: "", source: ""}
 voiceprint: {enrolled: false, refs: 1, last_enrolled: , auto: paused}

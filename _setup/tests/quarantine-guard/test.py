@@ -248,5 +248,68 @@ problems, section = w.quarantine_section(now)
 if problems or "guard registered" not in "\n".join(section):
     fail("a registered guard must not be a problem: %r %r" % (problems, section))
 
+# --- reader-flagged nerd.run sessions (backfill-people): the variable alone opens nothing; variable + headless + a live
+# nerd.run lease named by SANCHO_IN_NERD is admitted for Read/Grep/Glob like a subagent; the never-read list holds for both.
+# The guard looks for leases in its own tree, so it runs from a copy in a temp tree. Hook inputs: the `main` shape
+# (hook-input-documented.json; still not a capture: the hook has never fired inside a nerd.run session, see STATUS.md).
+rtree = T / "rtree"
+(rtree / "_setup").mkdir(parents=True); (rtree / "_queue" / "leases").mkdir(parents=True)
+RGUARD = rtree / "_setup" / "quarantine-guard.py"
+shutil.copy(GUARD, RGUARD)
+write_paths("agent_id")
+(V2 / "CLAUDE-SAFE-DO-NOT-USE.md").write_text("x\n")
+(V2 / "skills").mkdir(exist_ok=True); (V2 / "skills" / "a.md").write_text("x\n")
+safe, skillf = str(V2 / "CLAUDE-SAFE-DO-NOT-USE.md"), str(V2 / "skills" / "a.md")
+
+
+def lease(name, kind, pid):
+    (rtree / "_queue" / "leases" / (name + ".md")).write_text("---\nname: %s\ntype: lease\nkind: %s\nsession: x\npid: %s\n---\n" % (name, kind, pid))
+
+
+def renv(**kw):
+    e = {**ENV, "SANCHO_QUARANTINE_LOG_DIR": str(T / "rlog")}
+    for k in ("SANCHO_QUARANTINE_READER", "SANCHO_IN_NERD", "CLAUDE_CODE_ENTRYPOINT"):
+        e.pop(k, None)
+    e.update(kw)
+    return e
+
+
+def rrun(want, label, tool, tool_input, **kw):
+    global GUARD
+    keep, GUARD = GUARD, RGUARD
+    try:
+        expect(want, "main", tool, tool_input, label, env=renv(**kw))
+    finally:
+        GUARD = keep
+
+
+lease("nerd-rq1", "nerd.run", os.getpid())
+lease("nerd-interactive-x", "interactive", os.getpid())
+NERD = dict(SANCHO_QUARANTINE_READER="1", SANCHO_IN_NERD="rq1", CLAUDE_CODE_ENTRYPOINT="sdk-cli")
+rrun("passed", "reader-flagged nerd.run Read", "Read", {"file_path": f}, **NERD)
+rrun("passed", "reader-flagged nerd.run Glob", "Glob", {"pattern": "*.md", "path": str(V2 / "people")}, **NERD)
+rrun("passed", "reader-flagged nerd.run Grep for file names", "Grep", {"pattern": "peter", "path": str(V2 / "people")}, **NERD)
+rrun("refused", "reader-flagged nerd.run Grep of a folder for lines", "Grep", {"pattern": "x", "path": str(V2), "output_mode": "content"}, **NERD)
+rrun("refused", "reader-flagged nerd.run Bash cat", "Bash", {"command": "cat '%s'" % f}, **NERD)
+rrun("refused", "CLAUDE-SAFE-DO-NOT-USE.md for a reader-flagged nerd.run", "Read", {"file_path": safe}, **NERD)
+rrun("refused", "skills/ for a reader-flagged nerd.run", "Read", {"file_path": skillf}, **NERD)
+rrun("refused", "tools/ for a reader-flagged nerd.run", "Read", {"file_path": str(V2 / "tools" / "spawn.sh")}, **NERD)
+rrun("refused", ".env for a reader-flagged nerd.run", "Read", {"file_path": str(V2 / ".env")}, **NERD)
+# interactive with the variable set: refused (no nerd.run lease is its own; its entrypoint is not headless)
+rrun("refused", "interactive session with the variable set", "Read", {"file_path": f}, SANCHO_QUARANTINE_READER="1", CLAUDE_CODE_ENTRYPOINT="cli")
+rrun("refused", "interactive session with the variable and a live nerd id typed in", "Read", {"file_path": f}, SANCHO_QUARANTINE_READER="1", SANCHO_IN_NERD="rq1", CLAUDE_CODE_ENTRYPOINT="cli")
+rrun("refused", "the variable with an interactive lease", "Read", {"file_path": f}, SANCHO_QUARANTINE_READER="1", SANCHO_IN_NERD="interactive-x", CLAUDE_CODE_ENTRYPOINT="sdk-cli")
+rrun("refused", "CLAUDE-SAFE-DO-NOT-USE.md for an interactive session with the variable", "Read", {"file_path": safe}, SANCHO_QUARANTINE_READER="1", CLAUDE_CODE_ENTRYPOINT="cli")
+rrun("refused", "nerd.run without the variable", "Read", {"file_path": f}, SANCHO_IN_NERD="rq1", CLAUDE_CODE_ENTRYPOINT="sdk-cli")
+rrun("refused", "the variable with no lease behind the id", "Read", {"file_path": f}, SANCHO_QUARANTINE_READER="1", SANCHO_IN_NERD="gone", CLAUDE_CODE_ENTRYPOINT="sdk-cli")
+dead = subprocess.Popen([sys.executable, "-c", "pass"]); dead.wait()
+lease("nerd-rq2", "nerd.run", dead.pid)
+rrun("refused", "the variable with a nerd.run lease whose pid is gone", "Read", {"file_path": f}, SANCHO_QUARANTINE_READER="1", SANCHO_IN_NERD="rq2", CLAUDE_CODE_ENTRYPOINT="sdk-cli")
+rrun("refused", "a path-shaped nerd id", "Read", {"file_path": f}, SANCHO_QUARANTINE_READER="1", SANCHO_IN_NERD="../leases/nerd-rq1", CLAUDE_CODE_ENTRYPOINT="sdk-cli")
+rlines = (T / "rlog" / "quarantine-access.log").read_text().splitlines()
+admitted = [l for l in rlines if "\tallowed\t" in l]
+if len(admitted) != 3 or not all("\tnerd-reader\t" in l and l.endswith("reader-flagged nerd.run rq1") for l in admitted):
+    fail("every admitted reader-flagged read must be logged as nerd-reader with the request id: %r" % admitted)
+
 shutil.rmtree(T, ignore_errors=True)
 print("test-quarantine-guard: PASS")

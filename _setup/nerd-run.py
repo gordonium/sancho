@@ -2,15 +2,15 @@
 """
 name: nerd-run
 type: command
-description: Run one headless Claude Code session (the Nerd) on the Mac for a task given in the request (`task_file:` inside the tree, or a request body ending with the line `-- end of task --`; a bare `task:` line is refused, ERRORS.md #7). Fixed tool allowlist, OS sandbox (writes only in the tree and the kit; network only GitHub and Anthropic), no MCP connectors, no outbound messaging, timeout, lease (kind, session, pid) while running, the request's `session:` echoed, transcript kept, one-line receipt.
+description: Run one headless Claude Code session (the Nerd) on the Mac for a task given in the request (`task_file:` inside the tree, or a request body ending with the line `-- end of task --`; a bare `task:` line is refused, ERRORS.md #7). Fixed tool allowlist, OS sandbox (writes only in the tree and the kit; network only GitHub and Anthropic), no MCP connectors, no outbound messaging, timeout, lease (kind, session, pid) while running, the request's `session:` echoed, transcript kept, one-line receipt. Every session carries the quarantine guard as a PreToolUse hook (the user-level registration does not reach a session started with project-only setting sources). A task file whose frontmatter says `quarantine_reader: true` starts the session with SANCHO_QUARANTINE_READER=1, which the guard admits to Read/Grep/Glob in the legacy folders only together with this session's nerd.run lease; a run fails if it touched a legacy folder and the guard logged nothing.
 why: Gordon wants full rounds without being the messenger between Cowork and the Mac; scheduled Cowork is ruled out (decisions 2026-09-30). This is v2's spawn.sh idea made safe by the allowlist, the sandbox and the queue; it is also the harness skill scenarios run on.
-reads: the request file ($SANCHO_REQUEST_FILE); _setup/nerd-settings.json; CLAUDE.md (the session reads it itself)
-writes: _queue/results/<request id>.transcript.jsonl; _queue/leases/nerd-<request id>.md while running; whatever the task writes inside the tree or ~/Dev/clc-plugins
+reads: the request file ($SANCHO_REQUEST_FILE); the task file's frontmatter (`quarantine_reader`); _setup/nerd-settings.json; _setup/quarantine-paths.md; _queue/log/quarantine-access.log; CLAUDE.md (the session reads it itself)
+writes: _queue/results/<request id>.transcript.jsonl; ~/.local/state/sancho/nerd-settings.json (nerd-settings.json plus the guard hook, rebuilt every run); _queue/leases/nerd-<request id>.md while running; whatever the task writes inside the tree or ~/Dev/clc-plugins
 schedule:
 test: _setup/tests/nerd-run/
 """
 from __future__ import annotations
-import os, sys, json, time, signal, fcntl, argparse, datetime, subprocess
+import os, re, sys, json, time, signal, fcntl, argparse, datetime, subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from sancho_lib import tree_root, read_frontmatter, live_leases, write_lease
@@ -22,6 +22,9 @@ SETTINGS = ROOT / "_setup" / "nerd-settings.json"
 STATE = Path(os.environ.get("SANCHO_STATE", Path.home() / ".local/state/sancho"))
 DEFAULT_TIMEOUT = 1800
 MAX_BUDGET_USD = "10"
+GUARD = ROOT / "_setup" / "quarantine-guard.py"
+GUARD_LOG = ROOT / "_queue" / "log" / "quarantine-access.log"
+GUARD_MATCHER = "Read|Grep|Glob|Bash"
 
 # What a Nerd session may use. Read/Write/Edit are further limited by the sandbox and the path rules in nerd-settings.json.
 ALLOWED = ["Read", "Glob", "Grep", "Write", "Edit", "TodoWrite",
@@ -48,6 +51,58 @@ TASK:
 END_MARK = "-- end of task --"
 
 
+def effective_settings() -> Path:
+    """nerd-settings.json plus the quarantine guard as a PreToolUse hook, written beside the lock. The session is started with
+    `--setting-sources project`, so the hook registered in ~/.claude/settings.json never fires in it (measured 2026-10-01:
+    a Read under gordon-os-v2 from a nerd.run session left no line in either guard log)."""
+    st = json.loads(SETTINGS.read_text(encoding="utf-8"))
+    pre = st.setdefault("hooks", {}).setdefault("PreToolUse", [])
+    if not any("quarantine-guard.py" in str(h.get("command", "")) for e in pre for h in e.get("hooks", [])):
+        pre.append({"matcher": GUARD_MATCHER, "hooks": [{"type": "command", "command": f'/usr/bin/python3 "{GUARD}"', "timeout": 10}]})
+    STATE.mkdir(parents=True, exist_ok=True)
+    out = STATE / "nerd-settings.json"
+    out.write_text(json.dumps(st, indent=1), encoding="utf-8")
+    return out
+
+
+def fenced_names() -> list[str]:
+    try:
+        text = (ROOT / "_setup" / "quarantine-paths.md").read_text(encoding="utf-8")
+        names = [m.rstrip("/").rsplit("/", 1)[-1].lower() for m in re.findall(r"(?m)^-\s*`([^`]+)`", text)]
+    except OSError:
+        names = []
+    return sorted(set(names)) or ["gordon-os-v2", "jarvis-v3"]
+
+
+def log_lines() -> int:
+    try:
+        return len(GUARD_LOG.read_text(errors="replace").splitlines())
+    except OSError:
+        return 0
+
+
+def touched_legacy(transcript: Path) -> bool:
+    """Did a Read, Grep or Glob in the session name a path through a fenced folder? (The bare word in an Edit or a search
+    pattern is not a read.)"""
+    names = fenced_names()
+
+    def through(item: dict) -> bool:
+        inp = item.get("input") or {}
+        paths = [inp.get("file_path"), inp.get("path"), inp.get("pattern") if item.get("name") == "Glob" else None]
+        return any(part.lower() in names for p in paths if isinstance(p, str) for part in p.split("/"))
+
+    for ln in transcript.read_text(errors="replace").splitlines():
+        try:
+            ev = json.loads(ln)
+        except ValueError:
+            continue
+        content = (ev.get("message") or {}).get("content") if isinstance(ev, dict) and ev.get("type") == "assistant" else None
+        for item in content if isinstance(content, list) else []:
+            if isinstance(item, dict) and item.get("type") == "tool_use" and item.get("name") in ("Read", "Grep", "Glob") and through(item):
+                return True
+    return False
+
+
 def load_task(a) -> tuple[str, dict]:
     """--task (job.run's own calls), task_file: inside the tree, or a request body ending with END_MARK.
     A request's `task:` line or unmarked body is refused: shell-composed requests lost words silently (ERRORS.md #7)."""
@@ -62,6 +117,9 @@ def load_task(a) -> tuple[str, dict]:
         if ROOT.resolve() not in p.parents:
             raise SystemExit(f"nerd-run: task_file must be inside the tree: {tf}")
         task = p.read_text(encoding="utf-8")
+        fm = {**fm, "quarantine_reader": read_frontmatter(p)[0].get("quarantine_reader")}  # only a task FILE in the tree carries the flag
+    else:
+        fm = {**fm, "quarantine_reader": None}
     if not task and body.strip():
         lines = body.rstrip().splitlines()
         if lines[-1].strip() != END_MARK:
@@ -74,10 +132,10 @@ def load_task(a) -> tuple[str, dict]:
     return str(task), fm
 
 
-def build_argv(prompt: str) -> list[str]:
+def build_argv(prompt: str, settings: Path = SETTINGS) -> list[str]:
     return [CLAUDE, "-p", prompt,
             "--output-format", "stream-json", "--verbose",
-            "--settings", str(SETTINGS),
+            "--settings", str(settings),
             "--setting-sources", "project",          # the user's own settings (and their permissions) don't leak in
             "--strict-mcp-config", "--mcp-config", '{"mcpServers":{}}',  # no connectors: no mail, Drive, calendar
             "--permission-mode", "dontAsk",           # anything not allowed is refused, never prompted
@@ -91,9 +149,12 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--task")
     ap.add_argument("--task-file")
+    ap.add_argument("--append", default="", help="text added after the task (job.run's stage contract and retry brief)")
     ap.add_argument("--timeout", type=int)
     a = ap.parse_args()
     task, fm = load_task(a)
+    task += a.append
+    reader = str(fm.get("quarantine_reader")).lower() == "true"
     rid = os.environ.get("SANCHO_REQUEST_ID") or datetime.datetime.now().strftime("manual-%Y%m%dT%H%M%S")
     by = os.environ.get("SANCHO_REQUESTED_BY") or fm.get("requested_by") or "unknown"
     session = os.environ.get("SANCHO_SESSION") or fm.get("session") or "(none given)"
@@ -117,12 +178,16 @@ def main() -> int:
     transcript = results / f"{rid}.transcript.jsonl"
     started = time.time()
     status, final = "ok", ""
+    env = {**os.environ, "SANCHO_IN_NERD": rid, "SANCHO_SESSION": f"nerd.run {rid}",
+           "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"}
+    env.pop("SANCHO_QUARANTINE_READER", None)  # never inherited: only this task file's own flag sets it
+    if reader:
+        env["SANCHO_QUARANTINE_READER"] = "1"
+    guard_lines = log_lines()
     try:
         with transcript.open("w") as out:
-            p = subprocess.Popen(build_argv(PREAMBLE.format(rid=rid, by=by, session=session, task=task)), cwd=ROOT, stdout=out,
-                                 stderr=subprocess.STDOUT, start_new_session=True,
-                                 env={**os.environ, "SANCHO_IN_NERD": rid, "SANCHO_SESSION": f"nerd.run {rid}",
-                                      "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"})
+            p = subprocess.Popen(build_argv(PREAMBLE.format(rid=rid, by=by, session=session, task=task), effective_settings()), cwd=ROOT,
+                                 stdout=out, stderr=subprocess.STDOUT, start_new_session=True, env=env)
             try:
                 rc = p.wait(timeout=timeout)
                 status = "ok" if rc == 0 else f"failed (exit {rc})"
@@ -146,9 +211,12 @@ def main() -> int:
             final = str(ev.get("result") or "")
             if ev.get("is_error") and status == "ok":
                 status = f"failed ({ev.get('subtype')})"
+    if touched_legacy(transcript) and log_lines() == guard_lines:
+        # the session named a legacy folder and the guard wrote nothing: the hook is not firing, so nothing enforced the never-read list
+        status = "failed (quarantine guard did not fire: the session touched a legacy folder and quarantine-access.log has no new line)"
     receipt = next((l for l in reversed(final.splitlines()) if l.startswith("Receipt:")), "Receipt: (none given)")
     print(final[-3000:])
-    print(f"nerd-run: {status} in {int(time.time() - started)} s · session {session} · transcript _queue/results/{transcript.name} · {receipt}")
+    print(f"nerd-run: {status} in {int(time.time() - started)} s{' · quarantine reader' if reader else ''} · session {session} · transcript _queue/results/{transcript.name} · {receipt}")
     return 0 if status == "ok" else 1
 
 

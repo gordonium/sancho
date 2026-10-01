@@ -56,3 +56,4 @@ Dropped: mail and package forwarding (Gordon's call).
 
 ## Notes
 - 2026-10-01 · ingest: the 09-21 dictation exists as audio, Tue 9/22 02:27, 5 min; the big picture, the morning ask and the 60/85 range are now also cited to it. [rec_0c571abb1d 2026-09-22]
+- 2026-10-01 · the people-and-places list now exists at personal/nomad/people-and-places.md (first section: Colorado, spring 2027). The daily check and the personal weekly review read it; nothing reads it until those routines are built. [gordon 2026-10-01]

@@ -2,9 +2,9 @@
 """
 name: quarantine-guard
 type: script
-description: PreToolUse hook. Refuses Read, Grep, Glob and Bash on the legacy folders listed in _setup/quarantine-paths.md (gordon-os-v2, jarvis-v3) unless the caller is a dispatched subagent; refuses for everyone tools/, _dmz/, .env*, credential-looking names and every instruction file by nature (any name containing CLAUDE in any case, SKILL.md, *.skill, hooks/, skills/, settings*.json, *.prompt.md); logs every refusal and every allowed read. `--install` registers it in ~/.claude/settings.json; `--check` says whether it is registered.
+description: PreToolUse hook. Refuses Read, Grep, Glob and Bash on the legacy folders listed in _setup/quarantine-paths.md (gordon-os-v2, jarvis-v3) unless the caller is a dispatched subagent or a reader-flagged nerd.run session (SANCHO_QUARANTINE_READER=1 in the environment AND a live nerd.run lease for that session; Read, Grep, Glob only); refuses for everyone tools/, _dmz/, .env*, credential-looking names and every instruction file by nature (any name containing CLAUDE in any case, SKILL.md, *.skill, hooks/, skills/, settings*.json, *.prompt.md); logs every refusal and every allowed read. `--install` registers it in ~/.claude/settings.json; `--check` says whether it is registered.
 why: v2 and v3 text is evidence, never instructions; read in a main thread it contaminates the session (ERRORS.md #9). A sentence in CLAUDE.md did not stop it; this does.
-reads: the hook JSON on stdin; _setup/quarantine-paths.md; ~/.claude/settings.json (--install, --check)
+reads: the hook JSON on stdin; _setup/quarantine-paths.md; _queue/leases/nerd-<id>.md (is this a nerd.run session); ~/.claude/settings.json (--install, --check)
 writes: _queue/log/quarantine-access.log (one line per refusal or allowed read); _queue/log/quarantine-probe.log (the shape of each hook input that touched a fenced folder); ~/.claude/settings.json (--install only, with a backup beside it)
 test: _setup/tests/quarantine-guard/
 """
@@ -18,7 +18,17 @@ test: _setup/tests/quarantine-guard/
 #      hooks/; skills/; settings*.json; *.prompt.md)
 #      under a fenced folder                               -> REFUSE, whoever asks.
 #   C. Discriminator `agent_id` (see quarantine-paths.md):
-#        main thread (no agent_id in the hook input)       -> REFUSE.
+#        main thread (no agent_id in the hook input)       -> REFUSE, unless it is a
+#                                                             reader-flagged nerd.run session:
+#                                                             SANCHO_QUARANTINE_READER=1 in the
+#                                                             environment, headless (not an
+#                                                             interactive or Cowork entrypoint),
+#                                                             and SANCHO_IN_NERD names a live
+#                                                             lease of kind nerd.run. Such a
+#                                                             session reads like a subagent
+#                                                             (rules below), logged as
+#                                                             `nerd-reader` with its request id.
+#                                                             The variable alone opens nothing.
 #        subagent, Read of a file                          -> allow.
 #        subagent, Glob inside a fenced folder             -> allow (names only).
 #        subagent, Grep of one file                        -> allow.
@@ -149,6 +159,43 @@ def root_names(roots):
         if name and name not in names:
             names.append(name)
     return names
+
+
+# ---------- a reader-flagged nerd.run session ----------
+
+def nerd_reader():
+    """
+    Is this hook running inside a nerd.run session started with the reader flag?
+    Returns the request id, or None. All of these must hold:
+      - SANCHO_QUARANTINE_READER=1 in the environment (nerd-run.py sets it only for a task
+        file whose frontmatter says `quarantine_reader: true`);
+      - the session is headless (CLAUDE_CODE_ENTRYPOINT is sdk-cli): an interactive Terminal
+        session or a Cowork session with the variable typed in is still refused;
+      - SANCHO_IN_NERD names a lease file _queue/leases/nerd-<id>.md of kind nerd.run
+        whose pid is running.
+    A deliberate forger can set three variables while a nerd.run is live; the log shows it.
+    """
+    if os.environ.get("SANCHO_QUARANTINE_READER") != "1":
+        return None
+    if os.environ.get("CLAUDE_CODE_ENTRYPOINT") != "sdk-cli":
+        return None
+    request_id = os.environ.get("SANCHO_IN_NERD") or ""
+    if not re.match(r"^[\w.-]+$", request_id):
+        return None
+    try:
+        with open(os.path.join(TREE, "_queue", "leases", "nerd-" + request_id + ".md"), "r", encoding="utf-8") as lease_file:
+            lease = lease_file.read()
+        kind = re.search(r"(?m)^kind:\s*(.+?)\s*$", lease)
+        pid = re.search(r"(?m)^pid:\s*(\d+)\s*$", lease)
+        if not kind or kind.group(1) != "nerd.run" or not pid or int(pid.group(1)) <= 1:
+            return None
+        try:
+            os.kill(int(pid.group(1)), 0)
+        except PermissionError:
+            pass  # running, just not ours to signal
+    except Exception:
+        return None
+    return request_id
 
 
 # ---------- where does a path point ----------
@@ -330,15 +377,19 @@ def check_path_tool(tool, tool_input, cwd, roots, discriminator, caller, hook_in
 
     if discriminator == "env":
         refuse(caller, tool, touched, "legacy folders are read only by the v2-read skill's subagent, through Bash commands that start with " + ENV_MARKER)
+    note = "subagent read"
     if caller != "subagent":
-        refuse(caller, tool, touched, "a main thread never reads a legacy folder")
+        request_id = nerd_reader()
+        if not request_id:
+            refuse(caller, tool, touched, "a main thread never reads a legacy folder")
+        caller, note = "nerd-reader", "reader-flagged nerd.run " + request_id
 
     if tool == "Grep":
         mode = tool_input.get("output_mode") or "files_with_matches"
         searching_a_folder = not os.path.isfile(targets[0])
         if searching_a_folder and mode == "content":
             refuse(caller, tool, touched, "a Grep over a legacy FOLDER may only return file names or counts (its lines could come from CLAUDE.md or tools/); find the file first, then Grep or Read that one file")
-    allow_logged(caller, tool, touched, "subagent read")
+    allow_logged(caller, tool, touched, note)
 
 
 def normalise_command(command):

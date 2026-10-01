@@ -1,7 +1,7 @@
 # LINT
 generated 2026-10-01 by lint-layers.py
 
-**13 problems, 0 warnings**
+**13 problems, 1 warnings**
 
 ## Problems (block the build)
 - work/copper-leaf/projects/hd-system-rebuild/docs/wp-kit-map.md: data file contains an instruction to Claude ('you must'); describe the preference instead
@@ -19,3 +19,4 @@ generated 2026-10-01 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:82: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 
 ## Warnings
+- secrets check skipped: this process can't see ~/.config/sancho (sandboxed)

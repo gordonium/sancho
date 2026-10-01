@@ -14,14 +14,24 @@ cp "$SRC/job-run.py" "$SRC/sancho_lib.py" "$SRC/notify.py" "$SRC/notify-reasons.
 # fake nerd: outcome per stage from $T/plan/<stage> (tokens consumed one per attempt: ok | fail | failN | nomark | blocked)
 mkdir -p "$T/plan"
 cat > "$T/nerd" <<'PY'
-import sys, os, re
-task = sys.argv[sys.argv.index("--task") + 1]
+import sys, os, re, json
+if "--task-file" in sys.argv:  # a templated stage: the rendered file, then job.run's contract
+    tf = sys.argv[sys.argv.index("--task-file") + 1]
+    task = open(os.path.join(os.environ["SANCHO_ROOT"], tf)).read() + sys.argv[sys.argv.index("--append") + 1]
+    open(os.environ["PLAN"] + "/files", "a").write(tf + "\n")
+else:
+    task = sys.argv[sys.argv.index("--task") + 1]
 st = re.search(r"Do stage `([^`]+)`", task).group(1)
 f = os.path.join(os.environ["PLAN"], st)
 lines = open(f).read().split() if os.path.exists(f) else ["ok"]
 o = lines[0]; open(f, "w").write(" ".join(lines[1:] or ["ok"]))
 open(os.environ["PLAN"] + "/calls", "a").write(st + "\n")
 open(os.environ["PLAN"] + "/task-" + os.environ["SANCHO_REQUEST_ID"].rsplit("-", 2)[-2] + "-" + os.environ["SANCHO_REQUEST_ID"].rsplit("-", 1)[-1], "w").write(task)
+if o in ("stray", "tidy"):  # a session whose transcript shows a Write: outside its scope, or inside it
+    res = os.path.join(os.environ["SANCHO_ROOT"], "_queue/results"); os.makedirs(res, exist_ok=True)
+    path = "work/x.md" if o == "stray" else os.path.join(os.environ["SANCHO_ROOT"], "people", st + ".md")
+    open(os.path.join(res, os.environ["SANCHO_REQUEST_ID"] + ".transcript.jsonl"), "w").write(json.dumps({"type": "assistant", "message": {"content": [{"type": "tool_use", "name": "Write", "input": {"file_path": path}}]}}) + "\n")
+    print("worked\nStage: done\nReceipt: x"); sys.exit(0)
 if o == "ok": print("worked\nStage: done\nReceipt: x"); sys.exit(0)
 if o == "nomark": print("worked but forgot\nReceipt: x"); sys.exit(0)
 if o == "blocked": print("need the passphrase\nStage: blocked: Gordon types the age passphrase in Terminal\nReceipt: x"); sys.exit(0)
@@ -104,4 +114,48 @@ python3 "$R" fix --foreground --auto | grep -q "stopped at human gate g" || fail
 grep -q '"2026-09-30_fix"' "$T/state/advance-pending.json" && fail "pending mark not cleared after the walk"
 # 7. outside _queue/jobs refused
 python3 "$R" ../../etc/passwd --foreground >/dev/null 2>&1 && fail "path outside _queue/jobs accepted"
+# 8. templated stages (backfill-people shape): each renders its own task file; a blocked stage is recorded and the job goes on,
+#    nothing pushed for it; one info per 25 finished; continuation without a push; the gate warn carries the tally
+rm -f "$T/plan/"* "$T/pushes" "$T/tree/_queue/leases/"*; mkdir -p "$T/tree/_setup/templates"
+printf -- '---\nname: task <slug>\nquarantine_reader: true\nwrites_only: ["people/<slug>.md", "people/_census.md"]\n---\nDo stage `<slug>` for <slug>.\n-- end of task --\n' > "$T/tree/_setup/templates/t.md"
+J="$T/tree/_queue/jobs/2026-10-01_bf.md"
+bf(){ { printf -- '---\njob: bf\nadvance: auto\nstages:\n  - {name: census, status: done, note: "rows"}\n'
+  for s in "$@"; do printf -- '  - {name: %s, task_template: _setup/templates/t.md, vars: {slug: %s}, priority: 1, status: pending}\n' "$s" "$s"; done
+  printf -- '  - {name: review, gate: human, status: pending, note: "Gordon reads"}\ncurrent: %s\n---\n# bf\nA blocked person is not a blocked job; record it and continue.\n' "$1"; } > "$J"; }
+bf p1 p2 p3; echo "blocked" > "$T/plan/p2"
+python3 "$R" bf --foreground | grep -q "stopped at human gate review" || fail "templated job did not reach its gate"
+RD="$T/tree/_queue/inbox/_rendered"
+[ -f "$RD/2026-10-01_bf_p1.md" ] && [ -f "$RD/2026-10-01_bf_p2.md" ] || fail "rendered task files missing: $(ls "$RD" 2>&1)"
+grep -q 'Do stage `p1` for p1.' "$RD/2026-10-01_bf_p1.md" && grep -q 'people/p2.md' "$RD/2026-10-01_bf_p2.md" && ! grep -q "<slug>" "$RD/2026-10-01_bf_p1.md" || fail "template not rendered per stage"
+cmp -s "$RD/2026-10-01_bf_p1.md" "$RD/2026-10-01_bf_p2.md" && fail "two templated stages rendered the same file"
+grep -q "^_queue/inbox/_rendered/2026-10-01_bf_p1.md$" "$T/plan/files" || fail "the rendered file was not the nerd.run task file: $(cat "$T/plan/files")"
+grep -q "blocked stage does not pause the job" "$T/plan/task-p1-1" || fail "the contract does not tell the session that blocked continues"
+grep -q "{name: p1, .*status: done" "$J" && grep -q "{name: p2, .*vars: {slug: p2}, priority: 1, status: blocked, blocked: Gordon types" "$J" && grep -q "{name: p3, .*status: done" "$J" || fail "blocked stage 2 must be recorded and stage 3 run: $(grep name: "$J")"
+[ "$(tr '\n' ' ' < "$T/plan/calls")" = "p1 p2 p3 " ] || fail "calls: $(tr '\n' ' ' < "$T/plan/calls")"
+[ "$(pushes | wc -l | tr -d ' ')" = "1" ] && pushes | grep -q "^0 Job 2026-10-01_bf is waiting for you at review (bf: 3/3, 1 blocked)" || fail "want exactly one push, the gate warn with the tally: $(pushes)"
+python3 "$R" bf --foreground --auto | grep -q "left at waiting stage review" || fail "auto pass after the gate re-ran something"
+[ "$(tr '\n' ' ' < "$T/plan/calls")" = "p1 p2 p3 " ] || fail "a blocked stage was re-run"
+# 26 people: the 6-per-run continuation is queued without a push; one info at 25 finished
+rm -f "$T/plan/"* "$T/pushes"; bf $(seq -f "q%g" 1 26); echo "blocked" > "$T/plan/q4"
+for i in 1 2 3 4 5; do
+  python3 "$R" bf --foreground --auto >/dev/null || fail "continuing run $i failed"
+  if [ "$i" -lt 5 ]; then ls "$T/tree/_queue/requests/"*job.run* >/dev/null 2>&1 || fail "no continuation request after run $i"; grep -q "args: \[2026-10-01_bf, --auto\]" "$T/tree/_queue/requests/"*job.run* || fail "continuation lost --auto"; rm -f "$T/tree/_queue/requests/"*; fi
+done
+[ "$(wc -l < "$T/plan/calls" | tr -d ' ')" = "26" ] || fail "26 stages should have run once each: $(wc -l < "$T/plan/calls")"
+[ "$(pushes | grep -c '^-1 ')" = "1" ] && pushes | grep -q "^-1 bf: 25/26, 1 blocked" || fail "want one info push at 25 finished: $(pushes)"
+pushes | grep -q "^0 Job 2026-10-01_bf is waiting for you at review (bf: 26/26, 1 blocked)" && [ "$(pushes | grep -c '^0 ')" = "1" ] || fail "want one warn, at the end: $(pushes)"
+# 9. write scope: a templated stage whose transcript shows a write outside writes_only stops the job with a warn, no retry; inside it passes
+rm -f "$T/plan/"* "$T/pushes"; bf s1 s2; echo "tidy" > "$T/plan/s1"; echo "stray" > "$T/plan/s2"
+python3 "$R" bf --foreground | grep -q "stage s2 failed: stage wrote outside its scope (work/x.md)" || fail "stray write not stopped"
+grep -q "{name: s1, .*status: done" "$J" && grep -q "{name: s2, .*status: failed" "$J" || fail "scope states: $(grep name: "$J")"
+[ "$(grep -c '^s2$' "$T/plan/calls")" = "1" ] || fail "a stray-write stage was retried"
+pushes | grep -q "^0 Job 2026-10-01_bf stopped at s2: stage wrote outside its scope" || fail "no warn for the stray write: $(pushes)"
+# 10. --require-green: a red board starts nothing and warns; a green one walks
+rm -f "$T/plan/"* "$T/pushes"; bf g1; touch "$T/plan/red"
+python3 "$R" bf --foreground --require-green | grep -q "not started: test board red" || fail "red board did not hold the start"
+[ -e "$T/plan/calls" ] && fail "a stage ran on a red board"
+pushes | grep -q "^0 Job 2026-10-01_bf not started: the test board is red" || fail "no warn for the held start: $(pushes)"
+rm -f "$T/plan/red"
+python3 "$R" bf --foreground --require-green | grep -q "stopped at human gate review" || fail "green board did not start the job"
+grep -q "start check: test board green" "$J" || fail "start check not logged"
 echo "test-job-run: PASS"

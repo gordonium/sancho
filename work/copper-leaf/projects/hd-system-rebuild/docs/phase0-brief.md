@@ -113,4 +113,9 @@ Gordon, 2026-10-01 evening, in the HD thread, answering the Q1 walk-through (pic
   - **Kit decision D1: the Readability Rule is WordPress-only.** "Great question - those rules should apply to WP only. Let's go whole-hog elegant inside Laravel, as I never intend to read the code. That's all you, boo."
   - **Before any real code is written, Gordon is warned.** "please warn me before you start writing any real code, so I can increase your Effort Level to Ultracode first, AND we'll want to proactively compact or just start a new 'actually write it' thread separate from this planning thread."
   - **Laravel Herd:** "Go for install" (kit decision D17).
+- **Gordon, 2026-10-01 night, sixth round** [gordon 2026-10-01]:
+  - **A new harness requirement, for both kits:** "We need to add another thing to our development harness: Plan first. Write Plan second. Then write code. As an enforced series of skills/subskills. This applies to both WP and Laravel sides." Designed in `laravel-kit-spec.md` section 7.0.
+  - **Kit decision D3:** "Yes, either a separate chrome profile or even a separate browser."
+  - **Kit decision D4, and a fact for D5:** "Copper Leaf. Free plan": the repositories go in the `CopperLeafCreative` organisation, which is on GitHub's Free plan.
+- **Gordon, 2026-10-01 night, seventh round** [gordon 2026-10-01]: "Let's also add to the harness a check of which model and effort level to use before starting coding." (R9.5; spec section 7.0.) He asked whether Herd's sites folder belongs inside `~/Sync/`; answer given: no, `~/Dev/clc-laravel/`, by the kit's own rule about sync folders. GitHub Team price found for D5: $4 per user per month for the first twelve months.
 - **Laravel kit: spec drafted** (`laravel-kit-spec.md`), with the WordPress kit mapped item by item (`wp-kit-map.md`) and the tooling and calendar research (`laravel-tooling-research.md`). Twelve decisions in it are Gordon's.

@@ -1,5 +1,5 @@
 # TESTS
-generated 2026-10-01 21:13 by test-all.py · 23 suites · 0 failing
+generated 2026-10-01 22:11 by test-all.py · 26 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -13,7 +13,7 @@ generated 2026-10-01 21:13 by test-all.py · 23 suites · 0 failing
 | nerd-run | PASS | test-nerd-run: PASS |
 | netstate | PASS | test-netstate: PASS |
 | nightly | PASS | test-nightly: PASS |
-| notify | PASS | test-notify: PASS (7 sounding pushes, all with registered reasons) |
+| notify | PASS | test-notify: PASS (10 sounding pushes, all with registered reasons) |
 | ping | PASS | test-ping: PASS |
 | pipeline | PASS | test-pipeline: PASS |
 | quarantine-guard | PASS | test-quarantine-guard: PASS |
@@ -22,7 +22,10 @@ generated 2026-10-01 21:13 by test-all.py · 23 suites · 0 failing
 | stay-awake | PASS | test-stay-awake: PASS |
 | test-all | PASS | test-test-all: PASS |
 | watcher | PASS | test-watcher: PASS |
+| skill:attribution-correction | PASS | test-skill-attribution-correction: PASS (structural) |
+| skill:backfill-person | PASS | test-skill-backfill-person: PASS (structural) |
 | skill:checkback | PASS | test-skill-checkback: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:earballs-ingest | PASS | test-skill-earballs-ingest: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:open | PASS | test-skill-open: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:v2-read | PASS | test-skill-v2-read: PASS (structural) |
+| skill:write-it-down | PASS | test-skill-write-it-down: PASS (structural) |

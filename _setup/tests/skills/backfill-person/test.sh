@@ -12,7 +12,8 @@ for k in "triggers:" "must_not_trigger:" "reads:" "writes:" "test:" "why:" "chai
 grep -q "through the quarantine only" "$S" || { echo "MISS quarantine rule"; fail=1; }
 grep -q "Every line cites; a line without a cite is not written" "$S" || { echo "MISS cite rule"; fail=1; }
 grep -q "No merge of two slugs without Gordon" "$S" || { echo "MISS no-merge rule"; fail=1; }
-grep -q "goes anywhere but Open threads until Gordon confirms" "$S" || { echo "MISS sensitive rule"; fail=1; }
+grep -q "No set-aside by topic" "$S" || { echo "MISS no-set-aside rule"; fail=1; }
+grep -qiE "sensitive attribute|anything sensitive|until Gordon confirms it; the private tree" "$S" && { echo "FAIL a topic set-aside crept back in (decision 2026-09-29, ERRORS.md #10)"; fail=1; }
 grep -q "Supersede, never overwrite; existing lines stay" "$S" || { echo "MISS supersede rule"; fail=1; }
 grep -q "## Write step" "$S" || { echo "MISS write step"; fail=1; }
 tail -3 "$S" | grep -q "Receipt" || { echo "FAIL write step not last"; fail=1; }

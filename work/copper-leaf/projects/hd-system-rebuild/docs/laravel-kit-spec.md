@@ -45,14 +45,14 @@ Three shape everything else. The rest have a pick that stands unless he objects.
 - Dependency updates are no exception. The update bot opens pull requests; nothing merges by itself; the updates go through the same chain in an update session.
 This replaces draft 1, in which the agent pushed `main` before review and updates merged into it unattended. Two readers showed that a ship would then carry commits no reviewer was pointed at. It also retires the WordPress rule "quick-turn fixes commit directly on `master`" [CLAUDE.md:139] for Laravel: that rule is safe only where a push to the default branch cannot be what production deploys.
 
-**D3. A browser the agent cannot use for the hosting panel.** The kit's sessions drive Gordon's real, signed-in Chrome. [plugin-edit:94] If Forge, DigitalOcean or GitHub is signed in there, the agent is one click from Deploy, from switching deploy-on-push back on, or from adding a key to production, with no token and no shell command. The guard is a hook on shell commands and never sees it. [config/claude-settings-hooks.json:5]
+**D3. A browser the agent cannot use for the hosting panel. DECIDED 2026-10-01: yes.** Gordon: "Yes, either a separate chrome profile or even a separate browser." [gordon 2026-10-01] As proposed: The kit's sessions drive Gordon's real, signed-in Chrome. [plugin-edit:94] If Forge, DigitalOcean or GitHub is signed in there, the agent is one click from Deploy, from switching deploy-on-push back on, or from adding a key to production, with no token and no shell command. The guard is a hook on shell commands and never sees it. [config/claude-settings-hooks.json:5]
 *Pick:* Forge, DigitalOcean and GitHub's settings are signed in only in a browser profile that does not have the Claude extension. A second hook on the browser tools refuses those sites by address, as a net under that. Until both exist, "Gordon presses Deploy" rests on instruction, and this spec says so wherever it matters.
 
 ### The rest
 
-**D4. Home and name.** Parent folder `~/Dev/clc-laravel/`, the kit's files at its top level, each app cloned beneath it, as `~/Dev/clc-plugins/` works. [HANDOFF §3, §17.2] A Laravel repo must never be cloned under `~/Dev/clc-plugins/`. Kit repo `clc-laravel-dev-kit`, private. Owner: the `CopperLeafCreative` organisation beside the plugin kit, or `gordonium`, where the Sancho repos moved [doc:_design/decisions.md 2026-09-30]; Gordon's call.
+**D4. Home and name. Owner DECIDED 2026-10-01: Copper Leaf.** "Copper Leaf. Free plan" [gordon 2026-10-01], that is the `CopperLeafCreative` organisation, beside the plugin kit. Parent folder `~/Dev/clc-laravel/`, the kit's files at its top level, each app cloned beneath it, as `~/Dev/clc-plugins/` works. [HANDOFF §3, §17.2] A Laravel repo must never be cloned under `~/Dev/clc-plugins/`. Kit repo `clc-laravel-dev-kit`, private (name is Sancho's suggestion).
 
-**D5. A paid GitHub plan for the app repositories.** Protected branches on private repositories need one. [web:docs.github.com/en/get-started/learning-about-github/githubs-plans] With it, `main` can refuse a force-push, refuse deletion, and refuse any commit whose checks are not green, which turns the ship gate from "the script checks" into "GitHub refuses". *Pick: yes.* Which plan the organisation has now, and the price, are not on disk. Unconfirmed.
+**D5. A paid GitHub plan for the organisation. OPEN.** The organisation is on the Free plan. [gordon 2026-10-01] On Free, a private repository cannot have a protected branch. [web:docs.github.com/en/get-started/learning-about-github/githubs-plans] So today nothing at GitHub can refuse a force-push to `main`, a deletion, or a commit whose checks are not green; that part of the release gate rests on the ship script and on Gordon comparing the commit before he presses Deploy (section 8.1). The Team plan would make GitHub itself refuse. Price, read 2026-10-01: "$4 USD per user/month for the first 12 months"; the rate after the first year is not shown on the page. [web:github.com/pricing] Team also brings 3,000 Actions minutes a month against 2,000. [web:docs.github.com/en/get-started/learning-about-github/githubs-plans] How many members the organisation has, and so the total, is not on disk. *Pick: upgrade.* It would serve the plugin repositories too.
 
 **D6. Update bot.** GitHub Dependabot, opening pull requests only. Renovate only if grouping proves too coarse.
 
@@ -76,7 +76,7 @@ This replaces draft 1, in which the agent pushed `main` before review and update
 
 **D16. Which of the WordPress-kit fixes in section 11 to apply, and when.** Each is a proposal. Decided so far: P-1, "Go ahead and fix the WP guard hole." [gordon 2026-10-01] Done the same evening (section 11). Sancho changes nothing else in `~/Dev/clc-plugins`.
 
-**D17. PHP on the Mac.** This Mac has no PHP or Composer (checked 2026-10-01). Laravel work needs them locally, so tests run in seconds and off the servers. *Pick: Laravel Herd*, one free app from Laravel that installs both. A new tool, so Gordon's say.
+**D17. PHP on the Mac.** This Mac has no PHP or Composer (checked 2026-10-01). Laravel work needs them locally, so tests run in seconds and off the servers. *Pick: Laravel Herd*, one free app from Laravel that installs both. A new tool, so Gordon's say. **Decided and installed 2026-10-01** ("Go for install" [gordon 2026-10-01]; version 1.30.1). Herd's sites folder is the kit's parent folder, `~/Dev/clc-laravel/`, **not** a folder under `~/Sync/`: working clones stay outside any sync folder, because a synced `.git` folder produces phantom diffs and conflict files. [CLAUDE.md:127] [HANDOFF §3, decision 2]
 
 ## 3. What carries over unchanged
 
@@ -160,6 +160,32 @@ Same twelve sections, same numbering, so a line in one kit has a neighbour in th
 
 ## 7. The skills
 
+### 7.0 Plan first, write the plan second, then code (both kits)
+
+Gordon: "We need to add another thing to our development harness: Plan first. Write Plan second. Then write code. As an enforced series of skills/subskills. This applies to both WP and Laravel sides." [gordon 2026-10-01]
+
+Both kits already say plan, approval, then code [CLAUDE.md:19-30], and in both it is an instruction: nothing stops an edit before a plan exists, and "save the plan to memory" names no place. [doc:wp-kit-map.md, rules weaknesses] The change is to make the order three separate skills, each unable to start until the one before has left its mark, with the harness doing the refusing.
+
+| Step | Skill | What it does | What enforces it |
+|---|---|---|---|
+| 1. Plan | `plugin-plan` / `laravel-plan` | Asks the three things, runs the preflight, investigates, thinks, and presents a numbered plan with the decisions for Gordon at the end | It runs in Claude Code's **plan mode**, in which the harness itself allows no file to be changed. Leaving plan mode needs Gordon's approval in the app's own dialog; the agent cannot give that to itself |
+| 2. Write the plan | `plugin-write-plan` / `laravel-write-plan` | Puts the approved plan, word for word, with the date and the approval, into the job file. Nothing else is written in this step | A hook that fires when plan mode is left with approval writes the stamp. A second hook refuses any other file change while a job has no stamped plan |
+| 3. Code | `plugin-code` / `laravel-code` | Implements the plan: the rest of what `plugin-edit` and `laravel-edit` do today (implement, gate, staging, tests). Deviations from the plan are written into the job file as they happen | The same second hook: a change to any file in a kit project is refused unless that project has an open job file holding a stamped plan |
+| then | review, ship | as now | as now |
+
+**The model and effort check.** Gordon: "Let's also add to the harness a check of which model and effort level to use before starting coding." [gordon 2026-10-01] Every plan carries one more required line: which model and which effort level the work should be done with, and why (a table in each kit's rules file maps kinds of job to a level: real code and anything touching data or the guard at the top; mechanical ship steps lower). The code skill's first act is to state the session's model, state the level the plan calls for, and stop until Gordon confirms the session is set to it; he is the one who changes it. The agent knows its own model; whether it can read its own effort level, or a hook can, is confirmed at build, and until then the check is Gordon's confirmation, labelled so. The same line tells him when a job is small enough not to need the top setting.
+
+So the chain becomes plan, write-plan, code, review, ship, and today's single "edit" skill is split into the first three. A one-line fix goes through the same three steps; the plan for it is one line.
+
+What is mechanical and what is not, said plainly:
+- **Plan mode and Gordon's approval are real walls**: they belong to the app, not to the kit.
+- **The stamp is real if the hook writes it**, because then the agent does not. Whether a hook can be attached to leaving plan mode, and whether it receives the plan's text, is confirmed at build. If it cannot, the stamp is written by the agent and that row becomes "instruction", labelled so.
+- **The edit hook sees the file tools.** A shell command that writes a file is not a file-tool call; the hook covers the obvious forms and the rest is instruction.
+- A plan can be approved and still be wrong. This gate guarantees the order, not the quality.
+
+For the WordPress kit this is a change to its skills and hooks, which are Gordon's to change; he has asked for it, and it is listed in section 11 as P-17. It is built in the build thread, not from this planning thread.
+
+
 Six skills. Their descriptions name Laravel and the folder; the WordPress skills trigger on "ship it", "review this" and "we're done" and are linked into every session, so both sets need tightening or they collide. [plugin-edit:3] [plugin-review:3] [plugin-ship:3]
 
 One staging site means **one job on staging at a time**. That is a limit of this design, stated so nobody is surprised by it.
@@ -173,7 +199,7 @@ One staging site means **one job on staging at a time**. That is a limit of this
 - each server's own app key; test accounts on staging; a login in front of staging;
 - in GitHub: no secret visible to the repository; branch protection on `main` if D5 is yes.
 
-**laravel-edit.** 0. Ask the three things. 1. Preflight (5.7); repo clean; on a branch cut from `main`. 2. Connect to staging; confirm it reports itself as staging and that command-line PHP and web PHP are the same version; record facts. 3. Investigate. 4. Plan, approval, job file. 5. Implement, tests written with the change. 6. Commit; run the gate; green is required. 7. Push the branch and move `staging` to it; confirm the commit staging reports equals the pushed one, nothing is pending in `migrate:status`, and `/up` answers. If staging did not move, the deploy failed and the old release is still live; the deploy script keeps its output where it can be read over SSH. 8. Hand tests under the rules in section 4; prove the log is alive, then read its new lines. 9. Hand over to review.
+**laravel-edit** (to be split into `laravel-plan`, `laravel-write-plan` and `laravel-code` per 7.0; steps 0 to 4 are plan and write-plan, steps 5 to 9 are code). 0. Ask the three things. 1. Preflight (5.7); repo clean; on a branch cut from `main`. 2. Connect to staging; confirm it reports itself as staging and that command-line PHP and web PHP are the same version; record facts. 3. Investigate. 4. Plan, approval, job file. 5. Implement, tests written with the change. 6. Commit; run the gate; green is required. 7. Push the branch and move `staging` to it; confirm the commit staging reports equals the pushed one, nothing is pending in `migrate:status`, and `/up` answers. If staging did not move, the deploy failed and the old release is still live; the deploy script keeps its output where it can be read over SSH. 8. Hand tests under the rules in section 4; prove the log is alive, then read its new lines. 9. Hand over to review.
 
 **laravel-review.** Gate green on the branch's head first. Then five read-only reviewers in parallel on `main...<branch>`, same report format as the WordPress chain:
 1. Backward compatibility and data safety (migrations forward and back, legacy rows, queued jobs that outlive a deploy, cached shapes, public contracts).
@@ -332,6 +358,7 @@ P-12. The hourly snapshot keeps one copy per branch, overwritten each hour, uplo
 P-13. Lessons have no single home; nothing has been added to section 12 since the kit went into use.
 P-14. Nothing verifies at the start of a job that the hooks are registered or that `gh` is still absent (it is, today).
 P-15. "Rollback is re-release the previous tag" does not undo a migration that ran.
+P-17. Plan, write the plan, then code, as three enforced skills (section 7.0). Asked for by Gordon for both kits on 2026-10-01. [gordon 2026-10-01]
 P-16. The browser: a signed-in admin session on a production site is one click from a write, and nothing but instruction stands there. [doc:wp-kit-map.md, rules weaknesses] The browser guard in 8.4 would serve both kits.
 
 ## 12. The per-project file (template headings)
@@ -367,7 +394,7 @@ Each step ends with its own tests green and a line in the kit's handoff.
 3. **Both guards** (shell and browser) with tests that do not depend on this Mac, the wrapper, the self-test, the registration check. Before any staging key exists. The eight cases in `guard-check-2026-10-01.md` are in the first test file.
 4. **The gate script and the ship script**, in the kit, tested against a throwaway repo.
 5. **Project template** (`laravel-new`): architecture tests, the three isolation measures, log probe, version line, deploy script, CI workflow, bot config.
-6. **Skills:** edit, review, ship, written against the template.
+6. **Skills:** plan, write-plan, code, review, ship (7.0), written against the template, with the two plan-gate hooks and their tests.
 7. **Updates:** the calendar file, the "what is due" script, `laravel-update`.
 8. **Pilot:** Home Directions v4, step 1 of its build plan, run end to end. The WordPress skills were revised after their first real job; expect the same. [doc:~/Dev/clc-plugins git log, commit 925dc4f] [plugin-review:47, 59]
 9. **First parity review:** the ledger filled in, section 11 turned into proposals for the WordPress kit.

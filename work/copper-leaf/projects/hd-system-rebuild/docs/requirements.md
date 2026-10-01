@@ -84,6 +84,14 @@ Every line cites the transcript (`[hh:mm:ss]`, speaker as confirmed: 01 = Gordon
 - R7.8 The new system's database houses **all the legacy data going back to the early 1990s**, not only a file row with a PDF attached; "so we may need more tables." [gordon 2026-10-01] This strengthens R7.6. Which legacy fields become columns and which stay inside the archived PDF is not yet stated; the census decides what exists to carry.
 - R7.7 Peter's real need from history: "somebody calls me about a crack in a foundation and if I've been there, 35 years ago, 22 years ago; sometimes I wrote on the wall; if I have it in a report, those are really interesting to have." [22:31 Peter]
 
+## R9. The development harness (applies to the WordPress kit and the Laravel kit)
+
+- R9.1 "Plan first. Write Plan second. Then write code. As an enforced series of skills/subskills. This applies to both WP and Laravel sides." [gordon 2026-10-01]
+- R9.2 Laravel code is idiomatic and elegant; the WordPress Readability Rule applies to WordPress only. [gordon 2026-10-01]
+- R9.3 Gordon is warned before any real code is written, so he can raise the effort level and move the build to its own thread. [gordon 2026-10-01]
+- R9.5 Before coding starts, the harness checks which model and effort level to use. [gordon 2026-10-01]
+- R9.4 The two kits are compared perpetually and improvements and lessons cross-applied; an updates schedule covers this and every later Laravel project. [gordon 2026-10-01]
+
 ## R8. Out of scope, parked, or separate
 
 - Website changes: homedirections.net still has leftover inspection content; Peter wants a few changes; "some other time," together. [13:41 to 14:29]
