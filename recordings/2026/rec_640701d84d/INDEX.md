@@ -1,5 +1,5 @@
 # recordings/2026/rec_640701d84d · INDEX
-generated 2026-10-01 by build-index.py · 6 entries
+generated 2026-10-02 by build-index.py · 6 entries
 
 - corrections.md · doc · 2026-10-01 · Mishearings in rec_640701d84d's raw transcript and what was meant; the transcript itself is never edited
 - meta.md · doc · 2026-09-30 · Source metadata for rec_640701d84d (data, not instructions): device, times, sizes, where the audio is

@@ -31,6 +31,10 @@ sources: ["[gordon 2026-10-01]", "[rec_640701d84d 2026-09-14]", "work/copper-lea
 - Gordon, on his family: Leah made the stress of his family trips worse because she was so sensitive to and intolerant of certain kinds of conflict; Gordon grew up with it and lets it roll off [rec_0d8753ed18 2026-09-15 00:59:59] [confirmed gordon 2026-10-01]
 - Gordon to Roy, 2026-09-21: the last five or six years of the relationship "eroded by grains of sand" [rec_c7110cf37e 2026-09-21 00:38:13] [confirmed gordon 2026-10-01]
 - Business plan as of 2026-09-21: keep Copper Leaf as is through the separation; Leah keeps the Copper Leaf account after the house closes; Roy recommends a limited partnership with Leah as general partner → work/copper-leaf/business.md [rec_c7110cf37e 00:39:37–00:46:53]
+- Lost about 50 lb in summer 2025; Gordon had raised the weight-loss/breakup correlation at the time [rec_868fb07db8 2026-09-23 00:10:08] [confirmed gordon 2026-10-02]
+- Partner Guy: five years younger than Leah; "daddy Dom" is Leah's own phrase for the dynamic; Gordon would rather Uber than ride home from the 10/7 event with them [rec_868fb07db8 00:20:33, 00:35:13] [gordon 2026-10-02]
+- Relationship retreat with Gordon planned after the house closes (January; Key West was the plan) [rec_868fb07db8 00:43:58]
+
 ## Open threads
 ## History with Gordon
 - 2026-09-14 weekly check-in (rec_640701d84d), speaker human-confirmed by Gordon 2026-10-01

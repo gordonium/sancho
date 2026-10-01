@@ -1,5 +1,5 @@
 # work/wizard-of-ads/clients · INDEX
-generated 2026-10-01 by build-index.py · 11 entries
+generated 2026-10-02 by build-index.py · 11 entries
 
 - _roster-evidence-v2.md · doc · quarantine · 2026-10-01 · Read-only extraction of every client entity in v2 and v3 with cited status, lead partner and role; evidence for batch B2, not yet confirmed by Gordon; nothing here is a fact until a client folder cites it
 - action-air/ · client · active · HVAC, plumbing and septic in Lubbock TX; Gordon runs digital (LSA, GBP, PPC, site, reporting); lead Craig Arthur

@@ -1,5 +1,5 @@
 # _setup/tests · INDEX
-generated 2026-10-01 by build-index.py · 20 entries
+generated 2026-10-02 by build-index.py · 20 entries
 
 - build-index/ · folder · empty
 - build-map/ · folder · empty

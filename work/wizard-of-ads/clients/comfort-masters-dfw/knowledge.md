@@ -53,6 +53,8 @@ sources: ["[v2:work/clients/comfort-masters-dfw.md]", "[v2:work/clients/comfort-
 - 2026-07-21: staff photos folder updated [doc:_CLIENTS/_Wizards of Ads CLIENTS/comfortmastersdfw/from-client/staff/].
 - 2026-08-25: "The Why Behind Comfort Masters" brand copy (file date; filename 202608) [doc:_CLIENTS/_Wizards of Ads CLIENTS/comfortmastersdfw/202608-The _Why_ behind _Who_ and _What_.docx].
 - 2026-09-02: photos of Stephen and his daughters when young received from the client (folder named 20260831) [doc:_CLIENTS/_Wizards of Ads CLIENTS/comfortmastersdfw/from-client/20260831 Stephen & daughters young/].
+- 2026-09-15: Stephen called Gordon with copy feedback on the "why" page (too "I did it all myself"); Gordon relayed to Jack Heald, who added a humility line; the page is live with "Above all, I got really blessed with good employees, good vendors, good friends and good mentors" [rec_d32d657ed1 2026-09-15] [rec_d46f439a37 2026-09-15] [web comfortmastersdfw.com/the-why-behind-comfort-masters/ 2026-10-01]
+- 2026-09-23: monthly (Peter, Stephen, Amanda, Jack, Luis, Gordon): record September; CSP ad and Fall Furnace Makeover ad reviewed, recording set for 9/26 8:30 with David; two new web pages live; Google Ads review [rec_1dc87f7565 2026-09-23]
 
 ## Numbers
 - Revenue: 2022 peak $4.5-4.6M; 2023-2024 flat; goal $8M+ [v2:work/clients/comfort-masters-dfw.md:34-36,109].
@@ -76,6 +78,8 @@ sources: ["[v2:work/clients/comfort-masters-dfw.md]", "[v2:work/clients/comfort-
 - Phone: (682) 324-9124; LSA number 817-476-1560; Service Titan tracking 817-343-3562 [v2:work/clients/comfort-masters-dfw.md:291,513].
 - Hours: 7 days, 7:30am-9pm, 24/7 emergency; BBB A+ (accredited March 2024) [v2:work/clients/comfort-masters-dfw.md:515,516].
 - COI for Google LSA valid 2026-04-01 to 2027-03-17 [doc:_CLIENTS/_Wizards of Ads CLIENTS/comfortmastersdfw/COI for LSA Google LLC_KCG Enterprises LLC Dba Comfort Mas_2627 MASTER_4-1-2026_ 3-17-2027.pdf].
+- September 2026 month-to-date (as of 9/23): $410K vs $202K the year before, +105%; starting August they were $300K+ behind the annual goal, did $750K in August, caught up in September [rec_1dc87f7565 2026-09-23 00:00:43]
+- Google Ads Sept 2026 (Luis): bookings up on last year; search campaign ROAS 3.6 (30 days), 2.2 (90 days); a PMax campaign at $0.01/day produced a $5,000 job on $0.17 spend [rec_1dc87f7565 00:31:50–00:35:38]
 
 ## Market and competitors
 - DFW is a top-5 most competitive HVAC market; ~1,000 companies compete for AC calls; PE-backed firms outspend 10:1 on Google in normal weather but cannot handle volume in extreme heat [v2:work/clients/comfort-masters-dfw.md:44,45,214,463].
@@ -101,6 +105,13 @@ sources: ["[v2:work/clients/comfort-masters-dfw.md]", "[v2:work/clients/comfort-
 - Recruiting copy around the 6-week training and "feel the difference in yourself" (Peter/Jack to rewrite job postings) [v2:work/clients/comfort-masters-dfw.md:171-176,483].
 - GBP and LSA monthly photos, GBP posts [doc:_CLIENTS/_Wizards of Ads CLIENTS/comfortmastersdfw/GBP and LSA photos/].
 - Weekly weather/demand monitoring loop; Gordon to build a custom GPT for it [v2:work/clients/comfort-masters-dfw.md:461,465].
+- "The Why Behind Comfort Masters" page (Jack Heald's copy, Stephen's story: single dad, beat-up pickup, two little girls); Stephen wants credit given to helpers and God, never chest-beating; Gordon's suggested insertion point was after "I got really good at paying attention to the details" [rec_d46f439a37 2026-09-15 00:00:35, 00:06:59]
+- CSP (Clean, Seal & Protect) is the brandable chunk: ads say "CSP" and never define it so people ask; the office says the full phrase; web page must state CSP = Clean, Seal & Protect; redirect comfortmastersdfw.com/csp → the Clean Seal Protect page (Gordon) [rec_1dc87f7565 2026-09-23 00:12:58–00:22:05]
+- Jack's CSP radio ad (Sept 2026): aimed at the person fed up with one room never being comfortable; "sick and tired and fed up"; 10–12-year AC replacement claim to be defensible [rec_1dc87f7565 00:08:14–00:19:39]
+- Jack's Fall Furnace Makeover radio ad (Sept 2026): Amanda asks about the "skanky smell" when the heat first comes on; dust on the heating elements; 95% of breakdowns from dust and dirt; the January ice storm; "makeover really makes a difference" [rec_1dc87f7565 00:24:03–00:30:09]
+- Recording session Fri 2026-09-26 8:30 am with David (Zoom link sent); Jack needs written approval first [rec_1dc87f7565 00:41:48–00:42:26]
+- Google Ads calendar (Luis): heating keywords added in October, cooling kept through October, dropped in November [rec_1dc87f7565 00:34:26]
+- Web: "The Why Behind Comfort Masters" and "The Comfort Masters Standards" live as of 2026-09-23; team page needs Stephen's bio from Jack (Leah waiting); yard-sign truck/van photos from Amanda for a gallery [rec_1dc87f7565 00:30:16, 00:39:11–00:40:07]
 
 ## Open threads
 - As of 2026-04-07/16: FAQ video ownership and the first FAQ video on the client; Gordon to stay "pleasantly persistent" on AEO execution; Apple Maps agency account research; revamp ad launch held while the maintenance ad ran; Amanda to confirm the Whitespark service-area city list; Peter/Stephen to bless directory description drafts; 60-day Whitespark revisit [v2:work/clients/comfort-masters-dfw.md:585-605], [v2:work/clients/comfort-masters-whitespark-keywords.md:115-119].
@@ -109,6 +120,7 @@ sources: ["[v2:work/clients/comfort-masters-dfw.md]", "[v2:work/clients/comfort-
 - Gordon's tenure is bounded by the Wit termination (Dec 2024/Jan 2025), roughly 21 months as of 2026-10-01 [inferred] [v2:work/clients/comfort-masters-dfw.md:32].
 - Nothing in the working folder after 2026-09-02 (client photos) indicates how the Aug 2026 "Why" copy or the summer 2026 ad calendar played out.
 - Note: no voice profile or sacrosanct-copy file exists in v2 for this client; the "Why" document, Brandable Chunks and the Whitespark NOT-list are the closest brand-rule sources on disk if a guidelines file is wanted later [doc:_CLIENTS/_Wizards of Ads CLIENTS/comfortmastersdfw/202608-The _Why_ behind _Who_ and _What_.docx], [doc:_CLIENTS/_Wizards of Ads CLIENTS/comfortmastersdfw/Brandable Chunks 202504.docx], [v2:work/clients/comfort-masters-whitespark-keywords.md:90-98].
+- Stephen's bio for the team page (Jack), yard-sign photo folder (Amanda), /csp redirect and CSP wording (Gordon) [rec_1dc87f7565 2026-09-23]
 
 ## History of corrections
 - 2026-10-01: still on Gordon's concern list (the April 2026 "Concern" status stands) [gordon 2026-10-01].

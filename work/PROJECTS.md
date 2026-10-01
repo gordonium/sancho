@@ -1,7 +1,7 @@
 # work · PROJECTS
-generated 2026-10-01 by build-index.py · 2 projects
+generated 2026-10-02 by build-index.py · 2 projects
 
 | project | status | area | next action | set | waiting for | path |
 |---|---|---|---|---|---|---|
 | Build Sancho | active | copper-leaf | Claude Code on the Mac: watcher, launchd, Sancho-Audio, Sancho-Secrets, Sancho-Private, autocommit fix, ping | 2026-09-30 |  | work/copper-leaf/projects/build-sancho/ |
-| Home Directions system rebuild | active | copper-leaf | Phase 1 only. Gordon: open Herd once to finish its setup; decide kit D5 (upgrade the GitHub organisation from Free so main can be protected, or go without). Sancho: plan questions 4 to 12 one at a time, then plan.md revised for approval. WARN GORDON BEFORE ANY REAL CODE (he raises effort and starts a build thread) | 2026-10-01 |  | work/copper-leaf/projects/hd-system-rebuild/ |
+| Home Directions system rebuild | active | copper-leaf | Gordon: approve docs/plan-v2.md, raise the effort level, and say go. The build then starts from this thread with no delay, by fresh agents working from docs/build-handoff.md, at step A (the whole kit), local only | 2026-10-02 |  | work/copper-leaf/projects/hd-system-rebuild/ |

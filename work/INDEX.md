@@ -1,5 +1,5 @@
 # work · INDEX
-generated 2026-10-01 by build-index.py · 10 entries
+generated 2026-10-02 by build-index.py · 10 entries
 
 ## FOCUS (from FOCUS.md)
 ## month · 2026-09

@@ -1,5 +1,5 @@
 # personal/projects/alaska-2027/archive · INDEX
-generated 2026-10-01 by build-index.py · 4 entries
+generated 2026-10-02 by build-index.py · 4 entries
 
 - 04-route-master-v1-v2.md · doc · 2026-09-30 · Alaska 2027 planning: Route Master
 - 06-booking-calendar-v1.md · doc · 2026-09-30 · Alaska 2027 planning: Booking Calendar

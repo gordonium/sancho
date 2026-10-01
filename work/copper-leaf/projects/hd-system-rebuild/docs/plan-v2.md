@@ -6,7 +6,7 @@ entity: work/copper-leaf/projects/hd-system-rebuild/
 lobe: work
 description: The plan for approval: what v4 is, every decision Gordon made on 2026-10-01 with its source, the data model shaped for the legacy merge, the cutover from v3 (history imported from WordPress, the last twelve months of letters moved into Google Docs, redirects), the build order with gates, backups, risks, and the short list still open; supersedes plan.md
 sources: ["[doc:plan.md, the draft this replaces]", "[doc:phase0-brief.md, Decisions and Plan questions: every [gordon 2026-10-01] quote]", "[doc:requirements.md]", "[doc:census-2026-10-01.md]", "[doc:census-part2-2026-10-01.md]", "[doc:hosting-options.md]", "[doc:laravel-kit-spec.md]", "[rec_8d15ed467e 2026-09-29]"]
-status: for Gordon's approval; written 2026-10-01 night by the planning thread; not independently reviewed; nothing is built; approval of this plan is the point at which real code starts, and Gordon is to be warned before that
+status: APPROVED by Gordon on 2026-10-02 at 00:50 ("Approved, GO!" [gordon 2026-10-02]), after he was warned that real code comes next; written 2026-10-01 night by the planning thread; not independently reviewed; the build started the same night under docs/build-handoff.md
 ---
 # Home Directions v4: the plan (version 2)
 
@@ -58,10 +58,10 @@ properties      address lines, city, state, zip, a normalised address key, a geo
                 year_built (nullable), notes, merged_into
 files           the job: client, property, service (opinion | design | hourly), mode (site | virtual | design),
                 scheduled_at, status (booked, visited, drafting, sent, paid, closed, cancelled), price,
-                narrative, stamp (ct | ny | none), inspector, Calendly identifiers,
+                invoice_description (the invoice's wording, see section 5), stamp (ct | ny | none), inspector, Calendly identifiers,
                 letter doc id, hidden_at (the recoverable "delete")
 file_contacts   other people on a job, each with a role (broker, attorney, additional), and whether they are copied
-invoices        file, number, description, lines, subtotal, discount, total, issued_at, paid_at, paid_by, the PDF as sent
+invoices        file, number, the invoice description as it stood when issued, lines, subtotal, discount, total, issued_at, paid_at, paid_by, the PDF as sent
 sends           every message: file, kind (invoice, paid copy, letter), to, subject, the service's message id,
                 sent_at, delivered_at, opened_at, the PDF sent, the Doc revision sent
 settings        the three invoice texts, the letter template ids, the from address, the stamp images, the Calendly type map
@@ -92,9 +92,13 @@ Rules:
 **Hourly design work** is entered by hand; it does not come through Calendly. [R1.3]
 
 **Screens.**
-1. *Dashboard:* New File, a search box (client, address, month), recent files with their status and the next thing to do.
-2. *File:* client and property, edited in place; "been here before" with links; the job's facts; the narrative; the invoice panel (preview, send, mark paid, resend); the letter panel (open the Doc, send); the message log; the change history; delete.
-3. *Settings:* the three invoice texts, the letter templates, the from address, the stamp images, the Calendly type map, users.
+1. *Dashboard:* New File, a search box (client, address, month), and the most recent files, newest first, in a list that keeps loading as he scrolls (R6.1), each showing its client, address, status and the next thing to do.
+2. *File:* client and property, edited in place; "been here before" with links; the job's facts; the invoice description; the invoice panel (preview, send, mark paid, resend); the letter panel (open the Doc, send); the message log; the change history; delete.
+   - *The invoice description* (called "the narrative" in earlier drafts and in the 09-29 recap; renamed by Gordon [gordon 2026-10-02]) is the big text box describing what was actually done on this job. It is the wording that prints on the invoice. It starts as the standard text for the service (from Settings) and Peter edits it freely for the job; the price beside it is editable too. [R2.5, R4.2] It is one field, not two: the invoice has no separate description.
+   - *The change history* sits at the foot of the file, folded shut until it is opened [gordon 2026-10-02]. It lists every change to the file and to its client, property and invoice: who made it, when, the old value and the new one. That covers corrections (a name, an email, an address), the price and the invoice description, status changes (booked, cancelled, invoice sent, marked paid, letter sent), links and merges with an existing client or property, and delete and restore. It does not record edits to the letter's text; Google Docs keeps its own version history for that.
+3. *Settings:* the three invoice texts; for letters, which Google Doc is the template for each service (a link to it; the template's look and wording are edited in Google Docs itself, not here) and the two stamp images; the from address; which Calendly appointment type is which service; users; and a **Connections** panel showing, for Calendly, Brevo, Google and the two backup stores, whether each is working and when it last succeeded, with a button to test it.
+
+**Keys and passwords.** The keys for Calendly, Brevo, Google, the backup stores and the backup's encryption are not typed into the app and are never in the code. Gordon creates each one in that service and enters it in Forge's settings for the site; staging gets test ones. The app only reports whether each connection works. [doc:laravel-kit-spec.md 8.1, 8.2] One letter template serves all three services to begin with (the "Re:" line carries the service); Settings allows a separate one per service later.
 
 **Google access.** The letters live in the firm's Workspace, in one folder shared with the Google accounts Peter and Maria Pia actually use. Which Workspace user owns the folder, and the exact kind of credential, are settled at the start of the build, with one fixed rule from the kit's review: staging uses a separate test Google account that owns nothing real, and the credential on production can reach only what the app needs. [doc:laravel-kit-spec.md 8.2] The draft's "act as any user in the Workspace" credential is dropped.
 
@@ -104,10 +108,10 @@ What Gordon set: the history comes in from WordPress, the last twelve months com
 
 1. **Import the history from WordPress** (rehearsed on staging against the clone, then run once against live at cutover). Clients, properties, job records and who was copied, for all 10,212 jobs. For the 9,442 that came from v2, read v2's own tables that sit inside the WordPress database, cross-checked against the WordPress records; for the 770 made in v3, read WordPress. [doc:census-part2-2026-10-01.md] Every row is recorded in `sources` as from WordPress and not verified. Counts are reconciled before and after: jobs by year and type must match the census tables.
    *Sancho's reading of "import all the historic client db": clients, properties and job records. If Gordon meant clients only, steps 1 and 3 shrink.*
-2. **Migrate the last twelve months in full.** Every job dated in the twelve months before cutover (125 letters by the census, more by the time of cutover): the letter's text and images go into a copy of the new template as a Google Doc, named by the rule, filed with its job; its invoice comes across with its text, total and paid state. The census found these letters are paragraphs and images, with six tables and a few lists, so the conversion is plain; the tables are checked by eye. [doc:census-2026-10-01.md] **Gate: Peter opens ten of them and says they are right.**
+2. **Migrate the recent letters in full.** Gordon first set this at the last twelve months (125 letters by the census). He then asked whether there is any reason not to take every letter since the last home inspection. [gordon 2026-10-02] The clone says the last inspection was on 2022-06-21, and there are 443 consultations since 2022-06-01. [census 2026-10-02] No reason was found against it: it is the same conversion run on about three and a half times as many letters, with proportionally more to spot-check and more old links to redirect. **Decided: all of them.** "Good, let's do all the letters" [gordon 2026-10-02] For each one: the letter's text and images go into a copy of the new template as a Google Doc, named by the rule, filed with its job; its invoice comes across with its text, total and paid state. The census found these letters are paragraphs and images, with six tables and a few lists, so the conversion is plain; the tables are checked by eye. [doc:census-2026-10-01.md] **Gate: Gordon opens twenty of them, spread across the years, and says they are right.** (They are Google Docs; checking them needs no login to the new system.)
 3. **Old links for what moved.** Each migrated letter and invoice had a public address on v3. Those addresses are sent to the PDF made at migration, which is the letter as the client last saw it. While v3 is still up, the redirect lives on v3 (its Redirection plugin is already installed [doc:census-2026-10-01.md]); that is a change on the live WordPress site, done through the WordPress kit with Gordon's say.
 4. **Freeze v3.** No new appointments there. It stays up, read-only in practice, for the documents of older jobs, whose links keep working exactly as now until Phase 2 replaces them.
-5. **Go live.** Calendly is pointed at v4. **Gate: Peter runs one real job end to end.**
+5. **Go live, in one cut.** "They will not use it for a week on staging. We're going to dive into the deep end with this launch. One hard cut over in production." [gordon 2026-10-02] Calendly is pointed at v4 and Peter's next job is done in it. Because nobody but Gordon and the agent will have used it first, two things stand in for a trial period: a full dress rehearsal on staging (every path run end to end with test bookings and messages that go only to Gordon), and a way back: v3 is frozen, not removed, so for the first weeks a job can still be done in v3 on a day v4 fails.
 
 What cutover deliberately does not do: verify or repair the history (Phase 2), print PDFs of older documents (Phase 2), touch v2 (Phase 2).
 
@@ -121,12 +125,12 @@ Built in a separate thread, after this plan is approved, with the effort level r
 | B | **The host:** Gordon creates the server and the two sites in Forge from the kit's checklist; backups running; a restore tested | the checklist, item by item; a restore that works |
 | C | **Skeleton:** the app, the tables in section 4, logins for three people, Dashboard and File with entry by hand and the duplicate prompts | usable by hand on staging |
 | D | **Letters:** templates, Doc creation, naming, correction of names and addresses inside the Doc | a corrected name changes in the system, in the Doc and in its name |
-| E | **Invoices and mail:** numbers, texts in Settings, PDF, Brevo, send, mark paid, resend, the log | **Peter runs one real job on staging** |
+| E | **Invoices and mail:** numbers, texts in Settings, PDF, Brevo, send, mark paid, resend, the log | one whole job run on staging by Gordon, with the client's messages going to his own address |
 | F | **Calendly:** bookings, cancellations, reschedules, the 15-minute check | a test booking and a test cancellation each do the right thing once |
-| G | **Search, history, delete, Settings polish** | Peter and Maria Pia use it for a week on staging |
-| H | **Import and migration rehearsal** (section 6, steps 1 and 2) on staging | counts reconcile; Peter approves ten letters |
-| I | **Cutover** (section 6) | Peter runs one real job in production |
-| J | **Four weeks of real use** | Peter says it is easier than before (R2.2); every message in the log is what he meant to send |
+| G | **Search, history, delete, Settings polish** | the dress rehearsal: every path end to end on staging, by Gordon and the agent (no staging period for Peter and Maria Pia [gordon 2026-10-02]) |
+| H | **Import and migration rehearsal** (section 6, steps 1 and 2) on staging | counts reconcile; Gordon approves twenty letters |
+| I | **Cutover** (section 6), one hard cut | Peter's first real job in production goes through; v3 stays frozen and intact as the way back |
+| J | **The first four weeks live** | Peter says it is easier than before (R2.2); every message in the log is what he meant to send; the agent reads the log and the error reports after each of the first jobs |
 
 Step A is the pilot for the kit; the WordPress skills were revised after their first real job, and the same is expected here. The remaining kit pieces (the updates skill, the parity skill) follow once the app is live.
 
@@ -154,7 +158,7 @@ By Gordon's choice this app's remaining protections rest on instruction rather t
 - **A message goes to a real client from staging.** Staging mail goes to a trap; staging uses test accounts.
 - **Calendly stops notifying.** The 15-minute check covers it; a failure lasting a day is alerted, because Calendly then switches its notifications off (secondary source; confirmed when built). [doc:hosting-options.md]
 - **One machine.** A runaway job on staging can slow the live app; accepted by Gordon for a system one person uses occasionally.
-- **Peter does not like it.** Three screens, one obvious next step per file, and two gates that are his real work, not a demonstration.
+- **A hard cutover with no trial by its users.** Gordon's choice. [gordon 2026-10-02] Met by the dress rehearsal, by v3 staying intact as the way back, and by the agent checking the log after each early job. Three screens and one obvious next step per file are the rest of the answer.
 - **The kit delays the app.** Step A is a slice, not the whole kit.
 
 ## 11. Still open (none blocks approval)

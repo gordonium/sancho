@@ -1,5 +1,5 @@
 # _setup/templates · INDEX
-generated 2026-10-01 by build-index.py · 11 entries
+generated 2026-10-02 by build-index.py · 11 entries
 
 - entity.md · client · active · 2026-09-30 · NO DESCRIPTION
 - guidelines.md · guidelines · 2026-09-30 · Voice, rules, and preferences for working with this entity

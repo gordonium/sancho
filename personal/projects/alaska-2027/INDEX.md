@@ -1,5 +1,5 @@
 # personal/projects/alaska-2027 · INDEX
-generated 2026-10-01 by build-index.py · 21 entries
+generated 2026-10-02 by build-index.py · 21 entries
 
 - 00-trip-brief.md · doc · 2026-09-30 · Alaska 2027 planning: Trip Brief
 - 01-rig.md · doc · 2026-09-30 · Alaska 2027 planning: The Rig — 1990 Toyota Sunrader
@@ -20,5 +20,5 @@ generated 2026-10-01 by build-index.py · 21 entries
 - 99-changelog.md · doc · 2026-09-30 · Alaska 2027 planning: Decision Log
 - archive/ · folder · 4 files
 - planbook/ · folder · empty
-- project.md · project · active · 2026-09-30 · Alaska 2027 by RV; planning docs 00–15 from the Sept 25 session; planbook HTML in planbook/
+- project.md · project · active · 2026-10-02 · Alaska 2027 by RV; planning docs 00–15 from the Sept 25 session; planbook HTML in planbook/
 - README.md · doc · 2026-09-30 · Alaska 2027 planning: Alaska 2027 — Planning Repository

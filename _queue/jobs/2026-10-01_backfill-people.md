@@ -21,18 +21,18 @@ stages:
   - {name: greg-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-moore}, group: B, status: blocked, blocked: the file and census row are written; Gordon must confirm the spelling (Greg vs Gregg  his own photo folder says Gregg) and ask Greg which is right where the sources contradict: 2 or 4 years with the e}
   - {name: jane-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jane-brewer}, group: B, status: blocked, blocked: Gordon must say whether the Sopris-list  Jane Brewer  (Fort Collins  2023) is her and current  and which month Trish s notice  Wes s mother s death and Leo s death fell in (v2 says early March 2026 an}
   - {name: wes-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: wes-brewer}, group: B, status: blocked, blocked: Gordon must say whether the  Wes  in rec_5565f30055 (2026-08-27) is Wes Brewer  and which month Wes s mother died (v2 says early March 2026 but its 2026-02-04 call already has the memorial  next day )}
-  - {name: olivia-la, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: olivia-la}, group: B, status: active}
-  - {name: jared-james, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jared-james}, group: B, status: pending}
-  - {name: jesse-olson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jesse-olson}, group: B, status: pending}
-  - {name: ken-goodrich, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ken-goodrich}, group: B, status: pending}
-  - {name: jordan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jordan-ohlmann}, group: B, status: pending}
-  - {name: megan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: megan-ohlmann}, group: B, status: pending}
-  - {name: marty-greer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: marty-greer}, group: B, status: pending}
-  - {name: jeff-carpenter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-carpenter}, group: B, status: pending}
-  - {name: chris-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-plunkett}, group: B, status: pending}
-  - {name: scarlett-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scarlett-plunkett}, group: B, status: pending}
-  - {name: travis-crawford, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: travis-crawford}, group: B, status: pending}
-  - {name: karen-dodge, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: karen-dodge}, group: B, status: pending}
+  - {name: olivia-la, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: olivia-la}, group: B, status: done}
+  - {name: jared-james, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jared-james}, group: B, status: done}
+  - {name: jesse-olson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jesse-olson}, group: B, status: done}
+  - {name: ken-goodrich, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ken-goodrich}, group: B, status: done}
+  - {name: jordan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jordan-ohlmann}, group: B, status: done}
+  - {name: megan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: megan-ohlmann}, group: B, status: done}
+  - {name: marty-greer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: marty-greer}, group: B, status: done}
+  - {name: jeff-carpenter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-carpenter}, group: B, status: blocked, blocked: Gordon to confirm Jeff Carpenter s title (GM) and since when; the file is written with the question in Open threads}
+  - {name: chris-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-plunkett}, group: B, status: done}
+  - {name: scarlett-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scarlett-plunkett}, group: B, status: done}
+  - {name: travis-crawford, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: travis-crawford}, group: B, status: done}
+  - {name: karen-dodge, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: karen-dodge}, group: B, status: active}
   - {name: jeff-goff, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-goff}, group: B, status: pending}
   - {name: tim-silva, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tim-silva}, group: B, status: pending}
   - {name: kevin-skalure, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kevin-skalure}, group: B, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: olivia-la
+current: karen-dodge
 waiting_on: []
 ---
 # Backfill people
@@ -180,3 +180,27 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-01T23:47:09+02:00 job.run: stage `wes-brewer` started
 - 2026-10-01T23:51:40+02:00 job.run: stage `wes-brewer` blocked, recorded, job continues: Gordon must say whether the  Wes  in rec_5565f30055 (2026-08-27) is Wes Brewer  and which month Wes s mother died (v2 says early March 2026 but its 2026-02-04 call already has the memorial  next day )
 - 2026-10-01T23:51:40+02:00 job.run: stage `olivia-la` started
+- 2026-10-01T23:56:10+02:00 job.run: stage `olivia-la` done (Stage: done · tests green)
+- 2026-10-01T23:56:10+02:00 job.run: stage `jared-james` started
+- 2026-10-02T00:01:57+02:00 job.run: stage `jared-james` done (Stage: done · tests green)
+- 2026-10-02T00:01:57+02:00 job.run: stage `jesse-olson` started
+- 2026-10-02T00:09:40+02:00 job.run: stage `jesse-olson` done (Stage: done · tests green)
+- 2026-10-02T00:09:40+02:00 job.run: stage `ken-goodrich` started
+- 2026-10-02T00:16:25+02:00 job.run: stage `ken-goodrich` done (Stage: done · tests green)
+- 2026-10-02T00:16:25+02:00 job.run: 6 stages in one run; continuation queued (20261001T221625Z_job.run_86a057.md)
+- 2026-10-02T00:16:26+02:00 job.run: stage `jordan-ohlmann` started
+- 2026-10-02T00:20:34+02:00 job.run: stage `jordan-ohlmann` done (Stage: done · tests green)
+- 2026-10-02T00:20:34+02:00 job.run: stage `megan-ohlmann` started
+- 2026-10-02T00:25:20+02:00 job.run: stage `megan-ohlmann` done (Stage: done · tests green)
+- 2026-10-02T00:25:20+02:00 job.run: stage `marty-greer` started
+- 2026-10-02T00:32:19+02:00 job.run: stage `marty-greer` done (Stage: done · tests green)
+- 2026-10-02T00:32:19+02:00 job.run: stage `jeff-carpenter` started
+- 2026-10-02T00:36:18+02:00 job.run: stage `jeff-carpenter` blocked, recorded, job continues: Gordon to confirm Jeff Carpenter s title (GM) and since when; the file is written with the question in Open threads
+- 2026-10-02T00:36:18+02:00 job.run: stage `chris-plunkett` started
+- 2026-10-02T00:42:43+02:00 job.run: stage `chris-plunkett` done (Stage: done · tests green)
+- 2026-10-02T00:42:43+02:00 job.run: stage `scarlett-plunkett` started
+- 2026-10-02T00:46:38+02:00 job.run: stage `scarlett-plunkett` done (Stage: done · tests green)
+- 2026-10-02T00:46:38+02:00 job.run: 6 stages in one run; continuation queued (20261001T224638Z_job.run_aba4db.md)
+- 2026-10-02T00:46:41+02:00 job.run: stage `travis-crawford` started
+- 2026-10-02T00:53:31+02:00 job.run: stage `travis-crawford` done (Stage: done · tests green)
+- 2026-10-02T00:53:31+02:00 job.run: stage `karen-dodge` started

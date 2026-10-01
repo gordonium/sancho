@@ -1,19 +1,43 @@
 # people · INDEX
-generated 2026-10-01 by build-index.py · 16 shown, 5 thin or contact-only (contact-only hidden)
+generated 2026-10-02 by build-index.py · 40 shown, 11 thin or contact-only (contact-only hidden)
 
 - adam-donmoyer · full 11/16 · 2026-10-01 · Media buyer on Gordon's Wizard of Ads accounts Comfort Masters DFW and D&M Heating; flat rate; Austin TX (v2, unconfirmed)
 - albert-plunkett · full 10/16 · 2026-10-01 · Vehicle-wrap installer for Plunkett Home Services' trucks (Tucson); first name only, one v2 line, unconfirmed
-- alex-post · full 12/16 · 2026-10-01 · Gordon's bestie; counselor, founder of Prime Directive Counseling in Windsor CO; Gordon and Leah's IT person (v2, unconfirmed)
+- alex-post · full 12/16 · 2026-10-02 · Gordon's bestie; counselor, founder of Prime Directive Counseling in Windsor CO; Gordon and Leah's IT person (v2, unconfirmed)
 - amanda-moore · full 11/16 · 2026-10-01 · Co-owner of Comfort Masters DFW with husband Stephen Moore; runs marketing, office ops and CSR coordination (v2, unconfirmed)
+- chris-maddock · thin 4/16 · 2026-10-01 · Someone Gordon and Roy both know; lives in a small van RV, mostly on public land in the Rockies; Roy's live example of the wanderer who never came back; spelling unconfirmed; seed from v2/v3 pending (overnight people backfill)
+- chris-plunkett · full 9/16 · 2026-10-02 · Owner and founder (2013) of Plunkett Home Services, Tucson AZ, a Wizard of Ads client; husband of Scarlett (v2, unconfirmed)
+- dan-griffiths · full 9/16 · 2026-10-01 · Co-owner of the CheckVet brands with his wife Dr. Marty Greer; handles finances for all entities (v2, unconfirmed)
+- danelle-bullock · full 9/16 · 2026-10-01 · Mitchell's Magic/Cullins client person; wife of owner Josh Bullock; handles Columbus marketing (v2, unconfirmed)
 - doug-huckaba · thin 7/16 · 2026-10-01 · Friend; Kubernetes expert; 4-wheeling fanatic and expert; welder; seed from v2/v3 pending (overnight people backfill)
-- gordon · thin 5/16 · 2026-10-01 · The principal. Full brief in personal/me/brief.md; this file exists so recordings and roles have one identity to point at
+- gordon · thin 5/16 · 2026-10-02 · The principal. Full brief in personal/me/brief.md; this file exists so recordings and roles have one identity to point at
 - grayson-erhard · full 10/16 · 2026-10-01 · Founder, owner and primary developer of Tipelodeon (formerly SongTipper); Gordon holds 20%
-- jack-heald · full 8/16 · 2026-10-01 · Wizard of Ads partner; writer on Comfort Masters DFW; seed from v2/v3 pending (overnight people backfill)
+- greg-moore · full 13/16 · 2026-10-01 · Owner and Master Plumber of Society Hill Plumbing, North Philadelphia; WoA client, Gordon is lead partner; one of Gordon's favorites (v2)
+- jack-heald · full 9/16 · 2026-10-02 · Wizard of Ads partner; writer on Comfort Masters DFW; seed from v2/v3 pending (overnight people backfill)
 - james-gilbert · thin 3/16 · 2026-10-01 · Person in Leah's circle; seed from v2/v3 pending (subagent read); only recording-sourced lines so far
+- jane-brewer · full 11/16 · 2026-10-01 · Owner and chiropractor (DC, DCCJP), Precision Chiro Co., Windsor CO; WoA client since Oct 2025, CLC/PM client 5+ years; known 10+ years
+- jared-james · full 13/16 · 2026-10-01 · Founder and owner of LottoEdge (scratch-off odds data); Gordon's WoA client Jan 2024 to mid-2026, engagement wound down, roster retired
+- jeff-carpenter · full 11/16 · 2026-10-02 · GM / operations at Travis Crawford HVAC (Charlotte NC), a WoA client; owns the revenue numbers on the team calls
+- jeff-ratte · thin 4/16 · 2026-10-02 · Gordon's uncle; did the Annapurna circuit with Sara Moorehead in the mid-90s; seed from v2/v3 pending (overnight people backfill)
+- jesse-olson · full 10/16 · 2026-10-02 · Owner of The Happy Outlet (residential electrical, Reno NV); WoA client under Rick Willis; Gordon runs the digital side
+- jordan-ohlmann · full 10/16 · 2026-10-02 · Owner of Action Air Plumbing & Septic (Lubbock TX) with his wife Megan; a voice in the radio spots
+- josh-bullock · full 10/16 · 2026-10-01 · Owner of Mitchell's Magic (One Hour HVAC, Avon OH) and Cullins (Columbus); WoA client principal (v2, unconfirmed)
 - karen-dodge · thin 6/16 · 2026-10-01 · D&M Heating & Air Conditioning (Milwaukee); owner-side contact on Gordon's calls; Dodge is her maiden name, used again since her divorce
+- ken-goodrich · full 11/16 · 2026-10-02 · Home-services owner (Goettl, Kennerator); Roy Williams client; 2025 outside advisor and would-be investor at The Happy Outlet
 - larry-bloom · full 8/16 · 2026-10-01 · Molly Bloom's father; one of Gordon's CSU professors; a possible route to Aaron Sorkin for Lizzie Mack's story
-- leah · full 10/16 · 2026-10-01 · Gordon's wife of 11 years, separating (transition ends when the house closes); runs Copper Leaf and Press Managed operations; seed from v2/v3 pending (subagent read)
+- leah · full 10/16 · 2026-10-02 · Gordon's wife of 11 years, separating (transition ends when the house closes); runs Copper Leaf and Press Managed operations; seed from v2/v3 pending (subagent read)
 - lizzie-mack · full 14/16 · 2026-10-01 · Leads Entomat and American Icon Spirits (Evel Spirits); runs Thrival and Whiskey Sherpa; seed from v2/v3 pending (build thread)
+- luke-bernander · thin 7/16 · 2026-10-02 · Leah's father; helping Gordon outfit the camper (second awning, bike hitch); seed from v2/v3 pending (overnight people backfill)
+- mark-benn · full 13/16 · 2026-10-02 · Gordon's therapist and former college professor; sessions in person, paid; seed from v2/v3 pending (overnight people backfill)
+- marty-greer · full 11/16 · 2026-10-02 · Owner and veterinarian of the CheckVet brands (CheckIN, CheckOUT, Marshall Pet Care), Sun Prairie WI; canine reproduction vet
+- megan-ohlmann · full 10/16 · 2026-10-02 · Marketing Director and co-owner of Action Air Plumbing & Septic (Lubbock TX) with her husband Jordan; primary client contact
+- olivia-la · full 11/16 · 2026-10-01 · Associate chiropractor at Precision Chiro Co. (Windsor CO) under Dr. Jane Brewer; Gordon wrote her website bio (final 2026-06-03)
 - peter-seirup · full 10/16 · 2026-10-01 · Gordon's father; P.E., of Home Directions, Inc.; Gordon is rebuilding his report and letter-writing system
+- rob · thin 5/16 · 2026-10-01 · Gordon's friend from high school; best man at Gordon's first wedding; led the team that built the iHeartRadio app; surname unknown; seed from v2/v3 pending (overnight people backfill)
 - robert-nathan-allen · full 8/16 · 2026-10-01 · Entomat partner (RNA); connections, logistics and partnerships; seed from v2/v3 pending (build thread)
-- stephen-moore · full 9/16 · 2026-10-01 · Comfort Masters DFW (Fort Worth HVAC), the face of the "why behind Comfort Masters" story; seed from v2/v3 pending (overnight people backfill)
+- roy-williams · full 12/16 · 2026-10-01 · Founder of Wizard of Ads and the Wizard Academy; Gordon's partner-network principal (15% of Gordon's WoA cut) and a mentor who gives long, story-driven advice; seed from v2/v3 pending (overnight people backfill)
+- sara-moorehead · thin 4/16 · 2026-10-02 · With Gordon's uncle Jeff Ratte; did the Annapurna circuit in the mid-90s; seed from v2/v3 pending (overnight people backfill)
+- scarlett-plunkett · full 9/16 · 2026-10-02 · Ops manager of Plunkett Home Services, Tucson AZ, a Wizard of Ads client; wife of owner Chris Plunkett (v2, unconfirmed)
+- stephen-moore · full 12/16 · 2026-10-01 · Owner and founder of Comfort Masters DFW (Fort Worth HVAC); its radio voice; face of the "why" story
+- travis-crawford · full 10/16 · 2026-10-02 · Owner and founder (2009) of Travis Crawford HVAC / Plumbing / Electric, Charlotte NC, a Wizard of Ads client; the voice of its radio
+- wes-brewer · full 9/16 · 2026-10-01 · Husband of Dr. Jane Brewer (Precision Chiro Co., WoA and Copper Leaf client); social friend of Gordon and Leah through Jane

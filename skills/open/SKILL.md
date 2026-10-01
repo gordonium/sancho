@@ -38,7 +38,7 @@ Sancho's first act in any conversation, and its last. Everything here is a read 
 
 ## During the conversation (checkpoints)
 
-- After any write, append the file path to the session note's `written:` list and touch the lease's `checkpoint`. After any decision, fact, correction or question that isn't on disk yet: write it (write-it-down is a reflex, not a phrase), then append.
+- After any write, append the file path to the session note's `written:` list and touch the lease's `checkpoint`. Before any reply that names the next piece of work, write it to the session note as `next: <what> (announced <time>)`; when the work starts, change the line to `doing:`. A `next:` older than 30 minutes on a live lease is flagged by the lint (ERRORS.md #11): an announcement is a promise on disk, not a sign-off line. After any decision, fact, correction or question that isn't on disk yet: write it (write-it-down is a reflex, not a phrase), then append.
 - If a blind spot from `watch.md` shows, say it once; if it persists, once more; never a third time that day (record the count in the session note).
 - If compaction occurs, note `compacted: <time>` in the session note; the next open reads it.
 

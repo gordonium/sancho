@@ -22,7 +22,8 @@ Fed to Groq as the Whisper `prompt` (about 224 tokens; the pipeline truncates fr
 - LifeGiver · Boiler Expert · Installing Is Our Calling (D&M ad titles)
 - Ignite (Mankato, Minnesota; Isaac; Iggy; Ignite Comfort Club)
 - Filmadelphia (film Adelphia) · ChanceLight · CheckVet · Comfort Masters DFW
-- Stephen Moore (CMDFW) · Jack Heald (WoA partner)
+- Stephen Moore (CMDFW) · Amanda Moore · Jack Heald (WoA partner) · Luis Castaneda · CSP = Clean, Seal & Protect · Fall Furnace Makeover
+- Mark Benn · Amber Crummy · Alex Post · Luke Bernander · Jeff Ratte · Sara Moorehead · Penzu
 - Racquet Depot (Racket Depot) · Jabas Labs (Javas)
 - SiteDistrict
 - Groq · pyannote · WordPress · ACF

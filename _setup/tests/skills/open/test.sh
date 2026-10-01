@@ -14,4 +14,5 @@ grep -qi "five minutes to" "$S" && { echo "FAIL time-estimate phrasing present";
 grep -q "## Write step" "$S" || { echo "MISS write step"; fail=1; }
 grep -q "Never state the weekday from memory" "$S" || { echo "MISS temporal rule"; fail=1; }
 grep -q "never a third time" "$S" || { echo "MISS nag limit"; fail=1; }
+grep -q "an announcement is a promise on disk" "$S" || { echo "MISS announced-next rule (ERRORS.md #11)"; fail=1; }
 [ $fail -eq 0 ] && echo "test-skill-open: PASS (structural; behavioral scenario runs on the Mac)" || { echo "test-skill-open: FAIL"; exit 1; }

@@ -183,7 +183,7 @@ What is mechanical and what is not, said plainly:
 - **The edit hook sees the file tools.** A shell command that writes a file is not a file-tool call; the hook covers the obvious forms and the rest is instruction.
 - A plan can be approved and still be wrong. This gate guarantees the order, not the quality.
 
-For the WordPress kit this is a change to its skills and hooks, which are Gordon's to change; he has asked for it, and it is listed in section 11 as P-17. It is built in the build thread, not from this planning thread.
+For the WordPress kit this is a change to its skills and hooks, which are Gordon's to change; he has asked for it, and it is listed in section 11 as P-17. It is built in the build thread, not from this planning thread. (2026-10-02: the WordPress side is not part of the Home Directions build. It is harness work, noted on the Sancho build's list in `_design/STATUS.md` on Gordon's word, and waits for its own session after he decides on the uncommitted guard fix. [gordon 2026-10-02])
 
 
 Six skills. Their descriptions name Laravel and the folder; the WordPress skills trigger on "ship it", "review this" and "we're done" and are linked into every session, so both sets need tightening or they collide. [plugin-edit:3] [plugin-review:3] [plugin-ship:3]

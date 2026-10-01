@@ -1,15 +1,15 @@
 # recordings · STATUS
-generated 2026-10-01 23:50 CEST by earballs.py · pipeline AMBER
+generated 2026-10-02 00:50 CEST by earballs.py · pipeline AMBER
 
 **AMBER**: 1 recording(s) failed 5 times; see recordings/STATUS.md.
 
-- waiting for ingest (recordings/inbox/): 11; oldest rec_0b2f65c077 recorded 2026-09-10 12:01
-- fresh in the pipeline: 0 to download, 0 to transcribe, 20 ready in total, 1 junk
-- last Plaud list: 2026-10-01T21:50 · last full reconcile: 2026-10-01T00:03 · token: ok · network: online
+- waiting for ingest (recordings/inbox/): 5; oldest rec_564c0541a8 recorded 2026-09-10 13:01
+- fresh in the pipeline: 0 to download, 3 to transcribe, 20 ready in total, 1 junk
+- last Plaud list: 2026-10-01T22:48 · last full reconcile: 2026-10-01T22:48 · token: ok · network: online
 - Groq today: 0.0 audio-hours in 0 requests (0.0 h backfill of 6 h cap)
-- voiceprint library: 15 people · diarization: pyannote/speaker-diarization-3.1
-- ledger backup: 2026-10-01T00:03
-- data today: 0 MB audio downloaded, 0 MB sent to Groq (sync.com backs the audio up again)
+- voiceprint library: 20 people · diarization: pyannote/speaker-diarization-3.1
+- ledger backup: 2026-10-01T22:48
+- data today: 31 MB audio downloaded, 0 MB sent to Groq (sync.com backs the audio up again)
 
 ## Backlog
 
@@ -21,4 +21,7 @@ generated 2026-10-01 23:50 CEST by earballs.py · pipeline AMBER
 
 ## Needs attention
 
+- rec_938ff416ac (downloaded): transcribe: RuntimeError: Groq refused: HTTP 403: {"error":{"message":"Access denied. Please check your network settings."}}
+- rec_9382c74738 (downloaded): transcribe: RuntimeError: Groq refused: HTTP 403: {"error":{"message":"Access denied. Please check your network settings."}}
+- rec_2834a09615 (downloaded): transcribe: RuntimeError: Groq refused: HTTP 403: {"error":{"message":"Access denied. Please check your network settings."}}
 - rec_1716cb70ff (failed): transcribe: CalledProcessError: Command '['ffmpeg', '-y', '-loglevel', 'error', '-ss', '0.000', '-t', '1080', '-i', '/Users/gordonium/Sync/Sancho-Audio/processe

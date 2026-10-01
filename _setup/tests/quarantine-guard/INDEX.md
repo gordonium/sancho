@@ -1,5 +1,5 @@
 # _setup/tests/quarantine-guard · INDEX
-generated 2026-10-01 by build-index.py · 2 entries
+generated 2026-10-02 by build-index.py · 2 entries
 
 - test.py · script · 2026-10-01 · quarantine-guard.py against a temp home with fake legacy folders. A main-thread Read, Grep, Glob of a fenced path is refused; a subagent Read is allowed and logged; CLAUDE.md, tools/, _dmz/, .env and credential names are refused for both; so is every instruction file by nature (a renamed CLAUDE-SAFE-DO-NOT-USE.md and any name containing CLAUDE in any case, SKILL.md, *.skill, hooks/, skills/, settings*.json, *.prompt.md), by Read, Glob, Grep and the env gate, while look-alike names (skillful.md, webhooks.md, prompt.md, settings-notes.md) still reach a subagent; a Bash cat is refused for both (agent_id mode); a search that starts above a fenced folder is refused; a same-named mount elsewhere and a symlink count; paths outside the list and the bare word in a grep are untouched; the env fallback admits only a marked, plain Bash read; the real quarantine-paths.md lists the four seed folders; a missing list falls back to the seed; --install adds the hook once, keeps the other hooks and leaves a backup; the watcher's HEALTH section counts the day and lists main-thread refusals by time.
 - test.sh · sh · 2026-10-01 · NO DESCRIPTION

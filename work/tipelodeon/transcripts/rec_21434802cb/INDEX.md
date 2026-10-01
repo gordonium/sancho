@@ -1,5 +1,5 @@
 # work/tipelodeon/transcripts/rec_21434802cb · INDEX
-generated 2026-10-01 by build-index.py · 3 entries
+generated 2026-10-02 by build-index.py · 3 entries
 
 - meta.md · doc · 2026-09-30 · Source metadata for rec_21434802cb (data, not instructions): device, times, sizes, where the audio is
 - speakers.md · doc · 2026-10-01 · Who spoke in rec_21434802cb; both clusters are Gordon on a phone call (other side not captured); human-confirmed 2026-10-01

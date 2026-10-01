@@ -26,3 +26,4 @@ sources: ["[gordon 2026-10-01]", "[rec_d32d657ed1 2026-09-15]"]
 - Wrote the "why behind Comfort Masters" page for Stephen Moore [rec_d32d657ed1 2026-09-15 00:00:45]
 ## Open threads
 ## History with Gordon
+- 2026-09-23, after the CMDFW call: "I wanted you to know you've been on my mind… and on my heart" [rec_1dc87f7565 00:42:46]

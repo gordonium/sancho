@@ -1,5 +1,5 @@
 # work/pickleproof · INDEX
-generated 2026-10-01 by build-index.py · 4 entries
+generated 2026-10-02 by build-index.py · 4 entries
 
 - business.md · business · dormant · 2026-09-30 · Owned, dormant; a one-page site is a parked idea
 - docs/ · folder · empty

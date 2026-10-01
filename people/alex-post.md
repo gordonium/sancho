@@ -55,6 +55,11 @@ sources: ["[gordon 2026-10-01]", "[rec_640701d84d 2026-09-14]", "[rec_0d8753ed18
 - History, undated in v2 (file created 2026-03-15), unconfirmed since: she owns the Windsor condo she moved out of to live with Jake; it became the practice office; first clients in her own space in fall 2025 [v2:relationships/people/alex-post.md:46-47,94,119].
 - History, undated in v2, unconfirmed since: Gordon wrote all her website copy and built the site; Gordon and Leah spent a weekend building a second parking spot at the condo; Gordon spent a full day painting the interior [v2:relationships/people/alex-post.md:112-115].
 - History, undated in v2, unconfirmed since: Gordon has an active, supportive part in Lily's life: attends her events, offered to cover her bills directly [v2:relationships/people/lily-post.md:15-16].
+- Daughter Lily, who asked Gordon to set up a play date with Amber's kids [rec_868fb07db8 2026-09-23 00:18:34]
+- Now seeing a man she met the Sunday after NYC; Gordon is happy for her, not territorial [rec_868fb07db8 00:16:39–00:17:57] [confirmed gordon 2026-10-02]
+- Early Sept 2026 at the ranch: she was blackout drunk and it got physical; next morning "that wasn't supposed to happen"; they're fine. She has since said "I have no regrets" and "not going to happen again anytime soon"; Gordon reads the "anytime soon" as about actual comfort, not desire [rec_868fb07db8 00:17:04–00:17:57] [gordon 2026-10-02]
+- Amber knows; Amber is inviting Alex to Sunday family dinner [rec_868fb07db8 00:18:12–00:18:34]
+
 ## Open threads
 - Dates in v2 contradict each other: "first clients fall 2025" and site design files dated 2025-09-21 [v2:relationships/people/alex-post.md:119], [doc:_CLIENTS/Prime Directive Counseling/design/] against "February 2026: Alex reaches out" with the practice still a plan, and "weekly coffees from February 2026" [v2:relationships/people/alex-post.md:52,92-94]. The reconnection coffee may have been February 2025 [inferred]. Gordon to say which year.
 - Where things stand with Jake is unknown after February 2026; on 2026-09-14 Gordon speaks of "Alex's" as a place his rig can live [rec_640701d84d 00:29:23], which does not say whose home that is. Open question for Gordon.
