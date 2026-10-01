@@ -57,5 +57,7 @@ next_when_done: "write work/copper-leaf/projects/hd-system-rebuild/docs/current-
 - Never ask Gordon anything from a cold run; a question is a warn push and a line in STATUS.md, and the chain stops.
 - If the tree, HEALTH.md or the job file can't be read, do nothing but the STATUS line ("checkback on <job>: could not read <path>") and `notify.push warn --reason=checkback-stuck "<job>: could not read <path>"`.
 
+- Before any dispatch or edit that touches the tree, read `_queue/leases/`; a path inside another live lease's `writes_only` is not written from here (must-never 5, ERRORS.md #12).
+
 ## Write step
 Files written: the `checkbacks.md` row, the job file (hops, waiting_on statuses, stage), the STATUS.md line, any request files, the next task or none. Receipt: one line, paths only.

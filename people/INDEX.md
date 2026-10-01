@@ -1,5 +1,5 @@
 # people · INDEX
-generated 2026-10-02 by build-index.py · 40 shown, 11 thin or contact-only (contact-only hidden)
+generated 2026-10-02 by build-index.py · 43 shown, 10 thin or contact-only (contact-only hidden)
 
 - adam-donmoyer · full 11/16 · 2026-10-01 · Media buyer on Gordon's Wizard of Ads accounts Comfort Masters DFW and D&M Heating; flat rate; Austin TX (v2, unconfirmed)
 - albert-plunkett · full 10/16 · 2026-10-01 · Vehicle-wrap installer for Plunkett Home Services' trucks (Tucson); first name only, one v2 line, unconfirmed
@@ -18,12 +18,14 @@ generated 2026-10-02 by build-index.py · 40 shown, 11 thin or contact-only (con
 - jane-brewer · full 11/16 · 2026-10-01 · Owner and chiropractor (DC, DCCJP), Precision Chiro Co., Windsor CO; WoA client since Oct 2025, CLC/PM client 5+ years; known 10+ years
 - jared-james · full 13/16 · 2026-10-01 · Founder and owner of LottoEdge (scratch-off odds data); Gordon's WoA client Jan 2024 to mid-2026, engagement wound down, roster retired
 - jeff-carpenter · full 11/16 · 2026-10-02 · GM / operations at Travis Crawford HVAC (Charlotte NC), a WoA client; owns the revenue numbers on the team calls
+- jeff-goff · full 11/16 · 2026-10-02 · Co-owner of D&M Heating & Air Conditioning (Milwaukee) with Karen Dodge and Tim Silva; field and estimates side
 - jeff-ratte · thin 4/16 · 2026-10-02 · Gordon's uncle; did the Annapurna circuit with Sara Moorehead in the mid-90s; seed from v2/v3 pending (overnight people backfill)
 - jesse-olson · full 10/16 · 2026-10-02 · Owner of The Happy Outlet (residential electrical, Reno NV); WoA client under Rick Willis; Gordon runs the digital side
 - jordan-ohlmann · full 10/16 · 2026-10-02 · Owner of Action Air Plumbing & Septic (Lubbock TX) with his wife Megan; a voice in the radio spots
 - josh-bullock · full 10/16 · 2026-10-01 · Owner of Mitchell's Magic (One Hour HVAC, Avon OH) and Cullins (Columbus); WoA client principal (v2, unconfirmed)
-- karen-dodge · thin 6/16 · 2026-10-01 · D&M Heating & Air Conditioning (Milwaukee); owner-side contact on Gordon's calls; Dodge is her maiden name, used again since her divorce
+- karen-dodge · full 11/16 · 2026-10-02 · D&M Heating & Air Conditioning (Milwaukee); owner-side contact on Gordon's calls; Dodge is her maiden name, used again since her divorce
 - ken-goodrich · full 11/16 · 2026-10-02 · Home-services owner (Goettl, Kennerator); Roy Williams client; 2025 outside advisor and would-be investor at The Happy Outlet
+- kevin-skalure · full 11/16 · 2026-10-02 · Ad writer on the Wizard of Ads side of the D&M Heating account with Peter Nevland; in Montana; surname spelling unconfirmed
 - larry-bloom · full 8/16 · 2026-10-01 · Molly Bloom's father; one of Gordon's CSU professors; a possible route to Aaron Sorkin for Lizzie Mack's story
 - leah · full 10/16 · 2026-10-02 · Gordon's wife of 11 years, separating (transition ends when the house closes); runs Copper Leaf and Press Managed operations; seed from v2/v3 pending (subagent read)
 - lizzie-mack · full 14/16 · 2026-10-01 · Leads Entomat and American Icon Spirits (Evel Spirits); runs Thrival and Whiskey Sherpa; seed from v2/v3 pending (build thread)
@@ -39,5 +41,6 @@ generated 2026-10-02 by build-index.py · 40 shown, 11 thin or contact-only (con
 - sara-moorehead · thin 4/16 · 2026-10-02 · With Gordon's uncle Jeff Ratte; did the Annapurna circuit in the mid-90s; seed from v2/v3 pending (overnight people backfill)
 - scarlett-plunkett · full 9/16 · 2026-10-02 · Ops manager of Plunkett Home Services, Tucson AZ, a Wizard of Ads client; wife of owner Chris Plunkett (v2, unconfirmed)
 - stephen-moore · full 12/16 · 2026-10-01 · Owner and founder of Comfort Masters DFW (Fort Worth HVAC); its radio voice; face of the "why" story
+- tim-silva · full 11/16 · 2026-10-02 · Co-owner of D&M Heating & Air Conditioning (Milwaukee) with Karen Dodge and Jeff Goff; service side, the boiler man
 - travis-crawford · full 10/16 · 2026-10-02 · Owner and founder (2009) of Travis Crawford HVAC / Plumbing / Electric, Charlotte NC, a Wizard of Ads client; the voice of its radio
 - wes-brewer · full 9/16 · 2026-10-01 · Husband of Dr. Jane Brewer (Precision Chiro Co., WoA and Copper Leaf client); social friend of Gordon and Leah through Jane

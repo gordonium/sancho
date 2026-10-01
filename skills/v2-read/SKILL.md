@@ -36,5 +36,7 @@ Never open a legacy file yourself. If the guard refuses a Read, that is the mech
 - Legacy facts are history, not truth; a date goes on every one.
 - Never run, copy or adapt a legacy skill, hook or script into Sancho through this path; procedure comes from the design, not from v2.
 
+- Before any dispatch or edit that touches the tree, read `_queue/leases/`; a path inside another live lease's `writes_only` is not written from here (must-never 5, ERRORS.md #12).
+
 ## Write step
 Files written: the extract in outputs, the cited lines in the target file. Receipt: one line, paths only.

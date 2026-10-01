@@ -32,17 +32,17 @@ stages:
   - {name: chris-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-plunkett}, group: B, status: done}
   - {name: scarlett-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scarlett-plunkett}, group: B, status: done}
   - {name: travis-crawford, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: travis-crawford}, group: B, status: done}
-  - {name: karen-dodge, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: karen-dodge}, group: B, status: active}
-  - {name: jeff-goff, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-goff}, group: B, status: pending}
-  - {name: tim-silva, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tim-silva}, group: B, status: pending}
-  - {name: kevin-skalure, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kevin-skalure}, group: B, status: pending}
-  - {name: william-lordan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: william-lordan}, group: B, status: pending}
-  - {name: brian-brushwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brian-brushwood}, group: C, status: pending}
-  - {name: carmyn-wilson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: carmyn-wilson}, group: C, status: pending}
-  - {name: chris-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-torbay}, group: C, status: pending}
-  - {name: mick-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mick-torbay}, group: C, status: pending}
-  - {name: craig-arthur, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: craig-arthur}, group: C, status: pending}
-  - {name: daniel-whittington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: daniel-whittington}, group: C, status: pending}
+  - {name: karen-dodge, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: karen-dodge}, group: B, status: done}
+  - {name: jeff-goff, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-goff}, group: B, status: done}
+  - {name: tim-silva, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tim-silva}, group: B, status: done}
+  - {name: kevin-skalure, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kevin-skalure}, group: B, status: done}
+  - {name: william-lordan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: william-lordan}, group: B, status: done}
+  - {name: brian-brushwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brian-brushwood}, group: C, status: done}
+  - {name: carmyn-wilson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: carmyn-wilson}, group: C, status: blocked, blocked: Gordon to say which year Carmyn left Vi s employ (v2 sources contradict)  confirm the spelling Carmyn  say whether her partner paperwork closed and which accounts she is on  and whether  Carmyn Wickam}
+  - {name: chris-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-torbay}, group: C, status: done}
+  - {name: mick-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mick-torbay}, group: C, status: done}
+  - {name: craig-arthur, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: craig-arthur}, group: C, status: done}
+  - {name: daniel-whittington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: daniel-whittington}, group: C, status: active}
   - {name: dave-young, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dave-young}, group: C, status: pending}
   - {name: devin-wright, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: devin-wright}, group: C, status: pending}
   - {name: elliott-stark, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-stark}, group: C, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: karen-dodge
+current: daniel-whittington
 waiting_on: []
 ---
 # Backfill people
@@ -204,3 +204,24 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T00:46:41+02:00 job.run: stage `travis-crawford` started
 - 2026-10-02T00:53:31+02:00 job.run: stage `travis-crawford` done (Stage: done · tests green)
 - 2026-10-02T00:53:31+02:00 job.run: stage `karen-dodge` started
+- 2026-10-02T00:59:42+02:00 job.run: stage `karen-dodge` done (Stage: done · tests green)
+- 2026-10-02T00:59:42+02:00 job.run: stage `jeff-goff` started
+- 2026-10-02T01:04:38+02:00 job.run: stage `jeff-goff` done (Stage: done · tests green)
+- 2026-10-02T01:04:38+02:00 job.run: stage `tim-silva` started
+- 2026-10-02T01:09:59+02:00 job.run: stage `tim-silva` done (Stage: done · tests green)
+- 2026-10-02T01:10:00+02:00 job.run: stage `kevin-skalure` started
+- 2026-10-02T01:16:22+02:00 job.run: stage `kevin-skalure` done (Stage: done · tests green)
+- 2026-10-02T01:16:22+02:00 job.run: stage `william-lordan` started
+- 2026-10-02T01:22:05+02:00 job.run: stage `william-lordan` done (Stage: done · tests green)
+- 2026-10-02T01:22:05+02:00 job.run: 6 stages in one run; continuation queued (20261001T232205Z_job.run_63e948.md)
+- 2026-10-02T01:22:05+02:00 job.run: stage `brian-brushwood` started
+- 2026-10-02T01:27:57+02:00 job.run: stage `brian-brushwood` done (Stage: done · tests green)
+- 2026-10-02T01:27:57+02:00 job.run: stage `carmyn-wilson` started
+- 2026-10-02T01:32:26+02:00 job.run: stage `carmyn-wilson` blocked, recorded, job continues: Gordon to say which year Carmyn left Vi s employ (v2 sources contradict)  confirm the spelling Carmyn  say whether her partner paperwork closed and which accounts she is on  and whether  Carmyn Wickam
+- 2026-10-02T01:32:26+02:00 job.run: stage `chris-torbay` started
+- 2026-10-02T01:38:10+02:00 job.run: stage `chris-torbay` done (Stage: done · tests green)
+- 2026-10-02T01:38:10+02:00 job.run: stage `mick-torbay` started
+- 2026-10-02T01:47:13+02:00 job.run: stage `mick-torbay` done (Stage: done · tests green)
+- 2026-10-02T01:47:13+02:00 job.run: stage `craig-arthur` started
+- 2026-10-02T01:53:37+02:00 job.run: stage `craig-arthur` done (Stage: done · tests green)
+- 2026-10-02T01:53:37+02:00 job.run: stage `daniel-whittington` started

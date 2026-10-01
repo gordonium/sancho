@@ -105,7 +105,7 @@ flowchart LR
 - **Food routine to habit** (personal/food) · next: Design the Sunday session skill (build order #6); first session picks four dinners
 - **Nomad daily check** (personal/nomad) · next: Design the personal morning routine incl. the nomad check (build order #5)
 - **Build Sancho** (work/copper-leaf) · next: Claude Code on the Mac: watcher, launchd, Sancho-Audio, Sancho-Secrets, Sancho-Private, autocommit fix, ping
-- **Home Directions system rebuild** (work/copper-leaf) · next: Gordon: approve docs/plan-v2.md, raise the effort level, and say go. The build then starts from this thread with no delay, by fresh agents working from docs/build-handoff.md, at step A (the whole kit), local only
+- **Home Directions system rebuild** (work/copper-leaf) · next: Build running overnight from this thread since 2026-10-02 00:55 (kit, app and paperwork tracks; state in docs/build-state.md). Gordon in the morning: read the summary at the top of docs/build-log.md, then the account checklist in docs/runbook-accounts.md
 
 ## Changed this week
 
@@ -169,7 +169,7 @@ flowchart LR
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
 - _setup/pipeline/install-venv.sh
-- … +540 more
+- … +607 more
 
 ## Level 2 · wiring
 
@@ -241,9 +241,10 @@ flowchart LR
 # LINT
 generated 2026-10-02 by lint-layers.py
 
-**25 problems, 0 warnings**
+**27 problems, 0 warnings**
 
 ## Problems (block the build)
+- work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md: data file contains an instruction to Claude ('never do'); describe the preference instead
 - work/copper-leaf/projects/hd-system-rebuild/docs/wp-kit-map.md: data file contains an instruction to Claude ('you must'); describe the preference instead
 - people/gordon.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/lizzie-mack.md:31: inference words under a [gordon] cite; mark [inferred] or write `unknown`
@@ -269,6 +270,7 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:81: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:82: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:83: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md:301: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 
 ## Warnings
 
@@ -277,7 +279,7 @@ generated 2026-10-02 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-02 00:46 by test-all.py · 27 suites · 0 failing
+generated 2026-10-02 01:47 by test-all.py · 29 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -304,9 +306,11 @@ generated 2026-10-02 00:46 by test-all.py · 27 suites · 0 failing
 | skill:backfill-person | PASS | test-skill-backfill-person: PASS (structural) |
 | skill:checkback | PASS | test-skill-checkback: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:earballs-ingest | PASS | test-skill-earballs-ingest: PASS (structural; behavioral scenario runs on the Mac) |
+| skill:food-routine | PASS | test-skill-food-routine: PASS (structural) |
 | skill:open | PASS | test-skill-open: PASS (structural; behavioral scenario runs on the Mac) |
 | skill:personal-morning | PASS | test-skill-personal-morning: PASS (structural) |
 | skill:v2-read | PASS | test-skill-v2-read: PASS (structural) |
+| skill:weekly-review | PASS | test-skill-weekly-review: PASS (structural) |
 | skill:write-it-down | PASS | test-skill-write-it-down: PASS (structural) |
 
 </details>

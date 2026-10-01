@@ -1,9 +1,10 @@
 # LINT
 generated 2026-10-02 by lint-layers.py
 
-**25 problems, 0 warnings**
+**27 problems, 0 warnings**
 
 ## Problems (block the build)
+- work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md: data file contains an instruction to Claude ('never do'); describe the preference instead
 - work/copper-leaf/projects/hd-system-rebuild/docs/wp-kit-map.md: data file contains an instruction to Claude ('you must'); describe the preference instead
 - people/gordon.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/lizzie-mack.md:31: inference words under a [gordon] cite; mark [inferred] or write `unknown`
@@ -29,5 +30,6 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:81: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:82: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:83: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md:301: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 
 ## Warnings

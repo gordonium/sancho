@@ -1,0 +1,85 @@
+---
+name: Tim Silva
+aliases: [Tim]
+type: person
+lobe: work
+description: Co-owner of D&M Heating & Air Conditioning (Milwaukee) with Karen Dodge and Jeff Goff; service side, the boiler man
+tier: thin
+mbti:
+skills: []
+availability: {as_of: , note: ""}
+location: {city: "Milwaukee WI (the company's city; his own not stated)", as_of: 2026-04-17, source: "[v2:work/clients/dm-heating.md:21,54]"}
+roles:
+  - {context: work/wizard-of-ads/clients/dm-heating, role: "client person: co-owner of D&M Heating & Air Conditioning; service side, boilers [gordon 2026-10-01] [v2:work/clients/dm-heating.md:24,70] [rec_0b2f65c077 2026-09-10]"}
+last_seen: 2026-09-10
+want_to_see_by:
+cadence:
+contact: {emails: [], phones: [], address: "", birthday: "", google_id: "", source: ""}
+voiceprint: {enrolled: false, refs: 0, last_enrolled: , auto: paused}
+relationships:
+  - {person: karen-dodge, kind: business partner, note: "co-owner of D&M; her and Jeff's high-school friend [v2:work/clients/dm-heating.md:70] [gordon 2026-10-01]"}
+  - {person: jeff-goff, kind: business partner, note: "co-owner of D&M; his and Karen's high-school friend [v2:work/clients/dm-heating.md:70] [gordon 2026-10-01]"}
+  - {person: peter-nevland, kind: colleague, note: "WoA strategist on the D&M account; leads the monthly call and wants Tim on the boiler-cleaning song [rec_0b2f65c077 2026-09-10]"}
+  - {person: gordon, kind: client, note: "Gordon is digital lead and single point of contact on the D&M account [v2:work/clients/dm-heating.md:108]"}
+sources: ["[gordon 2026-10-01]", "[confirmed gordon 2026-10-01]", "[rec_0b2f65c077 2026-09-10]", "[rec_36f02fd22c 2026-09-24]", "[doc:work/wizard-of-ads/clients/dm-heating/entity.md]", "[doc:work/wizard-of-ads/clients/dm-heating/knowledge.md]", "[doc:work/wizard-of-ads/clients/dm-heating/guidelines.md]", "[doc:work/wizard-of-ads/clients/dm-heating/summaries/2026-09-10_rec_0b2f65c077.md]", "[doc:work/wizard-of-ads/clients/dm-heating/transcripts/rec_0b2f65c077/speakers.md]", "[doc:recordings/lexicon.md]", "[doc:people/_backfill-census.md]", "[doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/web-images/]", "[doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/radio ads/]", "[v2:work/clients/dm-heating.md]", "[v2:work/clients/dm-heating-sacrosanct-copy.md]", "[v2:work/clients/dm-heating-photo-brief.md]", "[v2:work/clients/dm-heating-voice-profile.md]", "[v2:work/clients/dm-heating-content-definition.md]", "[v2:work/clients/dm-heating-drafts/peace-of-mind-plan-draft-v1-2026-04-28.md]", "[v2:relationships/people/tim-silva.md]", "[v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md]", "[v3:memory/people/tim-silva/voice-profile.md]", "[v3:data/earballs/transcripts/2026-04-23/rec_2d62e0a1e9/transcript.v2.md]"]
+---
+## How to work with them
+- 2026-06-05: Karen's website tweak list says he likes taking pictures and wants the "doesn't like pictures" line off the site, and that he does not want the Bears comment on the site [doc:work/wizard-of-ads/clients/dm-heating/knowledge.md] [doc:work/wizard-of-ads/clients/dm-heating/guidelines.md] (their cite: [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/from-client/20260605 website tweaks 2026.docx]; the docx itself was not opened in this pass).
+- 2026-09-10: on recording ads, Peter and Karen say he likes the idea until he is in the studio; "rarely in the right frame of mind in front of that microphone," yet exuberant, loud and funny when he comes into the office [rec_0b2f65c077 2026-09-10 00:30:58, 00:31:05, 00:31:13].
+- History, as of 2026-04 (photo brief), unconfirmed since and superseded on the photographs by Karen's 2026-06-05 note above: ~~"Does not love being photographed"~~; the brief planned candid, low-pressure shots of him at work rather than posed ones [v2:work/clients/dm-heating-photo-brief.md:42,65].
+- History, as of 2026-04-17, unconfirmed since: Karen's description of him in decisions, "doesn't make a lot of those decisions, but we have to include him" [v2:work/clients/dm-heating.md:70].
+- History, as of 2026-04-17, unconfirmed since: he and Jeff resist change and hand decisions back to Karen ("It's all up to you, Karen"), per v2's account of Karen's view [v2:work/clients/dm-heating.md:99].
+## Who they are
+Tim Silva is an owner of D&M Heating & Air Conditioning in Milwaukee with Karen Dodge and Jeff Goff [gordon 2026-10-01] [doc:work/wizard-of-ads/clients/dm-heating/knowledge.md]. v2 has him as Karen and Jeff's high-school friend, "service-minded, doesn't like the office," and passive in decisions (history, as of 2026-04-17) [v2:work/clients/dm-heating.md:70]. The three bought the company from Karen's father by SBA loan and owner financing, with houses and cars on the line (history, as of 2026-04-17) [v2:work/clients/dm-heating.md:121]. On 2026-09-10 he was out doing boiler cleanings, the only one at D&M who knew how to clean the NTI boilers, and was teaching Sean [rec_0b2f65c077 2026-09-10 00:30:07].
+## What we know
+- 2026-10-01: Gordon named him on the Thu 9/10 D&M call: "That's Tim, owner, talking about gas pressure, burners, pilots, and blue flame"; SPEAKER_00 and SPEAKER_01 are both him (over-split), 14 s and 16 s of talk, enrollable [doc:work/wizard-of-ads/clients/dm-heating/transcripts/rec_0b2f65c077/speakers.md] [confirmed gordon 2026-10-01].
+- 2026-10-01: Gordon gave the owners as "Karen Dodge, owner (other owners are Jeff Goff & Tim Silva)" [gordon 2026-10-01] [doc:work/wizard-of-ads/clients/dm-heating/knowledge.md].
+- 2026-10-01: the D&M entity's people list carries `tim-silva`; v2's slug `tim-dm-heating` is superseded [doc:work/wizard-of-ads/clients/dm-heating/entity.md] [confirmed gordon 2026-10-01].
+- The lexicon lists "Tim Silva" among D&M's names for transcription [doc:recordings/lexicon.md].
+- 2026-09-24: on a raw, not yet ingested recording a D&M voice says "I'm on Tim's computer. I'm not on mine," and the greeting "It's Tim... It's not Tim, it's Karen!" follows from his name showing on the Zoom [rec_36f02fd22c 00:00:13, 00:01:07] (speakers on this recording unconfirmed).
+- 2026-09-24: the same recording closes with "say hi to Jeff and Tim" and "Tim and Jeff will probably be around"; he does not appear to have been on that call [rec_36f02fd22c 00:51:39, 00:52:15] (speakers unconfirmed).
+- 2026-09-24: the boiler-cleaning song with him singing was still on the WoA side's list [rec_36f02fd22c 00:56:57] (speaker unconfirmed).
+- 2026-09-24: a voice on the call suggested a heartfelt winter spot about "something cool that happened a long time ago with you, Jeff and Tim" [rec_36f02fd22c 00:46:46] (speaker unconfirmed).
+- 2026-09-10: Karen: "Tim is good. He's on boiler cleanings right now"; he likes selling NTI boilers and having them installed, is the only one who knows how to clean them, and is doubling up with Sean so Sean can do them too [rec_0b2f65c077 2026-09-10 00:30:07] [doc:work/wizard-of-ads/clients/dm-heating/summaries/2026-09-10_rec_0b2f65c077.md].
+- 2026-09-10: he joined the call late with Sean and gave the boiler-cleaning steps from memory: gas pressure, burners "burning nice and blue," scrub the castings, clean pilots; "blue means clean" [rec_0b2f65c077 2026-09-10 00:39:16, 00:40:17, 00:40:29, 00:40:40].
+- 2026-09-10: asked by Peter to write up or tell the steps for the song, he said "Okay, no problem" [rec_0b2f65c077 2026-09-10 00:39:46, 00:40:11] [doc:work/wizard-of-ads/clients/dm-heating/summaries/2026-09-10_rec_0b2f65c077.md].
+- 2026-09-10: when Peter drifted into ad lines mid-list he cut in, "This is not the time for that. We're doing this"; Karen: "Tim just asserted his bossiness" [rec_0b2f65c077 2026-09-10 00:41:28, 00:41:31].
+- 2026-09-10: Karen says he has "a very raspy man voice" and doubts he should sing; another voice thinks a shanty would suit it [rec_0b2f65c077 2026-09-10 00:31:13, 00:31:38] (the second voice is SPEAKER_03, unresolved).
+- 2026-09-10: Peter noted he had already voiced one of the LifeGiver spots [rec_0b2f65c077 2026-09-10 00:31:11] (transcript reads "live gather").
+- 2026-09-10: Dustin, who voiced "Installing Is Our Calling," was told he sounds like Tim; "we're not even close to related" [rec_0b2f65c077 2026-09-10 00:44:24] [doc:work/wizard-of-ads/clients/dm-heating/knowledge.md].
+- 2026-09-10: Peter heard "some natural rhythm" in the way he listed the steps, usable as lyrics [rec_0b2f65c077 2026-09-10 00:46:42] [doc:work/wizard-of-ads/clients/dm-heating/knowledge.md].
+- A new-website image file is named for him: "tim-silva_owner_dm-heating-milwaukee.jpg"; the only document read in this pass that spells the surname [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/web-images/202605 New Website/tim-silva_owner_dm-heating-milwaukee.jpg] (file name only; image not opened).
+- Other images of him in Gordon's working files, by file name only: "dm-heating_tim-lifegiver.jpg" and "-2", "dm-heating_owners--jeff-tim-karen.jpg" and its home-hero versions, "dhheating_owners-jeff-karen-tim_carrier-presidents-award.jpg", "tim-fishing.jpg" [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/web-images/] (listing only).
+- Radio spots named for him, by file name only: "DandM-XmasTimTheGrinch.mp3" and "20250908 Coool Tim DandM-CoolCashRebates.mp3" [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/radio ads/] (listing only; audio not opened); the knowledge file lists them as "Xmas Tim the Grinch" and "Cool Tim (2025-09-08)" [doc:work/wizard-of-ads/clients/dm-heating/knowledge.md].
+- History, as of 2026-04-28, unconfirmed since: a draft of the Peace of Mind Plan page, in Karen's voice, has him catching a worn igniter on a November tune-up and says "Jeff, Tim, and I run the Plan the way Dad ran his customers" [v2:work/clients/dm-heating-drafts/peace-of-mind-plan-draft-v1-2026-04-28.md:52,86] (draft copy, not a statement of fact about him).
+- History, as of 2026-04-23, unconfirmed since: on the D&M install promise, "I sold this furnace to my mom, so what does that tell you?"; Karen: "That's one of Tim's lines" [v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md:668,674] (v2 speaker labels, machine).
+- History, as of 2026-04-23, unconfirmed since: he began the line Karen finished as "we install it like we're installing it for our mom and dad" [v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md:648,654] (v2 speaker labels, machine).
+- History, as of 2026-04-23, unconfirmed since: Karen said that when the three record together "it's usually Tim's deeper voice that comes through more" [v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md:520] (v2 speaker label, machine).
+- History, as of 2026-04-23, unconfirmed since: joking as the others talked about local flooding, "My basement's dry" [v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md:392-394] (v2 speaker label, machine).
+- History, as of 2026-04-23, unconfirmed since: Karen said he "came up with a different idea the other day" on the maintenance-plan offer while Jeff went back and forth [v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md:1092] (v2 speaker label, machine).
+- History, as of 2026-04-17, unconfirmed since: he and Jeff won't hire in the slow season, then press Karen to hire in May; the May demand spike finds them short-staffed [v2:work/clients/dm-heating.md:245,298].
+- History, as of 2026-04-17, unconfirmed since: the photo brief once said he "sells new systems"; v2 removed it as contradicting the client file and left him as "co-owner" [v2:work/clients/dm-heating-photo-brief.md:217].
+- History, as of 2026-04 (photo brief), unconfirmed since: "Quiet co-owner"; planned in the owners' home-hero shot with Karen and Jeff in front of a D&M van [v2:work/clients/dm-heating-photo-brief.md:42,66].
+- History, as of 2026-04 (the old site's copy, kept verbatim), unconfirmed since: "(Tim's an owner too… however he doesn't like pictures as much.)", the heading "Jeff, Karen, and Tim – Owners", and the LifeGiver aside "Long live Tim!" [v2:work/clients/dm-heating-sacrosanct-copy.md:42,57,68].
+- History, as of 2026-03-30, unconfirmed since: Peter built the campaign around three characters, and Karen, Jeff and Tim "ARE the brand"; the copy bible's homepage vision has the three in sunglasses with arms folded, Tim holding a T-Rex doll and roaring [v2:work/clients/dm-heating-voice-profile.md:13,40].
+- History, as of 2026-04, unconfirmed since: radio listeners have a long-built familiarity with Karen, Jeff and Tim from year-round WISN spots, which the site is meant to match [v2:work/clients/dm-heating-content-definition.md:35].
+- History, as of 2025-02, unconfirmed since: he and Jeff saw the bank balance and thought things were fine while Karen read the P&L otherwise [v2:work/clients/dm-heating.md:139].
+- History: v2's own person file for him was an auto-created stub (2026-04-23, from rec_79307c8d5d), full name only, no facts [v2:relationships/people/tim-silva.md:1-11].
+- History: v3 holds only a voiceprint enrollment record for him, enrolled 2026-05-28 from rec_2d62e0a1e9 (recorded 2026-04-23), one reference [v3:memory/people/tim-silva/voice-profile.md:7] [v3:data/earballs/transcripts/2026-04-23/rec_2d62e0a1e9/transcript.v2.md:3]; that is v3's library, not Sancho's, and nothing here is enrolled from it.
+## Open threads
+- Two slugs, one person: v2 and the knowledge file's People section say "Tim" (`tim-dm-heating`); the entity file and the 09-10 speakers file say `tim-silva` [confirmed gordon 2026-10-01]. Resolved for the slug by the entity file's note; `tim-dm-heating` gets no file [doc:work/wizard-of-ads/clients/dm-heating/entity.md] [doc:people/_backfill-census.md].
+- Does he sell? v2 struck "sells new systems" from the photo brief as contradicting its client file [v2:work/clients/dm-heating-photo-brief.md:217]; on 2026-09-10 Karen said he likes selling NTI boilers [rec_0b2f65c077 2026-09-10 00:30:07]. His split of sales, service and installs is not stated anywhere.
+- Photographs: the old site and the 2026-04 photo brief say he dislikes them [v2:work/clients/dm-heating-sacrosanct-copy.md:68] [v2:work/clients/dm-heating-photo-brief.md:42]; Karen's 2026-06-05 note says he likes taking pictures and wants that line gone [doc:work/wizard-of-ads/clients/dm-heating/knowledge.md]. The later note is kept as current; whether the site line was removed is not on file.
+- The boiler-cleaning steps for the song: he gave them aloud on 2026-09-10 and agreed to write them up or tell them [rec_0b2f65c077 2026-09-10 00:40:11]; no written list is on file, and the song was still an idea on 2026-09-24 [rec_36f02fd22c 00:56:57].
+- "High-school friend": v2 calls him "Karen + Jeff's high school friend" [v2:work/clients/dm-heating.md:70]; when he joined D&M and how long he has been there are not stated.
+- rec_36f02fd22c (2026-09-24, raw): he is named but no cluster is attributed to him and the speakers file has no confirmations [doc:recordings/inbox/rec_36f02fd22c/speakers.md]; `last_seen` stays at 2026-09-10.
+- v3's rec_2d62e0a1e9 and v2's rec_79307c8d5d are both dated 2026-04-23 and both name him; whether they are one meeting under two IDs was not checked. The v3 transcript mentions him 12 times and was not read past its header in this pass [v3:data/earballs/transcripts/2026-04-23/rec_2d62e0a1e9/transcript.v2.md:1-14].
+- Family: only that he sold a furnace to his mother, from a machine-labelled line [v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md:668]; nothing else on file.
+- Contact: no email or phone of his own is stated in a document read in this pass; v2 holds only the company's address and main line [v2:work/clients/dm-heating.md:21,22]. Field left empty.
+- No v2 partners file exists for him; the surname Silva appears in v2 only in his stub and the 2026-04-23 transcript [v2:relationships/people/tim-silva.md:1] [v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md:6].
+- Todd Lyles ops-consultant meeting with all three owners (agreed Feb 2025): outcome not on file [v2:work/clients/dm-heating.md:79].
+## History with Gordon
+- 2026-09-10: monthly D&M Zoom (Peter, Kevin, Gordon; Karen, Jeff, Tim, Dustin); Tim came in from boiler cleanings near the end and gave the steps for the boiler-cleaning song [rec_0b2f65c077 2026-09-10 00:39:16, 00:40:17] [doc:work/wizard-of-ads/clients/dm-heating/summaries/2026-09-10_rec_0b2f65c077.md].
+- History, 2026-04-23: D&M team meeting (Karen, Jeff, Tim, Peter, Elliott, Gordon); he, Karen and Jeff were to answer Gordon's website content questions and record the next ad session that Thursday [v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md:6,26,29] (v2's summary, machine speaker labels).
+- History, 2026-04-23: in the same meeting Gordon said "Tim's going to go" and Karen finished "work on that right now" [v2:data/earballs-transcripts/2026-04-23/rec_79307c8d5d/transcript.md:1008,1010] (machine labels; what "that" was is not clear from the lines read).
+- History, 2025-02-03: the strategy meeting (Gordon, Karen, Peter, Adam) where the "partner blowup" was discussed; he was not on the call [v2:work/clients/dm-heating.md:344].
