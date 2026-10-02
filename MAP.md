@@ -169,7 +169,7 @@ flowchart LR
 - _setup/pipeline/INDEX.md
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
-- … +657 more
+- … +666 more
 
 ## Level 2 · wiring
 
@@ -288,7 +288,7 @@ generated 2026-10-02 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-02 11:48 by test-all.py · 34 suites · 0 failing
+generated 2026-10-02 12:49 by test-all.py · 34 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|

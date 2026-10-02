@@ -1,22 +1,70 @@
 ---
 name: Sara Moorehead
-aliases: [Sarah, Sara]
+aliases: [Sarah, Sara, Aunt Sara, Aunt Sarah, "Sarah Morehead (a misspelling v2 corrected)", "Sara Ratté (the Sopris list's household name, 'Jeff & Sara Ratté')"]
 type: person
 lobe: personal
 description: With Gordon's uncle Jeff Ratte; did the Annapurna circuit in the mid-90s; seed from v2/v3 pending (overnight people backfill)
 tier: thin
 mbti:
-skills: []
+skills: [change communication (v2, history)]
 availability: {as_of: , note: ""}
-location: {city: , as_of: , source: ""}
-roles: []
-last_seen:
+location: {city: "Ellensburg, WA (Seattle address also on file)", as_of: 2026-09-24, source: "[doc:personal/projects/alaska-2027/04-route-master.md:151]; [doc:people/_sopris-locations.md post 246] (2023-12-13); Seattle [doc:people/_sopris-locations.md post 245]"}
+roles:
+  - {context: personal, role: "Gordon's aunt, married to his uncle Jeffrey Ratté (history, v2 2026-03-15) [v2:relationships/people/MANIFEST.md:50]; 'uncle jeff and sarah' [doc:personal/recordings/rec_868fb07db8/rec_868fb07db8/corrections.md:17] [gordon 2026-10-02]"}
+last_seen: 2026-10-02
 want_to_see_by:
 cadence:
-contact: {emails: [], phones: [], address: "", birthday: "", google_id: "", source: ""}
+contact: {emails: [], phones: [], address: "5580 Secret Canyon Road, Ellensburg, WA", birthday: "", google_id: "", source: "[doc:people/_sopris-locations.md post 246] (2023-12-13, household 'Jeff & Sara Ratté'; second address 767 South Homer Street, Seattle, WA, post 245; which is current is open)"}
 voiceprint: {enrolled: false, refs: 0, last_enrolled: , auto: paused}
-relationships: [{person: jeff-ratte, kind: partner}]
-sources: ["[rec_868fb07db8 2026-09-23]", "[gordon 2026-10-02]"]
+relationships: [{person: jeff-ratte, kind: partner}, {person: jeffrey-ratte, kind: spouse, note: "v2: 'Aunt (Jeffrey's wife)', 'Married to Uncle Jeffrey Ratté' (history) [v2:relationships/people/MANIFEST.md:50], [v2:personal/ai-board-of-directors.md:29]; jeff-ratte and jeffrey-ratte are a suspected duplicate, see Open threads"}, {person: gordon, kind: aunt_of, note: "[v2:relationships/people/MANIFEST.md:50]; 'Aunt Sara' [doc:personal/projects/alaska-2027/00-trip-brief.md:78]"}]
+sources: ["[rec_868fb07db8 2026-09-23]", "[gordon 2026-10-02]", "[doc:personal/recordings/rec_868fb07db8/rec_868fb07db8/corrections.md]", "[doc:personal/projects/alaska-2027/]", "[doc:people/_sopris-locations.md]", "[doc:people/jeffrey-ratte.md]", "[v2:relationships/people/MANIFEST.md]", "[v2:personal/ai-board-of-directors.md]", "[v2:personal/action-items.md]", "[v2:personal/content-backlog.md]", "[v2:personal/travel-bucket-list.md]", "[v2:personal/pickle-proof-monologue-2-archive.md]", "[v2:relationships/leah.md]", "[v2:data/contacts-merge-validation.md]", "[v2:data/backlog-calendar-index.json]", "[v2:data/earballs-transcripts/]", "[v3:data/earballs/transcripts/]"]
 ---
+## How to work with them
+## Who they are
+- Gordon's aunt, married to his uncle Jeffrey Ratté (his mother's brother); v2's roster has "Sara Moorehead | Aunt (Jeffrey's wife)" with no file built (history, v2 2026-03-15, unconfirmed since) [v2:relationships/people/MANIFEST.md:14,50]; Gordon confirmed "uncle jeff and sarah" in rec_868fb07db8 are Jeff Ratte and Sara Moorehead [doc:personal/recordings/rec_868fb07db8/rec_868fb07db8/corrections.md:17] [gordon 2026-10-02].
+- A career in change communication: v2 records her as Global Director of Communications at Barclays through the 2008 financial crisis, "also Redbox, REI" (roles there not stated) (history, v2 2026-03-15, unconfirmed since) [v2:relationships/people/MANIFEST.md:50], [v2:personal/ai-board-of-directors.md:28-29]; Gordon said the Barclays part himself on 2025-10-22 (machine transcript) [v2:data/earballs-transcripts/2025-10-22/rec_5a221b70b3/transcript.md:1206].
+- She and Jeff come up almost always as a pair, "Jeff and Sara"; Gordon has called them "my aunt and uncle, Jeff and Sarah, who live in Seattle, who are the best" (2026-09-08, machine label) [v3:data/earballs/transcripts/2026-09-08/rec_683024ae81/transcript.v1.md:597]. Their house outside Ellensburg, WA is where Gordon's Alaska 2027 trip ends [doc:personal/projects/alaska-2027/00-trip-brief.md:78].
+
 ## What we know
+- 2026-09-24: Alaska 2027 plan: "Decompress with **Uncle Jeff & Aunt Sara**. Anywhere from 2 to 7 nights"; Aug 17 to Ellensburg, "Jeff & Sara — in the house"; the onward night "Unbooked — decide on Jeff & Sara's couch" [doc:personal/projects/alaska-2027/00-trip-brief.md:78], [doc:personal/projects/alaska-2027/04-route-master.md:151,160].
 - Annapurna circuit with Jeff Ratte, mid-1990s; the nose-flute bet at the top of the pass [rec_868fb07db8 2026-09-23 00:25:53, 00:42:32] [gordon 2026-10-02]
+- 2026-09-23, the transcript line behind the one above: "when Jeff and Sarah did that, Sarah had a bet with the rest of the group whether or not she could play her nose flute at the top of the pass" [doc:personal/recordings/rec_868fb07db8/rec_868fb07db8/transcript.md:743].
+- History, 2026-09-08, machine label: Jeff and Sara "did a month in Nepal in like the late 90s" [v3:data/earballs/transcripts/2026-09-08/rec_683024ae81/transcript.v1.md:597-603]. Mid vs late 90s: Open threads.
+- History, 2026-08-08, machine label: Gordon's sketch of his next twelve months: spring in Colorado, "And then up and hang out with Jeff and Sarah in Ellensburg for a while. And then go do Alaska" [v3:data/earballs/transcripts/2026-08-08/rec_2bb0e0982e/transcript.v1.md:3,329].
+- History, 2026-06-20, voiceprint hint Gordon (high confidence), on the Italy trip with his parents: "Our primary modus operandi is to channel Jeff and Sarah, which also means I will be Uncle Jeff when needed" [v3:data/earballs/transcripts/2026-06-20/rec_3860b59c59/transcript.v2.md:14,171].
+- History, 2026-05-23, voiceprint hint Gordon (high confidence), on where a backpacker, Seattle streak in his taste comes from: "No, that's definitely from Jeff and Sarah" [v3:data/earballs/transcripts/2026-05-23/rec_2bced37aba/transcript.v1.md:13,635-641].
+- History, 2026-04-24, voiceprint hint Gordon (high confidence), to Ted Klontz: "my then Aunt Sarah was the one who was like, you're gonna like Sapiens, read this book" [v3:data/earballs/transcripts/2026-04-24/rec_625c97175e/transcript.v1.md:13,482]. "then" is not explained (Open threads).
+- History, 2026-03-28, machine labels (Gordon and Leah, unlabelled speakers): Jeff and Sara are on "my real short list" of duties "when people start to die"; the speaker knows "exactly where all their documents are" and has opened them only "to verify that they're openable" [v2:data/earballs-transcripts/2026-03-28/rec_e2ffaf5fc7/transcript.md:303-307].
+- History, 2026-03-07, v2 labels the turn Gordon (he is reading a card aloud, then speaking): "I know that I'm the executor on at least two wills. Yeah. Your mother's and Jeff and Sarah's." [v2:data/earballs-transcripts/2026-03-07/rec_d3f89ac475/transcript.md:5794]. Unconfirmed (Open threads).
+- History, 2026-03 (v2 folder 2026-03-07, rec_089d7ea6ca), labelled Gordon: Ellensburg as a once-shared dream with Leah: "It gets us close to the rainforest and the ocean and Jeff and Sarah. Jeff and Sarah is the streetlights." [v2:data/earballs-transcripts/2026-03-07/rec_089d7ea6ca/transcript.md:436-444].
+- History, 2026-03-21: v2's contacts merge matched the Sopris entry "Jeff & Sara Ratté (Ellensburg)" to Gordon's Google contact "Sara Moorehead" ("Updated with address") and flagged "Jeff & Sara Ratté have two addresses (Seattle + Ellensburg) — which is current?" [v2:data/contacts-merge-validation.md:16,63].
+- History, migrated 2026-03-21 from Google Tasks: recommendations from "Jeff and Sara": Laurel Canyon, Muscle Shoals, Wild Wild Country; from "Aunt Sara": The Dam Busters, "News of the West" (as written) [v2:personal/content-backlog.md:91,98,99,104,117,123].
+- History, 2026-03-15/16: Gordon's voice memo names an AI expert panel with "AI Renée slash Sarah" [v2:data/earballs-transcripts/2026-03-15/rec_f94050d79e/transcript.md:24,35]; v2 built it as an "AI Brené Brown + Aunt Sara (hybrid)" board persona, based on her change-communication career, lens "relational dynamics, human response to change" [v2:personal/ai-board-of-directors.md:27-31]; v2 task T051 to finish it [v2:personal/action-items.md:126]. The persona's traits are v2's design, not a description of her.
+- History, 2026-03-15: v2's roster note: "Sara Moorehead file: update to correct spelling from 'Sarah Morehead' wherever it appears" [v2:relationships/people/MANIFEST.md:170].
+- History, 2025-10-22, machine labels: "my aunt Sarah was the global director of communications for Barclays Bank through the financial crisis"; a turn labelled as another speaker continues: "Sarah sat on my board for Gordonian [Gordonium] Enterprises when you made me get a board. That's my aunt Sarah." [v2:data/earballs-transcripts/2025-10-22/rec_5a221b70b3/transcript.md:3,1206,1214].
+- History, 2025-10-04: "Jeff & Sara Anniversary", all-day, on Gordon's calendar [v2:data/backlog-calendar-index.json:957-960]; the year they married is not on disk.
+- History, 2025-03-21, labelled Gordon (solo brain dump on Pickle Proof): "Aunt Sarah is connected to someone in the family that founded Pickleball. So let's run this up the flagpole through Aunt Sarah" [v2:data/earballs-transcripts/2025-03-21/rec_887553f0cd/transcript.md:149]; v2's summary lists her the same way [v2:personal/pickle-proof-monologue-2-archive.md:3,307].
+- 2023-12-13: the Sopris locations list has two posts for "Jeff & Sara Ratté": 767 South Homer Street, Seattle, WA (post 245) and 5580 Secret Canyon Road, Ellensburg, WA (post 246) [doc:people/_sopris-locations.md:55-56].
+- History, undated (migrated 2026-03-21): Gordon's travel bucket list: "Tulsa, OK — Woody Guthrie Center, Bob Dylan exhibit, Massacre site, Aunt Sara" [v2:personal/travel-bucket-list.md:2,24]. Why Tulsa is not stated (Open threads).
+
+## Open threads
+- For Gordon: `people/jeff-ratte.md` (her "partner", from rec_868fb07db8) and `people/jeffrey-ratte.md` (her husband, from v2) look like one man; this file links to both and merges nothing. Which slug stays? Also asked in [doc:people/jeffrey-ratte.md:51].
+- For Gordon: which address is current, 5580 Secret Canyon Road, Ellensburg (filed as contact, per the Sopris rule and the 2026-09 plan "in the house") or 767 South Homer Street, Seattle; is the Seattle house still theirs? A 2026-09-08 remark still says "who live in Seattle" [doc:people/_sopris-locations.md:55-56], [doc:personal/projects/alaska-2027/04-route-master.md:151], [v3:data/earballs/transcripts/2026-09-08/rec_683024ae81/transcript.v1.md:597].
+- For Gordon: did Sara sit on a board for Gordonium Enterprises, and when? The only source is a machine transcript whose speaker labels split the turn [v2:data/earballs-transcripts/2025-10-22/rec_5a221b70b3/transcript.md:1214].
+- For Gordon: are you the executor of Jeff and Sara's wills? One v2 turn mixes a card being read aloud with speech [v2:data/earballs-transcripts/2026-03-07/rec_d3f89ac475/transcript.md:5794]; the 2026-03-28 "documents" lines fit but are unlabelled [v2:data/earballs-transcripts/2026-03-28/rec_e2ffaf5fc7/transcript.md:305-307].
+- Annapurna/Nepal date: "mid 90s" (2026-09-23, speaker confirmed by Gordon) vs "late 90s", "a month in Nepal" (2026-09-08, machine label) [rec_868fb07db8 00:25:53], [v3:data/earballs/transcripts/2026-09-08/rec_683024ae81/transcript.v1.md:603]. The confirmed one is the working date.
+- Tulsa: the bucket-list line puts "Aunt Sara" with Tulsa, OK; nothing else ties her to Tulsa. Is it this Sara, and what is the link? [v2:personal/travel-bucket-list.md:24].
+- 2026-04-24: "my then Aunt Sarah" [v3:data/earballs/transcripts/2026-04-24/rec_625c97175e/transcript.v1.md:482]; whether "then" is a transcription slip or means something (before she married Jeff?) is not stated.
+- 2026-05-08, voiceprint unconfirmed: Gordon on Uncle Jeff: "he gave his whole world over to her, and she left him behind to go to London, and that almost tore him apart" [v3:data/earballs/transcripts/2026-05-08/rec_6189095639/transcript.v1.md:1554]. Whether "her" is Sara (London fits Barclays) is not stated; not filed as fact.
+- Name: she is Sara Moorehead in v2 and Gordon's Google contact, "Sara Ratté" only in the Sopris household name; Sara vs Sarah in transcripts is the transcriber's [v2:relationships/people/MANIFEST.md:50,170], [v2:data/contacts-merge-validation.md:16], [doc:people/_sopris-locations.md:55-56].
+- Pickleball: who in the founding family she is connected to is not on disk [v2:data/earballs-transcripts/2025-03-21/rec_887553f0cd/transcript.md:149].
+- Not read: v2 `tools/build_people_db.py`, `tools/todoist_migrate.py`, `tools/todoist_migrate_run.py`, v3 `_dmz/v2-vikunja-candidates/open-action-items.md` and v3 `Claude outputs/susan-keatley-6-15-transcript.vtt` match her name (never-read list); v2 JSON twins of the transcripts above and `data/desktop-db-export.json` not opened; v3 transcripts with a bare "Jeff and Sarah" and no fact attached (rec_ef82e99073, rec_4c6f048cad) left out. No v2 people file, no v3 memory/people folder, no _CLIENTS folder (family).
+
+## History with Gordon
+- 2026-09-24: Gordon plans 2 to 7 nights with Jeff and Sara in Ellensburg in August 2027, at the end of the Alaska trip [doc:personal/projects/alaska-2027/00-trip-brief.md:78], [doc:personal/projects/alaska-2027/04-route-master.md:151-160].
+- 2026-09-23: Gordon tells Mark Benn about Jeff and Sara's Annapurna trek before Mark leaves for his [rec_868fb07db8 00:25:53, 00:42:32] [doc:personal/recordings/rec_868fb07db8/rec_868fb07db8/summary.md:47].
+- History, 2026-03-28, machine label: "have ordered time to chat with Aunt Sarah while we're in Mexico ... would like you to make time for me to do that" [v2:data/earballs-transcripts/2026-03-28/rec_e2ffaf5fc7/transcript.md:309-311]; v2 read it as Gordon asking Leah [v2:relationships/leah.md:225], then flagged the task as possibly Leah's [v2:personal/action-items.md:381].
+- History, 2025-10-22, machine label: Sara on "my board" for Gordonium Enterprises, "when you made me get a board" [v2:data/earballs-transcripts/2025-10-22/rec_5a221b70b3/transcript.md:1214].
+- History, 2025-08-10: "zoom with Jeff & Sara", 17:00, on Gordon's calendar [v2:data/backlog-calendar-index.json:106-109].
+- History, 2025-03-21: Gordon meant to run Pickle Proof "up the flagpole through Aunt Sarah" [v2:data/earballs-transcripts/2025-03-21/rec_887553f0cd/transcript.md:149].
+- Undated, years ago, machine label: Gordon spent the $1,500 he had "on backpacking gear to go backpacking with jeff and Sarah", two weeks before a house closed [v3:data/earballs/transcripts/2026-08-08/rec_49d9e33a6d/transcript.v1.md:989].

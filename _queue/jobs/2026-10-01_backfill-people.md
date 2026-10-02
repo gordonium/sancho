@@ -81,15 +81,15 @@ stages:
   - {name: temple-grandin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: temple-grandin}, group: D, status: done}
   - {name: amy-ehrhardt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amy-ehrhardt}, group: D, status: done}
   - {name: lathan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lathan}, group: D, status: blocked, blocked: Gordon to say whether Lathan is still a co-owner of American Icon Spirits (separation paperwork 2026-08-28 vs his approval of Gordon s 10% on 2026-09-15) and give his surname; the file is written with}
-  - {name: maria-pia-seirup, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: maria-pia-seirup}, group: E, status: active}
-  - {name: elliott-scott, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-scott}, group: E, status: pending}
-  - {name: leslie-hong, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: leslie-hong}, group: E, status: pending}
-  - {name: bob-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: bob-ratte}, group: E, status: pending}
-  - {name: dora-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dora-ratte}, group: E, status: pending}
-  - {name: jeffrey-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeffrey-ratte}, group: E, status: pending}
-  - {name: pierre-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pierre-ratte}, group: E, status: pending}
-  - {name: beatrice-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: beatrice-ratte}, group: E, status: pending}
-  - {name: sara-moorehead, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sara-moorehead}, group: E, status: pending}
+  - {name: maria-pia-seirup, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: maria-pia-seirup}, group: E, status: done}
+  - {name: elliott-scott, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-scott}, group: E, status: done}
+  - {name: leslie-hong, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: leslie-hong}, group: E, status: blocked, blocked: Gordon to say whether Leslie is still married to KP or who  Tim  is (v2  the Sopris list and Peter s 2026-08-08 remark disagree)  how close they are now  and whether the KP  practice and AI-psychosis }
+  - {name: bob-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: bob-ratte}, group: E, status: done}
+  - {name: dora-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dora-ratte}, group: E, status: done}
+  - {name: jeffrey-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeffrey-ratte}, group: E, status: blocked, blocked: Gordon must say whether people/jeff-ratte.md and people/jeffrey-ratte.md are one person (which slug stays) and confirm whether he is executor of Jeff and Sara s wills; the file and census row are writ}
+  - {name: pierre-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pierre-ratte}, group: E, status: done}
+  - {name: beatrice-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: beatrice-ratte}, group: E, status: done}
+  - {name: sara-moorehead, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sara-moorehead}, group: E, status: active}
   - {name: gina-cizek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gina-cizek}, group: E, status: pending}
   - {name: joan-tropiano-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: joan-tropiano-tucci}, group: E, status: pending}
   - {name: stan-tucci-sr, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stan-tucci-sr}, group: E, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: maria-pia-seirup
+current: sara-moorehead
 waiting_on: []
 ---
 # Backfill people
@@ -314,3 +314,21 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T11:48:36+02:00 job.run: stage `lathan` started
 - 2026-10-02T11:52:43+02:00 job.run: stage `lathan` blocked, recorded, job continues: Gordon to say whether Lathan is still a co-owner of American Icon Spirits (separation paperwork 2026-08-28 vs his approval of Gordon s 10% on 2026-09-15) and give his surname; the file is written with
 - 2026-10-02T11:52:43+02:00 job.run: stage `maria-pia-seirup` started
+- 2026-10-02T12:01:26+02:00 job.run: stage `maria-pia-seirup` done (Stage: done · tests green)
+- 2026-10-02T12:01:26+02:00 job.run: 6 stages in one run; continuation queued (20261002T100126Z_job.run_98e939.md)
+- 2026-10-02T12:01:26+02:00 job.run: stage `elliott-scott` started
+- 2026-10-02T12:09:54+02:00 job.run: stage `elliott-scott` done (Stage: done · tests green)
+- 2026-10-02T12:09:54+02:00 job.run: stage `leslie-hong` started
+- 2026-10-02T12:17:53+02:00 job.run: stage `leslie-hong` blocked, recorded, job continues: Gordon to say whether Leslie is still married to KP or who  Tim  is (v2  the Sopris list and Peter s 2026-08-08 remark disagree)  how close they are now  and whether the KP  practice and AI-psychosis 
+- 2026-10-02T12:17:53+02:00 job.run: stage `bob-ratte` started
+- 2026-10-02T12:23:33+02:00 job.run: stage `bob-ratte` done (Stage: done · tests green)
+- 2026-10-02T12:23:35+02:00 job.run: stage `dora-ratte` started
+- 2026-10-02T12:31:35+02:00 job.run: stage `dora-ratte` done (Stage: done · tests green)
+- 2026-10-02T12:31:35+02:00 job.run: stage `jeffrey-ratte` started
+- 2026-10-02T12:38:23+02:00 job.run: stage `jeffrey-ratte` blocked, recorded, job continues: Gordon must say whether people/jeff-ratte.md and people/jeffrey-ratte.md are one person (which slug stays) and confirm whether he is executor of Jeff and Sara s wills; the file and census row are writ
+- 2026-10-02T12:38:23+02:00 job.run: stage `pierre-ratte` started
+- 2026-10-02T12:44:22+02:00 job.run: stage `pierre-ratte` done (Stage: done · tests green)
+- 2026-10-02T12:44:22+02:00 job.run: 6 stages in one run; continuation queued (20261002T104422Z_job.run_b6eb11.md)
+- 2026-10-02T12:44:23+02:00 job.run: stage `beatrice-ratte` started
+- 2026-10-02T12:49:00+02:00 job.run: stage `beatrice-ratte` done (Stage: done · tests green)
+- 2026-10-02T12:49:00+02:00 job.run: stage `sara-moorehead` started

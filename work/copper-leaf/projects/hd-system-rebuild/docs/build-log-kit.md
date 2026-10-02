@@ -5,7 +5,7 @@ business: copper-leaf
 entity: work/copper-leaf/projects/hd-system-rebuild/
 lobe: work
 description: What the kit track of the overnight build planned and did, stage by stage, with the test commands and their pass and fail numbers; the kit is the Laravel development kit at ~/Dev/clc-laravel/
-sources: ["[doc:build-handoff.md]", "[doc:laravel-kit-spec.md]", "[doc:guard-check-2026-10-01.md]", "[doc:wp-kit-map.md]", "[doc:~/Dev/clc-plugins/, read only]", "[web:code.claude.com/docs/en/hooks, read 2026-10-02 through a summarising fetch tool]", "[gordon 2026-10-02]"]
+sources: ["[doc:build-handoff.md]", "[doc:laravel-kit-spec.md]", "[doc:guard-check-2026-10-01.md]", "[doc:wp-kit-map.md]", "[doc:~/Dev/clc-plugins/, read only]", "[web:code.claude.com/docs/en/hooks, read 2026-10-02 through a summarising fetch tool]", "[web:code.claude.com/docs/en/tools-reference, /permission-modes and /sub-agents, read 2026-10-02 through the same tool]", "[doc:laravel-tooling-research.md]", "[gordon 2026-10-02]"]
 status: live during the build that started 2026-10-02 00:55; each stage adds its plan first and its evidence after
 ---
 # Build log: kit track
@@ -538,3 +538,122 @@ Starting point, checked: the kit is at commit `e7dcc9e`, working tree clean. `ba
 **How it is tested.** Python's own test runner, as K1 and K2. Every hook is handed made-up hook input as text and judged by its answer; the project, the kit folder and the stamp store are made up in a temporary folder for each test, so nothing depends on this Mac and nothing is written into the real kit. The registered command lines are run for real against a hook script that is missing or cut short. `whats-due.py` is given its own "today" and made-up apps with made-up lock files. The preflight is run against stand-in programs. No test reads `hdonline-v4/`, `~/.claude/` or `~/Dev/clc-plugins/`.
 
 **What I will not do.** Register a hook. Edit anything under `~/.claude/`. Link a skill or an agent into a live folder. Install anything. Push, or add a remote. Write inside `hdonline-v4/`. Touch `~/Dev/clc-plugins/` (I read its three skills, as the brief says). Perform the first parity review or write a proposal for the WordPress kit. Start the pilot.
+
+### What was done
+
+**K3 is built, tested and committed. Finished 2026-10-02 12:10 CEST. `bash bin/test-all.sh`: 2,720 tests, all pass (the 2,475 of K1, K2 and the K1 fixes, and 245 new). Nothing is registered, linked, installed, pushed or switched on.**
+
+**The test command and its result.**
+
+```
+bash /Users/gordonium/Dev/clc-laravel/bin/test-all.sh
+```
+
+Result at the last commit (`d47f4ea`): `Ran 2,720 tests in 270.933s`, `OK`, exit code 0. Failures 0, errors 0, skipped 0.
+
+| Test file | Tests | What it covers |
+|---|---|---|
+| `tests/test_plan_gate.py` | 71 | new: the stamp hook; the gate on the file tools and on shell commands (45 writes that must be refused without a plan, 36 commands that must pass); the three registered lines run for real under sh, bash and zsh against a gate that is missing, cut short or crashing |
+| `tests/test_job_file.py` | 36 | new: the job file made from the stamp; the three kinds of stamp; every fixed line; the three lines the ship script reads, held to `bin/ship.py`'s own patterns; the model and effort check |
+| `tests/test_plan_to_ship.py` | 2 | new: one job end to end with the real programs, from the approved plan through the gate and a real run of the ship script against a stand-in for GitHub |
+| `tests/test_preflight.py` | 33 | new: each of the twelve checks, against stand-ins and a made-up home folder |
+| `tests/test_whats_due.py` | 38 | new: the real calendar's shape and the spec's dates; the warnings; the two date rules; the sessions; which files it reads |
+| `tests/test_parity_check.py` | 17 | new: two made-up kits; the gaps, what changed, the lessons, the proposals |
+| `tests/test_skills.py` | 32 | new: the skills held to the kit (names, descriptions, rule IDs, programs, fixed lines); the review agent's tools |
+| `tests/test_registration_check.py` | 45 | was 34: the three plan hooks |
+| `tests/test_installer.py` | 16 | was 11: the links, the stamp try-out, the schedule |
+| the other fifteen files | unchanged | every test of K1, K2 and the K1 fixes is still there and passes |
+
+Earlier tests whose expected words changed, each because the kit now has six hooks and not three: four assertions in `test_registration_check.py`, five in `test_installer.py`, two in `test_guard_wrapper.py`. No earlier test was removed or weakened.
+
+**Four more checks, each run by hand today.**
+
+- **Each new check switched off once.** In a scratch copy, 157 pieces of the new code and of the skills were switched off one at a time and the tests rerun. 151 made a test fail at once. Six did not: four were real gaps (an approval-only stamp whose record is gone; a plan with no stamp line; the decision's own refusal of a path that climbs out of the project; the job-file check's message for a ship line inside the plan), and two were switch-offs I had written wrongly (the skill still named the folder in a second place; the lesson was still named in the ledger). The four gaps each got a test, the two wrong switch-offs were written properly, and the six were run again in a fresh copy: all six now fail a test when switched off.
+- **From a clean copy**, with the home folder pointed at an empty folder and a plain PATH: 2,720 tests, OK, in 301 seconds. The empty folder was still empty afterwards and the copy had no new files.
+- **The registered lines against the real kit**, by hand, with made-up hook input (nothing registered, nothing written): an edit to a file of the real project is refused (PG-1: no job file); its job file, its `.env` (git ignores it), a file of the kit, a file in Sancho's tree and a WordPress plugin file pass; the stamp store is refused (PG-2); `git status` passes and a redirection or `php artisan make:model` into the project is refused; a plan that is not for a Laravel project is not stamped. Each call took about 45 milliseconds.
+- **The real programs, once each, reading only.** `bin/whats-due.py`: nothing is due today (exit code 0); the first app runs Laravel 13.34.0, PHP 8.5, Pest 5.3.0. `bin/preflight.py` on the first app: 2 problems (the hooks are not registered; the app does not carry the template's pieces) and 6 notes. `bin/parity-check.py`, this kit's side only: the lint passes. `bin/install-mac.sh`: prints its ten steps and changes nothing.
+
+**The first real run found a fault, which is fixed.** `bin/whats-due.py` reported the first app as overdue on PHP 8.3. It had read the app's `main`, which holds only the installer's skeleton commit; the work is on a branch, on PHP 8.5. The script now reads `main` only once production is live, and says which it read. That is lesson LL-13.
+
+**What exists now**, all under `/Users/gordonium/Dev/clc-laravel/`:
+
+| Path | What it is |
+|---|---|
+| `skills/laravel-plan/`, `laravel-write-plan/`, `laravel-code/`, `laravel-review/`, `laravel-ship/` | the chain. Each starts with a table that says what holds its step: a wall, a hook, or instruction |
+| `skills/laravel-update/`, `skills/kit-parity/` | the updates schedule; the comparison of the two kits |
+| `config/agents/laravel-reviewer.md` | the review agent: Read, Grep and Glob, and no other tool |
+| `bin/plan_gate_core.py` | what the plan-gate programs share; the three kinds of stamp are explained at its top |
+| `bin/plan-stamp.py` | hook 1: records Gordon's approval when plan mode is left with approval |
+| `bin/plan-gate.py` | hook 2: no change to a project's files without an open job file holding a stamped plan; rules PG-1 to PG-5 |
+| `bin/job-file.py` | makes the job file from the stamp, adds its lines at the end only, checks it |
+| `bin/model-effort-check.py` | the model and effort check, before any code |
+| `bin/preflight.py` | twelve checks of the safety net at the start of a job |
+| `config/updates-calendar.json`, `bin/whats-due.py` | 15 rows, each with its source and read date; what is due, with an exit code |
+| `bin/parity-check.py`, `parity/proposals/`, `parity/reviews/` | what a comparison has to look at; where proposals and reviews go, and their shape |
+| `config/plan-gate.json` | which kinds of stamp the gate accepts. Gordon's file |
+| `config/claude-settings-hooks.json`, `bin/check-registration.py` | the example block and the check, now with six hooks |
+| `bin/install-mac.sh` | still only prints: now also the links for the skills and the agent, the stamp try-out, the schedule |
+| `CLAUDE.md`, `LESSONS.md`, `parity/ledger.md`, `docs/HANDOFF-laravel-dev-kit.md` | three new rules (L-1.14, L-1.15, L-12.4), 129 rule IDs; 14 lessons, none left with "not built yet"; 105 ledger rows; the handoff's new section 4b |
+
+**Commits.** 14 since the K1 fixes' `e7dcc9e`, local only, on `main`. Last: `d47f4ea`. No remote exists. The working tree is clean.
+
+**The hook question, and the label.** A hook can attach to leaving plan mode: confirmed in Claude Code's documentation (leaving plan mode is the tool call `ExitPlanMode`; tool names are what hook matchers name; a hook that runs after a tool runs only when the call was approved). That the hook is handed the plan's text is NOT in the documentation. I read it in the installed program (version 2.1.286) and could not try it, because I may not register a hook. So the honest fallback is built, and the row is labelled "instruction" in the rules file, in the skills and in the handoff:
+
+| Row of section 7.0 | What it is in the kit today |
+|---|---|
+| Plan mode; Gordon's approval | wall (the app's). Two documented limits: he can leave plan mode without approving; a terminal session with "bypass permissions" available does not enforce plan mode |
+| The approval is recorded by a hook, not by Claude | hook: built and tested, not registered |
+| The record holds the plan's exact words | **instruction**, until seen once with a live hook. Built for both cases: with the text the stamp is "hook" and one changed word in the job file is noticed; without it the stamp says "approval-only" and the wording is Claude's copy |
+| No file change without a stamped, written plan | hook on the file tools: built and tested, not registered |
+| A shell command that writes a file | hook for the obvious forms; the rest is instruction |
+| The effort level | hook (documented as handed to every tool hook; not seen live) |
+| The model, and Gordon's confirmation | instruction, held in order by the hook |
+
+With nothing registered, every job today gets the third kind of stamp, "agent", and the write-plan skill tells Claude to say so to Gordon in one sentence.
+
+**What I could not confirm.**
+- Whether the stamp hook is handed the plan's text, and whether Claude Code shows the hook's message. The installer's step 8 is a two-minute try-out for Gordon after registering.
+- The effort level in a hook's input; that a plan-gate hook also runs for subagents' file tools; that an agent type with three listed tools has no others. All three are in the documentation and none was tried.
+- Whether a skill can switch a session into plan mode by itself. If not, the plan skill asks Gordon to.
+- The calendar's dates. They are the spec's and the research's, read on 2026-10-01. I re-read no source page.
+- No skill has run a real job. That is the pilot.
+
+**What I did beyond or differently from the spec.** Each is in the kit handoff, section 5, numbers 42 to 53.
+1. **A preflight program** (`bin/preflight.py`). The spec gives the preflight to the edit skill (section 5, item 7); the rules file and four lessons were waiting for it. It is a program, with tests, and the plan skill runs it.
+2. **The job file is made by a program** from the stamp record, so the plan is copied and not retyped. The spec says "put the approved plan, word for word, into the job file".
+3. **Three kinds of stamp, and a settings file** that says which the gate accepts. The spec has two cases (the hook writes the stamp, or the agent does).
+4. **The stamp lives in the kit folder**, not in the project. A plan can be approved before a new project has a repository.
+5. **The plan gate fails differently from the guards.** It never refuses the kit's own files, and when it cannot start it refuses only changes that name a kit project. The file tools are how a broken guard is mended.
+6. **A file git ignores is not the gate's business** (vendor, the local database, `.env`).
+7. **The job file's record is one list at the end.** The ship script reads "ship it" by its place after the last review; sections would have let an old "ship it" count for a new review.
+8. **The closing lines of a job file reach `main` with the next job.** They are written after `main` has moved. The write-plan skill brings them forward, and the calendar script reads the job files on disk too. The spec did not say how the closed record reaches `main`. Lesson LL-14.
+9. **The model and effort check is partly mechanical**: the effort level is compared by the hook. The spec left that open.
+10. **The reviewers get their material as files**, because an agent that cannot write cannot run `git diff` either.
+11. **Not built: the `migrate:rollback` exception** that K1 and K2 handed to this stage. It loosens a guard rule that has just been attacked and fixed, and my brief does not ask for it. The job file has the line it would read.
+12. **Not built: a `laravel-new` skill.** The spec lists it as a sixth skill; my brief names five, the update skill and the parity skill. The program `bin/laravel-new.py` exists (K2), and the plan skill takes a job of the kind "new project".
+13. **The calendar has a row the spec's table does not**: Node 26, from the tooling research, because decision D9's rule needs it.
+
+**For Gordon**, each with Sancho's pick.
+1. **Register the plan-gate hooks only after this build has finished.** From the moment they are on, a change to a project with no job file is refused, and this build's own agents write into `hdonline-v4` under the build handoff, with no job file. Pick: register the three guard hooks when you are ready, and the three plan-gate hooks after the build's last stage.
+2. **Then try the stamp once** (installer, step 8). It settles the one thing I could not confirm.
+3. **The plan gate fails open for shell commands and for the kit's own files.** Say if you want it to fail closed like the guards. Pick: leave it; a gate that keeps the order of work should not be able to lock the tools that mend the guards.
+4. **`migrate:rollback` on staging: always refused, or allowed on your recorded say?** Pick: leave it refused until a staging server exists and a rollback is first needed.
+5. **Something must run `bin/whats-due.py` on a schedule** and surface its exit code. That is Sancho's side to wire.
+6. **The first app's Node line and server are not on the calendar.** They go in at the first monthly session.
+7. **The WordPress skills still trigger on bare words** ("ship it", "review this"). The Laravel descriptions were written not to collide; tightening the WordPress ones is the existing proposal P-9.
+
+**For the review of K2 and K3.**
+- The attack should include the plan gate: `tests/test_plan_gate.py` lists the 45 shell forms it refuses and the 36 it lets through, and the header of `bin/plan-gate.py` says what it does not see.
+- `bin/plan_gate_core.py` repeats the list of the kit's own folders so that the gate still starts when `bin/guard_core.py` is broken. A test holds the two lists together.
+- A new hook needs its exact command text in `bin/check-registration.py`, and a new slow test its name in `bin/guard-selftest.py`. `tests/test_plan_to_ship.py` is in the slow group.
+- The first app does not carry the template's pieces. Until it does, `bin/preflight.py` reports P8 as a problem, and `bin/ship.py` cannot ship it (no `.kit/project.json`).
+
+**What I read outside the kit, said plainly.**
+- **In `hdonline-v4/`: nothing written.** Read: its branch names and the last commit of `main`; the `"php"` line of `composer.json` on `main` and on disk (to understand the "overdue" report above); and what the two read-only programs read when I ran each once for real: the lock file, `composer.json`, the job folder, the project check's files, and, for the preflight, the NAMES of the settings in its `.env`. No value from `.env` was printed or kept.
+- **Under `~/.claude/`: nothing written.** Read: the hook-development pages of the official plugin marketplace (searched for "plan", "effort", "model"); the settings file, by the registration check; and this Mac's session records, searched by a script that printed only the NAMES of the fields of any plan-mode exit (there was none). I also searched the installed Claude Code program's own text for those field names.
+- **On the network:** five reads of Claude Code's documentation at code.claude.com (the hooks page twice, the tools page, the subagents page, the permission-modes page), through the fetch tool. Nothing else.
+- **One slip against the brief's rule about my own command line.** One command of mine carried example ssh and push text: a here-document handed to Python, which passed the text to the shell guard's decision function with the made-up test names, to see whether the commands the skills show would pass. Nothing ran and no server was contacted, and the live-site guard on this Mac did not refuse it. It was still text I was told to keep in files. The same check is now a test in a file (`tests/test_skills.py`, class `TheCommandsTheSkillsShow`).
+
+**Refused by the app's safety check:** nothing.
+
+**Untouched, checked at the end.** `~/.claude/settings.json` was last changed on 2026-10-01 21:23, before this run, and holds no line that names `clc-laravel`. `~/.claude/skills` holds no Laravel skill and `~/.claude/agents` is empty: nothing is linked. `~/Dev/clc-plugins/` still shows five uncommitted files (counted, not read); I read its three skill files, as the brief says, and nothing else there. The kit has no remote. The real kit has no `.kit-state` folder: no stamp was written and no list of programs accepted. Nothing else was written in the Sancho tree but this section.
