@@ -12,7 +12,20 @@ status: live during the build that started 2026-10-02 00:55
 
 Started 2026-10-02 00:55 on "Approved, GO!" [gordon 2026-10-02]. Rules and scope: `build-handoff.md`. Each stage goes build, then review (findings in `docs/reviews/`), then fix. The orchestrating thread updates this file every time an agent reports; it starts the next stage of a track only when the one before is fixed and its tests pass.
 
-## STOPPED at 20:27: the Fable credit is spent (read this first)
+## 21:45: Gordon's new aim, a working version by morning (read this first)
+
+"Having a working version by tomorrow morning is a priority - but it doesn't need to be battle-tested, just 'works as it should when used as it should be' - Does that make sense? Could we get that built tonight perhaps on Fable High for another $100 or so?" [gordon 2026-10-02]
+
+**The local address works again (fixed 21:47, no app code touched).** `http://hdonline-v4.test` gave no answer at all: Herd's web server would not start, for every Herd site, because the site file Herd wrote when the app was switched to PHP 8.5 (01:06, while the Herd app was timing out) had empty paths in it (`nginx -t`: "empty replacement in .../valet/Nginx/hdonline-v4.test:17"). Switching the isolation off and back on to 8.5 rewrote it with the right paths. Checked: `/up` 200, `/login` 200, served by PHP 8.5.10.
+
+**Sancho's plan for the morning version, for Gordon's yes** (Fable builds, Opus checks):
+1. Finish the importer from the uncommitted work in the tree and run it on the real history; the local site shows that history, on this Mac only, behind the login.
+2. Make the everyday paths work end to end in a real browser: log in; find a client or job by name, address or month; open a file by hand; the duplicate prompt; the invoice description; make the letter and send letter and invoice (to the stand-ins: no real Google, Brevo or Calendly account exists); mark paid; the change history; delete and restore; Settings. Browser tests of each, and fix whatever breaks.
+3. One Opus walkthrough of Peter's morning; one Fable fix of whatever stops normal use.
+Deferred until after the morning: the four serious review findings from P3 (all in edge cases of Calendly and Google Docs; they matter before go-live, not for use on this Mac), the conversion of the old letters, the kit, backups.
+About 3 Fable hours: about $90 at tonight's max-effort rate, less at High (not yet measured).
+
+## STOPPED at 20:27: the Fable credit is spent
 
 **Evening run, 18:42 to 20:27:** extra usage went from $53.18 to **$151.66** (limit $150; the app switched extra usage off again at the limit) = **$98.48** for about 196 Fable agent-minutes = **about $30 per Fable agent-hour at max effort**. Opus reviews do not touch the credit (weekly all models 59% to 64% for three reviews and this thread).
 
