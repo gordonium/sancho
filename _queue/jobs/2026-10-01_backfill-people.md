@@ -58,13 +58,13 @@ stages:
   - {name: peter-nevland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: peter-nevland}, group: C, status: done}
   - {name: robin-kressbach, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-kressbach}, group: C, status: done}
   - {name: roy-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: roy-williams}, group: C, status: blocked, blocked: Gordon to say whether  Corrine  (keeps Roy s calendar) is Carmyn Wilson misheard or a separate person  Penny or Pennie  and whether the 2023 Austin address is current; the file and census row are writ}
-  - {name: ryan-chute, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-chute}, group: C, status: failed}
-  - {name: stephen-semple, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-semple}, group: C, status: pending}
-  - {name: steve-rae, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: steve-rae}, group: C, status: pending}
-  - {name: syre-klenke, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: syre-klenke}, group: C, status: pending}
-  - {name: todd-lyles, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: todd-lyles}, group: C, status: pending}
-  - {name: tom-wanek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-wanek}, group: C, status: pending}
-  - {name: vi-wickam, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: vi-wickam}, group: C, status: pending}
+  - {name: ryan-chute, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-chute}, group: C, status: blocked, blocked: Gordon to say whether the 2025-10-28 dinner lines against Ryan Chute ( manipulative   overcharged them   don t take him into account   he thinks I like him… advantageous ) are his  and whether that is}
+  - {name: stephen-semple, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-semple}, group: C, status: done}
+  - {name: steve-rae, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: steve-rae}, group: C, status: done}
+  - {name: syre-klenke, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: syre-klenke}, group: C, status: done}
+  - {name: todd-lyles, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: todd-lyles}, group: C, status: blocked, blocked: Gordon must say whether the  Todd  who connected Comfort Masters to Peter Nevland (census `todd-comfort-masters`) is Todd Lyles; the file and census row are written with the question in Open threads.}
+  - {name: tom-wanek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-wanek}, group: C, status: done}
+  - {name: vi-wickam, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: vi-wickam}, group: C, status: active}
   - {name: cedric-yau, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: cedric-yau}, group: C, status: pending}
   - {name: jeff-sexton, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-sexton}, group: C, status: pending}
   - {name: zac-smith, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: zac-smith}, group: C, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: ryan-chute
+current: vi-wickam
 waiting_on: []
 ---
 # Backfill people
@@ -263,3 +263,18 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T04:05:04+02:00 job.run: stage `ryan-chute` attempt 1 failed (Stage: (no verdict line)); evidence _queue/results/20261002T014035Z_job.run_618866-ryan-chute-evidence-1.md
 - 2026-10-02T04:06:30+02:00 job.run: stage `ryan-chute` attempt 2 failed (Stage: (no verdict line)); evidence _queue/results/20261002T014035Z_job.run_618866-ryan-chute-evidence-2.md
 - 2026-10-02T04:06:30+02:00 job.run: stage `ryan-chute` stopped: identical failure on attempts 1 and 2 (no progress): Stage: (no verdict line). Evidence: _queue/results/20261002T014035Z_job.run_618866-ryan-chute-evidence-2.md
+- 2026-10-02T09:0x+02:00 cowork: `ryan-chute` reset to pending; the 04:06 stop was the Anthropic monthly spend limit (session limit reset 05:40), not the stage; job.run re-queued [gordon back online 2026-10-02 08:57]
+- 2026-10-02T08:58:23+02:00 job.run: stage `ryan-chute` started
+- 2026-10-02T09:04:58+02:00 job.run: stage `ryan-chute` blocked, recorded, job continues: Gordon to say whether the 2025-10-28 dinner lines against Ryan Chute ( manipulative   overcharged them   don t take him into account   he thinks I like him… advantageous ) are his  and whether that is
+- 2026-10-02T09:04:58+02:00 job.run: stage `stephen-semple` started
+- 2026-10-02T09:15:39+02:00 job.run: stage `stephen-semple` done (Stage: done · tests green)
+- 2026-10-02T09:15:40+02:00 job.run: stage `steve-rae` started
+- 2026-10-02T09:23:01+02:00 job.run: stage `steve-rae` done (Stage: done · tests green)
+- 2026-10-02T09:23:01+02:00 job.run: stage `syre-klenke` started
+- 2026-10-02T09:32:25+02:00 job.run: stage `syre-klenke` done (Stage: done · tests green)
+- 2026-10-02T09:32:25+02:00 job.run: stage `todd-lyles` started
+- 2026-10-02T09:38:59+02:00 job.run: stage `todd-lyles` blocked, recorded, job continues: Gordon must say whether the  Todd  who connected Comfort Masters to Peter Nevland (census `todd-comfort-masters`) is Todd Lyles; the file and census row are written with the question in Open threads.
+- 2026-10-02T09:38:59+02:00 job.run: stage `tom-wanek` started
+- 2026-10-02T09:48:10+02:00 job.run: stage `tom-wanek` done (Stage: done · tests green)
+- 2026-10-02T09:48:10+02:00 job.run: 6 stages in one run; continuation queued (20261002T074810Z_job.run_850257.md)
+- 2026-10-02T09:48:10+02:00 job.run: stage `vi-wickam` started

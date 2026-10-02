@@ -302,3 +302,184 @@ No Google, Brevo or Calendly account exists for this app. Nothing in this stage 
 **How it is tested.** Pest, with the code, on invented data. For letters: the naming rule case by case; each tag's value; the address block with and without a street; the stamp for Connecticut, New York, elsewhere and a virtual visit; a correction to a client's name with that same name typed into the body of the Doc, asserting the body is untouched while the name, the address block and the salutation change; the same for a property address; the real Google class against faked responses, asserting the exact requests it would send. For invoices: number format, uniqueness, a full month; the PDF is a real PDF with one page; the paid copy says paid. For mail: the Brevo transport against a faked Brevo (payload, key header, refusal); the trap in every environment, with and without a trap address, through the listener and through the transport alone; made-up delivery reports, including a repeat, an unknown message and a wrong token. Screens through their routes, with the history asserted for every action.
 
 Done means `herd composer test`, `herd composer lint` and `herd composer analyse` pass, with the numbers below.
+
+### Restart (second builder, 2026-10-02 08:50 CEST)
+
+The first builder was cut off at about 04:00 when the connection dropped. It had made no commit and had not written its results here. I am a second agent: Claude, model `claude-fable-5-1` (Fable 5.1). I cannot see my own effort level. I wrote none of the code above.
+
+**What I found.** 109 changed or new files on top of `c5e734f`, the plan above carried out through step 11 except this log and the commit. Before changing anything I ran the three checks on the tree as found: `herd composer test` 853 tests, 3,001 assertions, 0 failed; `herd composer lint` passed; `herd composer analyse` 0 errors. I then read every changed and new file.
+
+**Plan for the restart (written before any change).**
+1. Commit the tree as found, as one commit, so that what I keep and what I change afterwards is plain in the git log.
+2. Fix what the reading turned up, each with a test written to fail first, each its own commit:
+   - the tests write into this Mac's log file again whenever a test poses as staging or production (P1 had closed that);
+   - a letter can be made twice (two Docs for one file) when the "Create the letter" button is pressed while the queued job is still making it;
+   - filling the tagged places leans on a guess about how Google treats text put in at the very edge of a named range; make the result the same whichever way Google does it.
+3. Look at a real invoice PDF and a stand-in letter with my own eyes (invented data).
+4. Run the three checks, `composer audit`, and the hostile-shell proof again; write the results, the decisions and the list of what cannot be proven here; commit.
+
+### What was done (finished 2026-10-02 09:25 CEST)
+
+**State: built, tested, committed.** Steps D and E work end to end against the stand-ins. Nine new commits on `feature/v4-build`, `dadcc67` to `6ab6cf3`; working tree clean; no remote, nothing pushed. Nothing here has touched Google or Brevo, and no screen has been looked at in a browser.
+
+**What exists now.**
+- **Letters.** One interface (`App\Letters\LetterDocs`). The real store (`GoogleLetterDocs`) is written against Google's Drive and Docs interfaces and has only ever been run against made-up answers. The stand-in (`StandInLetterDocs`) keeps each Doc as a small file and is what this Mac and every test use. A letter is a copy of the template for the file's service, named `Home-Directions-letter_YYYYMMDD_property-address_client-name`, with the seven tags filled. Each filled place is a named range in the Doc, so a correction replaces what the range holds and nothing else, and renames the Doc. The address block closes up when the client has no street. The stamp follows the property's state (Connecticut, New York, otherwise none) for every job, virtual visits included.
+- **Sending a letter.** The Doc is shared "anyone with the link can view"; a PDF is made of it as it stands and kept; the client is mailed the link and the PDF; the people marked "copied" on the job are copied; the message log notes the revision.
+- **Invoices.** Made in the same act as the file, from the service's text in Settings. Number `HD-YYMM-NNN`, three random digits, unique (the table refuses a repeat too). A real PDF made here with dompdf. Send, mark paid (who and when; a paid copy goes to the client), send again.
+- **Mail.** A Brevo transport for the framework's mailer; the framework's own `log` and `array` mailers stand in. From `office@homedirections.net`, with a copy to that mailbox. One line per recipient in the message log. Brevo's reports arrive at `POST /hooks/brevo`, closed without the token.
+- **The trap.** Mail reaches a real client only where the environment is `production` **and** `HD_MAIL_LIVE=true`. Anywhere else every message goes to the one address in `HD_MAIL_TRAP`; with none set, a mailer that could really send refuses. Three places enforce it (the rule, a listener on every outgoing message, the Brevo transport itself).
+- **Settings screen.** The three invoice texts, the template Doc for each service (one can serve all three), the two stamp images.
+- **File screen.** Invoice panel, letter panel, message log. The status and the "next step" follow what has happened.
+- **History.** Every action above writes it: opening, each correction, the Doc and its name, each send, the payment, each Settings change.
+
+**Evidence.** Run in the app folder through Herd's PHP 8.5 at 09:19:
+
+| Command | Result |
+|---|---|
+| `herd composer test` | passed: 868 tests, 3,054 assertions, 0 failed, about 10 s (597 before the stage; 853 on the first builder's tree) |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `herd composer audit` | no advisories (dompdf 3.1 and what it brings are the only new packages) |
+| the suite with `DB_DATABASE`, `APP_ENV=production`, `MAIL_MAILER=smtp`, `HD_MAIL_LIVE=true`, `HD_LETTERS_DRIVER=google`, a Brevo key and a Google token all set in the shell, against a scratch database with a marker row | 868 passed; the marker row and both tables untouched |
+| this Mac's log file before and after a run of the suite | 11,668 lines both times (it grew by about 200 lines a run before the fix below) |
+| one invented job run through the app outside the tests (local settings, a scratch database and scratch storage, nothing written into the project): open the file, type into the stand-in Doc, correct the name and the address, send the invoice, send the letter, mark paid | invoice `HD-2610-235`, $875.00; the Doc renamed and its tagged places corrected while the same misspelt name in the typed sentence stayed; six lines in the message log (invoice, letter, paid copy, each to the client and the office); three PDFs kept; status "paid", next step "Close the file" |
+| the invoice PDF and the paid copy, opened and read | one page each: letterhead, number, date, "Bill to", "For", the description and price, "Amount due" (or "Paid October 2, 2026. Thank you."), how to pay |
+| the letter's PDF as kept at sending in that run (the stand-in's plain rendering), opened and read | the corrected name, address block, "Re:" line and greeting; the misspelt name and the old street still standing in the typed sentence |
+
+**What I kept of the first builder's work: nearly all of it.** I read every file. The design is sound and the tests are real: the "name in Peter's own sentences" test is there exactly as asked, on a file opened through the real routes. Its work is commit `dadcc67`, one commit, because it came as one piece and its parts lean on each other.
+
+**What I changed, each with a test that failed first:**
+
+| Commit | What was wrong | What it does now |
+|---|---|---|
+| `b92fbd4` | The tests wrote into this Mac's log again. `LOG_CHANNEL=null` reads as "no channel", and the framework only falls back to the null channel while the environment is "testing"; the mail-trap tests pose as staging and production. | The default channel names the null channel. A test poses as each environment and looks. |
+| `1760146` | A file could get two Docs. On a server the letter is made by a queued job a moment after the file is opened; "Create the letter", pressed in that moment, copied the template a second time. | One at a time per file (a lock), and the second reads the file again and finds the first one's Doc. |
+| `e9ded03` | Filling the places leaned on a guess. The address block's range starts exactly where the name's ends. The edits wrote the name at that edge while the address range already existed. If a Google Doc takes text at the edge into the range, the address range swallows the name, and the next address correction deletes the name from the letter. The stand-in assumed the other behaviour, so every test passed. | All our ranges are dropped first, the text is changed, and every place is named last by arithmetic. A test plays a Doc both ways and gets the same letter. |
+| `b7fa134` | Every client message was headed with a link to this system's own address (the framework's default mail frame links to `APP_URL`). | The frame names the firm and links to `www.homedirections.net`. Found by reading what the log mailer wrote. |
+| `c8a6eab` | Google's access token was remembered under one fixed name for 45 minutes, so a site given another Google account went on acting as the old one. | Remembered under a mark of the credential. A token Google rejects is replaced and the call made once more. |
+| `7c47383` | A message Brevo refused showed as "Not delivered" with a link "The PDF as sent". | "Not sent", with the reason; no such link. |
+| `c3d7124`, `6ab6cf3` | | README: what a server needs; one more test of the request Google is sent. |
+
+**Not done, and why.**
+- Nothing was sent to Google or Brevo; no account exists. The list of what that leaves unproven is below.
+- Nobody has looked at the screens in a browser, as in P1. The panels are tested on their HTML. I did not log in to a running copy.
+- `http://hdonline-v4.test` did not answer at all at 09:15 (it answered 500 after P1). Herd's services need Gordon's restart; not mine to work round.
+- "Are you sure?" on the Send and Mark paid buttons, and an undo for a payment recorded by mistake: not in the documents; asked below.
+- The from address as a Setting, the Calendly map, users and the Connections panel are stage P3's.
+- This Mac's `storage/logs/laravel.log` still holds about 11,000 lines of noise from earlier test runs (invented data and stack traces, no password). I left it; it is ignored by git.
+
+**Refused or blocked.** Nothing was refused by the app's safety check. I opened nothing under `~/Dev/hd-v4-import-data/` or Downloads and did not read `~/Dev/clc-plugins/`.
+
+### Decisions the documents did not settle
+
+The first builder's, as the code shows them (it left no list), then mine.
+
+1. **The status follows the facts** (P1 plan-fit finding 13). "Sent" and "paid" are set by the system; a person sets booked, visited, drafting, closed, cancelled. Paid before the letter goes, the file stays as it is and the payment shows on the invoice. Why: payment often comes first, and Gordon has not yet answered P1's question 2.
+2. **The message log has one line per recipient**, with who it was meant for when the trap sent it elsewhere, and a failure with its reason (finding 21). Why: Brevo reports per recipient.
+3. **The invoice takes its wording and price from the file each time it goes out, until it is paid; then both are settled.** Why: one editable field, as the plan says; a paid invoice must not change.
+4. **The invoice number's year and month are when the invoice is made**, on the firm's clock, not the job's date.
+5. **The PDF library is dompdf.** Pure PHP, no browser on the server.
+6. **The letterhead image and the "how to pay" lines** (check payable to the firm; Zelle to the firm's Gmail address, naming the Treasurer) are in the repository, taken by the first builder from the old system. I have not checked them against it. They are the firm's own facts, not client data.
+7. **A message is sent while the person waits, not queued.** The kit says outbound work is queued. Why not here: the person who pressed Send is told at once whether it went, and the log needs the name Brevo gives the message.
+8. **The office's copy is a blind copy.** The client does not see it.
+9. **People marked "copied" get the letter, not the invoice or the paid copy.**
+10. **Live means two things together**: the production environment and `HD_MAIL_LIVE=true`. Why: a staging site left in production mode, or a production site not yet meant to send, mails nobody. A trapped message says "[Test, meant for ...]" in its subject.
+11. **Brevo's reports are let in by a bearer token.** Recorded: delivered, opened (the first), and as "not delivered" with the reason: a hard or soft bounce, a block, an invalid address, an error. Not recorded: clicks, deferrals, spam complaints, and opens by a mail program's privacy proxy (they do not mean a person read it).
+12. **The app signs in to Google as one Google user, with a refresh token.** Not a service account. Why, as far as I can reconstruct it (unconfirmed): a service account cannot own files in an ordinary Drive folder on the Business Starter plan. Which user, and how narrow the permission can be made, is Gordon's (plan section 11, item 6).
+13. **A tagged place is a named range in the Doc.** An address or a stamp alone on its line owns the line, so an empty one leaves no blank line and can be filled again.
+14. **The date on the letter, and in its name, is the job's date.**
+15. **The client part of the Doc's name is the surname** (both surnames of a couple who have two); the address part is street, unit and town.
+16. **The greeting is by first name** ("Dear Ada and Ben,"); with no first name, the name on the record; with no name, "To whom it may concern:".
+17. **The address block shows only when there is a street.** A town alone is not an address to write to.
+18. **A corrected state moves the stamp** on files at that property whose letter has not gone and whose stamp was still the one the old state gave. A stamp chosen by hand, and the stamp on a sent letter, stay. (P1 left this to P2.)
+19. **A correction reaches every letter of that client or property, sent ones included.** Only the stamp is frozen at sending. Why: R2.3 says fix it once, right everywhere. Asked below.
+20. **Only a place whose value changed is rewritten.** What Peter retypes inside a place stays until the system has something new to say there.
+21. **The letter is made by a queued job once the file is safely stored**, with a button to do it at once. Why: opening a file must never wait on Google.
+22. **The client's link is the Doc's "preview" address**, which shows a page, not an editor (R3.6).
+23. **A stamp image is given to Google by a signed address on this site, good for half an hour.** Until an image is in Settings, the place is empty and the file says so.
+24. **The stand-in may be chosen on staging; production refuses it.**
+25. **Settings are open to all three people**, behind one rule that can be tightened in one line (P1's question 3).
+26. **Every PDF that goes out is kept by itself**, on a disk no web address reaches. A resend never overwrites.
+27. **Google refuses a fill if the Doc changed since it was read** (so a letter being typed in is never edited on a stale reading); the job tries again later.
+28. **A payment is recorded even when the paid copy cannot be sent** (no email address, mail down); the screen says the copy did not go.
+
+Mine:
+
+29. **The first builder's work is one commit.** Why: splitting it after the fact would have made commits that do not pass alone.
+30. **One process at a time per letter**, waiting up to 20 seconds, the lock letting go by itself after 150. Why: the job's own time limit is 120.
+31. **Every range of ours is dropped and named again on every fill**, the unchanged ones too. Why: it is the only way the result cannot depend on what Google does at a range's edge.
+32. **The frame of every message names "Home Directions, inc." and links to `https://www.homedirections.net`.** The staff's set-your-password message uses the same frame.
+33. **`LOG_CHANNEL=null` means "log nothing"** rather than "no channel", in every environment.
+
+### What cannot be proven until the real Google and Brevo accounts exist
+
+Google:
+- That Google accepts each request as written: the copy into the letters folder, the batch of edits, the rename, the link sharing, the PDF export, the list of revisions.
+- Which permissions the credential needs, and whether the Workspace's own rules allow "anyone with the link".
+- That a refresh token keeps working. If the Google app is left in "testing" status its tokens may expire after a week (from memory; unconfirmed). The Google checklist should settle this.
+- What a Doc does when Peter types at the very edge of a tagged place, deletes part of one, or cuts and pastes one. The system's own fills no longer depend on it; his typing still does.
+- How the lines look after the address block closes and opens again (paragraph spacing and style).
+- That Google can fetch the stamp image from the site, and how large it places it (no size is sent).
+- That a letter full of photographs still exports as a PDF. Drive's export has a size limit (10 MB, from memory; unconfirmed).
+- That the "revision" Drive reports is the one the PDF shows; there is a moment between the two calls.
+- How often a fill is refused because somebody is typing in the Doc at that moment.
+- The real template: that its tags are these seven, spelled this way, with the address and the stamp each alone on a line.
+- That the "preview" link looks like a document to a client who is not signed in to Google.
+
+Brevo:
+- That Brevo accepts the message as built (sender, recipients, the PDF attached) and that the firm's sender is approved there.
+- That the name Brevo returns for a message is the one its reports carry, with or without angle brackets.
+- That Brevo can send its reports with a bearer token, one report per recipient, the copies included.
+- That "opened" is switched on in the account, and what it reports for mail programs that hide opens.
+- That a message to `office@homedirections.net` reaches the Gmail box (plan section 11, item 4).
+- That real mail lands in inboxes, not in spam.
+
+The server:
+- The queue worker, the lock in the database cache, and that the kept PDFs survive a deploy.
+- The trap on a real staging site: Gordon running one whole job and receiving every message himself (step E's gate).
+- The screens, in a browser.
+
+### Questions for Gordon
+
+1. **Should a correction change letters that have already been sent?** Today a corrected name or mailing address is written into every letter that client has, old jobs included (the PDF kept at sending does not change). If a client moves, the address block of a three-year-old letter moves too.
+2. **Which date belongs at the top of a letter:** the job's date (as now), or the day it is sent?
+3. **Should Send and Mark paid ask "are you sure?"**, and should a payment recorded by mistake be undoable? Today each is one click, and a payment cannot be taken back.
+4. **Which Google user does the app sign in as?** It must be able to read the template and own the letters.
+5. **Are the "how to pay" lines and the letterhead still right?** They came from the old system. They also put the Treasurer's name and the firm's Gmail address in the repository (P1's question 8).
+6. **Should anyone but the client and the office get the invoice?** Today the people "copied" on a job get the letter only.
+7. **If a gate is ever put in front of the site** (P1's question 7), it must let two addresses through: Brevo's reports and Google's fetch of the stamp image.
+
+### For the stages that follow
+
+- **P3.** The message log is `sends`, one row per recipient, grouped on the screen by `batch`. History has a new event, `sent`, on the file (field = the kind, new value = who it went to); a failed send is in the message log only. Settings changes are in the history under subject `setting`. Still to build on the Settings screen: the from address (today `MAIL_FROM_ADDRESS`), the Calendly map, users, Connections. For Connections: `LetterDocs` and the Brevo transport have no "test me" call yet. A correction to a client or a property skips the letters of hidden files; the file screen offers "Bring the Doc up to date" once such a file is restored. A Calendly cancellation must decide "untouched Doc" from the Doc's revision: the stand-in counts revisions, and the system's own fills raise it.
+- **P4.** A migrated letter needs `letter_doc_id`, `letter_name` and `letter_filled` set as `PrepareLetter` sets them. Without them the first correction renames the Doc by the rule and looks for tags the Doc may not have (it then writes nothing, which is harmless, but the name changes). An imported invoice has no number and cannot be sent from here (by design: it is a record). Pin any new connection in `phpunit.xml`, twice, and add it to `tests/RefusesRealServices.php`.
+- **Paperwork (W2) and the deploy script.** New settings, all in `.env.example` with a comment each: `BREVO_KEY`, `BREVO_WEBHOOK_TOKEN`, `HD_MAIL_LIVE`, `HD_MAIL_TRAP`, `HD_LETTERS_DRIVER`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`, `GOOGLE_LETTERS_FOLDER`; optional `HD_MAIL_OFFICE_COPY`, `HD_RECORDS_PATH`. A server needs a queue worker and `MAIL_MAILER=brevo`. Staging: `HD_MAIL_LIVE=false` and `HD_MAIL_TRAP` set to Gordon's address. The nightly archive must include `storage/app/records/` (every PDF as sent, the stamp images). Brevo's notice is set up to call `https://<site>/hooks/brevo` with the token as a bearer token.
+
+## P2 fixes
+
+Fixer: Claude, model `claude-fable-5-1` (Fable 5.1). I cannot see my own effort level. I wrote neither the code nor the two reviews (`reviews/app-P2-plan-fit.md`, 20 findings; `reviews/app-P2-safety.md`, 12 findings and three notes). Started 2026-10-02 09:50 CEST from commit `6ab6cf3`, working tree clean. Before touching anything I reran the suite: 868 tests, 3,054 assertions, all passing.
+
+### Plan (written before any change)
+
+Each finding is checked against the code first. Every fix has a test written to fail before it. Small commits, in this order: what could mail a real client by mistake first, then what says "sent" when it was not, then the letter, then the invoice, then the small things.
+
+1. **The live switch** (safety 1, the blocker). Live only when `HD_MAIL_LIVE` is the word `true`. A test reads the real `config/hd.php` with a table of words.
+2. **Live is tied to the site's own name** (safety 2; plan-fit 18). A third line, `HD_MAIL_LIVE_HOST`, must name the host in `APP_URL`, so an environment file copied to staging is not enough. `.env.example` and the README say that staging sets `APP_ENV=staging` first; a test reads `.env.example`.
+3. **A mailer that sends nothing is refused on a server** (plan-fit 1; safety 3). The same rule P1 wrote for `hd:user` (`DeveloperMachine`), applied to every client message, in the rule and in the listener. One test per environment.
+4. **The last lock looks at what Brevo is handed** (safety 7), and the trap no longer writes addresses into the log (safety, closing note).
+5. **Names cannot become links** (safety 4). One helper used by both mail views: what comes from a record is written so that markdown cannot read it as structure. **One-line fields refuse line breaks** (safety 12): one rule, used by both field lists.
+6. **Written down first, sent second** (plan-fit 8; safety 5). The message-log lines are written before the mailer is called, in their own step, then completed as sent or failed. A message Brevo did not answer for is "not confirmed", never "not sent". Tests: the write after the send fails; Brevo times out.
+7. **Nothing shared or kept before the app knows the mail can go** (plan-fit 9; safety 10). The address, the trap and the mailer are checked first; the Doc is shared last; a PDF is kept only when its message is about to be written into the log.
+8. **Letters: a place the Doc does not have** (plan-fit 2, 19 in part). `fill` reports which tags it found. Only those are recorded as written. The file says which places the Doc lacks. A letter that still shows `{{...}}` is refused, naming the tag. Tags are read whatever their capitals. A named range Google reports in two pieces is left alone and reported.
+9. **Letters: the stamp** (plan-fit 3, 7, 16). Text first, the picture in a second batch; if the picture fails, the text stays and the file says why. A Connecticut or New York letter is refused until its stamp is in the Doc. The stamp remembers which image it is, so a replaced image reaches unsent letters; a sent letter keeps the one it went with.
+10. **Letters: names** (plan-fit 10, 11; safety 8). Each part of the name cut to 60 characters; `/` and `_` become hyphens; "Re:" with no service.
+11. **Letters: one Doc per file even when Google's answer is lost** (safety 6). Each copy carries a mark kept on the file first; a second try looks for the mark before copying. **Google's access token is kept encrypted** (safety 11).
+12. **Invoices: hourly work** (plan-fit 4). An invoice whose description still says "[period]" is refused, to send or to mark paid. The hours question goes to Gordon.
+13. **Invoices: mark paid** (plan-fit 6, 14). A confirmation that names the client and the amount; "this was a mistake" takes a payment back, writes the history and sends nothing; a note when the file differs from the invoice as last sent.
+14. **Invoices: an old unpaid invoice** (plan-fit 5). The safer reading: a person gives it a number from the file screen, after which it behaves like any other. The import numbers nothing by itself. Asked of Gordon.
+15. **Invoices: small** (plan-fit 12, 15). A changed service offers its standard price and wording with one click; a full month is a notice, not an error page; the number is drawn inside a transaction wherever it is asked for.
+16. **Delivery reports** (safety 9): a time out of range is "now"; one bad report does not stop the rest; a batch has a limit.
+17. **A setting is never destroyed** (plan-fit 17).
+18. **The tests plan-fit 20 lists** that the above did not already add: the letter job through a real database queue; the invoice PDF's own text; the naming rule's edge cases.
+
+Not planned as code, with the reason given per finding below: the company on the invoice and the letter (plan-fit 13: Gordon's to say), the look of a Doc after a fill and the credential's reach (plan-fit 19: only the real Google can show them), the leftover working tree of an earlier agent (not mine to remove).

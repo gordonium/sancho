@@ -161,6 +161,7 @@ flowchart LR
 - _setup/nerd-settings.json
 - _setup/netstate.py
 - _setup/nightly.sh
+- _setup/nomad-brief.py
 - _setup/notify-reasons.md
 - _setup/notify-test.sh
 - _setup/notify.py
@@ -168,8 +169,7 @@ flowchart LR
 - _setup/pipeline/INDEX.md
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
-- _setup/pipeline/install-venv.sh
-- … +656 more
+- … +634 more
 
 ## Level 2 · wiring
 
@@ -287,29 +287,34 @@ generated 2026-10-02 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-02 04:06 by test-all.py · 29 suites · 0 failing
+generated 2026-10-02 09:32 by test-all.py · 34 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
 | build-index | PASS | test-build-index: PASS |
 | build-map | PASS | test-build-map: PASS |
 | git-autocommit | PASS | test-git-autocommit: PASS |
+| guard-leases | PASS | test-guard-leases: PASS |
 | install-mac | PASS | test-install-mac: PASS |
 | job-run | PASS | test-job-run: PASS |
 | lint-layers | PASS | test-lint-layers: PASS |
+| nerd-concurrency | PASS | test-nerd-concurrency: PASS |
 | nerd-lease | PASS | test-nerd-lease: PASS |
 | nerd-run | PASS | test-nerd-run: PASS |
 | netstate | PASS | test-netstate: PASS |
 | nightly | PASS | test-nightly: PASS |
+| nomad-brief | PASS | test-nomad-brief: PASS (stay, drive today east 100, next couple of days, severe wait, no-candidate wait, freeze tonight, |
 | notify | PASS | test-notify: PASS (10 sounding pushes, all with registered reasons) |
 | ping | PASS | test-ping: PASS |
 | pipeline | PASS | test-pipeline: PASS |
+| pipeline-rematch | PASS | test-pipeline-rematch: PASS |
 | quarantine-guard | PASS | test-quarantine-guard: PASS |
 | sancho_lib | PASS | test-sancho_lib: PASS |
 | secrets | PASS | test-secrets: PASS |
 | stay-awake | PASS | test-stay-awake: PASS |
 | test-all | PASS | test-test-all: PASS |
 | watcher | PASS | test-watcher: PASS |
+| zoom-poll | PASS | test-zoom-poll: PASS |
 | skill:attribution-correction | PASS | test-skill-attribution-correction: PASS (structural) |
 | skill:backfill-person | PASS | test-skill-backfill-person: PASS (structural) |
 | skill:checkback | PASS | test-skill-checkback: PASS (structural; behavioral scenario runs on the Mac) |

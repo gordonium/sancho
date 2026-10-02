@@ -23,7 +23,9 @@ Gordon also switched Ultracode on, so from here the build runs as workflows, one
 - Then Z, the summary.
 If a workflow's agents die together again, suspect the connection first: check it, then resume the same workflow from where it stopped.
 
-Workflow 1 is run `wf_7dd7f3e2-dad`, started 08:17; its script is `/Users/gordonium/.claude/projects/-Users-gordonium-Sync-Sancho/cd83fc61-feee-41e8-9f21-bf4f7f14f778/workflows/scripts/hd-v4-build-1-wf_7dd7f3e2-dad.js`. To resume it after a cut: run the Workflow tool with that script path and `resumeFromRunId: wf_7dd7f3e2-dad`; finished agents are not rerun. Each chain stops by itself if a builder does not return or the kit's checks are red after the guard fixes.
+**Second cut, 08:17 to 08:57.** The first run of workflow 1 (`wf_7dd7f3e2-dad`) ended with both chains dead: each chain's first agent stalled on all six attempts. Gordon: "we had an internet hiccup there." [gordon 2026-10-02] Checked at 08:57: no new commit in either repository (app still c5e734f with 79 files uncommitted; kit still 581087a with 8 uncommitted), connection back and fast, Mac on mains. The app that hosts the session had also restarted, which ended the keep-awake and the heartbeat. **Workflow 1 was started again at 08:58 as run `wf_49719010-123`**, same script; keep-awake restarted for twelve hours; heartbeat restarted. Use this newer run ID to resume.
+
+Workflow 1's first run was `wf_7dd7f3e2-dad`, started 08:17; its script is `/Users/gordonium/.claude/projects/-Users-gordonium-Sync-Sancho/cd83fc61-feee-41e8-9f21-bf4f7f14f778/workflows/scripts/hd-v4-build-1-wf_7dd7f3e2-dad.js`. To resume it after a cut: run the Workflow tool with that script path and `resumeFromRunId: wf_7dd7f3e2-dad`; finished agents are not rerun. Each chain stops by itself if a builder does not return or the kit's checks are red after the guard fixes.
 
 ## Stopped at 04:00 (first reported as a usage limit; see above)
 
