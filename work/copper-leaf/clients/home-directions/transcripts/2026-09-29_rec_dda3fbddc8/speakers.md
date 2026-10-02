@@ -2,7 +2,7 @@
 name: Speakers · rec_dda3fbddc8
 type: doc
 lobe: both
-description: Who spoke in rec_dda3fbddc8: machine candidates and confirmations; the voiceprint library is rebuilt from these rows
+description: Who spoke in rec_dda3fbddc8; solo, gordon human-confirmed 2026-10-02
 sources: ["[rec_dda3fbddc8 2026-09-29]"]
 rec_id: rec_dda3fbddc8
 ---
@@ -12,4 +12,4 @@ rec_id: rec_dda3fbddc8
 
 | cluster | talk time | candidate (machine) | confirmed | by | when | note |
 |---|---|---|---|---|---|---|
-| SPEAKER_00 | 00:01:16 | none |  |  |  | no voiceprint library yet |
+| SPEAKER_00 | 00:01:16 | none | gordon | gordon | 2026-10-02 | Gordon: \"It's me talking about the HDO system we're building\" [confirmed gordon 2026-10-02]; enrollable |

@@ -86,3 +86,4 @@ Legend: `[v2:<path>:<line>]` = gordon-os-v2, `[v3:<path>:<line>]` = jarvis-v3. E
 - As of 2026-03-16: Temple Grandin "joining the board as small shareholder" per Lizzie; not in the 2026-08-25 cap table (history, unconfirmed since) [v2:relationships/people/lizzie-mack.md:95] [inferred: status unknown]
 </content>
 </invoke>
+- Waiting for: RNA asked Gordon (~2026-09-28) to build a landing page; Gordon asked for six things and is waiting on the raw material from RNA [rec_dda3fbddc8 2026-09-29] [gordon 2026-10-02]

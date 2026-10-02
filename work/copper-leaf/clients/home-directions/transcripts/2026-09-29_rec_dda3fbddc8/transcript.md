@@ -1,7 +1,7 @@
 ---
 name: Recording rec_dda3fbddc8 · 2026-09-29 09:28 · 2 min
 type: transcript
-description: Plaud recording, 2 min, 1 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 2 min, Gordon on the HDO (Home Directions) system build; per Gordon an inverse-recording error from the first Home Directions capture (rec_8d15ed467e); ingested 2026-10-02, summary at work/copper-leaf/clients/home-directions/summaries/2026-09-29_rec_dda3fbddc8.md
 lobe: both
 sources: ["[rec_dda3fbddc8 2026-09-29]"]
 rec_id: rec_dda3fbddc8

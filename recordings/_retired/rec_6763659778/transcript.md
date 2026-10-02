@@ -1,7 +1,7 @@
 ---
 name: Recording rec_6763659778 · 2026-09-29 09:40 · 25 min
 type: transcript
-description: Plaud recording, 25 min, 6 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 25 min, accidental capture of a tour-group breakfast in Italy (2026-09-29); retired on Gordon's word 2026-10-02 ("retire the breakfast accidental capture"); nothing filed
 lobe: both
 sources: ["[rec_6763659778 2026-09-29]"]
 rec_id: rec_6763659778

@@ -119,13 +119,13 @@ stages:
   - {name: greg-verbanic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-verbanic}, group: F, status: done}
   - {name: isabel-jackson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: isabel-jackson}, group: F, status: done}
   - {name: jamie-joseph, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jamie-joseph}, group: F, status: done}
-  - {name: john-marron, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-marron}, group: F, status: active}
-  - {name: john-metcalf, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-metcalf}, group: F, status: pending}
-  - {name: kyle-heustis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-heustis}, group: F, status: pending}
-  - {name: lily-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lily-post}, group: F, status: pending}
-  - {name: matt-mcintosh, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-mcintosh}, group: F, status: pending}
-  - {name: mike-orth, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-orth}, group: F, status: pending}
-  - {name: mikhail-voloshin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mikhail-voloshin}, group: F, status: pending}
+  - {name: john-marron, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-marron}, group: F, status: blocked, blocked: Gordon must say where things stand with John since  close the loop  (2026-05-21)  and whether the  John and Sadie  asked to move out around December 2024 is John Marron. The file and census row are wr}
+  - {name: john-metcalf, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-metcalf}, group: F, status: done}
+  - {name: kyle-heustis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-heustis}, group: F, status: blocked, blocked: Gordon to say whether v2 s  Kyle (builder contact)  is Kyle Heustis (filed as one  inferred)}
+  - {name: lily-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lily-post}, group: F, status: blocked, blocked: Gordon to say whether he or Alex waited 3.5 hours for Josh at the parent-teacher conference and offered to pay Lily s bills (v2 says Gordon; the transcript reads as Alex)  and whether the 2026-06-14  }
+  - {name: matt-mcintosh, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-mcintosh}, group: F, status: done}
+  - {name: mike-orth, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-orth}, group: F, status: blocked, blocked: Gordon to say whether Mikey is his own college friend from Birch (v3 voice hints and his stories) rather than  more connected to Leah  (v2)  and whether every transcript  Mikey  is Mike Orth}
+  - {name: mikhail-voloshin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mikhail-voloshin}, group: F, status: active}
   - {name: patrick-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: patrick-rauland}, group: F, status: pending}
   - {name: ren-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ren-rauland}, group: F, status: pending}
   - {name: sawyer-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sawyer-rauland}, group: F, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: john-marron
+current: mikhail-voloshin
 waiting_on: []
 ---
 # Backfill people
@@ -397,3 +397,16 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T16:42:43+02:00 job.run: stage `jamie-joseph` started
 - 2026-10-02T16:51:13+02:00 job.run: stage `jamie-joseph` done (Stage: done · tests green)
 - 2026-10-02T16:51:13+02:00 job.run: stage `john-marron` started
+- 2026-10-02T16:58:11+02:00 job.run: stage `john-marron` blocked, recorded, job continues: Gordon must say where things stand with John since  close the loop  (2026-05-21)  and whether the  John and Sadie  asked to move out around December 2024 is John Marron. The file and census row are wr
+- 2026-10-02T16:58:11+02:00 job.run: stage `john-metcalf` started
+- 2026-10-02T17:10:05+02:00 job.run: stage `john-metcalf` done (Stage: done · tests green)
+- 2026-10-02T17:10:05+02:00 job.run: stage `kyle-heustis` started
+- 2026-10-02T17:19:38+02:00 job.run: stage `kyle-heustis` blocked, recorded, job continues: Gordon to say whether v2 s  Kyle (builder contact)  is Kyle Heustis (filed as one  inferred)
+- 2026-10-02T17:19:38+02:00 job.run: stage `lily-post` started
+- 2026-10-02T17:28:11+02:00 job.run: stage `lily-post` blocked, recorded, job continues: Gordon to say whether he or Alex waited 3.5 hours for Josh at the parent-teacher conference and offered to pay Lily s bills (v2 says Gordon; the transcript reads as Alex)  and whether the 2026-06-14  
+- 2026-10-02T17:28:11+02:00 job.run: stage `matt-mcintosh` started
+- 2026-10-02T17:39:58+02:00 job.run: stage `matt-mcintosh` done (Stage: done · tests green)
+- 2026-10-02T17:39:58+02:00 job.run: 6 stages in one run; continuation queued (20261002T153958Z_job.run_93a091.md)
+- 2026-10-02T17:39:59+02:00 job.run: stage `mike-orth` started
+- 2026-10-02T17:47:19+02:00 job.run: stage `mike-orth` blocked, recorded, job continues: Gordon to say whether Mikey is his own college friend from Birch (v3 voice hints and his stories) rather than  more connected to Leah  (v2)  and whether every transcript  Mikey  is Mike Orth
+- 2026-10-02T17:47:19+02:00 job.run: stage `mikhail-voloshin` started

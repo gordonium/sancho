@@ -25,5 +25,6 @@ sources: ["work/entomat/business.md", "[rec_d6eab89744 2026-09-15]", "[confirmed
 - Has young kids ("kiddo play days") [rec_d6eab89744 2026-09-15 00:14:27] [confirmed gordon 2026-10-01]
 - Brings Entomat its partnerships: Enviroflight (Liz Koutsos), Mark Fink, Journey Foods, a drone-survey startup, SARA in West Texas; handles logistics and found the bank [rec_d6eab89744 00:03:19–00:08:02, 00:26:46]
 ## Open threads
+- Asked Gordon (~2026-09-28) for an Entomat landing page; Gordon is waiting on his raw material [rec_dda3fbddc8 2026-09-29] [gordon 2026-10-02]
 ## History with Gordon
 - 2026-09-15 Entomat call (rec_d6eab89744); speaker human-confirmed 2026-10-01
