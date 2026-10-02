@@ -4,8 +4,8 @@ name: build-index
 type: command
 description: Regenerate every INDEX.md in the tree (one line per child from frontmatter), each lobe's PROJECTS.md, the ICE views, the people index with completeness, and the skill index. Never hand-edited outputs.
 why: Navigation is a cascade of indexes (architecture §4); they only work if a script writes them from the files themselves, every time, so they cannot drift.
-reads: every .md under the tree except SKIP_DIRS; FOCUS.md; git log for updated dates
-writes: INDEX.md in every folder; work/PROJECTS.md, personal/PROJECTS.md; work/ice/ICE.md, personal/ice/ICE.md; people/INDEX.md (with completeness); skills/INDEX.md; _setup/index-manifest.json (hashes of generated files, for the lint)
+reads: every .md under the tree except SKIP_DIRS; FOCUS.md; git log for updated dates; personal/nomad/_geocache.json (never the network)
+writes: INDEX.md in every folder; work/PROJECTS.md, personal/PROJECTS.md; work/ice/ICE.md, personal/ice/ICE.md; people/INDEX.md (with completeness); people/_geo.json (location.city placed through the geocache, with want_to_see_by and last_seen; uncached cities `pending`); skills/INDEX.md; _setup/index-manifest.json (hashes of generated files, for the lint)
 schedule: after every commit batch and nightly (via the watcher); on demand as command `index.build`
 test: _setup/tests/build-index/
 """
@@ -13,7 +13,7 @@ from __future__ import annotations
 import sys, json, hashlib
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from sancho_lib import tree_root, read_frontmatter, walk, git_updated, is_generated, today, SKIP_DIRS
+from sancho_lib import tree_root, read_frontmatter, walk, git_updated, is_generated, today, city_query, SKIP_DIRS
 
 ROOT = tree_root()
 MANIFEST = ROOT / "_setup" / "index-manifest.json"
@@ -151,6 +151,41 @@ def build_people():
     write_generated(folder / "INDEX.md", head + "\n".join(rows) + "\n")
 
 
+def build_people_geo():
+    """people/_geo.json: every person with a `location.city`, placed through the nomad geocache
+    (personal/nomad/_geocache.json, filled by nomad-brief.py). Offline by design: a city not in the cache
+    is listed `pending` and the next nomad.brief geocodes it; blank cities are skipped, non-places listed."""
+    cache_p = ROOT / "personal" / "nomad" / "_geocache.json"
+    try:
+        cache = json.loads(cache_p.read_text(encoding="utf-8")) if cache_p.exists() else {}
+    except ValueError:
+        cache = {}
+    people, skipped = [], []
+    for f in sorted((ROOT / "people").glob("*.md")):
+        if is_generated(f):
+            continue
+        fm, _ = read_frontmatter(f)
+        loc = fm.get("location")
+        city = loc.get("city") if isinstance(loc, dict) else loc
+        key, name, hint = city_query(city)
+        if key is None:
+            if name != "blank":
+                skipped.append({"slug": f.stem, "city": str(city), "why": name})
+            continue
+        row = {"slug": f.stem, "name": str(fm.get("name") or f.stem), "city": str(city), "query": key,
+               "want_to_see_by": str(fm.get("want_to_see_by") or ""), "last_seen": str(fm.get("last_seen") or ""),
+               "lat": None, "lon": None, "resolved": "", "pending": True}
+        hit = cache.get(key)
+        if isinstance(hit, dict) and hit.get("none"):
+            skipped.append({"slug": f.stem, "city": str(city), "why": "the geocoder found no such place"}); continue
+        if isinstance(hit, dict) and hit.get("lat") is not None:
+            row.update(lat=hit["lat"], lon=hit["lon"], resolved=hit.get("label", ""), pending=False)
+        people.append(row)
+    text = json.dumps({"generated": today(), "by": "build-index.py", "geocache": "personal/nomad/_geocache.json",
+                       "people": people, "skipped": skipped}, indent=1, ensure_ascii=False) + "\n"
+    write_generated(ROOT / "people" / "_geo.json", text)
+
+
 def build_skills():
     folder = ROOT / "skills"
     rows = []
@@ -177,6 +212,7 @@ def main():
             build_projects(lobe); build_ice(lobe)
     if (ROOT / "people").exists():
         build_people()
+        build_people_geo()
     if (ROOT / "skills").exists():
         build_skills()
     MANIFEST.write_text(json.dumps({"generated": today(), "files": written}, indent=1), encoding="utf-8")

@@ -1,7 +1,7 @@
 """
 name: sancho_lib
 type: script
-description: Shared helpers for Sancho's build scripts: find the tree, read YAML-ish frontmatter without PyYAML, walk files, ask git for last-updated dates; write requests; write and read Nerd leases.
+description: Shared helpers for Sancho's build scripts: find the tree, read YAML-ish frontmatter without PyYAML, walk files, ask git for last-updated dates; write requests; write and read Nerd leases; read a free-text city as a geocoder query (city_query, place_matches).
 why: The lint, the index builder and the map builder must agree on what a file's frontmatter says; one reader, one answer.
 reads: any Markdown file in the tree; git log (read-only)
 writes: nothing itself; enqueue() and write_lease() write for their callers (_queue/requests/, _queue/leases/)
@@ -296,3 +296,52 @@ def nerd_admit(root: Path, writes_only, me: str = "") -> tuple[bool, str]:
         if hit:
             return False, f"write sets overlap with {p.stem} ({hit})"
     return True, f"beside {', '.join(p.stem for p, _ in live)} (disjoint writes)"
+
+
+# ---------- places (the nomad brief and people/_geo.json read a city the same way) ----------
+US_STATES = {"AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California", "CO": "Colorado",
+             "CT": "Connecticut", "DE": "Delaware", "DC": "District of Columbia", "FL": "Florida", "GA": "Georgia",
+             "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa", "KS": "Kansas",
+             "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland", "MA": "Massachusetts",
+             "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri", "MT": "Montana",
+             "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico",
+             "NY": "New York", "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma",
+             "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota",
+             "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont", "VA": "Virginia", "WA": "Washington",
+             "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming", "PR": "Puerto Rico"}
+_NOT_A_PLACE_RE = re.compile(r"\b(unknown|not stated|in the wind|tbd|n/a)\b", re.I)
+
+
+def city_query(raw) -> tuple[str | None, str, str]:
+    """A free-text city ("Austin, TX area", "Fort Collins CO [inferred: …]", "Tropea") as (cache key, name, hint),
+    or (None, why, "") when it names no place. The hint (a state, its abbreviation or a country) must match the
+    geocoder's answer; brackets, parentheses and a trailing "area" are dropped."""
+    s = str(raw or "").strip()
+    if not s:
+        return None, "blank", ""
+    if _NOT_A_PLACE_RE.search(s):
+        return None, "not a place", ""
+    s = re.sub(r"\s+", " ", re.sub(r"\([^)]*\)", "", re.sub(r"\[[^\]]*\]", "", s))).strip(" ,;")
+    s = re.sub(r"\s+area$", "", s, flags=re.I).strip(" ,")
+    if not s or not s[0].isupper() or ";" in s:
+        return None, "not a place", ""
+    name, hint = s, ""
+    if "," in s:
+        name, hint = (x.strip() for x in s.split(",", 1))
+    else:
+        m = re.match(r"^(.*\S)\s+([A-Z]{2})$", s)
+        if m and m.group(2) in US_STATES:
+            name, hint = m.groups()
+    return f"{name}|{hint}".lower(), name, hint
+
+
+def place_matches(hint: str, hit: dict) -> bool:
+    """Does a geocoder result (Open-Meteo's shape: admin1, country, country_code) satisfy the hint?"""
+    if not hint:
+        return True
+    h = hint.strip().lower().rstrip(".")
+    full = US_STATES.get(hint.strip().upper(), "").lower()
+    admin1, country, cc = (str(hit.get(k) or "").lower() for k in ("admin1", "country", "country_code"))
+    if full:
+        return cc == "us" and admin1 == full
+    return h in (admin1, country, cc) or (h in ("usa", "us", "united states") and cc == "us")
