@@ -12,7 +12,28 @@ status: live during the build that started 2026-10-02 00:55
 
 Started 2026-10-02 00:55 on "Approved, GO!" [gordon 2026-10-02]. Rules and scope: `build-handoff.md`. Each stage goes build, then review (findings in `docs/reviews/`), then fix. The orchestrating thread updates this file every time an agent reports; it starts the next stage of a track only when the one before is fixed and its tests pass.
 
-## 21:45: Gordon's new aim, a working version by morning (read this first)
+## 00:50 (Oct 3): BUILDING the morning version, Gordon asleep (read this first)
+
+"Nope, I need it for tomorrow. I'm unhappy and I want Anthropic to know that. Please go ahead with the build. I'm going to sleep" [gordon 2026-10-03]. He had raised the monthly limit to **$300** (reading 00:48: $151.66 spent, $148.34 of room). A one-word Fable test call went through (it cost $0.68 and hit its own $0.50 cap); a second test, a headless Fable session at high effort in auto mode with no connectors, ran one git command and answered correctly ($1.09, no denials).
+
+**How it runs:** each Fable stage is a headless session from `scratchpad/run-stage.sh` (model fable, effort high, permission mode auto, no MCP connectors, the project and data folders added, a dollar cap per stage, JSON result with the exact cost). The orchestrating thread (Opus) waits on a `<stage>.done` file and starts the next stage.
+- **W1** (the real history in the app): started **00:49**, cap $45.
+- **W2** (the everyday paths in a real browser, fix what breaks): brief written, cap $45, starts when W1 is done.
+- **W3** (one Opus walkthrough of Peter's morning on invented data; no code) then **W4** (Fable fix of whatever stops normal use, cap $30).
+- Stop if the money left under the limit drops below the next stage's cap; never start a stage twice.
+Total caps $120 of the $148 of room. Keep-awake on for 10 hours; Mac on mains.
+
+**The note to Anthropic:** drafted, not sent: `docs/draft-note-to-anthropic-2026-10-03.md`. Gordon sends it himself.
+
+## 00:45 (Oct 3): PAUSED (superseded at 00:50 by Gordon's go)
+
+Gordon raised the monthly limit to $152 to test, and said "I raised the limit and it burned new money", "I'm skeptical", and "Why aren't the 250 in promotional credit being used then?" [gordon 2026-10-03]. Reading at 00:44: usage credits on, **$151.66 spent of $152.00** (unchanged since 20:27), no W1 files, no headless session running: nothing from this thread has spent anything since 20:27 apart from one-word test calls, each refused at $0. The waiting cron was deleted at 00:44, because with only $0.34 of room its test call would have passed and started W1 just to die at the limit. Sancho's mistakes this hour, owned: reading the usage field "enabled: false" as Gordon's switch being off (he says it was on the whole time), and saying "the credits you just bought pay for the build" without knowing how the balance and the limit settle. What is known: the refusal message names the monthly spend limit; the help page says the monthly cap limits spending on usage credits [web:support.claude.com/en/articles/12429409 2026-10-03, via search summary]. What is not known here: why Gordon's balance went down, and the $250 cloud credit's terms (the cloud trial drew on it; work on this Mac evidently does not).
+
+Gordon, on the billing: "no, i mean yesterday. I raised the limit and it didn't use any of the promotional credit. it burned new usage" and "This is sketchy and I don't like it" [gordon 2026-10-03]. Sancho's pick given then: spend nothing more; resume free when the weekly Fable allowance resets (Sunday 2026-10-04 01:00 CEST); if he wants it settled, a message to Anthropic support with the timeline below, drafted by Sancho and sent only by him.
+
+Timeline for that message (from this file): 2026-10-02 17:38 to about 18:30, the cloud trial, paid from the $250 cloud credit (Gordon's usage page). 18:42, extra usage $53.18 spent of a $150 monthly limit; his usage-credits page showed $32.74 (promo $16.98 left of $70.17; purchased $15.76). 18:42 to 20:27, Fable work on the Mac: spent rose to $151.66 (+$98.48) and stopped with "You've hit your monthly spend limit". Earlier stops with the same message: 04:00 and about 16:10.
+
+## 21:45: Gordon's new aim, a working version by morning
 
 "Having a working version by tomorrow morning is a priority - but it doesn't need to be battle-tested, just 'works as it should when used as it should be' - Does that make sense? Could we get that built tonight perhaps on Fable High for another $100 or so?" [gordon 2026-10-02]
 
