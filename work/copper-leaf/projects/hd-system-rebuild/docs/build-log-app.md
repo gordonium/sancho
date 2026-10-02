@@ -771,3 +771,118 @@ Builder: Fable (claude-fable-5-1; the effort level is not visible to me). Starte
 5. **This log**, then the final message.
 
 **Decisions taken for the plan** (each also listed under "decisions the documents did not settle" below, with its reason): old jobs come in `closed`, except the v3 invoices WordPress marks unpaid, whose files come in `sent` with the invoice issued on its record's date; `paid_at` for a paid old invoice is the invoice record's last edit in WordPress, the nearest witness; a v3 client whose only name is one field keeps it as the display name, first and last names left empty rather than guessed; a job's time of day missing in the old data is midnight on the firm's clock.
+
+## W1: the real history in the app
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, about 00:30 to 01:10 CEST, from 783e9db on `feature/v4-build`. Scope: finish the importer left uncommitted by P4a, run it on the real history into the rehearsal database, reconcile, leave the local site showing it. The letter conversion, browser tests and the P3 findings were not touched.
+
+### What was kept and what changed of P4a's work
+
+Kept, all of it: the 13 uncommitted files (ImportCommand, `app/Import/` with its twelve classes, the `imported` history event and its wording in FileHistory and Timeline, the fixture builder's v2 pointer, the three unit tests and the feature test on the invented old system). The design stands as P4a planned it: WordPress is the truth for which client and property a job has; v2's REPORTS and CONTACTS rows are read for the two names on a client and cross-checked; one transaction per job; a `sources` row for every row, unverified; the history says "The import".
+
+Changed, three things, each because a test said so, and one for the analyser:
+1. A further source note on a row (v2's note beside WordPress's) was written with the polymorphic columns in a mass-assignment list, which `Source` does not allow. It now goes through the row's own `sources()` relation. This was the error behind 15 of the 17 failing tests.
+2. v2's note on a property now goes only with the property v2 agrees on (its `wp_property_id` is empty or is the one WordPress links), or where WordPress links none. Before, a job whose v2 row named another property still pinned that row to WordPress's property.
+3. The paid date of an old invoice is read from WordPress's `post_modified_gmt` as UTC (`OldDate::recordedGmt`), not as a time on the firm's clock, which put it five hours out.
+4. One line in `Serialized` the analyser called always-true, simplified.
+
+One commit: 03b5972. Checks on it: `herd composer test` 1,334 tests, 5,266 assertions, 0 failed; `herd composer lint` clean; `herd composer analyse` 0 errors. Tests still cannot open the real data: `phpunit.xml` pins both databases to `:memory:` twice, and 783e9db's proof stands.
+
+### The rehearsal on the real history
+
+Set through `.env` only (never committed): `DB_DATABASE` at the rehearsal file and `HD_LEGACY_DATABASE` at the read-only copy, both in `~/Dev/hd-v4-import-data/`. `migrate --seed` made the tables and the three local logins (their passwords stayed in the git-ignored `storage/app/private/local-logins.txt`, which already existed; nothing new was written there). Then `hd:import --dry-run` (1.5 s), `hd:import` (25 s), `hd:import` again (0.8 s, "already imported 10,206", every table the same size before and after, highest `sources` ID 70,299 both times). The command writes its counts and the skipped IDs to `storage/app/private/import/` (git-ignored; counts and WordPress IDs only).
+
+Reconciliation, counts only:
+
+| What | Census (2026-10-01) | Imported | Note |
+|---|---|---|---|
+| Appointment records read | 10,212 + 3 in the trash | 10,215 | all statuses |
+| Skipped | 9 future-dated records (3 appointments, 3 invoices, 3 properties) | 9 appointments | 3 dated in the future (one of them 8888), 3 in the trash, 3 published test records; two are both. Listed by WordPress ID in the command's output and file |
+| Files | 10,209 published | 10,206 | the 3 published test records |
+| Inspections / consultations / no type | terms: 7,247 / 2,839 | 7,244 / 2,839 / 123 | the 3 skipped inspections |
+| From v2 / made in v3 | 9,441 carry a v2 ID / 771 | 9,435 / 771 | the 6 v2 jobs skipped are all among the 9 (see below) |
+| Clients | 8,697 contact records with the client term | 8,693 rows | 8,681 from WordPress contact records, 12 stand-in rows for jobs that link no client record (11 no link, 1 link to a missing record) |
+| Clients with a second person named | about 6,182 by name (part 1) | 6,138 | from v2's name columns |
+| Properties | 9,030 published | 9,112 rows | 9,027 from WordPress (3 skipped), 82 from v2's rows where WordPress links no property, 3 stand-in rows where neither has one |
+| Invoices | 10,208 published | 10,206 | one per file |
+| Invoices paid / unpaid / no mark | 9,434 + 131 paid, 216 unpaid, about 430 no value | 9,559 paid, 216 unpaid, 431 no mark | 48 carry no amount at all |
+| People on jobs | | 1,992 | brokers 1,860 (561 copied), attorneys 132 (82 copied) |
+| History lines | | 40,209 "imported" | plus 3 "created": the local logins |
+| Jobs by year | part 1's table (by record date) | the command's table (by job date) | 38 of 44 years equal. Differences of 1 or 2 in 1983, 2000, 2016, 2017, 2020, 2021 and 2022: 3 appointments whose job date is in another year than their record (checked in the copy: 3 rows), and the census's year filter working on the record's date at year boundaries. Totals 10,206 here against 10,205 placed plus 7 unplaced there |
+
+For a person to look at later (IDs in the file): the fee differs between v2 and WordPress on 344 jobs (WordPress stands); 8 v2 jobs have no client row in v2; 1 v2 row points at no appointment.
+
+### How the local site is set up
+
+`http://hdonline-v4.test`, served by Herd on PHP 8.5, reads the rehearsal database through `.env`. Plain local checks: `/up` 200, `/login` 200. Through the HTTP kernel, signed in as the local `peter@` login (no browser, no password typed): the dashboard 200 listing 25 files, the search "2024-05" and "May 2024" each 200 listing 12 files, which is the number of files dated May 2024 in the database; a search for "2007" 200 with 25 listed; the newest and the oldest file's pages 200; Settings 200. The invoice PDF preview of an imported file answers 404 by the app's own rule (an imported invoice has no number, so there is nothing "as it would go out"); the file page shows the invoice's wording, total and paid state instead.
+
+Mail: `MAIL_MAILER=log`; `HD_MAIL_LIVE` unset, so the trap. Letters and Calendly: their driver names unset, so the stand-ins. No Google, Brevo or Calendly value is in `.env`. Nothing outside this Mac was called. Nothing holding real rows sits in a tracked path: `.env`, the rehearsal file, `storage/app/private/` and `database/*.sqlite` are all ignored (checked with `git check-ignore`).
+
+### Decisions the documents did not settle
+
+- Every old job comes in `closed`, including the 647 whose invoice is unpaid or unmarked: P4a's plan had those come in `sent` with an issued invoice, but an imported invoice has no number and cannot be sent, so a closed file with the invoice's paid state on record is the honest shape; marking an old invoice paid in v4 is a follow-up to check.
+- The paid date of a paid old invoice is the invoice record's last edit in WordPress (UTC): the old system kept no payment date, and this is the nearest witness; the source note says so.
+- A v3 client whose name is one field keeps it as the display name; first and last names are not guessed.
+- A job with no time of day is at midnight on the firm's clock.
+- v2's note goes with a property only where v2 agrees it is that property: otherwise the note would pin v2's facts about one house to another.
+- v2's whole row goes into the source note's `extra` (inside the rehearsal database only), so nothing v2 recorded is lost even where this app has no column for it.
+- The stamp choice on the old letter is carried onto the file (CT, NY, none, or unknown where there was no box); the letters themselves are not converted here.
+- The nine "future" records of the handoff are three appointments with their invoice and property each; the importer skips by appointment and the invoice goes with it, which is what Gordon asked.
+
+## W2: the everyday paths in a browser
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, from 03b5972 on `feature/v4-build`. Scope: browser tests of the everyday paths on invented data, fix whatever breaks normal use, check the local site by plain requests. The P3 review findings, the letter conversion and the kit were not touched.
+
+### Which tool, and why
+
+Pest's browser plugin (`pestphp/pest-plugin-browser` 5.1, a development dependency) driving Chromium through Playwright 1.63.0 (an npm development dependency; the browser itself, about 360 MB, went into the user's cache folder `~/Library/Caches/ms-playwright`, the one download Gordon granted). Not Laravel Dusk. The reason is the real-data rule: the plugin answers the browser from the test process itself (an Amp HTTP server handing each request to the app's own HTTP kernel), so the browser tests run on the same in-memory SQLite database, emptied each test, and the same stand-ins and array mailer as every other test, under the same `phpunit.xml` pins and the same refusal in `tests/RefusesRealServices.php`. Dusk starts a separate server that reads `.env`, which on this Mac points at the rehearsal database with real client records; it would have needed its own environment file and a second lock. Pest 5 also has no Dusk fit without a starter kit.
+
+How it is wired: a `Browser` suite in `phpunit.xml` (`tests/Browser/`), extended in `tests/Pest.php` with the base test case and `RefreshDatabase`; `herd composer test` runs it with the rest, and `herd composer test:browser` runs it alone. The screenshots the plugin takes of a failure (`tests/Browser/Screenshots/`) are ignored by git. The README says what a machine needs once (`npm install`, `npx playwright install chromium`).
+
+### The paths, each as a short test (21 tests, 8 files)
+
+| Path | Test file | Result |
+|---|---|---|
+| Log in and out; a wrong password turned away | `LoginTest` | passed |
+| Dashboard: recent files newest first; search by client name, by property address, by month, and "Clear" | `DashboardTest` | passed |
+| New File by hand: client, property, job on one form; the file opened with the standard price and the stamp by state | `NewFileTest` | passed |
+| The second file for a known client at a known property: "may already be on file" for both, one click each links them, and "Been here before" lists the other files | `NewFileTest` | passed |
+| File screen: correct the client in place; correct the property in place; the job's facts; the invoice description and price | `FileScreenTest` | passed |
+| The folded change history opened and showing the correction just made (old and new value) | `FileScreenTest` | passed |
+| The letter: made when the file opened, named as the plan says, opened as a Doc (the stand-in's page); sent, logged in Messages with "The PDF as sent", the Doc shared by link | `LetterTest` | passed |
+| The invoice: sent; marked paid from the "Mark paid and send a paid copy" fold (the question names the client and the amount); the paid copy sent again; three lines in Messages | `InvoiceTest` | passed |
+| Delete (two steps) and restore: gone from the Dashboard, found under "Deleted files", opened read-only, restored, back on the Dashboard | `DeleteRestoreTest` | passed |
+| Settings: an invoice text saved and a new file starting from it; the letter template link for a service; a person added who can log in (the link mailed); the Connections panel with "Test Google" and bookings from Calendly switched on | `SettingsTest` | passed |
+
+Every path passed against the app as W1 left it. Nothing in the app's code had to change for normal use.
+
+### What I changed
+
+- **One test-isolation fix, in `tests/TestCase.php`** (the only change outside new test files and the wiring): every test now starts with no trusted hosts. Symfony keeps the trusted-host list on the request class itself, not on the app, so a feature test that poses as a server (the mail-trap tests) left the list behind, and when the browser suite ran after the rest, every page on `127.0.0.1` was refused ("Untrusted Host"). Run alone, the browser suite passed; run inside `composer test`, all 21 failed. The feature tests never noticed because they all use the same host. Found by the full run; fixed with one line.
+- The tests themselves, `tests/Browser/*.php`; the suite wiring in `phpunit.xml`, `tests/Pest.php`, `composer.json`; `.gitignore` for the screenshots; the README's Checks section.
+
+Things learned about the plugin, so the next person does not lose the hour I did: a text with a comma, a colon, brackets or an equals sign is read as a CSS selector, not as text, so a button such as "Yes, delete this file" is pressed as `text=Yes, delete this file`; a nested field name such as `client[email]` cannot be used even quoted (the plugin's CSS parser refuses the inner brackets), so the field's id is used (`default-client-email`, as the field component builds it); `assertSeeIn` is strict, so the text must occur once inside the selector; a folded `<details>` is opened with `click('#history summary')` before what is inside is asserted on, because `assertSee` wants the text visible.
+
+### Evidence
+
+Run in the app folder through Herd's PHP 8.5 on 2026-10-03:
+
+| Command | Result |
+|---|---|
+| `herd composer test` | passed: 1,355 tests, 5,376 assertions, 0 failed, about 25 s (1,334 before the stage) |
+| `herd composer test:browser` | passed: 21 tests |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `curl` on the Herd address | `/up` 200, `/login` 200 (PHP 8.5.10), `/files/1` and `/settings` 302 to `/login`; the built stylesheet loads (a Playwright screenshot of the login page, styled) |
+| `git log` | 3 new commits, db9b0e0, b071044, 1063e6c; tree clean; no remote |
+
+The browser tests ran on the suite's in-memory database only: `.env` was not changed, nothing under `~/Dev/hd-v4-import-data/` was opened, and the one request to the Herd site was the login page, which shows no data.
+
+### Not done, and why
+
+- The look of the screens is not asserted: the base test case renders pages without the built assets (`withoutVite`), so the browser tests see the unstyled forms. The behaviour is what was asked; the styled login page was checked by one screenshot of the local site.
+- "Open the Doc", "Look at the PDF" and "The PDF as sent" open in a new tab, which the tests do not follow; the stand-in Doc page is visited by its address instead, and the PDFs are covered by the feature tests.
+- Calendly's own booking path (the stand-in's page) and the other people on a job are not browser-tested: not in the list of everyday paths given.
+- The P3 review findings (`docs/reviews/app-P3-*.md`) are untouched: none stops an everyday path.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. Nothing was installed with Homebrew; no hook was registered; nothing was pushed.
