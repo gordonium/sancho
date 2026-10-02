@@ -135,21 +135,21 @@ stages:
   - {name: shannon-janelle, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: shannon-janelle}, group: F, status: blocked, blocked: Gordon to say who Shannon Janelle is to him  and whether she is Shannon Alexander (Sopris  Philadelphia)  the Philadelphia Shannon with kids  the Keep in Touch  Shannon  or the  Shannon s Birthday ( 8}
   - {name: kay-ullman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kay-ullman}, group: F, status: done}
   - {name: mark-benn, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-benn}, group: F, status: blocked, blocked: Gordon to say whether  grew up on the Gold Coast of Connecticut  and  managed a Subway at 16  are his own facts rather than Mark s (old notes give them to Mark  the transcript to Gordon)  and whether }
-  - {name: ted-klontz, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ted-klontz}, group: F, status: active}
-  - {name: dr-mitch-janosik, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dr-mitch-janosik}, group: F, status: pending}
-  - {name: stephanie-steward, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephanie-steward}, group: F, status: pending}
-  - {name: guy-hanington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: guy-hanington}, group: F, status: pending}
-  - {name: chris-lema, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-lema}, group: F, status: pending}
-  - {name: hazel, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: hazel}, group: F, status: pending}
-  - {name: paige-austin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paige-austin}, group: F, status: pending}
-  - {name: robin-neighbor, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-neighbor}, group: F, status: pending}
-  - {name: matt-builder, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-builder}, group: F, status: pending}
+  - {name: ted-klontz, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ted-klontz}, group: F, status: done}
+  - {name: dr-mitch-janosik, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dr-mitch-janosik}, group: F, status: done}
+  - {name: stephanie-steward, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephanie-steward}, group: F, status: done}
+  - {name: guy-hanington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: guy-hanington}, group: F, status: done}
+  - {name: chris-lema, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-lema}, group: F, status: done}
+  - {name: hazel, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: hazel}, group: F, status: done}
+  - {name: paige-austin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paige-austin}, group: F, status: done}
+  - {name: robin-neighbor, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-neighbor}, group: F, status: done}
+  - {name: matt-builder, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-builder}, group: F, status: active}
   - {name: ryan-painter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-painter}, group: F, status: pending}
   - {name: tom-godaddy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-godaddy}, group: F, status: pending}
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: ted-klontz
+current: matt-builder
 waiting_on: []
 ---
 # Backfill people
@@ -434,3 +434,21 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T18:46:50+02:00 job.run: stage `mark-benn` started
 - 2026-10-02T18:53:12+02:00 job.run: stage `mark-benn` blocked, recorded, job continues: Gordon to say whether  grew up on the Gold Coast of Connecticut  and  managed a Subway at 16  are his own facts rather than Mark s (old notes give them to Mark  the transcript to Gordon)  and whether 
 - 2026-10-02T18:53:12+02:00 job.run: stage `ted-klontz` started
+- 2026-10-02T19:03:39+02:00 job.run: stage `ted-klontz` done (Stage: done · tests green)
+- 2026-10-02T19:03:39+02:00 job.run: 6 stages in one run; continuation queued (20261002T170339Z_job.run_700f3a.md)
+- 2026-10-02T19:03:44+02:00 job.run: stage `dr-mitch-janosik` started
+- 2026-10-02T19:08:54+02:00 job.run: stage `dr-mitch-janosik` done (Stage: done · tests green)
+- 2026-10-02T19:08:54+02:00 job.run: stage `stephanie-steward` started
+- 2026-10-02T19:17:22+02:00 job.run: stage `stephanie-steward` done (Stage: done · tests green)
+- 2026-10-02T19:17:22+02:00 job.run: stage `guy-hanington` started
+- 2026-10-02T19:26:06+02:00 job.run: stage `guy-hanington` done (Stage: done · tests green)
+- 2026-10-02T19:26:06+02:00 job.run: stage `chris-lema` started
+- 2026-10-02T19:32:03+02:00 job.run: stage `chris-lema` done (Stage: done · tests green)
+- 2026-10-02T19:32:03+02:00 job.run: stage `hazel` started
+- 2026-10-02T19:40:11+02:00 job.run: stage `hazel` done (Stage: done · tests green)
+- 2026-10-02T19:40:11+02:00 job.run: stage `paige-austin` started
+- 2026-10-02T19:48:22+02:00 job.run: stage `paige-austin` done (Stage: done · tests green)
+- 2026-10-02T19:48:22+02:00 job.run: 6 stages in one run; continuation queued (20261002T174822Z_job.run_c54c9f.md)
+- 2026-10-02T19:48:22+02:00 job.run: stage `robin-neighbor` started
+- 2026-10-02T19:54:44+02:00 job.run: stage `robin-neighbor` done (Stage: done · tests green)
+- 2026-10-02T19:54:44+02:00 job.run: stage `matt-builder` started

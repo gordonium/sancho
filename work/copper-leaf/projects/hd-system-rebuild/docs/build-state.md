@@ -28,6 +28,11 @@ Gordon, leaving the Mac for a while: "Go ahead and run as much as you can on the
 
 **Usage readings** (extra usage "spent" in the app's usage reading; the weekly Fable allowance is at 100%, so Fable work lands on the credits):
 - 18:42, before: $53.18 spent of the $150 monthly limit; balance on Gordon's page $32.74.
+- 19:42: **$106.76 spent (+$53.58 in an hour)**, 71% of the limit, $43.24 left under it. That hour covers two Fable agents side by side: P3 finish (done at 19:42 after 59 minutes, 668,114 subagent tokens, 301 tool uses) and the kit's round-3 fixer (running since 18:48). So spending went past the $32.74 balance without stopping: the monthly limit, not the balance, is what stops it (unless Gordon also bought credits; unconfirmed). Weekly all models 62%, 5-hour 30%.
+
+**P3 finished (19:42, Fable):** Calendly behind one wrapper (the real class written against Calendly's v2 interface, never called; a stand-in), bookings opened through the same duplicate rules and acted on once by either road; reschedule moves the date; cancellation marks the file (and, the builder says, trashes an untouched Doc: the reviews are asked to check that against "nothing destroyed"); a signed receiving address; the 15-minute check with a day-long alarm; search by client, address and month (timed on 10,000 files); the folded change history; delete and restore as marks; Settings complete with the Connections panel. 251 new tests. The builder's own checks: 1,262 tests, 4,976 assertions, 0 failed; lint and analysis clean; 7 commits on 89c4118, last **840e5e4**. Not done: no look in a browser; the Herd address not checked. Two reviews of P3 started on Opus at 19:44 (`reviews/app-P3-plan-fit.md`, `reviews/app-P3-safety.md`).
+
+**Order changed at 19:47, to spend the remaining credit on what Gordon wants most:** P4a (the importer, the letter conversion, then the rehearsal on the real history) started on Fable now, from 840e5e4, instead of waiting for the P3 fix. The P3 reviews read fixed copies at 840e5e4, so they are not disturbed; the P3 fix comes after P4a, on top of it. Running now: kit round-3 fixer (Fable), P4a (Fable), two P3 reviews (Opus). With about $43 left under the limit and two Fable agents running, the limit will probably stop one or both mid-stage; both commit in small steps.
 
 ## Earlier: 16:45 to 18:45 (history from here down)
 

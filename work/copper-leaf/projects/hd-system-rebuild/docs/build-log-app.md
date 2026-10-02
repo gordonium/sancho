@@ -632,3 +632,126 @@ The first P3 builder was cut off by a usage limit at about 16:10. Its unfinished
 2. Then, in small green commits, each with its tests: the Dashboard search (words, month, both, deleted files, the scrolling list carrying the search), timed on ten thousand files; the File screen's change history (folded shut), its booking panel, the deleted-file banner with restore, the two-step delete with "also cancel in Calendly"; Settings (from address, Calendly type map, users, the Connections panel with its test buttons, the settings history); the Calendly tests (each kind of booking by each road and by both roads in both orders, reschedule and cancellation in either order, the signature, the receiving address, the check and its alarm with the clock moved, the real class against made-up answers, the stand-in page); README and `.env.example`; this log.
 
 Done means `herd composer test`, `herd composer lint` and `herd composer analyse` pass, with the numbers below.
+
+### What was done (finished 2026-10-02 19:40 CEST)
+
+**State: built, tested, committed.** Steps F and G work end to end against the stand-ins. Seven new commits on `feature/v4-build` on top of the first builder's `89c4118`, `1fcff36` to `840e5e4`; working tree clean; no remote, nothing pushed. Nothing here has touched Calendly, Google or Brevo, and no screen has been looked at in a browser.
+
+**What exists now.**
+- **Calendly (F).** One interface (`App\Calendly\Calendly`). The real class (`CalendlyApi`) is written against Calendly's version-2 interface and has only ever been run against made-up answers. The stand-in (`StandInCalendly`) keeps Calendly's side as one small file and has a page of its own (`/stand-in/calendly`) where a person plays the client. A booking opens the file, the client and the property through the same door as New File (`OpenFile`), so the duplicate rules are the same: a likely match waits on the file for one click, nothing is merged by itself; every row a booking made is marked as from Calendly, as an imported row is. A cancellation marks the file cancelled and keeps it; a Doc nobody has written in goes to the trash, one somebody has stays, and it comes back when the file comes back to life. A reschedule moves the date (and the letter follows). Each booking is acted on once, by either road, in either order: one row per booking in `calendly_bookings`, what was done written on it in the same step. The receiving address `POST /hooks/calendly` takes only a notice signed with the server's key and not older than a day. The 15-minute check (`hd:calendly-check`, scheduled) hears what the notices did not bring, asks Calendly once per check and only about appointments whose state it does not already know, and raises a day of trouble (notifications switched off or gone; a booking that a notification should have brought with none arriving since; Calendly out of reach) on the Dashboard, in the log, and by mail to `HD_ALERT_ADDRESS`, once a day at most. Which appointment type is which service is a Setting; a booking whose type matches none waits, visibly, and is taken up when it does. Bookings are off until a person switches them on under Connections; bookings already in the calendar then wait for a person's word (bring them in, or leave them).
+- **Search (G).** One box on the Dashboard: words in the client's names, company and email and in the property's address ("Road" and "Rd" alike), a month or a year on the firm's clock typed any of the ways Peter says it, both together; every word must be found; an invoice number finds its file; cancelled and closed files are found, deleted ones on request; the scrolling list carries the search.
+- **Change history (G).** At the foot of the File screen, folded shut: every change to the file, its client, its property, its invoice and the people on the job, who, when, old and new, in plain words; "The system" and "Calendly" when nobody was signed in; the latest 500 lines of a long history, with a word to say so.
+- **Delete and restore (G).** Two steps; the file is hidden and kept; it still opens, read-only, with the way back; for an upcoming Calendly booking the second step offers to cancel it in Calendly too, ticked; Calendly is asked first and nothing is deleted if it cannot be.
+- **Settings (G).** The from address; the Calendly type map; the people who can log in (add, correct, mail a set-your-password link, switch a login off and on; never removed); the Connections panel for Calendly, Brevo, Google and the two backup stores ("not set up yet"), each with whether it works, when it last did, what it said, and a test button; bookings from Calendly switched on and off there; the bookings waiting for a person; trouble that has been raised; and the change history of Settings and the logins, folded shut, never a password.
+
+**Evidence.** Run in the app folder through Herd's PHP 8.5 at 19:35:
+
+| Command | Result |
+|---|---|
+| `herd composer test` | passed: 1,262 tests, 4,976 assertions, 0 failed, about 19 s (1,011 before the stage; 1,015 with 261 failing at `89c4118`) |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors (14 at `89c4118`) |
+| `herd composer audit` | no advisories; no package added |
+| `herd php artisan schedule:list` | `*/15 * * * * php artisan hd:calendly-check` |
+| `herd php artisan migrate` on this Mac's local database (invented data) | the four P3 migrations ran: `calendly_bookings`, `connections`, two columns on `files`, one on `users` |
+| the whole suite run three times at the end | the first two runs each turned up one test that failed by chance (below); the third passed clean |
+
+The suite's own locks held throughout: every new setting (`HD_CALENDLY_DRIVER`, `CALENDLY_TOKEN`, `CALENDLY_SIGNING_KEY`, `HD_ALERT_ADDRESS`) is pinned twice in `phpunit.xml`, and `tests/RefusesRealServices.php` refuses a Calendly token or a driver that is not the stand-in (the first builder did this; the hostile-shell proof covers it).
+
+**What I kept of the first builder's work: all of its back end.** I read every file. The design is sound: one interface and two implementations as for letters; the booking row as the fact behind "once"; the intake through `OpenFile`; the two history readers; the search. It is in `89c4118` as the orchestrating thread committed it.
+
+**What I changed of it, each with a test that failed first** (all in `1fcff36` unless said otherwise):
+
+| What was wrong | What it does now |
+|---|---|
+| The user factory never set `disabled_at`; the strict model threw on the first request of 218 tests. | The factory sets it. |
+| Larastan: dead catch in `SendPasswordLink`, five list types, a non-literal SQL string in the search, `CarbonImmutable::create` that may return null, two views that did not exist. | `SendPasswordLink` asks the mail trap before the password broker (so no token is made for a link that cannot go); `array_values`; the search's columns are its own constants, so the SQL is a literal; `createStrict`; the two views exist. |
+| `StandInCalendlyController::check` broke the Laravel preset (a public method that is not a resource method). | `StandInCalendlyCheckController`, invokable. |
+| The real Calendly class followed `next_page` by handing the HTTP client the address and an empty query; Guzzle's `query` option wipes the address's own query, so it fetched the first page for ever (`e1fa140`). | With a next-page address, no query argument. |
+| A mistyped zip ("CT 0687") was read as the town (`e1fa140`). | Three to nine trailing digits that are not a zip are taken off and left empty. |
+| A cut cancellation reason was 503 characters, not 500 (`e1fa140`). | Cut to 500 exactly. |
+| The stand-in page threw on an unknown booking (`e1fa140`). | It says "There is no such booking." |
+| Opening a file was four acts in the history (client, property, file, invoice each in their own batch), because `OpenFile` used a plain transaction (`ded9862`). | One act (`HistoryEntry::batch`, which is a transaction too). |
+| Nothing was there to see: no view for the deletion page, the stand-in page, the history, the search results, the booking, the users, the Connections panel, the from address or the type map; and no test of the stage. | All written (`1fcff36`, `6b0984c`); 251 new tests in 15 new test files (`cee8bfa`, `ded9862`, `6b0984c`, `e1fa140`). |
+
+**Three tests that failed by chance, and the mechanism** (`840e5e4`): a P1 history test relied on a made-up zip not being 06877 (one run in a thousand); two of my search tests asserted a word's absence from a page of made-up addresses. Fixed inputs, and assertions on a file's own address rather than a word. The suite then passed clean.
+
+**Not done, and why.**
+- Nothing was sent to Calendly, Google or Brevo; no account exists. The list of what that leaves unproven is below.
+- Nobody has looked at the screens in a browser, as in every stage so far; the panels are tested on their HTML. The browser tests are P4's.
+- `http://hdonline-v4.test` was not checked; the local database was migrated so the served site works once Herd's services are restarted (P1's note).
+- The booking page link on the Connections panel appears after the first "Test Calendly" or switch-on, not before: the panel learns where clients book from Calendly's own answer (for the stand-in, its page). The README names the page.
+- Search does not look in notes or in the invoice description, and not in the people on a job: R6.2 names client, address and time. One click to add if wanted.
+- Deleting a client or a property is not offered: the plan speaks of deleting a file; records are linked and unlinked, never hidden.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. I opened nothing under `~/Dev/hd-v4-import-data/` or Downloads and did not read `~/Dev/clc-plugins/`. I fetched no web page: the real Calendly class stands on the first builder's reading of Calendly's manual, which neither of us could check tonight.
+
+### Decisions the documents did not settle
+
+The first builder's, as the code shows them (it left no list), then mine.
+
+1. **Bookings are off until a person switches them on** (`calendly.listening_since` in Settings). Why: the token can be entered and tested weeks before cutover without live bookings making files early (the paperwork review's blocker); the switch is the moment Calendly is pointed at v4.
+2. **Bookings made in Calendly before that moment wait for a person's word.** Why: they may already be on file (from the import, or typed by hand); a second file for the same job helps nobody.
+3. **One row per booking, keyed by Calendly's name for the invitee**, with what was done written on it in the same step. Why: "once" as a fact of the database, not of memory.
+4. **A booking's rows are marked as from Calendly** (`sources`: system `calendly`, collection `invitees`, identifier the invitee's address), through `Model::importFrom()`. Why: what the client typed may be thinner than the form allows, and a thin row must be a marked row (P1's rule).
+5. **What the client typed is held to the New File form's rules field by field; a value that does not pass is left empty**, never guessed, and the booking as typed is kept and shown on the file. Why: nobody is at the screen to be asked, and a booking must never be lost over a bad zip.
+6. **The address is read from the first answer whose question mentions "address" or "property".** Why: the question's wording in Calendly is Peter's, not ours.
+7. **Names from one box: the last word is the surname.**
+8. **A visit unless Calendly's place is a video or phone kind** (zoom, google, teams, webex, call).
+9. **The service is matched by the appointment type's name**, saved in Settings, with the two shipped names as the fallback. Why: it can be set before any account exists.
+10. **A cancellation of a file whose letter has gone, or a file a person has closed, only writes the history.** Why: a late cancellation must not undo a job that was done.
+11. **A reschedule of a closed or cancelled file keeps its date**, noted in the history.
+12. **"Nobody has written in the Doc" means the Doc is still at the revision the system itself last left it at**; whenever that cannot be said for certain, the Doc stays. Why: a Doc is put away on evidence, never on doubt.
+13. **A Doc in the trash comes out when the file is set to anything but cancelled, or when the letter is next brought up to date; one whose trash was emptied is replaced by a new copy.**
+14. **Deleting a file with an upcoming Calendly booking cancels it in Calendly first, and deletes nothing if Calendly cannot; the file is then marked cancelled as well as hidden.** Why: it says the truth if restored; Calendly tells the client, the system sends nothing (Q6).
+15. **A deleted file opens read-only**, with the restore button; the routes that would change it do not find it. Why: it must be read to be restored, and nothing on it may change while hidden.
+16. **The change history keeps old values on the page, folded shut.** Tests that look for a corrected value's absence look outside it. Why: that is what a history is for; Gordon asked for it hidden by default, not absent.
+17. **Logins are never removed, only switched off**; nobody switches off their own; a switched-off login is refused in the same words as a wrong password and logged out at its next click. Why: the history names the person.
+18. **A new login is mailed a link and has a password nobody knows until then.** The password link goes through the mail trap like every message.
+19. **Trouble is raised once a day at most, and clears by itself** when the next check finds nothing wrong.
+20. **A notice is taken up to 25 hours old and 5 minutes into the future.** Why: Calendly retries for about a day; clocks differ.
+21. **The signing key is ours to make** and entered on the server; Calendly is given it when the notifications are switched on.
+22. **The check asks only about appointments whose state it does not already know** (standing and still standing, or over and still over). Why: a check that finds nothing new is one request.
+23. **The Connections panel keeps only observations** (when it last worked, what it said, what went wrong) and never a key.
+24. **Search: words AND month; each word must be in the client or the property; a bare year only when nothing else was typed; a month's name only with a year.**
+25. **A linked (merged) record is found under its old spelling**, through `coalesce(merged_into_id, id)`.
+
+Mine:
+
+26. **The first builder's work stays as one commit** (`89c4118`, the orchestrating thread's). Why: splitting it after the fact would make commits that do not pass alone.
+27. **The 15-minute check from the stand-in page is its own invokable controller.** Why: the Laravel preset allows no other public method on a controller, and the rule is worth keeping.
+28. **`SendPasswordLink` asks the mail trap before the password broker.** Why: a token must not be made for a link that cannot go; it also made the dead catch real.
+29. **Opening a file is one act.** Why: the history panel showed four.
+30. **The panel learns where clients book from Calendly's answer** (`facts.booking_page`), so the stand-in's page is linked from Connections after the first test or switch-on. Why: nothing in the views names the stand-in, and the arch rule stays.
+31. **The address reader takes off a mistyped zip and leaves it empty.** Why: "CT 0687" must not become the town.
+32. **A cut cancellation reason is 500 characters exactly.**
+33. **Tests use fixed data where a made-up value could carry the word they look for.**
+
+### What cannot be proven until the real Calendly account exists
+
+- That Calendly accepts each request as written: `GET /users/me`, `GET /event_types` (with `user` and `active`), `GET /scheduled_events` (with `user`, `min_start_time`, `sort`, `count`) and each event's `/invitees`, `POST .../cancellation`, `GET`/`POST`/`DELETE /webhook_subscriptions` with `scope: user`, `organization`, `user` and `signing_key`; that `pagination.next_page` is a full address; that a personal access token is enough for all of it on the firm's plan.
+- The shape of a notice: `event` of `invitee.created` or `invitee.canceled`; `payload` the invitee with `scheduled_event` inside it; `questions_and_answers`, `text_reminder_number`, `rescheduled`, `old_invitee`, `new_invitee`, `cancellation.canceled_by` and `reason`; the status word `canceled`; the `Calendly-Webhook-Signature` header as `t=...,v1=...` over `"<t>.<body>"` with HMAC-SHA256. All from the first builder's reading of the manual, which neither of us could fetch.
+- That a reschedule arrives as a cancellation marked `rescheduled` plus a new booking naming the old one, and in which order.
+- That Calendly switches a subscription off after about a day of failures, and what `state` it then reports.
+- The wording of the firm's booking-form question for the address (the reader looks for "address" or "property"), and the exact names of the two appointment types (the fallback is "Professional Opinion" and "Structural Design").
+- How Calendly reports the place of a video appointment for the firm's own setup.
+- That `Str::limit` to 500 is within what Calendly takes for a cancellation reason.
+- Which plan tier the firm has and whether it includes webhooks (plan section 11, item 7); without them, bookings arrive by the check alone, which the code allows for.
+- The server: the scheduler running every minute; the queue worker for the letter work a cancellation sets off; the alert mail reaching Gordon.
+- The screens, in a browser.
+
+### Questions for Gordon
+
+1. **Should a late cancellation of a file whose letter has already gone change the file?** Today it only writes the history (the job was done).
+2. **A deleted file with an upcoming booking: cancel in Calendly first, and delete nothing if Calendly cannot be reached?** Today that is the rule; the alternative is to delete here and let a person cancel in Calendly by hand.
+3. **Who gets the alert mail** (`HD_ALERT_ADDRESS`): Gordon alone, or the office too?
+4. **Should Search look in the invoice description and the notes as well?** Today it looks in names, addresses, email, company, month and invoice number, as R6.2 says.
+5. **The Calendly booking form's address question: is its wording "Property address"?** The reader takes the first answer whose question mentions "address" or "property".
+6. **Should the three people all be able to add logins and switch them off?** Today Settings is open to all three (P1's question 3).
+
+### For the stages that follow
+
+- **P4 (import).** `CalendlyBooking::settled()` and the intake rest on `files.calendly_event_uri` being unique; the import must leave it empty. A migrated file is not a booking: no `calendly_bookings` row. The search looks in `clients.name_key`, `second_name_key` and `properties.address_key`, so the import must go through the models (it does, by `importFrom()`), or the keys are empty and old jobs are found by their typed spelling only. The ten-thousand-file timing test builds its rows with the query builder; the real import's rows will carry the keys.
+- **Browser tests (P4).** The main paths now exist: new file by hand, duplicate prompt, invoice, mark paid, search, delete and restore, and the stand-in Calendly page.
+- **Backups (later).** `OutsideService::BackupCloudflare` and `BackupDrive` are listed on the Connections panel as "not set up yet"; `OutsideService::isBuilt()` and `TestConnection` are where they are switched on, with a `check()` each.
+- **Paperwork (W2) and the deploy script.** New settings, all in `.env.example` with a comment each: `CALENDLY_TOKEN`, `CALENDLY_SIGNING_KEY`, `HD_ALERT_ADDRESS`; optional `HD_CALENDLY_DRIVER`. A server needs the scheduler (`php artisan schedule:run` every minute) beside the queue worker. A third open address: `POST /hooks/calendly`. The cutover runbook's Calendly step is: enter the token and the signing key on production; "Test Calendly"; set the two appointment type names if they differ; "Switch bookings on" at the moment Calendly is pointed at v4; then say what becomes of the bookings already in the calendar. Staging may run `HD_CALENDLY_DRIVER=stand-in`; production refuses it.
