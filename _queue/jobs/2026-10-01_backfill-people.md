@@ -42,13 +42,13 @@ stages:
   - {name: chris-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-torbay}, group: C, status: done}
   - {name: mick-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mick-torbay}, group: C, status: done}
   - {name: craig-arthur, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: craig-arthur}, group: C, status: done}
-  - {name: daniel-whittington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: daniel-whittington}, group: C, status: active}
-  - {name: dave-young, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dave-young}, group: C, status: pending}
-  - {name: devin-wright, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: devin-wright}, group: C, status: pending}
-  - {name: elliott-stark, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-stark}, group: C, status: pending}
-  - {name: gordon-atkinson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gordon-atkinson}, group: C, status: pending}
-  - {name: jack-heald, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jack-heald}, group: C, status: pending}
-  - {name: jake-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jake-williams}, group: C, status: pending}
+  - {name: daniel-whittington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: daniel-whittington}, group: C, status: done}
+  - {name: dave-young, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dave-young}, group: C, status: done}
+  - {name: devin-wright, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: devin-wright}, group: C, status: done}
+  - {name: elliott-stark, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-stark}, group: C, status: done}
+  - {name: gordon-atkinson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gordon-atkinson}, group: C, status: done}
+  - {name: jack-heald, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jack-heald}, group: C, status: done}
+  - {name: jake-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jake-williams}, group: C, status: active}
   - {name: jason-skaggs, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jason-skaggs}, group: C, status: pending}
   - {name: johnny-molson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: johnny-molson}, group: C, status: pending}
   - {name: kyle-caldwell, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-caldwell}, group: C, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: daniel-whittington
+current: jake-williams
 waiting_on: []
 ---
 # Backfill people
@@ -225,3 +225,16 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T01:47:13+02:00 job.run: stage `craig-arthur` started
 - 2026-10-02T01:53:37+02:00 job.run: stage `craig-arthur` done (Stage: done · tests green)
 - 2026-10-02T01:53:37+02:00 job.run: stage `daniel-whittington` started
+- 2026-10-02T02:00:23+02:00 job.run: stage `daniel-whittington` done (Stage: done · tests green)
+- 2026-10-02T02:00:23+02:00 job.run: 6 stages in one run; continuation queued (20261002T000023Z_job.run_fec2b4.md)
+- 2026-10-02T02:00:28+02:00 job.run: stage `dave-young` started
+- 2026-10-02T02:06:52+02:00 job.run: stage `dave-young` done (Stage: done · tests green)
+- 2026-10-02T02:06:52+02:00 job.run: stage `devin-wright` started
+- 2026-10-02T02:14:41+02:00 job.run: stage `devin-wright` done (Stage: done · tests green)
+- 2026-10-02T02:14:41+02:00 job.run: stage `elliott-stark` started
+- 2026-10-02T02:29:14+02:00 job.run: stage `elliott-stark` done (Stage: done · tests green)
+- 2026-10-02T02:29:14+02:00 job.run: stage `gordon-atkinson` started
+- 2026-10-02T02:40:50+02:00 job.run: stage `gordon-atkinson` done (Stage: done · tests green)
+- 2026-10-02T02:40:50+02:00 job.run: stage `jack-heald` started
+- 2026-10-02T02:46:52+02:00 job.run: stage `jack-heald` done (Stage: done · tests green)
+- 2026-10-02T02:46:53+02:00 job.run: stage `jake-williams` started

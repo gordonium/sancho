@@ -169,7 +169,7 @@ flowchart LR
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
 - _setup/pipeline/install-venv.sh
-- … +607 more
+- … +634 more
 
 ## Level 2 · wiring
 
@@ -241,7 +241,7 @@ flowchart LR
 # LINT
 generated 2026-10-02 by lint-layers.py
 
-**27 problems, 0 warnings**
+**27 problems, 1 warnings**
 
 ## Problems (block the build)
 - work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md: data file contains an instruction to Claude ('never do'); describe the preference instead
@@ -270,16 +270,17 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:81: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:82: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:83: inference words under a [gordon] cite; mark [inferred] or write `unknown`
-- work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md:301: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md:380: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 
 ## Warnings
+- secrets check skipped: this process can't see ~/.config/sancho (sandboxed)
 
 </details>
 
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-02 01:47 by test-all.py · 29 suites · 0 failing
+generated 2026-10-02 02:46 by test-all.py · 29 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|

@@ -117,3 +117,28 @@ The architecture tests are part of the 302: Pest's `php`, `security` and `larave
 - The destructive-command switch is on outside local and testing. In Laravel 13 it also blocks `migrate:rollback` (kit spec section 4); the kit has still to settle how a rollback is run on a server.
 - `password_reset_tokens` is the skeleton's table and is unused: there is no "forgot password" until mail exists.
 - The local logins' passwords are the three `SEED_PASSWORD_` lines of `.env.example`.
+
+## P1 fixes
+
+Fixer: Claude, model `claude-fable-5-1` (Fable 5.1). I cannot see my own effort level. I wrote neither the code nor the two reviews (`reviews/app-P1-plan-fit.md`, 24 findings; `reviews/app-P1-safety.md`, 17 findings). Started 2026-10-02 02:00 CEST from commit `7eb7d60`, 302 passing tests (rerun by me before touching anything: 302 tests, 935 assertions).
+
+### Plan (written before any change)
+
+Each finding is checked against the code first. Every fix has a test written to fail before it. Small commits, in this order, safety first because a later stage points the app at real data.
+
+1. **The tests can never touch a real database** (safety 6). `force="true"` on every line of `phpunit.xml`; the base test case refuses to start unless the environment is `testing` and every SQLite connection is in memory (or a file under the test's own temporary folders). Proof: a test that starts the suite's own runner in a child process with `DB_DATABASE`, `APP_ENV` and `MAIL_MAILER` set to hostile values and a marker row in the named file, and finds the marker still there.
+2. **SQLite fit for a server** (safety 4, plan-fit 24c): write-ahead journal, busy timeout, foreign keys, immediate transactions, read back from a file database in a test.
+3. **Nothing dangerous reaches a server** (safety 1). `.env.example` becomes the file a server may start from (production, debug off, no local address, no password); a test reads it and fails on any of those. One rule for "this is a developer's machine" (environment local or testing, and a local address), used by the seeder's refusal and the destructive-command switch; debugging is forced off wherever the address is not local. The three local logins get passwords generated at seed time into a file git ignores; the three values that sat in `.env.example` are burned and are taken out of this Mac's `.env` and database.
+4. **A proper way to give a server its logins** (safety 2, plan-fit 12): one command that creates the person and either mails a set-your-password link or takes the password at a hidden prompt; never an argument, never a file, never the log. Tinker moves to the development packages (safety 14).
+5. **The login** (safety 3, 9, 13): limits on the email alone and the address alone beside the present pair; every failure, lockout and login logged without the password; emails compared in lower case; "keep me logged in" shortened.
+6. **Small hardening** (safety 10, 11, 12): trusted host, protective headers and no-store behind the login, robots kept out, a forged page cursor shows the first page.
+7. **History that cannot be bypassed** (safety 5, 8; plan-fit 3, 4, 14, 22): hide and restore are events; every act's rows share a batch identifier; the history table refuses updates and deletes in the database itself; models refuse to be destroyed; a test fails if app code uses the quiet or bulk ways round the models.
+8. **Tables that can hold the old data** (plan-fit 5, 6, 7, 8, 23, 24b): service, stamp, the street, the invoice number and amounts become nullable; inspections and consultations become services that are not offered for new files; sources become unique and carry what has no column here; link columns indexed; `merged_into` renamed. The rules for rows made by hand are not weakened: a model refuses an incomplete row unless it is created through the one import entry point, which writes its source in the same step.
+9. **Forms that assert nothing by themselves** (plan-fit 9, 18): no preselected state or mode; a correction validates what was changed and does not demand blanks an old row never had.
+10. **The working list** leaves out cancelled files (plan-fit 10).
+11. **Matching** (plan-fit 2, 15, 16, 24a): suggestions in both directions; one base matcher and one controller; the second person and seven-digit phones; the address key's holes.
+12. **"Same" keeps what was typed** (plan-fit 1, 3, 17): the record kept is the one with the earliest job; per field, the details from the more recent job win where they are filled, blanks never overwrite, names stay as on the record kept, notes are joined; every change is a history row in the merge's batch; a merge can be undone and a "keep separate" asked again, both from the file and both recorded.
+13. **The other people on a job** (plan-fit 11): a panel to add, correct, copy and take off, with history.
+14. Whatever tests plan-fit 14 lists that the above did not already add.
+
+Not planned as code here, with the reason given per finding below: the version line and the log probe (the kit's template, stage K2, is building them), the status design and the `sends` columns (the reviewer hands both to P2), one invoice per file and the roles (Gordon's to say).

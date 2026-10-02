@@ -153,3 +153,55 @@ The lint on the kit's own documents: `python3 bin/kit-lint.py all` says template
 - K3 should add the `migrate:rollback` exception (job file records Gordon's say), run `bin/check-registration.py` and `bin/kit-lint.py project` from the preflight, and check which user the staging alias in `~/.ssh/config` points at.
 - Any new rule in `CLAUDE.md` needs a new ID and a ledger row, or `bin/test-all.sh` fails.
 - Editing anything under `bin/`, `config/`, `tests/`, `templates/`, `parity/`, or `CLAUDE.md` and `LESSONS.md`: run `bash bin/test-all.sh` afterwards. The self-test would do it by itself once registered; it is not registered.
+
+## Stage K2: the gate, the ship script and the project template
+
+Started 2026-10-02 01:55 CEST. Builder: Claude, model Fable 5.1 (`claude-fable-5-1`). I cannot see my own effort level. Scope: items 4 and 5 of section 14 of `laravel-kit-spec.md`. Nothing from item 6 onward (no skills, no hooks, no updates calendar). K1's guard files are not changed; anything I need there is written below as a request.
+
+### Plan (written before coding)
+
+**What will exist at the end**, all under `~/Dev/clc-laravel/`:
+
+1. `bin/gate.py`: the gate. It lives in the kit, so a change in an app cannot loosen it. It is handed a project folder and:
+   - refuses to run unless the folder is a git repository with a clean working tree, and records the commit it ran on;
+   - runs, in the spec's order: clear the cached config; Pint in check mode; Larastan; the tests (architecture tests included), counting passed, failed and skipped from the test runner's own report file; `composer audit --locked`;
+   - then the migration checks of rules L-2.2 and L-2.3: no migration file that is already on `main` has changed, and every migration runs up, down and up again on a throwaway SQLite database, with nothing left behind after the down;
+   - judges every step by its exit code, and checks afterwards that the tools changed no file;
+   - lists "controls changed": every change in the branch to the files that control the gate (the analyser config and its baseline, the formatter config, the test config, the audit ignore list, the CI workflow, the bot config, `.gitignore`, the deploy script, and the kit's own test files in the project), and any drop in the number of tests or rise in skipped ones against the gate's record for `main`;
+   - writes its record outside the tree it certifies: under the repository's `.git` folder, one file per commit. (The spec's review found that a gate which writes into the tree cannot certify the commit it ran on.)
+   - Exit codes: 0 green; 1 a check failed; 2 it could not run; 3 green, but controls changed, which needs Gordon's yes before ship.
+   - Which PHP it runs is chosen on the kit side (an option or an environment variable), never by a file in the app.
+2. `bin/ship.py`: the release gate of decision D2. The only thing that moves `main`. In order:
+   - refuses unless: the tree is clean; the branch is `feature/...` or `updates/...`; it descends from the remote's `main`; the version file holds a version higher than `main`'s; the change log has an entry for it; the tag does not exist; the job file records a passing review of a commit that differs from this one only in the version file, `CHANGELOG.md` and `.kit/jobs/`, and that commit has a passing gate record; the job file records Gordon's "ship it"; and, if controls changed, his yes to that;
+   - reruns the gate on this exact commit;
+   - pushes the branch and moves the `staging` pointer to it, waits until staging itself reports this commit, and takes the parity proof (staging's commit equals this one, staging says it is staging, no migration pending, the health address answers, the tree is still clean);
+   - reads production's version line, then pushes `main` (a fast-forward only) and the tag together, then watches production's version line: if it moves, deploy-on-push is on, and the script stops with its own exit code and tells Gordon;
+   - prints the hand-over of rule L-9.11 and stops. It never deploys. Gordon presses Deploy.
+   - `--dry-run` does every check and pushes nothing.
+3. `templates/laravel-new/`: the project template, as files laid out the way they sit in a project, with a manifest:
+   - architecture tests (no `dd` or `dump`, no `env()` outside config, no database facade in controllers, plus Pest's own presets);
+   - the three isolation measures: the stray-request switch in the base test case; a test config with the in-memory mailer, the in-process queue and dummy credentials, with a test that fails if any credential the tests can see is not a dummy; an architecture test with the list of wrapper classes, forbidding any other HTTP client;
+   - lazy-loading prevention and the destructive-command switch, in one service provider, with tests;
+   - the log probe: an artisan command and a web variant, both absent in production, with a test that asserts it;
+   - the version line: one `VERSION` file, an address that needs no login and serves version and commit, and a command that gives staging's status in one call;
+   - `deploy.sh`: the one deploy script (backup first on production and stop if it fails; install with package scripts off; build assets; refuse to migrate if the SQLite file is missing; migrate; record the commit; keep its output where it can be read);
+   - the CI workflow (the gate's steps on the four branch patterns, on pull requests and nightly; never on `wip/`; no secret);
+   - the bot config (Dependabot: Composer and npm grouped weekly, Actions separately; nothing merges by itself);
+   - `pint.json`, `phpstan.neon`, the required `.gitignore` entries, `.gitattributes`, `CHANGELOG.md`, `.kit/project.json`, `.kit/jobs/`, and the per-project `CLAUDE.md` from K1's template.
+4. `bin/laravel-new.py`: lays the template over a fresh Laravel project. By default it only lists what it would do; `--apply` does it. It never runs Composer, git or the network; it prints those steps.
+5. `bin/check-project.py`: says whether a project has every piece of the template, one named line per piece. Reads only.
+6. `bin/prove-template.sh`: an optional proof with real PHP: makes a real Laravel project in a temporary folder, lays the template over it, and runs the real gate on it. It needs Composer and so is not part of the everyday test run.
+7. Tests, added to `bin/test-all.sh` (same runner, same folder): `tests/test_gate.py`, `tests/test_ship.py`, `tests/test_project_template.py`, `tests/test_deploy_script.py`.
+8. The kit handoff, `LESSONS.md` (the "not built yet" lines that these steps bring) and the ledger rows that say "not built: step 4" or "step 5", brought up to date.
+
+**Order of work.** Gate and its tests; commit. Ship and its tests; commit. Template files, `laravel-new`, `check-project` and their tests; commit. Deploy script tests; commit. The proof with real PHP, once; fix what it finds; commit. Documents; commit. Full run from a clean copy; numbers here.
+
+**How it is tested.**
+- Python's built-in test runner, as K1. Nothing installed.
+- The gate and the ship script are tested against throwaway git repositories made inside each test, in a temporary folder, with a throwaway bare repository standing in for GitHub. PHP, Composer, the staging server and production's version address are stand-ins the tests control, so every outcome can be produced: a red formatter, a failing test, fewer tests than `main`, a changed control file, an edited old migration, a `down()` that leaves a table behind, staging that never moves, production that moves by itself.
+- The template is tested by laying it over a made-up fresh project and checking each piece by name; then each piece is removed in turn and the check must name it.
+- The deploy script is run for real, as a shell script, against stand-in `php`, `composer` and `npm` programs, to prove the order of its steps and that it stops where it must.
+- No test touches `hdonline-v4/` or any real project. I read its `composer.json`, test config and tests layout to make the template fit.
+- No ssh or rsync command appears on my own command line; staging is a stand-in program inside the tests.
+
+**What I will not do.** Register a hook. Edit anything under `~/.claude/`. Install anything with Homebrew. Push, or add a remote to the kit. Change K1's guard files. Write, stage or run anything in `hdonline-v4/`, or read its environment files. Start the skills, the plan-gate hooks or the updates calendar.
