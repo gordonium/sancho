@@ -48,15 +48,15 @@ stages:
   - {name: elliott-stark, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-stark}, group: C, status: done}
   - {name: gordon-atkinson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gordon-atkinson}, group: C, status: done}
   - {name: jack-heald, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jack-heald}, group: C, status: done}
-  - {name: jake-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jake-williams}, group: C, status: active}
-  - {name: jason-skaggs, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jason-skaggs}, group: C, status: pending}
-  - {name: johnny-molson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: johnny-molson}, group: C, status: pending}
-  - {name: kyle-caldwell, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-caldwell}, group: C, status: pending}
-  - {name: luis-castaneda, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luis-castaneda}, group: C, status: pending}
-  - {name: matt-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-willis}, group: C, status: pending}
-  - {name: rick-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rick-willis}, group: C, status: pending}
-  - {name: peter-nevland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: peter-nevland}, group: C, status: pending}
-  - {name: robin-kressbach, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-kressbach}, group: C, status: pending}
+  - {name: jake-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jake-williams}, group: C, status: blocked, blocked: the file and census row are written; Gordon must confirm whether the  Jake  in rec_564c0541a8 (2026-09-10  Nathan as a potential partner) is Jake Williams  say since when Jake has been president (v2 s}
+  - {name: jason-skaggs, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jason-skaggs}, group: C, status: done}
+  - {name: johnny-molson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: johnny-molson}, group: C, status: done}
+  - {name: kyle-caldwell, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-caldwell}, group: C, status: done}
+  - {name: luis-castaneda, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luis-castaneda}, group: C, status: blocked, blocked: file and census row are written; Gordon must confirm the spelling (Castaneda vs Casteneda)  say who Daniel Castaneda is to Luis  and confirm whether the Travis Crawford  Luis  is Luis Castaneda}
+  - {name: matt-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-willis}, group: C, status: done}
+  - {name: rick-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rick-willis}, group: C, status: blocked, blocked: the file and census row are written; Gordon must say which account he told Rick had become  one of my favorite accounts  in June 2025 (v2 s happy-outlet and action-air files contradict)  and whether t}
+  - {name: peter-nevland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: peter-nevland}, group: C, status: done}
+  - {name: robin-kressbach, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-kressbach}, group: C, status: active}
   - {name: roy-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: roy-williams}, group: C, status: pending}
   - {name: ryan-chute, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-chute}, group: C, status: pending}
   - {name: stephen-semple, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-semple}, group: C, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: jake-williams
+current: robin-kressbach
 waiting_on: []
 ---
 # Backfill people
@@ -238,3 +238,21 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T02:40:50+02:00 job.run: stage `jack-heald` started
 - 2026-10-02T02:46:52+02:00 job.run: stage `jack-heald` done (Stage: done · tests green)
 - 2026-10-02T02:46:53+02:00 job.run: stage `jake-williams` started
+- 2026-10-02T02:56:04+02:00 job.run: stage `jake-williams` blocked, recorded, job continues: the file and census row are written; Gordon must confirm whether the  Jake  in rec_564c0541a8 (2026-09-10  Nathan as a potential partner) is Jake Williams  say since when Jake has been president (v2 s
+- 2026-10-02T02:56:04+02:00 job.run: 6 stages in one run; continuation queued (20261002T005604Z_job.run_dd5cfc.md)
+- 2026-10-02T02:56:04+02:00 job.run: stage `jason-skaggs` started
+- 2026-10-02T03:04:26+02:00 job.run: stage `jason-skaggs` done (Stage: done · tests green)
+- 2026-10-02T03:04:26+02:00 job.run: stage `johnny-molson` started
+- 2026-10-02T03:12:16+02:00 job.run: stage `johnny-molson` done (Stage: done · tests green)
+- 2026-10-02T03:12:16+02:00 job.run: stage `kyle-caldwell` started
+- 2026-10-02T03:21:04+02:00 job.run: stage `kyle-caldwell` done (Stage: done · tests green)
+- 2026-10-02T03:21:04+02:00 job.run: stage `luis-castaneda` started
+- 2026-10-02T03:28:52+02:00 job.run: stage `luis-castaneda` blocked, recorded, job continues: file and census row are written; Gordon must confirm the spelling (Castaneda vs Casteneda)  say who Daniel Castaneda is to Luis  and confirm whether the Travis Crawford  Luis  is Luis Castaneda
+- 2026-10-02T03:28:52+02:00 job.run: stage `matt-willis` started
+- 2026-10-02T03:34:53+02:00 job.run: stage `matt-willis` done (Stage: done · tests green)
+- 2026-10-02T03:34:53+02:00 job.run: stage `rick-willis` started
+- 2026-10-02T03:40:35+02:00 job.run: stage `rick-willis` blocked, recorded, job continues: the file and census row are written; Gordon must say which account he told Rick had become  one of my favorite accounts  in June 2025 (v2 s happy-outlet and action-air files contradict)  and whether t
+- 2026-10-02T03:40:35+02:00 job.run: 6 stages in one run; continuation queued (20261002T014035Z_job.run_618866.md)
+- 2026-10-02T03:40:35+02:00 job.run: stage `peter-nevland` started
+- 2026-10-02T03:49:02+02:00 job.run: stage `peter-nevland` done (Stage: done · tests green)
+- 2026-10-02T03:49:02+02:00 job.run: stage `robin-kressbach` started

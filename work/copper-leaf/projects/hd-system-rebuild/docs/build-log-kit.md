@@ -205,3 +205,128 @@ Started 2026-10-02 01:55 CEST. Builder: Claude, model Fable 5.1 (`claude-fable-5
 - No ssh or rsync command appears on my own command line; staging is a stand-in program inside the tests.
 
 **What I will not do.** Register a hook. Edit anything under `~/.claude/`. Install anything with Homebrew. Push, or add a remote to the kit. Change K1's guard files. Write, stage or run anything in `hdonline-v4/`, or read its environment files. Start the skills, the plan-gate hooks or the updates calendar.
+
+### What was done
+
+**K2 is built, tested and committed. Finished 2026-10-02 03:20 CEST. 894 automatic tests, all pass (K1's 614 and 280 new). On top of that, the template, the gate and the deploy script were proved once with real PHP on a real Laravel project made for the purpose: 43 checks, all pass. Nothing is registered, installed, pushed or switched on.**
+
+**The test command and its result.**
+
+```
+bash /Users/gordonium/Dev/clc-laravel/bin/test-all.sh
+```
+
+Result at the last commit (`00c07f8`): `Ran 894 tests in 163.239s`, `OK`, exit code 0. Failures 0, errors 0, skipped 0. The run takes about two minutes forty now, not sixteen seconds, because the new tests start real programs against real git repositories.
+
+| Test file | Tests | What it covers |
+|---|---|---|
+| K1's eight files | 614 | unchanged, still passing (one assertion in `tests/test_kit_lint.py` now accepts an eleventh lesson) |
+| `tests/test_gate.py` | 72 | the gate against throwaway repositories: green, each red step, what stops it from starting, the migration checks, controls changed, numbers of tests against `main` |
+| `tests/test_ship.py` | 84 | the ship script against a throwaway repository with a bare repository standing in for GitHub: 12 ships that must succeed, a dry run, 32 refusals before any push, staging that misbehaves, production that moves by itself |
+| `tests/test_project_template.py` | 87 | the template laid over a copy of a fresh Laravel project's stock files: each piece is there; each piece taken away or hollowed out is named by the check |
+| `tests/test_deploy_script.py` | 37 | the deploy script run for real against stand-in programs: the order of its steps, and every place it must stop |
+
+No test touches a real project. PHP, Composer, npm and the staging server are played by one stand-in the tests control (`tests/fixtures/standin.py`); staging's health address and production's version line by a small web server inside the test.
+
+**Four more checks, each run by hand tonight.**
+
+- **From a clean copy.** The repository was cloned into a scratch folder and the tests run there with the home folder pointed at an empty folder. Result: 894 tests, OK. The empty home folder was still empty afterwards and the clone had no new files.
+- **The tests notice a missing check.** In a scratch copy, 39 checks of the gate and the ship script were switched off one at a time and the tests rerun. 38 made at least one test fail. The one that did not was the ship script's own clean-tree check: the gate refuses a dirty tree too, and the test accepted either message. That test was tightened and now fails with the check off. So: 39 of 39.
+- **The proof with real PHP** (`bin/prove-template.py`; PHP 8.5.10, Laravel 13.34.0, Pest 5.3.0, Larastan 3.12.2, Pint 1.32.1; run three times, the last on the committed kit): 43 checks, all pass.
+  - A fresh Laravel project was made with Composer in a scratch folder, the template laid over it, `composer update` run, and Pint run once. Pint changed none of the template's own files. `check-project.py` found all 15 pieces.
+  - The real gate was green on it: 44 tests, 0 failed, 0 skipped; Larastan at level 8 found nothing; `composer audit` found nothing; every migration ran up, down and up.
+  - 21 deliberate changes were then made, one at a time, each on its own branch, and the real gate run on each. 19 were breakages, and the gate gave the right answer at the right step for every one: the stray-request switch taken out; the log probe let into production (command, then route); the destructive commands let through; lazy loading allowed; a `dump()` left behind; `env()` outside config; a controller using the database facade; Guzzle used directly; curl used directly; a second class using a vendor's client beside the listed wrapper; a credential in the test config that is not a dummy; unformatted code; a type error; a failing test; a migration with an empty `down()`; an edited old migration; a deleted test (exit code 3: fewer tests than `main`); a skipped test (exit code 3: more skipped). 2 were harmless and were let through.
+  - The deploy script was run for real as a staging site and as a production site (real PHP, Composer and SQLite; npm a stand-in, so nothing large was downloaded). It ran to its end, recorded the commit, and `php artisan kit:status` reported that commit with 0 pending migrations. On staging the log probe's token was found in Laravel's log twice and came out of `error_log`. On production the backup ran first and the copy was sound; the log probe's command and route did not exist; `migrate:fresh` was refused; and with no database to back up the deploy stopped at step 1 and changed nothing.
+- **The lint on the kit's own documents**: `python3 bin/kit-lint.py all` says template ok, ledger ok (98 rows, 124 rule IDs, 36 gaps in WordPress, 2 gaps in Laravel), lessons ok (11 lessons, 5 with no test or hook yet, each naming the build step that brings one).
+
+**The proof found a real fault, which is fixed.** The template's architecture rule against a second HTTP client was written as "not to be used in App" over a list of names. Pest reads that as "not all of them", so the rule passed with Guzzle used in the app, and every test was green. Only breaking a real project on purpose showed it. The rule is rewritten in the form that is checked name by name, a test refuses the broken form, and it is lesson LL-11 and ledger row C-98.
+
+**What exists now**, all under `/Users/gordonium/Dev/clc-laravel/`:
+
+| Path | What it is |
+|---|---|
+| `bin/gate.py` | the gate: clear the cached config, Pint, Larastan, the tests, `composer audit --locked`, then the two migration checks. It certifies a clean commit, keeps its record under the project's `.git` folder, and lists "controls changed". Exit codes 0, 1, 2, 3 |
+| `bin/ship.py` | the ship script: the one thing that moves `main`. `--dry-run` does every check and pushes nothing. Exit codes 0, 1, 2, 4 |
+| `bin/laravel-new.py` | lays the template over a fresh Laravel project. Lists by default; `--apply` does it; never runs Composer, git or the network |
+| `bin/check-project.py` | says whether a project has every piece of the template, T1 to T15. Reads only |
+| `bin/prove-template.py` | the proof with real PHP. Needs Composer, so it is not part of `bin/test-all.sh` |
+| `bin/kit_repo.py` | shared pieces for those scripts |
+| `templates/laravel-new/files/` | the template: 28 files laid out as they sit in a project |
+| `tests/test_gate.py`, `test_ship.py`, `test_project_template.py`, `test_deploy_script.py`, `throwaway.py`, `fixtures/standin.py`, `fixtures/fresh-laravel/` | the tests and what they stand on |
+| `docs/HANDOFF-laravel-dev-kit.md` | brought up to date: what each new script does, the lines the ship script reads from a job file, 18 choices made while building (numbers 11 to 28), what is unconfirmed, a line each for steps 4 and 5 |
+| `CLAUDE.md`, `LESSONS.md`, `parity/ledger.md` | L-5.5 reworded, L-6.10 and L-9.4 name the scripts; three lessons now name the tests that catch them, four say why the template could not carry theirs, one lesson added; eleven ledger rows updated, one added |
+
+**Commits.** 7 new, local only, on `main`, after K1's `26a0dbc`. Last: `00c07f8` (full: `00c07f8e09298434a0b9800d2e4745c096f35228`). No remote exists. The working tree is clean.
+
+**Where I went beyond the letter of the spec, or settled something it left open.** Each is written up in the kit handoff, section 5, numbers 11 to 28. The ones that matter most:
+
+1. The gate also runs the migration checks (spec section 4 gives them to the gate; its list in 5.1 does not), and on every migration, not only the new ones.
+2. More files count as "controls" than the spec lists: the base test case, the test bootstrap, the kit's own tests in a project, `.kit/project.json`, and the list of Composer plugins that may run.
+3. The ship script reads the review and Gordon's "ship it" from the job file, in three fixed line shapes. The job file's format is K3's; these three lines are what K3 must write, or change in one place in `bin/ship.py`. They are the agent's words, so that part is instruction. The arithmetic on top is mechanical: nothing but `VERSION`, `CHANGELOG.md` and `.kit/jobs/` may differ from the reviewed commit.
+4. `migrate:rollback` is left usable. This settles the spec's open point: Laravel's one-line switch blocks rollback too (read in the framework's source, 13.34), and the way back of a release needs it. The template switches off the four commands that destroy a database, one by one. Rule L-5.5 was reworded to match.
+5. The deploy script refuses a production site with debug on, a commit it cannot identify, and a missing or relative SQLite path. Its backup is a few lines of PHP of its own, because on a fresh release the packages are not installed yet and the backup must come first. It handles SQLite only and stops the deploy for any other database.
+6. A fresh Laravel 13 project ships a `CLAUDE.md` and an `AGENTS.md` written for agents, which tell an agent to install programs. `laravel-new.py` replaces the first with the per-project file and removes the second (rule L-5.12).
+7. The CI workflow repeats the gate's commands, because CI may hold no secret and so cannot fetch a private kit. `check-project.py` fails when the workflow drops one.
+
+**For Gordon to decide or know.**
+
+- **CI needs one third-party action**, `shivammathur/setup-php`, because GitHub's machines do not carry PHP 8.5. A new dependency is his say (L-6.4). It is in the template; nothing runs it until a repository exists.
+- **Herd ships a program called `forge`** in its bin folder (`~/Library/Application Support/Herd/bin/forge`, seen tonight; not run). The kit relies on `forge` being absent. K1's installer reports it absent only because that folder is not on the plain PATH; it is on the PATH in a login shell. The guard refuses running it by name once registered.
+- **The ship script reads staging's health address without a login.** If the login in front of staging covers `/up`, it stops there. How staging lets that one address through is his choice.
+- **The very first push of `main` of a new project is his**, when he creates the repository. The ship script refuses when the remote has no `main`.
+
+**Not done, and why.**
+
+- Skills, the plan-gate hooks, the preflight, the updates calendar and its script: items 6 and 7, not this stage. `laravel-new.py` prints that the calendar entry is not built yet.
+- Nothing here has met a real Forge site or GitHub. The ship script was tested against a bare repository on this Mac; the deploy script against real PHP but not against Forge's own deploy box. Whether Forge hands the script the commit is unconfirmed; if the commit cannot be found the script stops and says so.
+- The gate compares numbers of tests only with a commit of `main` it has run on, on this Mac. With none it says so. The ship script reruns the gate on what it ships, so the record exists from the first ship on.
+- The gate's up, down, up run is on SQLite.
+- The template carries no browser test (the test browser is a per-project download, granted for Home Directions only) and no webhook or integration test (a fresh project has none). Lessons LL-1, LL-2, LL-3 and LL-9 say so and name step 6.
+- `check-project.py` was not run on `hdonline-v4`: this stage may not run anything there. From the files I was allowed to read, the app was built before the template and does not carry its pieces under the template's names (no `tests/Feature/Kit/`, no `.kit/`, its architecture tests are in `tests/Arch/ArchTest.php`). Laying the template over it will show conflicts to settle by hand (`pint.json`, `phpstan.neon`). That is the app track's to do.
+
+**Requests to other stages. I changed none of these files.**
+
+- **Guard files: no change needed by this stage.** For the fix stage's information: the ship script runs one command on staging (`cd <app root> && php artisan kit:status`) and the log probe is `php artisan kit:log-probe`; both fit the guard's rules as they are.
+- **`bin/guard-selftest.py`** runs the whole of `bin/test-all.sh` after any change to the kit. That now takes two minutes forty. Once registered, limiting it to the guard's own tests when only non-guard files changed would keep it usable.
+- **`bin/install-mac.sh`** still says only the skills are missing, and looks for `forge` on the plain PATH only. It should look in Herd's bin folder too.
+- **K3:** write the three job-file lines the ship script reads (handoff, section 4a); run `bin/check-project.py` and the gate from the preflight and the code skill; pass `--php` and `--composer` (on this Mac: Herd's `php85`); add the `migrate:rollback` exception to the guard request list as K1 noted.
+- **Paperwork track:** the host checklist should say that the site's deploy box only fetches the code and runs `bash deploy.sh`; that production's `.env` has `APP_DEBUG=false` and `DB_DATABASE` as the full path of the shared database file, which must exist before the first deploy; that `/up` and `/version` must be readable without a login; and that `.kit/project.json` is filled in (staging alias, app root, health address; production's version line; `production.live` set to true after the first deploy).
+
+**Refused by the app's safety check:** nothing.
+
+**Untouched, checked at the end.** `~/.claude/settings.json` was last changed on 2026-10-01 21:23, before this run. `~/Dev/clc-plugins/` shows the same five uncommitted files. None of K1's guard files changed (`git diff 26a0dbc HEAD` over them is empty). The kit has no remote. Nothing else was written in the Sancho tree.
+
+**What I read in `hdonline-v4/`, said plainly.** Its `composer.json`, `phpunit.xml`, `pint.json`, `phpstan.neon`, `package.json`, `README.md`, `.gitignore`, `.gitattributes`, the names of the files under `tests/` and `app/`, `tests/Pest.php`, `tests/TestCase.php`, `tests/Arch/ArchTest.php`, `routes/web.php` (first 40 lines), `app/Providers/AppServiceProvider.php`, and the last five lines of its `git log`. That is a little more than the three things the brief named (its `composer.json`, test config and tests layout); all of it was read only, to make the template fit a real project. I did not read `.env` or `.env.example`, and wrote, staged and ran nothing there apart from that one `git log`.
+
+## K1 fixes
+
+Started 2026-10-02 03:25 CEST. Fixer: Claude, model Fable 5.1 (`claude-fable-5-1`). I cannot see my own effort level. I wrote neither the kit nor the review. Scope: the 25 findings of `reviews/kit-K1.md` and its 869 cases, on the kit at commit `00c07f8`.
+
+### Plan (written before any change)
+
+**First, check the review.** Done before this plan was written, with a replay script kept in a scratch folder (not in the kit yet):
+- The 869 cases were handed to the guard at `00c07f8`, in-process, with the fixture rules. Result: 436 allowed, 433 refused; **226 wrongly allowed** (71 "must", 56 "gap", 41 "limit", 58 "disguise") and **53 wrongly refused**. Every one of the 869 answers equals the answer the reviewer recorded at the foot of the case file. The reviewer's numbers are true.
+- Finding 4 reproduced: a wrapper that is not there exits 127 and prints nothing; a wrapper cut off before it reads its input exits 0 and prints nothing; `CLC_GUARD_PYTHON=/usr/bin/true` turns a must-refuse command into exit 0 with nothing printed; with standard input held open for 12 seconds the wrapper came back after 12.0 seconds.
+- Finding 5 reproduced: the registration check says OK four times and exits 0 with ` || true` added, with the variable in front, with another rules file, with `async`, and with no timeout.
+- Finding 2 reproduced: the check's own matcher function says the example matcher does not cover `Monitor`. I loaded the definition of `Monitor` in this session: its `command` field is "Shell command or script" and it "runs in the same shell environment as Bash". The terminal tool's definition has its own `cwd` field (finding 3a).
+- Finding 21 reproduced: one word of 400,000 characters takes 1.7 seconds.
+- Hook facts, from documentation that is on this Mac (the official plugin marketplace's hook-development pages under `~/.claude/plugins/`): exit code 0 is success, exit code 2 blocks, any other exit code is a non-blocking error; the hook input carries `cwd`; a matcher is a list of exact names or a regular expression.
+
+**What will change, in this order. Each step ends with its tests green and a commit.**
+
+1. **The replay of the reviewer's file as a test.** A copy of the case file goes into `tests/fixtures/`, with a second file holding the expected answer for every one of the 869 ids. One test replays them all and fails on any answer that differs. A case the guard still gets "wrong" by the reviewer's reckoning stays in the expected file with the reason beside it, so the count of what is left open is itself tested.
+2. **Blocker 1: a command inside a command.** Before the text is split into words, every `$( ... )`, every backtick pair and every `<( ... )` or `>( ... )` is found in the raw text, at any depth, and judged as a command line of its own. No early return for a call that only sets a variable. A redirection's target is covered because the search runs on the raw text. Operators are split the way a shell splits them (`&&>` is `&&` then `>`). More than six levels deep is refused, not skipped. The here-document exemption is narrowed (finding 20): text handed to `cat` is only "plain text" when nothing unclosed surrounds it except `git commit`, `git tag` or `git merge`.
+3. **Blocker 3: the push rule decides by the repository the push would act on.** The start is the tool's own folder when the tool has one. Every folder the command moves to (`cd`, `pushd`, `git -C`, `--git-dir`, `--work-tree`, `GIT_DIR=`, `env -C`, `find -execdir`) is worked out. A folder under the kit folder is a project, except the kit's own folders (the kit's own repository stays exempt, wherever the command starts). A folder outside is looked at on disk: it is a kit project if its repository carries the template's `.kit/project.json`, or is a git worktree of a repository under the kit folder, or was cloned from one. A folder that cannot be worked out (a variable, a wildcard) is treated as a project. The words "the kit folder's name appears in the text" stop deciding anything. `git subtree push`, `git send-pack` and `git-push` by path are read as pushes.
+4. **Blocker 2: every tool that runs a shell command.** `Monitor` joins the shell matcher and the registration check's own list, so the check fails without it. The guard judges `Monitor`'s command, and its web-socket address as an address. The browser pane's `preview_start` starts a program named in `.claude/launch.json`: the guard reads that file and judges the command. The iOS simulator tool joins the browser matcher (finding 25e). The log will list every tool I could find that can start a program, and say which I could not confirm.
+5. **Findings 7, 8, 9, 24: other roads.** Options that point an ssh somewhere else are refused for hosts this guard passes over too. `forge`, `gh` (and `hub`, `doctl`) are caught among another program's words, by path, and as packages by their last part; only verbs that cannot install or run (`list`, `uninstall`, `show` ...) pass. Git's own destinations (`clone`, `fetch`, `pull`, `push`, `ls-remote`, `remote add`, `remote set-url`) are judged like an ssh destination. `ssh-copy-id`, `slogin`, `lftp`, `ansible` join the refused family; `ssh://`, `sftp://`, `scp://` addresses and `--ssh=` go by the same host rule.
+6. **Findings 10, 11, 14, 16: what may run on staging.** Tightened: `config:show`, a recursive search from the app root, a wildcard in a dot-name, the cached config file (10); the reading tools may print the logs and source files but not the database or stored documents (11); `sort -ro`, `uniq -`, `date --set`, `make:*`, `install:*`, `vendor:publish`, `schema:dump`, `dusk`, `model:prune` (16). Opened, each with the reason it is safe: a `|` or `&&` inside quote marks is no longer taken for a join; `php8.5` and `/usr/bin/php`; `echo`, `uptime`, `ps`, `zcat`, a `find` that cannot write or run, `sed -n` with a line range only; the app root in quote marks; `.env.example` (14).
+7. **Findings 12, 15, 17, 18, 21, 25.** The deploy-hook marker becomes `/deploy/http`. A comment line, `find`, `whereis`, `hash`, `[[`, the documentation sub-domain, `brew uninstall` (15). `www.` in front of the production name; a pipe to `head`, `grep`, `jq`, `wc` and a trailing `echo` after the plain read (17). Addresses are also matched after percent codes, look-alike characters, tabs, line breaks, soft hyphens, `/./` and `/../` are resolved, and number forms of an address are read (18). A word over 100,000 characters is refused (21). `ssh -G` passes; a ref written `refs/heads/...` is a branch (25).
+8. **Findings 4 and 5: the outermost layer.** The registered command checks that the wrapper is there and whole (a last-line marker) and turns every failure into exit code 2. The wrapper's body moves into a function so a cut-short file cannot run half of it. The two environment overrides are removed; the tests edit a copy. The deadline covers the read of standard input. The registration check compares each command with the exact expected text, refuses `async`, and requires the timeout.
+9. **Finding 6 and the Herd `forge`.** The way out of a broken guard, in plain words for Gordon, in the wrapper's message, the registered command's message, the installer and the kit handoff. The self-test remembers a failing fingerprint and reports it at once; it runs the guard's own tests after any change and the slow gate and ship tests only when their files changed. The installer looks in Herd's folder for `forge` and says so.
+10. **Findings 13, 22, 23 and the honest limit.** A table in the rules file saying what each rule that claims a mechanism rests on today, checked by the lint. The lint's content checks (22) and the ledger rows (23) if they stay small. The honest limit rewritten in the guard's header and stated in the rules file (a new rule, with its ledger row).
+
+**Two rules I hold myself to** (from the WordPress guard's repair). Nothing is loosened to cure a false refusal unless the loosened shape can be shown safe; where it cannot, the refusal stays and the log says so. And every rule change keeps the earlier answers: all 869 cases are run against the guard before and after, and any case that was refused and is now allowed is listed by id with its reason.
+
+**What I will not do.** Register a hook. Edit anything under `~/.claude/`. Contact a server. Type an ssh, rsync, scp, sftp or push example on my own command line (they live in files). Install anything. Push, or add a remote. Touch `~/Dev/clc-plugins/` or look inside `hdonline-v4/`. Edit the review files. Change the list of hosts the guard leaves alone, or add pages to the refused list beyond what a finding's fix needs: those are Gordon's (the real-rules test says "until Gordon decides otherwise").
+
+**How it is tested.** As K1: Python's own test runner, made-up hosts, nothing that depends on this Mac. New: the push rule's look at the disk goes through one small reader that the tests replace with a made-up disk, plus tests against real throwaway repositories (a clone, a worktree) in a temporary folder; the registered command line itself is run by the tests against a missing wrapper and against the wrapper cut at every line.

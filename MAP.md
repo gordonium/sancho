@@ -169,7 +169,7 @@ flowchart LR
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
 - _setup/pipeline/install-venv.sh
-- … +634 more
+- … +641 more
 
 ## Level 2 · wiring
 
@@ -280,7 +280,7 @@ generated 2026-10-02 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-02 02:46 by test-all.py · 29 suites · 0 failing
+generated 2026-10-02 03:49 by test-all.py · 29 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
