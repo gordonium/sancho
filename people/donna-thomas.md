@@ -1,0 +1,67 @@
+---
+name: Donna Thomas
+aliases: [Donna, Donna Bernander]
+type: person
+lobe: personal
+description: Leah's stepmother, Luke Bernander's wife; Leah's help and hospital driver through the March 2026 surgery recovery
+tier: thin
+mbti:
+skills: []
+availability: {as_of: , note: ""}
+location: {city: "Fort Collins, CO", as_of: 2023-12-13, source: "[doc:people/_sopris-locations.md post 253] (household 'Luke and Donna Bernander', unconfirmed since)"}
+roles: []
+last_seen: 2026-09-23
+want_to_see_by:
+cadence:
+contact: {emails: [], phones: [], address: "3805 Capitol Drive, Fort Collins, CO", birthday: "", google_id: "", source: "[doc:people/_sopris-locations.md post 253] (2023-12-13, household 'Luke and Donna Bernander'; current or not is open)"}
+voiceprint: {enrolled: false, refs: 0, last_enrolled: , auto: paused}
+relationships: [{person: luke-bernander, kind: married_to, note: "current wife [v2:relationships/people/luke-bernander.md:18,45], [v3:memory/people/luke-bernander/profile.md:22-24,68], [doc:people/luke-bernander.md] as of 2026-05-23"}, {person: leah, kind: stepparent_of, note: "'Stepmother: Donna Thomas (Luke's wife)' [v2:relationships/leah.md:21], [v2:relationships/people/leah-ashley.md:20-22] as of 2026-03-15"}, {person: paula-bernander, kind: stepparent_of, note: "Luke's wife; Paula is Luke's daughter [v2:relationships/people/luke-bernander.md:17,43], [doc:people/paula-bernander.md:18]"}]
+sources: ["[rec_868fb07db8 2026-09-23]", "[gordon 2026-10-02]", "[doc:personal/recordings/rec_868fb07db8/rec_868fb07db8/corrections.md]", "[doc:people/_sopris-locations.md]", "[doc:people/luke-bernander.md]", "[doc:people/paula-bernander.md]", "[v2:relationships/people/MANIFEST.md]", "[v2:relationships/leah.md]", "[v2:relationships/people/leah-ashley.md]", "[v2:relationships/people/luke-bernander.md]", "[v2:data/ingest-drafts/2026-04-01_rec_ff2e4ee3fa_luke-garage-visit.md]", "[v2:data/earballs-transcripts/]", "[v3:memory/people/luke-bernander/profile.md]", "[v3:work/projects/gordon-leah-relationship/_active/retreat-2026-06-19/briefs/rec_9162891531.md]", "[v3:data/earballs/transcripts/]"]
+---
+## How to work with them
+## Who they are
+- Luke Bernander's wife and stepmother to Leah and Paula; v2's roster: "Leah's stepmother (Luke's wife). Visited during Leah's surgery recovery — 'excellent company.'" (no file built) [v2:relationships/people/MANIFEST.md:39], [v2:relationships/leah.md:21], [v3:memory/people/luke-bernander/profile.md:41,68]; history, as of 2026-05-23, unconfirmed since.
+- She and Luke come up as a pair, "Luke and Donna"; Gordon confirmed the pair in rec_868fb07db8 as Luke Bernander and Donna [doc:personal/recordings/rec_868fb07db8/rec_868fb07db8/corrections.md:16] [gordon 2026-10-02].
+- In March 2026 she was Leah's practical help after the gallbladder surgery, company while Gordon was away and the one who drove her back to the hospital [v2:data/earballs-transcripts/2026-03-16/rec_b0d060bb5a/transcript.md:183,697]; history.
+- Leah, 2026-04-01, after Luke told Donna's own stepmother story: "explains why Donna's such a great stepmom" [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:1582]; history, machine labels.
+
+## What we know
+- 2026-09-23: Gordon to Mark Benn, on getting home from the Jack Smith Colorado Speaker Series on the 7th: "Luke and Donna will be there I can probably ride with them" [rec_868fb07db8 00:20:48]; speaker confirmed as Gordon [doc:personal/recordings/rec_868fb07db8/rec_868fb07db8/speakers.md].
+- History, 2026-07-22, speakers unconfirmed (a man speaking of "Donna and I"): "When Donna was hiring, there are three things that motivate people ... So use Donna as the example. have She could made more money going somewhere else" [v3:data/earballs/transcripts/2026-07-22/rec_610789a78e/transcript.v1.md:2685]. Her job is not named anywhere on disk.
+- History, 2026-06-18, voiceprint hint Leah (candidate), on Luke's stress-related skin flare: "Like, when Donna's in the hospital, this will go first" [v3:data/earballs/transcripts/2026-06-18/rec_91b6b7338a/transcript.v1.md:14,372]. No hospital stay of hers is dated on disk.
+- History, 2026-04-05: on the "Jesus gave up his weekend for your sins" Easter meme: "Luke and Donna, thought about putting this on the family thread with Jess and the boys. Did not" and "I'm really hoping Donna will reply, as Jesus would have wanted" [v2:data/earballs-transcripts/2026-04-05/rec_ef3c33dcba/transcript.md:197-199]; v2 read the sender as Gordon [v2:data/earballs-transcripts/2026-04-05/mouth-ingest-notes.md:34,51].
+- History, 2026-04-01, Luke in Gordon's garage (Speaker 1 confirmed Luke by Gordon per v2): "So, why wouldn't I just do an 80% job? This is a Donna thing. Donna's an 80%-er on everything." and "you think that Donna's going to move the couch every time she vacuums, you're dreaming" [v2:data/earballs-transcripts/2026-04-01/rec_ff2e4ee3fa/transcript.md:299-301], [v2:data/ingest-drafts/2026-04-01_rec_ff2e4ee3fa_luke-garage-visit.md:5,56].
+- History, 2026-04-01, evening at Luke and Donna's home with Gordon, Leah and family; Donna's own speaker label is not identified [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:5,24].
+- History, 2026-04-01, Luke: Donna took a scam call asking for a bank routing number and saw the caller off ("I'll turn your TV off ... Then he hung") [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:436-452].
+- History, 2026-04-01, Luke: "Donna retired in 2018" [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:476].
+- History, 2026-04-01, Luke: "Donna's sister is" (garbled) in a turn about older people and phone scams; v2's summary reads it as her sister being targeted [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:9,418-420].
+- History, 2026-04-01, Luke and Leah on her schooling: "would stay an extra semester and take psychology over"; Leah: "her psych nursing book. She's trying to get rid of it ... It's from the 70s" [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:1448-1460].
+- History, 2026-04-01, Luke: Donna saw a family pattern "from the beginning", once she "became interactive" with Leah and Paula, several months after she and Luke started dating [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:1532-1544].
+- History, 2026-04-01, her childhood as Luke and Leah told it (garbled transcript): eight children, "four from the first litter and four from the second", she number six; her mother had breast cancer, her father was a miner with black lung; Trinidad and Tennessee; she lived with her father about a year, then his new wife told her "You're out ... dad and I got married today" and she "packed her shit and moved to Wilma's house" [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:1550-1624].
+- History, 2026-03-22 (participants Gordon, Leah, Luke, confirmed by Gordon 2026-03-24 per v2), Leah: "Donna's so pleased with all of your getting rid of shit. She tells me almost every time I see her" (one-on-one time, about Luke) [v2:data/earballs-transcripts/2026-03-22/rec_4a829c48c6/transcript.md:9,281].
+- History, 2026-03-22, Leah on the surgical-glue reaction: Donna "was like the best help I could have had that day"; "So Donna takes me in"; "they wouldn't give me steroids when Donna took me in" [v2:data/earballs-transcripts/2026-03-22/rec_4a829c48c6/transcript.md:283-289,317,335].
+- History, 2026-03-22, unmapped labels: "She assumes all of her extensive knowledge is all common knowledge" / "Who's this? Donna." / "I just had a medical techie question for her" [v2:data/earballs-transcripts/2026-03-22/rec_4a829c48c6/transcript.md:2761-2763].
+- History, 2026-03-22, Luke: a tent "that Donna and I used"; a trip with Donna on the Oregon coast (Pelican Brewery) [v2:data/earballs-transcripts/2026-03-22/rec_4a829c48c6/transcript.md:2237,2527].
+- History, 2026-03-24, Leah: "Donna brought me a recovery kit and she brought me jello and booklets to take me to the hospital" [v2:data/earballs-transcripts/2026-03-24/rec_006d077048/transcript.md:1414].
+- History, 2026-03-16, Leah's numbered recovery update read aloud: "18. Donna arrives. Excellent company. 19. Surprise. Surgical glue allergy. 20. Back to the hospital with Donna. 47 hours post-discharge."; "having Donna be able to take me to the hospital was so great"; "I'm also texting Donna. Donna knows the whole thing." [v2:data/earballs-transcripts/2026-03-16/rec_b0d060bb5a/transcript.md:183,697,719]; the same audio in a second v2 transcript is labelled Gordon [v2:data/earballs-transcripts/2026-03-16/rec_e000711811/transcript.md:5,57-59,229-231].
+- History, 2026-03-11, unmapped labels, on Leah's care that week: "I think Donna's coming to hang out during the day Thursday" [v2:data/earballs-transcripts/2026-03-11/rec_2c03b9d84f/transcript.md:200], [v2:data/earballs-transcripts/2026-03-11/rec_eb49ba3112/transcript.md:203].
+- History, 2026-03-09, surgery day: "the people that have been kept in constant loop are ... Alex, Luke, and Donna, and Laura" [v2:data/earballs-transcripts/2026-03-09/rec_86a819a51d/transcript.md:51-57].
+- History, 2026-03-08, Leah: "i really love the small dinners we've been having ... having luke and donna over" [v2:data/earballs-transcripts/2026-03-08/rec_0505c8b2a9/transcript.md:1160].
+- 2023-12-13: Gordon's Sopris locations list has "Luke and Donna Bernander", 3805 Capitol Drive, Fort Collins, CO [doc:people/_sopris-locations.md post 253].
+
+## Open threads
+- For Gordon: her surname. v2 and v3 say Donna Thomas [v2:relationships/people/MANIFEST.md:39], [v2:relationships/leah.md:21], [v3:memory/people/luke-bernander/profile.md:41]; the Sopris post says "Luke and Donna Bernander" and proposes `donna-bernander` [doc:people/_sopris-locations.md post 253]. One person, suspected; this file stays `donna-thomas`, no second file; also asked in [doc:people/luke-bernander.md:39].
+- For Gordon: is 3805 Capitol Drive, Fort Collins (Sopris post, 2023-12-13) still Luke and Donna's address? Same question in [doc:people/luke-bernander.md:37].
+- v2's summary of rec_b87ee5848f gives the eight-siblings, black-lung, stepmother childhood to "the mentor" (Luke) [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:9,11]; the transcript lines put it in Donna's history ("her house", "Donna lived with her dad") [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:1550-1624]. Filed here as hers, garbled; unconfirmed.
+- A medical or nursing background is suggested ("psych nursing book", "medical techie question", "Donna knows the whole thing") but never stated [inferred] [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:1458], [v2:data/earballs-transcripts/2026-03-22/rec_4a829c48c6/transcript.md:2763]. Her career and the 2018 retirement are otherwise blank.
+- Inheritance: v2 lists "dad+Donna (making more than they know what to do with)" among Gordon's expected inheritances [v2:relationships/leah.md:223], from "will be money from dad and Donna" in an unlabelled turn [v2:data/earballs-transcripts/2026-03-28/rec_e2ffaf5fc7/transcript.md:213,229]. Gordon's father is married to Maria Pia [doc:people/maria-pia-seirup.md]; whose "dad" is meant is open. Not filed as fact; same thread in [doc:people/luke-bernander.md:42].
+- 2026-05-31: v3 notes "a Donna group-chat item" Gordon had not started [v3:work/projects/gordon-leah-relationship/_active/retreat-2026-06-19/briefs/rec_9162891531.md:16,21]; the transcript line is garbled [v3:data/earballs/transcripts/2026-05-31/rec_9162891531/transcript.v1.md:32]. Whether it is this Donna, and what the item was, is not stated.
+- Not filed: other "Donna" mentions whose speaker or referent is unclear (v3 2026-05-20 rec_549c337d93, 2026-05-24 rec_c3e0cd1709 and rec_5bdff9ff55, 2026-05-28 rec_f9b0ed3864, 2026-07-08 rec_66a57e33f0, 2026-07-29 rec_e4abe9481f; v2 2026-02-11 rec_4d6d5c2d7b, 2026-03-07 rec_d3f89ac475, 2026-04-12 rec_9772310af8, 2026-04-15 rec_5475d4e1d2, 2026-04-19 rec_3141ad402d). Unrelated Donnas excluded: a customer in rec_36f02fd22c [doc:recordings/inbox/rec_36f02fd22c/transcript.md:710], "Josh and Donna" [v2:data/earballs-transcripts/2026-01-22/rec_1333030be0/transcript.md:443], a Donna in a talk about advertising [v3:data/earballs/transcripts/2026-06-29/rec_317eb0323f/transcript.v1.md:95].
+
+## History with Gordon
+- 2026-09-23: Gordon may ride home with Luke and Donna from the Jack Smith event on 2026-10-07 rather than with Leah and Guy [rec_868fb07db8 00:20:33-00:20:48], [doc:personal/recordings/rec_868fb07db8/rec_868fb07db8/summary.md:23].
+- History, 2026-04-05: Gordon put Luke and Donna on the Easter-meme send list, not the family thread [v2:data/earballs-transcripts/2026-04-05/rec_ef3c33dcba/transcript.md:197-199].
+- History, 2026-04-01: Gordon and Leah's evening at Luke and Donna's home, the same day as Luke's camper session in Gordon's garage [v2:data/earballs-transcripts/2026-04-01/rec_b87ee5848f/transcript.md:5,9].
+- History, 2026-03: Donna came to help with Leah's recovery around the time Gordon left for Austin, and took Leah back to the hospital [v2:data/earballs-transcripts/2026-03-16/rec_b0d060bb5a/transcript.md:183].
+- History, 2026-03-09: kept in the loop on Leah's surgery day [v2:data/earballs-transcripts/2026-03-09/rec_86a819a51d/transcript.md:51-57].
+- 2023-12-13: on Gordon's Sopris locations list, one household with Luke [doc:people/_sopris-locations.md post 253].

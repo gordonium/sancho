@@ -98,14 +98,14 @@ stages:
   - {name: paula-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paula-bernander}, group: E, status: blocked, blocked: Gordon to say whether Paula has children of her own (v2 says 3; the roster says they are Jess s) and where she lives now (Sopris 2023 has 3500 Rolling Green Dr  Fort Collins; v2 March 2026 says she mo}
   - {name: teri-ashley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: teri-ashley}, group: E, status: blocked, blocked: Gordon to say where Teri lives now (Sopris 2023 has 2949 Silverwood Dr  Fort Collins; v2 2026-03 has Silverwood sold and her living at Tom Boldt s place  address not on disk)}
   - {name: tom-boldt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-boldt}, group: E, status: done}
-  - {name: ansel-courant, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ansel-courant}, group: E, status: active}
-  - {name: donna-thomas, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: donna-thomas}, group: E, status: pending}
-  - {name: allie-wickham, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: allie-wickham}, group: F, status: pending}
-  - {name: doug-huckaba, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: doug-huckaba}, group: F, status: pending}
-  - {name: james-gilbert, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: james-gilbert}, group: F, status: pending}
-  - {name: larry-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: larry-bloom}, group: F, status: pending}
-  - {name: alexia-blackwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alexia-blackwood}, group: F, status: pending}
-  - {name: ali-woll, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ali-woll}, group: F, status: pending}
+  - {name: ansel-courant, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ansel-courant}, group: E, status: done}
+  - {name: donna-thomas, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: donna-thomas}, group: E, status: blocked, blocked: Gordon to confirm Donna s surname (Thomas  per v2/v3  or Bernander  per the Sopris list) and whether 3805 Capitol Drive  Fort Collins is still current}
+  - {name: allie-wickham, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: allie-wickham}, group: F, status: blocked, blocked: Gordon to say Wickham or Wickam (his own email  calendar and Sopris list spell it Wickam)  and whether the 2026-09-22 wedding to Mike Fasolini happened and her surname changed}
+  - {name: doug-huckaba, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: doug-huckaba}, group: F, status: blocked, blocked: Gordon to say whether v2 s first-name-only  Doug  (flooring crew  Hartzell patio  chainsaw  keep-in-touch list  railing fabrication  CHS-muffin story) is Doug Huckaba  whether he joined the 2026-09-23}
+  - {name: james-gilbert, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: james-gilbert}, group: F, status: blocked, blocked: Gordon must say whether to strike v2 s  wife  line now that Felix is his partner  whose medicated week the toddler text was about (his or Leah s)  whether rec_39b0317203 (2026-02-27) was his coffee wi}
+  - {name: larry-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: larry-bloom}, group: F, status: done}
+  - {name: alexia-blackwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alexia-blackwood}, group: F, status: done}
+  - {name: ali-woll, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ali-woll}, group: F, status: active}
   - {name: amber-crummy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amber-crummy}, group: F, status: pending}
   - {name: brent-ballard, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brent-ballard}, group: F, status: pending}
   - {name: chad-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chad-cohen}, group: F, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: ansel-courant
+current: ali-woll
 waiting_on: []
 ---
 # Backfill people
@@ -351,3 +351,18 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T13:41:04+02:00 job.run: stage `tom-boldt` started
 - 2026-10-02T13:49:01+02:00 job.run: stage `tom-boldt` done (Stage: done · tests green)
 - 2026-10-02T13:49:01+02:00 job.run: stage `ansel-courant` started
+- 2026-10-02T14:01:04+02:00 job.run: stage `ansel-courant` done (Stage: done · tests green)
+- 2026-10-02T14:01:04+02:00 job.run: stage `donna-thomas` started
+- 2026-10-02T14:09:28+02:00 job.run: stage `donna-thomas` blocked, recorded, job continues: Gordon to confirm Donna s surname (Thomas  per v2/v3  or Bernander  per the Sopris list) and whether 3805 Capitol Drive  Fort Collins is still current
+- 2026-10-02T14:09:28+02:00 job.run: 6 stages in one run; continuation queued (20261002T120928Z_job.run_824518.md)
+- 2026-10-02T14:09:28+02:00 job.run: stage `allie-wickham` started
+- 2026-10-02T14:17:22+02:00 job.run: stage `allie-wickham` blocked, recorded, job continues: Gordon to say Wickham or Wickam (his own email  calendar and Sopris list spell it Wickam)  and whether the 2026-09-22 wedding to Mike Fasolini happened and her surname changed
+- 2026-10-02T14:17:22+02:00 job.run: stage `doug-huckaba` started
+- 2026-10-02T14:25:34+02:00 job.run: stage `doug-huckaba` blocked, recorded, job continues: Gordon to say whether v2 s first-name-only  Doug  (flooring crew  Hartzell patio  chainsaw  keep-in-touch list  railing fabrication  CHS-muffin story) is Doug Huckaba  whether he joined the 2026-09-23
+- 2026-10-02T14:25:34+02:00 job.run: stage `james-gilbert` started
+- 2026-10-02T14:34:36+02:00 job.run: stage `james-gilbert` blocked, recorded, job continues: Gordon must say whether to strike v2 s  wife  line now that Felix is his partner  whose medicated week the toddler text was about (his or Leah s)  whether rec_39b0317203 (2026-02-27) was his coffee wi
+- 2026-10-02T14:34:36+02:00 job.run: stage `larry-bloom` started
+- 2026-10-02T14:40:27+02:00 job.run: stage `larry-bloom` done (Stage: done · tests green)
+- 2026-10-02T14:40:27+02:00 job.run: stage `alexia-blackwood` started
+- 2026-10-02T14:49:33+02:00 job.run: stage `alexia-blackwood` done (Stage: done · tests green)
+- 2026-10-02T14:49:33+02:00 job.run: stage `ali-woll` started

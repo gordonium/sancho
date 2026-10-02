@@ -3,25 +3,67 @@ name: Doug Huckaba
 aliases: [Doug]
 type: person
 lobe: personal
-description: Friend; Kubernetes expert; 4-wheeling fanatic and expert; welder; seed from v2/v3 pending (overnight people backfill)
+description: Friend; Kubernetes expert at CDOT (v3); 4-wheeling fanatic, welder, Toyota engine-swap hand; Loveland, CO
 tier: thin
 mbti:
-skills: [Kubernetes, 4-wheeling, welding]
-availability: {as_of: , note: ""}
-location: {city: , as_of: , source: ""}
-roles: []
+skills: [Kubernetes, 4-wheeling, welding, "large-scale server infrastructure: 'my small environment this morning, which is 30,000' servers (Gordon, 2026-08-17) [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14]", "Toyota engine swaps in rock crawlers; King of the Hammers team [doc:personal/projects/alaska-2027/01-rig.md:262-263] (first name only, inferred same Doug)", "metal fabrication: can fabricate an aluminum frame fuel tank [doc:personal/projects/alaska-2027/08-packing-and-purchases.md:92] (first name only, inferred same Doug)"]
+availability: {as_of: 2026-08-17, note: "Gordon: 'He does his shit in like half a day' at CDOT [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14] (history)"}
+location: {city: "Loveland, CO", as_of: 2023-12-13, source: "[doc:people/_sopris-locations.md post 242] (list dated 2023-12-13; unconfirmed since)"}
+roles:
+  - {context: personal, role: "friend; 'crusty old Doug who hangs out with us wheeling' (Gordon, 2026-08-17) [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14]"}
+  - {context: work/tipelodeon, role: "invited by Gordon to the Gordon–Grayson calls to advise on Kubernetes and scaling; Gordon's stated intent to pay him for side work and, later, have him 'on the permanent payroll' (2026-08-17 to 2026-09-15) [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14], [v3:data/earballs/transcripts/2026-09-09/rec_128aa0e6b8/transcript.v1.md:400-412], [rec_21434802cb 2026-09-15]"}
+  - {context: employment, role: "works for CDOT on its traffic technology, hired directly by the state (Gordon, 2026-05-24 and 2026-08-17) [v3:data/earballs/transcripts/2026-05-24/rec_c3e0cd1709/transcript.v3.md:539], [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14] (history, unconfirmed since)"}
 last_seen: 2026-09-14
 want_to_see_by:
 cadence:
-contact: {emails: [], phones: [], address: "", birthday: "", google_id: "", source: ""}
+contact: {emails: [], phones: [], address: "1142 Bowwood Drive, Loveland, CO", birthday: "", google_id: "", source: "[doc:people/_sopris-locations.md post 242] (2023-12-13; current or not is open)"}
 voiceprint: {enrolled: false, refs: 0, last_enrolled: , auto: paused}
-relationships: [{person: gordon, kind: friend}]
-sources: ["[gordon 2026-10-01]", "[rec_21434802cb 2026-09-15]"]
+relationships:
+  - {person: gordon, kind: friend}
+  - {person: grayson-erhard, kind: prospective adviser, note: "Gordon set out to bring Doug onto the Tipelodeon calls for Kubernetes; the 2026-09-15 call forgot him [v3:data/earballs/transcripts/2026-09-09/rec_128aa0e6b8/transcript.v1.md:400-412], [rec_21434802cb 2026-09-15]"}
+sources: ["[gordon 2026-10-01]", "[rec_21434802cb 2026-09-15]", "[doc:work/tipelodeon/summaries/2026-09-15_rec_21434802cb.md]", "[doc:people/_sopris-locations.md]", "[doc:personal/projects/alaska-2027/01-rig.md]", "[doc:personal/projects/alaska-2027/99-changelog.md]", "[doc:personal/projects/alaska-2027/08-packing-and-purchases.md]", "[doc:personal/projects/alaska-2027/14-rig-prep-timeline.md]", "[doc:personal/projects/alaska-2027/AK27-calendar.ics]", "[v2:relationships/people/doug.md]", "[v2:relationships/leah.md]", "[v2:home/renovation-ideas.md]", "[v2:home/overview.md]", "[v2:personal/gordon-profile.md]", "[v2:routines/monthly-personal-review.md]", "[v2:relationships/people/john-marron.md]", "[v2:data/earballs-transcripts/2025-10-14/rec_378b826512/transcript.md]", "[v3:memory/people/john-marron/profile.md]", "[v3:data/earballs/transcripts (14 recordings, 2026-03-22 to 2026-09-15)]"]
 ---
 ## How to work with them
+- Gordon (2026-08-17): get the business done first, then "drink and or smoke weed because those are Doug's favorite hobbies"; Doug "will be really sweet with us and take care of us in the beginning", and once there is money "we're gonna have to pay him" [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14] (speaker by content; history).
+- Favors are repaid in kind: a case of beer and a bottle of whiskey (2026-08-17, again 2026-09-15) [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14], [rec_21434802cb 2026-09-15 00:00:01].
 ## Who they are
 - Friend; Kubernetes expert; 4-wheeling fanatic and expert; welder [gordon 2026-10-01]
+- Gordon (2026-08-17): "crusty old Doug who hangs out with us wheeling", "a huge beard", "scruffy", "builds four million trucks", and "a guy who like lives and breathes and dies Kubernetes" [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14] (history).
+- Works for CDOT and "has developed a ton of that technology" (traffic cameras, density detectors), per Gordon 2026-05-24 [v3:data/earballs/transcripts/2026-05-24/rec_c3e0cd1709/transcript.v3.md:539] (history, unconfirmed since).
+- An earlier telling (2026-05-10, speaker unconfirmed): "Doug helped me build my jeeps. He's an old, crusty, bachelor, welder, ... super computer programmer, sysadmin" [v3:data/earballs/transcripts/2026-05-10/rec_4868bbc019/transcript.v1.md:3168-3174] (history).
 ## What we know
 - Was meant to join a Gordon–Grayson Tipelodeon call on 2026-09-15 and was accidentally blown off; Gordon was at his house 2026-09-14, says he owes Doug a lot of favors, and planned to bring him a case of beer and a bottle of whiskey and invite him to the next week's meeting [rec_21434802cb 2026-09-15 00:00:01, 00:00:50]
+- 2026-09-25: Alaska 2027 engine swap (5VZ-FE into the Sunrader) planned as "Gordon + Doug, or a different pro shop"; Doug "has done comparable Toyota swaps in rock crawlers and has been on a King of the Hammers team" [doc:personal/projects/alaska-2027/01-rig.md:261-263], [doc:personal/projects/alaska-2027/99-changelog.md:149] (first name only; same Doug inferred from the 4-wheeling, welding and Toyota evidence).
+- 2026-09-25: AK27 plan: confirm Doug's availability from mid-April 2027; the swap decision weighs "Doug's availability, or a pro shop's" [doc:personal/projects/alaska-2027/AK27-calendar.ics:270,310], [doc:personal/projects/alaska-2027/14-rig-prep-timeline.md:42] (first name only, inferred).
+- 2026-09-25: "Doug can fabricate" a custom aluminum frame fuel tank (+8–10 gal), listed as an option, not chosen [doc:personal/projects/alaska-2027/08-packing-and-purchases.md:92] (first name only, inferred).
+- 2026-09-09: Gordon on a call: "Doug's a super nerd"; Doug "was having his local AI go through his whole music ... catalog"; Gordon to "set up a time to chat with him about Kubernetes" and "see if he can join us on our next call" [v3:data/earballs/transcripts/2026-09-09/rec_128aa0e6b8/transcript.v1.md:400-412] (speaker by content and voiceprint hint; history).
+- 2026-08-26: Gordon told the other party that Grayson wanted to talk about "Kubernetes thingy dingys" and "Doug knows how to do that ... Doug will tell us what we need" [v3:data/earballs/transcripts/2026-08-26/rec_bcdad09c24/transcript.v1.md:77] (speaker voiceprint-matched Gordon, high confidence; history).
+- 2026-08-19 and 2026-08-08: Gordon and Doug planned to put a differential locker in Gordon's camper truck [v3:data/earballs/transcripts/2026-08-19/rec_23ff807cca/transcript.v1.md:14], [v3:data/earballs/transcripts/2026-08-08/rec_49d9e33a6d/transcript.v1.md:647] (speaker by content; history).
+- 2026-08-17: Gordon: Doug applied to WP Engine years ago on Gordon's introduction; asked if he was comfortable with 3,000 servers, he said his small environment that morning was 30,000 [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14] (history).
+- 2026-08-17: Gordon: Doug "was in charge of the locations of every freight train in Canada for a while" [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14] (history, unconfirmed).
+- 2026-08-17: Gordon: Doug worked at CDOT through a private company; the state fired the company and hired Doug directly, tripling his salary; Gordon's guess is he earns "like mid-300s" [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14] (Gordon's estimate; history).
+- 2026-08-17: Gordon: Doug "would totally side gig it with us", and Gordon "would love to have Doug on the permanent payroll" once money allows [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14] (history).
+- 2026-08-17 and 2026-08-27: when the Tesla's tires failed on the way back to town with Amber, Gordon was two miles from Doug's house; Doug brought his flatbed and hauled the Tesla to Discount Tire [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14], [v3:data/earballs/transcripts/2026-08-27/rec_5565f30055/transcript.v1.md:14] (history).
+- 2026-07-22: Gordon calls Doug "my Toyota nerd"; Doug's view of the 3VZ V6: solid, "not very efficient but it's got the power you need"; "Doug's done it with the same vintage of Toyota" [v3:data/earballs/transcripts/2026-07-22/rec_610789a78e/transcript.v1.md:1680,1863] (history).
+- 2026-07-22 and 2026-04-01: Doug gave Gordon a set of magnetic trailer taillights, used as a stopgap on the rig [v3:data/earballs/transcripts/2026-07-22/rec_610789a78e/transcript.v1.md:2736], [v3:data/earballs/transcripts/2026-04-01/rec_6361e00be6/transcript.v1.md:308] (history).
+- 2026-07-20: Gordon's fallback if the new rig's motor failed: "bring them both over to Doug's and Doug and I will engine swap them" [v3:data/earballs/transcripts/2026-07-20/rec_dd280b1dd8/transcript.v1.md:14] (history).
+- 2026-07-20: Gordon on lodging: no pull "to have a room at Doug's or ... at Carmen's" [v3:data/earballs/transcripts/2026-07-20/rec_b789cb3f37/transcript.v1.md:14] (history).
+- 2026-06-20: "Doug" was on a list of people the speaker had not yet heard back from for a gathering (event not named in the excerpt) [v3:data/earballs/transcripts/2026-06-20/rec_3860b59c59/transcript.v2.md:1671] (first name only; history).
+- 2026-05-20 and 2026-03-22: story told twice (speaker unconfirmed): stuck on a Jeep bolt with a captured nut inside the frame, "I called Doug"; by the end of the day "Doug had welded a screwdriver to" it [v3:data/earballs/transcripts/2026-03-22/rec_4f536086d1/transcript.v1.md:3942-3954], [v3:data/earballs/transcripts/2026-05-20/rec_549c337d93/transcript.v1.md:1037-1043] (history).
 ## Open threads
+- For Gordon: is v2's first-name-only "Doug" (relationships/people/doug.md, last updated 2026-03-27) Doug Huckaba? v2 has him as a candidate for the whole-house flooring work party (May/June 2026), "tends to wear himself out", "part of Gordon's peer group" [v2:relationships/people/doug.md:9-13,29], [v2:home/renovation-ideas.md:7], [v2:home/overview.md:29], [v2:relationships/leah.md:559]. Not folded in until Gordon says.
+- Same question for other first-name-only mentions: Leah "watched Doug wearing himself out doing silly shit" (2026-03-24) [v3:data/earballs/transcripts/2026-03-24/rec_5ace8775dd/transcript.v1.md:470-473]; "Doug wrecked himself ... when we built the back patio at Hartzell" (2026-06-02) [v3:data/earballs/transcripts/2026-06-02/rec_620c9c52ae/transcript.v1.md:557]; the gas chainsaw, "offer to sell to Doug" (2026-03-24) [v2:relationships/leah.md:495]; "Doug" on the keep-in-touch rotation (undated v2 routine) [v2:routines/monthly-personal-review.md:31]; "I can have Doug fab up the corner thing" for a railing (recording 2025-10-14, speaker unknown) [v2:data/earballs-transcripts/2025-10-14/rec_378b826512/transcript.md:227].
+- Same question, health history: v2 says a 100mg homemade mini muffin from "Doug" triggered Gordon's first CHS/delirium episode (14 hours incoherent, two cracked molars) [v2:personal/gordon-profile.md:45] (v2 summary of rec_2245b5cddc 2026-02-25 and rec_f25060ca7d 2026-03-04; which Doug unconfirmed).
+- Not this Doug: Angie's father Doug, in John Marron's family, whose estate and funeral Ian and Andy handled around March 2026 [v2:relationships/people/john-marron.md:41,74], [v3:memory/people/john-marron/profile.md:58,94].
+- The Alaska 2027 files name "Doug" only; Huckaba inferred from Gordon's 2026-10-01 description, not confirmed [doc:personal/projects/alaska-2027/01-rig.md:261].
+- Did Doug join the next Gordon–Grayson call (2026-09-23)? Not on file [doc:work/tipelodeon/summaries/2026-09-15_rec_21434802cb.md:19].
+- Is 1142 Bowwood Drive, Loveland (Sopris list, 2023-12-13) still his address? [doc:people/_sopris-locations.md post 242].
 ## History with Gordon
+- 2023-12-13: on Gordon's Sopris locations list, 1142 Bowwood Drive, Loveland, CO [doc:people/_sopris-locations.md post 242].
+- Before 2026-08-17: helped Gordon build Jeeps and wheeled with him; Gordon had introduced him to WP Engine years earlier [v3:data/earballs/transcripts/2026-05-10/rec_4868bbc019/transcript.v1.md:3174] (speaker unconfirmed), [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14].
+- Before 2026-08-17: rescued Gordon's Tesla with his flatbed [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14].
+- 2026-08-18 (planned): Gordon to Doug's with a case of beer and at least a bottle of whiskey for recent favors [v3:data/earballs/transcripts/2026-08-17/rec_98442a55d7/transcript.v1.md:14].
+- 2026-09-09: Gordon set out to bring him onto the Tipelodeon call about Kubernetes [v3:data/earballs/transcripts/2026-09-09/rec_128aa0e6b8/transcript.v1.md:400-412].
+- 2026-09-14: Gordon at Doug's house [rec_21434802cb 2026-09-15 00:00:01].
+- 2026-09-15: forgotten on the Tipelodeon call; Doug texted twice asking if he had the wrong Zoom link; Gordon told him they had forgotten and invited him to the next week's meeting [doc:work/tipelodeon/summaries/2026-09-15_rec_21434802cb.md:15-19].
+- 2026-09-24/25: Gordon's Alaska 2027 planning counts on Doug for the engine swap, or a pro shop [doc:personal/projects/alaska-2027/99-changelog.md:149] (first name only, inferred).
