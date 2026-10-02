@@ -72,3 +72,4 @@ Legend: `[v2:<path>:<line>]` = gordon-os-v2, `[v3:<path>:<line>]` = jarvis-v3. E
 - DPC venture (Direct Primary Care marketing engine, Dragonfly DPC as "Client Zero") has no business folder in Sancho; last v2 data point 2026-04-08 [v2:work/dpc-venture.md:157]. Dragonfly DPC itself is a Copper Leaf client [gordon 2026-10-01]. Where the venture lives, and whether it is live, needs Gordon.
 </content>
 </invoke>
+- Gordon's digital method for Wizard of Ads work lives in guidelines.md (Gordon 2026-10-02: "that's Wizard of Ads guidance, not CLC")

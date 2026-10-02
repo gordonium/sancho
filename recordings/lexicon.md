@@ -24,6 +24,7 @@ Fed to Groq as the Whisper `prompt` (about 224 tokens; the pipeline truncates fr
 - Filmadelphia (film Adelphia) · ChanceLight · CheckVet · Comfort Masters DFW
 - Stephen Moore (CMDFW) · Amanda Moore · Jack Heald (WoA partner) · Luis Castaneda · CSP = Clean, Seal & Protect · Fall Furnace Makeover
 - Mark Benn · Amber Crummy · Alex Post · Luke Bernander · Jeff Ratte · Sara Moorehead · Penzu
+- Italy tour: Franca (the Nonna) · Danilo · Enza · Pia (Maria Pia, not Gordon's mother) · Pino · Lamezia · Calabria
 - Racquet Depot (Racket Depot) · Jabas Labs (Javas)
 - SiteDistrict
 - Groq · pyannote · WordPress · ACF

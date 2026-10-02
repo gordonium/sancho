@@ -1,0 +1,58 @@
+---
+name: Scott Beasley
+aliases: [Beasley, Scott]
+type: person
+lobe: personal
+description: Friend in Gordon and Leah's circle; the friendship Gordon named in March 2026 as the next one to deepen
+tier: thin
+mbti: "ENFP, as said in the 2026-03-20 conversation (speaker contested, see Open threads) [v2:data/earballs-transcripts/2026-03-20/rec_a56c80a745/transcript.md:209,249] [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:258,294] (history, unconfirmed since)"
+skills: []
+availability: {as_of: , note: ""}
+location: {city: , as_of: , source: ""}
+roles:
+  - {context: personal, role: "friend in Gordon and Leah's circle [v2:relationships/people/beasley.md:13-14,26] [v2:relationships/people/MANIFEST.md:82] (history, as of 2026-03-27)"}
+last_seen: 2026-08-01
+want_to_see_by:
+cadence:
+contact: {emails: [], phones: [], address: "", birthday: "", google_id: "", source: ""}
+voiceprint: {enrolled: false, refs: 0, last_enrolled: , auto: paused}
+relationships:
+  - {person: gordon, kind: friend, note: "'I already found Scott Beasley is the next one I'm going to elevate' (Gordon, machine voiceprint hint 0.939, 2026-03-25) [v3:data/earballs/transcripts/2026-03-25/rec_4f02a14c51/transcript.v1.md:19,659]; 'Beasley comfort' vs 'Marron unease' contrast [v2:relationships/people/john-marron.md:18-20,130-134] (history)"}
+  - {person: leah, kind: friend, note: "part of Gordon and Leah's friend circle [v2:relationships/people/beasley.md:14]; Leah to get 'a vibe check' of his new girlfriend, 2026-03-20 [v2:data/earballs-transcripts/2026-03-20/rec_a56c80a745/transcript.md:32,155-163] (history)"}
+  - {person: john-metcalf, kind: friend, note: "Metcalf was his ride to a Too Many Zoos show at Washington's and left early (before 2026-03-20) [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:201,225-237]; [doc:people/john-metcalf.md]"}
+  - {person: john-marron, kind: contrast in the Gordon household's mind, note: "'John Maron has always sparked a little unease with me. Beasley just sparks comfort and safety and security' (2026-03-20, speaker contested) [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:246]; [doc:people/john-marron.md]"}
+sources: ["[v2:relationships/people/beasley.md]", "[v2:relationships/people/MANIFEST.md]", "[v2:relationships/people/john-marron.md]", "[v2:relationships/people/mark-benn.md]", "[v2:relationships/leah.md]", "[v2:home/overview.md]", "[v2:home/renovation-ideas.md]", "[v2:data/backlog-calendar-index.json]", "[v2:data/earballs-ingest/rec_006d077048_INGESTION_REPORT.md]", "[v2:data/earballs-transcripts/]", "[v3:data/earballs/transcripts/]", "[v3:memory/people/john-marron/profile.md]", "[doc:people/john-marron.md]", "[doc:people/john-metcalf.md]", "[doc:people/kyle-caldwell.md]", "[doc:people/_backfill-census.md]"]
+---
+## How to work with them
+## Who they are
+- Scott Beasley, "Beasley" in conversation, is a friend in Gordon and Leah's circle; v2 put him in the "college hurrah vibe" peer crew, "not parents' generation" [v2:relationships/people/beasley.md:2-4,13-16,26-30] (history, as of 2026-03-27).
+- Described on 2026-03-20 as a "grounded ENFP" with "an emotional, like, care in him" and "just an emotional awareness" (speakers contested, see Open threads) [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:258,285-294] (history).
+- Keeps cats, and had a new girlfriend as of 2026-03-20 [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:168-174,195] (history, unconfirmed since).
+## What we know
+- 2026-08-01, history: Gordon (solo recording, machine-tagged), explaining his Jarvis memory to an unnamed listener: it "distills everything, puts it in the Beasley file, puts it in the psychedelics file, puts it in the real estate file" [v3:data/earballs/transcripts/2026-08-01/rec_f82c60e794/transcript.v1.md:11-17,24].
+- 2026-05-31, history: a speaker (machine voiceprint hint Gordon, likely 0.869), planning a barbecue gathering: "Beasley is only swinging through briefly in the beginning ... we could peel off a rig for Beasley" [v3:data/earballs/transcripts/2026-05-31/rec_883f7c367f/transcript.v1.md:21,219].
+- 2026-05-26, history: a speaker (machine voiceprint hint Gordon, likely 0.888) to Leah, recapping a past week: "Saturday ... I wrenched on the AI strategy doc for four hours and then went to that concert downtown to meet Beasley ... you didn't come"; later in the list, "Beasley concert" [v3:data/earballs/transcripts/2026-05-26/rec_edb74404b3/transcript.v1.md:13-14,290,500]. The calendar puts it on Saturday 2026-04-04 (next entry).
+- 2026-04-04, history: Gordon's calendar, 18:30, "Concert with Beasley?" (2 attendees), after "CMDFW AI Framework" at 13:00 [v2:data/backlog-calendar-index.json:4208-4219].
+- 2026-04-13, history: a speaker (machine voiceprint hint Gordon, high_confidence 0.907): "I need you to meet Derek ... the super rad mushroom dude I met at the show downtown when I was out with Beasley" [v3:data/earballs/transcripts/2026-04-13/rec_f58def592b/transcript.v1.md:19,183-199]; v2 thought it might be Grayson telling the story [v2:data/earballs-transcripts/2026-04-13/rec_69c65e04b3/mouth-ingest-notes.md:20].
+- 2026-03-25, history: Gordon (machine voiceprint hint, high_confidence 0.939), in a session v2 files as therapy with Mark Benn: "I'm actively curating who gets high grade, high access to me. And we gave him a full 15 month trial. And so I already found Scott Beasley is the next one I'm going to elevate and be like, yo, I'm going to hang out. Want to be friends? Want to be more friends? Let's give it a year" [v3:data/earballs/transcripts/2026-03-25/rec_4f02a14c51/transcript.v1.md:19,659] [v2:data/earballs-transcripts/2026-03-25/rec_abee254eea/transcript.md:1389-1393]; v2's summary: "Scott Beasley next candidate" [v2:relationships/people/mark-benn.md:98,106].
+- 2026-03-24, history: planning a whole-house flooring work party, a speaker (machine voiceprint hint Leah, likely 0.856): "definitely Beasley if he has any experience doing shit like that" [v3:data/earballs/transcripts/2026-03-24/rec_5ace8775dd/transcript.v1.md:26,461]; v2 heard "doing shows" [v2:data/earballs-transcripts/2026-03-24/rec_68cfc11508/transcript.md:516]; v2 listed him as potential crew, "experience unknown", the party likely May or June 2026 [v2:data/earballs-ingest/rec_006d077048_INGESTION_REPORT.md:44,81,270,327] [v2:home/overview.md:29] [v2:relationships/leah.md:541,559].
+- 2026-03-20, history: on the morning check-in (same audio as v2 rec_a56c80a745 and v3 rec_e2b99ec420; speakers contested): "Beasley's going to be there ... with his new girlfriend"; "Beasley's still one of those people on my back burner ... people I might want to play with at some point"; "I'm going to take him out tonight, if the opportunity arises, or soon ... to drinks and have the do-you-want-to-be-more-friends talk"; "we had a really kind of brief thing with him last year, and that's why he's still texting us"; "I think it's time to road test Beasley" [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:13-14,168-183,270-282].
+- 2026-03-20, history: on the same recording, "it's just so weird to me that I had tendrils back to him until when I was like 13"; whether "him" is Beasley or John Marron is unclear from the text [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:258-261].
+- Before 2026-03-20, history: a Too Many Zoos show at Washington's; John Metcalf was Beasley's ride and went home early, the other person in the conversation took an Uber home before the show, and the speaker drove Beasley home; "he invited me in at midnight to meet his cats" and "Beasley is so good with me" (speaker contested) [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:189-243] [v2:data/earballs-transcripts/2026-03-20/rec_a56c80a745/transcript.md:21,171-197].
+- 2025 (said 2026-03-20 as "last year"), history: "a really kind of brief thing with him", the reason "he's still texting us" [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:273].
+- 2025-09-04, history: Gordon's calendar, 16:00, "Beasley's thing" (3 attendees) [v2:data/backlog-calendar-index.json:421,446-449]; that this Beasley is Scott is [inferred].
+- Not him: "Beasley" in a 2026-08-19 team call is the radio company selling stations [doc:people/kyle-caldwell.md:29]; "Matt Beasley" (2026-05-27) and "Brad Beasley" (2026-06-23) are mishearings in unrelated talk [v3:data/earballs/transcripts/2026-05-27/rec_ffffb09ed6/transcript.v1.md:26] [v3:data/earballs/transcripts/2026-06-23/rec_0f1a767303/transcript.v1.md:50].
+## Open threads
+- For Gordon: who said what on 2026-03-20? v3's voiceprint hints put the "more friends talk", "road test", ENFP and Marron-contrast lines in Gordon's mouth and the "back burner", "drove him home" and "brief thing last year" lines in Leah's [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:13-14]; v2's labels and summary swap them (Leah planning the talk, Gordon driving him home) [v2:data/earballs-transcripts/2026-03-20/rec_a56c80a745/transcript.md:5,11,20-21,31-32]. Gordon's own 2026-03-25 words to Mark Benn echo the "more friends" and "give it a year" lines, which leans to the v3 reading [inferred] [v3:data/earballs/transcripts/2026-03-25/rec_4f02a14c51/transcript.v1.md:659]. people/john-marron.md and v2's Marron files already quote the contrast as Gordon's [doc:people/john-marron.md:29] [v2:relationships/people/john-marron.md:131].
+- Did the "more friends" talk happen, and where does the friendship stand? Nothing on file says; mentions after 2026-03-25 are the 2026-04-04 concert, the 2026-04-13 mushroom story, a brief drop-in at a 2026-05-31 gathering, and the 2026-08-01 "Beasley file" remark.
+- 2026-08-01: the listener Gordon told about "the Beasley file" may have been Beasley himself ("it knows your voice ... wow, dude"); unconfirmed [inferred] [v3:data/earballs/transcripts/2026-08-01/rec_f82c60e794/transcript.v1.md:24].
+- Did the flooring work party (planned for May or June 2026) happen, and was he on the crew? [v2:home/overview.md:29]
+- Where he lives, how he and Gordon met, and contact details are not on file; he is not on the Sopris locations list [doc:people/_sopris-locations.md].
+- Not read: v2 memory-index JSONs, header-sweep-preview, frontmatter-review and desktop-db-export beyond their Beasley lines (no new facts: name, aliases, the 2026-03-25 quote); no v3 people folder for him; not a client, so no _CLIENTS; no Sancho recording names him.
+## History with Gordon
+- 2026-08-01: Gordon names "the Beasley file" as an example of what Jarvis files [v3:data/earballs/transcripts/2026-08-01/rec_f82c60e794/transcript.v1.md:24] (history).
+- 2026-05-31: expected to swing through a barbecue gathering briefly [v3:data/earballs/transcripts/2026-05-31/rec_883f7c367f/transcript.v1.md:219] (history).
+- 2026-04-04: Gordon went to a concert downtown to meet him; Leah did not come [v2:data/backlog-calendar-index.json:4217] [v3:data/earballs/transcripts/2026-05-26/rec_edb74404b3/transcript.v1.md:290] (history).
+- 2026-03-25: Gordon tells Mark Benn that Beasley is the next friendship he will "elevate" [v3:data/earballs/transcripts/2026-03-25/rec_4f02a14c51/transcript.v1.md:659] (history).
+- 2026-03-20: "road test Beasley" conversation between Gordon and Leah; he was expected at that night's concert [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:168,282] (history).
+- 2025: "a really kind of brief thing with him", still texting since [v3:data/earballs/transcripts/2026-03-20/rec_e2b99ec420/transcript.v1.md:273] (history).

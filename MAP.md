@@ -169,7 +169,7 @@ flowchart LR
 - _setup/pipeline/INDEX.md
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
-- … +711 more
+- … +740 more
 
 ## Level 2 · wiring
 
@@ -248,7 +248,7 @@ flowchart LR
 # LINT
 generated 2026-10-02 by lint-layers.py
 
-**30 problems, 1 warnings**
+**30 problems, 0 warnings**
 
 ## Problems (block the build)
 - work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md: data file contains an instruction to Claude ('never do'); describe the preference instead
@@ -264,7 +264,7 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/project.md:25: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/project.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/build-handoff.md:15: inference words under a [gordon] cite; mark [inferred] or write `unknown`
-- work/copper-leaf/projects/hd-system-rebuild/docs/build-state.md:50: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/build-state.md:66: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-2026-10-01.md:19: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:21: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:136: inference words under a [gordon] cite; mark [inferred] or write `unknown`
@@ -283,14 +283,13 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md:380: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 
 ## Warnings
-- secrets check skipped: this process can't see ~/.config/sancho (sandboxed)
 
 </details>
 
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-02 17:39 by test-all.py · 34 suites · 0 failing
+generated 2026-10-02 18:46 by test-all.py · 34 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|

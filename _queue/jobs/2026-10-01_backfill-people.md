@@ -10,17 +10,17 @@ hop_cap: 400
 wip_limit: 1
 stages:
   - {name: census, status: done, note: "people/_backfill-census.md, 208 rows; moderated by Gordon 2026-10-01 into groups A to H"}
-  - {name: adam-donmoyer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adam-donmoyer}, priority: 1, status: blocked, blocked: Gordon must confirm whether the  Adam  in rec_36f02fd22c (2026-09-24  Milwaukee radio  November meeting in Austin) is Adam Donmoyer; the file is written with those three lines marked inferred.}
+  - {name: adam-donmoyer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adam-donmoyer}, priority: 1, status: done}
   - {name: albert-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: albert-plunkett}, priority: 1, status: done}
-  - {name: alex-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alex-post}, priority: 1, status: blocked, blocked: the file and census row are written; Gordon must say which year the reconnection coffee was (v2 contradicts itself  2025 or 2026) and whether the closely held material in rec_868fb07db8 is filed in pe}
+  - {name: alex-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alex-post}, priority: 1, status: done}
   - {name: amanda-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amanda-moore}, group: B, status: done}
-  - {name: stephen-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-moore}, group: B, status: blocked, blocked: Gordon must say whether Stephen s  why  story should read two daughters or three (the copy says two; v2 and the client photo say three) and whether Stephen is a speaker in rec_1dc87f7565; the file and}
+  - {name: stephen-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-moore}, group: B, status: done}
   - {name: dan-griffiths, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dan-griffiths}, group: B, status: done}
   - {name: danelle-bullock, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: danelle-bullock}, group: B, status: done}
   - {name: josh-bullock, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: josh-bullock}, group: B, status: done}
-  - {name: greg-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-moore}, group: B, status: blocked, blocked: the file and census row are written; Gordon must confirm the spelling (Greg vs Gregg  his own photo folder says Gregg) and ask Greg which is right where the sources contradict: 2 or 4 years with the e}
-  - {name: jane-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jane-brewer}, group: B, status: blocked, blocked: Gordon must say whether the Sopris-list  Jane Brewer  (Fort Collins  2023) is her and current  and which month Trish s notice  Wes s mother s death and Leo s death fell in (v2 says early March 2026 an}
-  - {name: wes-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: wes-brewer}, group: B, status: blocked, blocked: Gordon must say whether the  Wes  in rec_5565f30055 (2026-08-27) is Wes Brewer  and which month Wes s mother died (v2 says early March 2026 but its 2026-02-04 call already has the memorial  next day )}
+  - {name: greg-moore, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-moore}, group: B, status: done}
+  - {name: jane-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jane-brewer}, group: B, status: done}
+  - {name: wes-brewer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: wes-brewer}, group: B, status: done}
   - {name: olivia-la, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: olivia-la}, group: B, status: done}
   - {name: jared-james, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jared-james}, group: B, status: done}
   - {name: jesse-olson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jesse-olson}, group: B, status: done}
@@ -28,7 +28,7 @@ stages:
   - {name: jordan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jordan-ohlmann}, group: B, status: done}
   - {name: megan-ohlmann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: megan-ohlmann}, group: B, status: done}
   - {name: marty-greer, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: marty-greer}, group: B, status: done}
-  - {name: jeff-carpenter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-carpenter}, group: B, status: blocked, blocked: Gordon to confirm Jeff Carpenter s title (GM) and since when; the file is written with the question in Open threads}
+  - {name: jeff-carpenter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-carpenter}, group: B, status: done}
   - {name: chris-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-plunkett}, group: B, status: done}
   - {name: scarlett-plunkett, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scarlett-plunkett}, group: B, status: done}
   - {name: travis-crawford, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: travis-crawford}, group: B, status: done}
@@ -38,7 +38,7 @@ stages:
   - {name: kevin-skalure, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kevin-skalure}, group: B, status: done}
   - {name: william-lordan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: william-lordan}, group: B, status: done}
   - {name: brian-brushwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brian-brushwood}, group: C, status: done}
-  - {name: carmyn-wilson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: carmyn-wilson}, group: C, status: blocked, blocked: Gordon to say which year Carmyn left Vi s employ (v2 sources contradict)  confirm the spelling Carmyn  say whether her partner paperwork closed and which accounts she is on  and whether  Carmyn Wickam}
+  - {name: carmyn-wilson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: carmyn-wilson}, group: C, status: done}
   - {name: chris-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chris-torbay}, group: C, status: done}
   - {name: mick-torbay, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mick-torbay}, group: C, status: done}
   - {name: craig-arthur, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: craig-arthur}, group: C, status: done}
@@ -48,29 +48,29 @@ stages:
   - {name: elliott-stark, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-stark}, group: C, status: done}
   - {name: gordon-atkinson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gordon-atkinson}, group: C, status: done}
   - {name: jack-heald, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jack-heald}, group: C, status: done}
-  - {name: jake-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jake-williams}, group: C, status: blocked, blocked: the file and census row are written; Gordon must confirm whether the  Jake  in rec_564c0541a8 (2026-09-10  Nathan as a potential partner) is Jake Williams  say since when Jake has been president (v2 s}
+  - {name: jake-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jake-williams}, group: C, status: done}
   - {name: jason-skaggs, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jason-skaggs}, group: C, status: done}
   - {name: johnny-molson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: johnny-molson}, group: C, status: done}
   - {name: kyle-caldwell, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-caldwell}, group: C, status: done}
-  - {name: luis-castaneda, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luis-castaneda}, group: C, status: blocked, blocked: file and census row are written; Gordon must confirm the spelling (Castaneda vs Casteneda)  say who Daniel Castaneda is to Luis  and confirm whether the Travis Crawford  Luis  is Luis Castaneda}
+  - {name: luis-castaneda, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luis-castaneda}, group: C, status: done}
   - {name: matt-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-willis}, group: C, status: done}
-  - {name: rick-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rick-willis}, group: C, status: blocked, blocked: the file and census row are written; Gordon must say which account he told Rick had become  one of my favorite accounts  in June 2025 (v2 s happy-outlet and action-air files contradict)  and whether t}
+  - {name: rick-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rick-willis}, group: C, status: done}
   - {name: peter-nevland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: peter-nevland}, group: C, status: done}
   - {name: robin-kressbach, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-kressbach}, group: C, status: done}
-  - {name: roy-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: roy-williams}, group: C, status: blocked, blocked: Gordon to say whether  Corrine  (keeps Roy s calendar) is Carmyn Wilson misheard or a separate person  Penny or Pennie  and whether the 2023 Austin address is current; the file and census row are writ}
-  - {name: ryan-chute, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-chute}, group: C, status: blocked, blocked: Gordon to say whether the 2025-10-28 dinner lines against Ryan Chute ( manipulative   overcharged them   don t take him into account   he thinks I like him… advantageous ) are his  and whether that is}
+  - {name: roy-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: roy-williams}, group: C, status: done}
+  - {name: ryan-chute, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-chute}, group: C, status: done}
   - {name: stephen-semple, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-semple}, group: C, status: done}
   - {name: steve-rae, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: steve-rae}, group: C, status: done}
   - {name: syre-klenke, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: syre-klenke}, group: C, status: done}
-  - {name: todd-lyles, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: todd-lyles}, group: C, status: blocked, blocked: Gordon must say whether the  Todd  who connected Comfort Masters to Peter Nevland (census `todd-comfort-masters`) is Todd Lyles; the file and census row are written with the question in Open threads.}
+  - {name: todd-lyles, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: todd-lyles}, group: C, status: done}
   - {name: tom-wanek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-wanek}, group: C, status: done}
-  - {name: vi-wickam, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: vi-wickam}, group: C, status: blocked, blocked: Gordon must say whether Christina is Vi s wife or partner  Allie s mother or stepmother  and whether her surname is Gressianu  and confirm that the unlabelled 2026-07-20 call (rec_851ab0f2d5) was with}
+  - {name: vi-wickam, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: vi-wickam}, group: C, status: done}
   - {name: cedric-yau, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: cedric-yau}, group: C, status: done}
   - {name: jeff-sexton, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-sexton}, group: C, status: done}
   - {name: zac-smith, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: zac-smith}, group: C, status: done}
   - {name: mike-catan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-catan}, group: C, status: done}
-  - {name: nathan-ingram, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nathan-ingram}, group: C, status: blocked, blocked: Gordon to answer whether the continuity buy-sell naming Nathan as executor is signed and he s been briefed  where his partner track stands  and whether he is Alex Post s  Alabama pastor  Nathan (the f}
-  - {name: david-mckinnis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: david-mckinnis}, group: H, status: blocked, blocked: Gordon to confirm the surname spelling (McKinnis  McInnis or McInnes); the file is written with the question in Open threads}
+  - {name: nathan-ingram, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nathan-ingram}, group: C, status: done}
+  - {name: david-mckinnis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: david-mckinnis}, group: H, status: done}
   - {name: adrian-van-zelfden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adrian-van-zelfden}, group: H, status: done}
   - {name: pennie-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pennie-williams}, group: H, status: done}
   - {name: rex-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rex-williams}, group: H, status: done}
@@ -80,32 +80,32 @@ stages:
   - {name: etieno-essien, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: etieno-essien}, group: D, status: done}
   - {name: temple-grandin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: temple-grandin}, group: D, status: done}
   - {name: amy-ehrhardt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amy-ehrhardt}, group: D, status: done}
-  - {name: lathan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lathan}, group: D, status: blocked, blocked: Gordon to say whether Lathan is still a co-owner of American Icon Spirits (separation paperwork 2026-08-28 vs his approval of Gordon s 10% on 2026-09-15) and give his surname; the file is written with}
+  - {name: lathan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lathan}, group: D, status: done}
   - {name: maria-pia-seirup, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: maria-pia-seirup}, group: E, status: done}
   - {name: elliott-scott, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-scott}, group: E, status: done}
-  - {name: leslie-hong, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: leslie-hong}, group: E, status: blocked, blocked: Gordon to say whether Leslie is still married to KP or who  Tim  is (v2  the Sopris list and Peter s 2026-08-08 remark disagree)  how close they are now  and whether the KP  practice and AI-psychosis }
+  - {name: leslie-hong, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: leslie-hong}, group: E, status: done}
   - {name: bob-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: bob-ratte}, group: E, status: done}
   - {name: dora-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dora-ratte}, group: E, status: done}
-  - {name: jeffrey-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeffrey-ratte}, group: E, status: blocked, blocked: Gordon must say whether people/jeff-ratte.md and people/jeffrey-ratte.md are one person (which slug stays) and confirm whether he is executor of Jeff and Sara s wills; the file and census row are writ}
+  - {name: jeffrey-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeffrey-ratte}, group: E, status: done}
   - {name: pierre-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pierre-ratte}, group: E, status: done}
   - {name: beatrice-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: beatrice-ratte}, group: E, status: done}
   - {name: sara-moorehead, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sara-moorehead}, group: E, status: done}
-  - {name: gina-cizek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gina-cizek}, group: E, status: blocked, blocked: Gordon to say whether  Gina Tucci  is Gina Cizek  and how Zia Sadie connects her to Maria Pia (the file is written  with both in Open threads)}
+  - {name: gina-cizek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gina-cizek}, group: E, status: done}
   - {name: joan-tropiano-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: joan-tropiano-tucci}, group: E, status: done}
   - {name: stan-tucci-sr, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stan-tucci-sr}, group: E, status: done}
   - {name: stanley-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stanley-tucci}, group: E, status: done}
   - {name: luke-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luke-bernander}, group: E, status: done}
-  - {name: paula-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paula-bernander}, group: E, status: blocked, blocked: Gordon to say whether Paula has children of her own (v2 says 3; the roster says they are Jess s) and where she lives now (Sopris 2023 has 3500 Rolling Green Dr  Fort Collins; v2 March 2026 says she mo}
-  - {name: teri-ashley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: teri-ashley}, group: E, status: blocked, blocked: Gordon to say where Teri lives now (Sopris 2023 has 2949 Silverwood Dr  Fort Collins; v2 2026-03 has Silverwood sold and her living at Tom Boldt s place  address not on disk)}
+  - {name: paula-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paula-bernander}, group: E, status: done}
+  - {name: teri-ashley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: teri-ashley}, group: E, status: done}
   - {name: tom-boldt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-boldt}, group: E, status: done}
   - {name: ansel-courant, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ansel-courant}, group: E, status: done}
-  - {name: donna-thomas, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: donna-thomas}, group: E, status: blocked, blocked: Gordon to confirm Donna s surname (Thomas  per v2/v3  or Bernander  per the Sopris list) and whether 3805 Capitol Drive  Fort Collins is still current}
-  - {name: allie-wickham, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: allie-wickham}, group: F, status: blocked, blocked: Gordon to say Wickham or Wickam (his own email  calendar and Sopris list spell it Wickam)  and whether the 2026-09-22 wedding to Mike Fasolini happened and her surname changed}
-  - {name: doug-huckaba, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: doug-huckaba}, group: F, status: blocked, blocked: Gordon to say whether v2 s first-name-only  Doug  (flooring crew  Hartzell patio  chainsaw  keep-in-touch list  railing fabrication  CHS-muffin story) is Doug Huckaba  whether he joined the 2026-09-23}
-  - {name: james-gilbert, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: james-gilbert}, group: F, status: blocked, blocked: Gordon must say whether to strike v2 s  wife  line now that Felix is his partner  whose medicated week the toddler text was about (his or Leah s)  whether rec_39b0317203 (2026-02-27) was his coffee wi}
+  - {name: donna-thomas, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: donna-thomas}, group: E, status: done}
+  - {name: allie-wickham, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: allie-wickham}, group: F, status: done}
+  - {name: doug-huckaba, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: doug-huckaba}, group: F, status: done}
+  - {name: james-gilbert, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: james-gilbert}, group: F, status: done}
   - {name: larry-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: larry-bloom}, group: F, status: done}
   - {name: alexia-blackwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alexia-blackwood}, group: F, status: done}
-  - {name: ali-woll, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ali-woll}, group: F, status: blocked, blocked: Gordon to confirm whether awoll540@gmail.com is Ali Woll s and where she lives; the file is written with both in Open threads}
+  - {name: ali-woll, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ali-woll}, group: F, status: done}
   - {name: amber-crummy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amber-crummy}, group: F, status: done}
   - {name: brent-ballard, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brent-ballard}, group: F, status: done}
   - {name: chad-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chad-cohen}, group: F, status: done}
@@ -113,9 +113,9 @@ stages:
   - {name: dan-morman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dan-morman}, group: F, status: done}
   - {name: dnelle-dowis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dnelle-dowis}, group: F, status: done}
   - {name: emily-sheehan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: emily-sheehan}, group: F, status: done}
-  - {name: eric-pommier, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: eric-pommier}, group: F, status: blocked, blocked: Gordon to say whether Eric Pommier has a cancer history (two unclear transcript lines  2026-04-15 and 2026-07-21) and confirm Kansas City  not Oregon (v2)  as where he and Laura moved from}
-  - {name: laura-holden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: laura-holden}, group: F, status: blocked, blocked: Gordon to say whether v2 s confidentiality protocol for recordings with Laura present carries into Sancho  and so whether laura-holden.md and eric-pommier.md may quote calls she was on}
-  - {name: gene-vann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gene-vann}, group: F, status: blocked, blocked: Gordon must say whether  Vann  is Gene s own surname or short for Van Zelfden  and whether they met by October 2025 (Plaud file dates) or around 2026-03-13 (v2); the file and census row are written wi}
+  - {name: eric-pommier, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: eric-pommier}, group: F, status: done}
+  - {name: laura-holden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: laura-holden}, group: F, status: done}
+  - {name: gene-vann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gene-vann}, group: F, status: done}
   - {name: greg-verbanic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-verbanic}, group: F, status: done}
   - {name: isabel-jackson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: isabel-jackson}, group: F, status: done}
   - {name: jamie-joseph, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jamie-joseph}, group: F, status: done}
@@ -125,17 +125,17 @@ stages:
   - {name: lily-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lily-post}, group: F, status: blocked, blocked: Gordon to say whether he or Alex waited 3.5 hours for Josh at the parent-teacher conference and offered to pay Lily s bills (v2 says Gordon; the transcript reads as Alex)  and whether the 2026-06-14  }
   - {name: matt-mcintosh, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-mcintosh}, group: F, status: done}
   - {name: mike-orth, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-orth}, group: F, status: blocked, blocked: Gordon to say whether Mikey is his own college friend from Birch (v3 voice hints and his stories) rather than  more connected to Leah  (v2)  and whether every transcript  Mikey  is Mike Orth}
-  - {name: mikhail-voloshin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mikhail-voloshin}, group: F, status: active}
-  - {name: patrick-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: patrick-rauland}, group: F, status: pending}
-  - {name: ren-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ren-rauland}, group: F, status: pending}
-  - {name: sawyer-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sawyer-rauland}, group: F, status: pending}
-  - {name: rob-rowe, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rob-rowe}, group: F, status: pending}
-  - {name: russell-quintero, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: russell-quintero}, group: F, status: pending}
-  - {name: scott-beasley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scott-beasley}, group: F, status: pending}
-  - {name: shannon-janelle, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: shannon-janelle}, group: F, status: pending}
-  - {name: kay-ullman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kay-ullman}, group: F, status: pending}
-  - {name: mark-benn, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-benn}, group: F, status: pending}
-  - {name: ted-klontz, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ted-klontz}, group: F, status: pending}
+  - {name: mikhail-voloshin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mikhail-voloshin}, group: F, status: done}
+  - {name: patrick-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: patrick-rauland}, group: F, status: done}
+  - {name: ren-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ren-rauland}, group: F, status: done}
+  - {name: sawyer-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sawyer-rauland}, group: F, status: done}
+  - {name: rob-rowe, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rob-rowe}, group: F, status: blocked, blocked: Gordon to confirm whether people/rob.md and people/rob-rowe.md are the same person  so rob.md can be retired into rob-rowe.md}
+  - {name: russell-quintero, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: russell-quintero}, group: F, status: done}
+  - {name: scott-beasley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scott-beasley}, group: F, status: blocked, blocked: Gordon to say who said what about Beasley on 2026-03-20 (v3 voice matching and v2 speaker labels swap Gordon and Leah)  including who drove him home after Too Many Zoos and who planned the  more frien}
+  - {name: shannon-janelle, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: shannon-janelle}, group: F, status: blocked, blocked: Gordon to say who Shannon Janelle is to him  and whether she is Shannon Alexander (Sopris  Philadelphia)  the Philadelphia Shannon with kids  the Keep in Touch  Shannon  or the  Shannon s Birthday ( 8}
+  - {name: kay-ullman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kay-ullman}, group: F, status: done}
+  - {name: mark-benn, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-benn}, group: F, status: blocked, blocked: Gordon to say whether  grew up on the Gold Coast of Connecticut  and  managed a Subway at 16  are his own facts rather than Mark s (old notes give them to Mark  the transcript to Gordon)  and whether }
+  - {name: ted-klontz, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ted-klontz}, group: F, status: active}
   - {name: dr-mitch-janosik, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dr-mitch-janosik}, group: F, status: pending}
   - {name: stephanie-steward, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephanie-steward}, group: F, status: pending}
   - {name: guy-hanington, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: guy-hanington}, group: F, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: mikhail-voloshin
+current: ted-klontz
 waiting_on: []
 ---
 # Backfill people
@@ -410,3 +410,27 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T17:39:59+02:00 job.run: stage `mike-orth` started
 - 2026-10-02T17:47:19+02:00 job.run: stage `mike-orth` blocked, recorded, job continues: Gordon to say whether Mikey is his own college friend from Birch (v3 voice hints and his stories) rather than  more connected to Leah  (v2)  and whether every transcript  Mikey  is Mike Orth
 - 2026-10-02T17:47:19+02:00 job.run: stage `mikhail-voloshin` started
+- 2026-10-02T17:57:26+02:00 job.run: stage `mikhail-voloshin` done (Stage: done · tests green)
+- 2026-10-02T17:57:26+02:00 job.run: stage `patrick-rauland` started
+- 2026-10-02T18:04:23+02:00 job.run: stage `patrick-rauland` done (Stage: done · tests green)
+- 2026-10-02T18:04:23+02:00 job.run: stage `ren-rauland` started
+- 2026-10-02T18:12:18+02:00 job.run: stage `ren-rauland` done (Stage: done · tests green)
+- 2026-10-02T18:12:18+02:00 job.run: stage `sawyer-rauland` started
+- 2026-10-02T16:4x cowork: Gordon answered blocked questions 1 to 5; adam-donmoyer, alex-post, stephen-moore, greg-moore set done (Greg's two open items moved to 'ask Greg'); jane-brewer stays blocked on the month question (answer cut off at "Trish").
+- 2026-10-02T16:5x cowork: jane-brewer done (Trish's notice and Wes's mother: Feb to Mar 2026; Leo unknown); jeff-carpenter retired as a person file (Gordon does not know him; client staff rule).
+- 2026-10-02T18:17:34+02:00 job.run: stage `sawyer-rauland` done (Stage: done · tests green)
+- 2026-10-02T18:17:34+02:00 job.run: stage `rob-rowe` started
+- 2026-10-02T18:23:00+02:00 job.run: stage `rob-rowe` blocked, recorded, job continues: Gordon to confirm whether people/rob.md and people/rob-rowe.md are the same person  so rob.md can be retired into rob-rowe.md
+- 2026-10-02T18:23:00+02:00 job.run: 6 stages in one run; continuation queued (20261002T162300Z_job.run_c7ea84.md)
+- 2026-10-02T18:23:00+02:00 job.run: stage `russell-quintero` started
+- 2026-10-02T18:28:30+02:00 job.run: stage `russell-quintero` done (Stage: done · tests green)
+- 2026-10-02T18:28:30+02:00 job.run: stage `scott-beasley` started
+- 2026-10-02T18:35:02+02:00 job.run: stage `scott-beasley` blocked, recorded, job continues: Gordon to say who said what about Beasley on 2026-03-20 (v3 voice matching and v2 speaker labels swap Gordon and Leah)  including who drove him home after Too Many Zoos and who planned the  more frien
+- 2026-10-02T18:35:02+02:00 job.run: stage `shannon-janelle` started
+- 2026-10-02T18:40:55+02:00 job.run: stage `shannon-janelle` blocked, recorded, job continues: Gordon to say who Shannon Janelle is to him  and whether she is Shannon Alexander (Sopris  Philadelphia)  the Philadelphia Shannon with kids  the Keep in Touch  Shannon  or the  Shannon s Birthday ( 8
+- 2026-10-02T18:40:55+02:00 job.run: stage `kay-ullman` started
+- 2026-10-02T17:2x cowork: Gordon answered the second batch; 25 stages set done; what he left open stays in each file's Open threads for the review gate.
+- 2026-10-02T18:46:50+02:00 job.run: stage `kay-ullman` done (Stage: done · tests green)
+- 2026-10-02T18:46:50+02:00 job.run: stage `mark-benn` started
+- 2026-10-02T18:53:12+02:00 job.run: stage `mark-benn` blocked, recorded, job continues: Gordon to say whether  grew up on the Gold Coast of Connecticut  and  managed a Subway at 16  are his own facts rather than Mark s (old notes give them to Mark  the transcript to Gordon)  and whether 
+- 2026-10-02T18:53:12+02:00 job.run: stage `ted-klontz` started

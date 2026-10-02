@@ -5,6 +5,7 @@ type: person
 lobe: work
 description: GM / operations at Travis Crawford HVAC (Charlotte NC), a WoA client; owns the revenue numbers on the team calls
 tier: thin
+status: retired   # 2026-10-02: Gordon does not know him ("Don\'t know Jeff"); client staff rule: he lives in travis-crawford-hvac/knowledge.md People, not a person file
 mbti:
 skills: []
 availability: {as_of: , note: ""}
@@ -27,6 +28,7 @@ sources: ["[doc:work/wizard-of-ads/clients/travis-crawford-hvac/entity.md]", "[d
 - Owns the numbers: sends the monthly revenue figures to Stephen and reports the month on the team calls [v2:work/clients/travis-crawford.md:171,219], [v3:work/clients/travis-crawford-hvac/travis-crawford-hvac.md:43]; history, as of 2026-06-05, unconfirmed since.
 - Close to Travis personally: knows the kids and the family, attends events; coordinates the marketing tasks inside the company (intro emails, Meet the Team updates through Leah) [v2:work/clients/travis-crawford.md:171,219]; history, as of 2026-03-30, unconfirmed since.
 ## What we know
+- His tenure at Travis Crawford is unknown to Gordon [gordon 2026-10-02]
 - History, as of 2026-08-19, unconfirmed since: on the team call he said August 2025 "barely did over a million dollars" and he was trying for $1.3M to $1.5M in August 2026 [v3:data/earballs/transcripts/2026-08-19/rec_e75be3ea45/transcript.v1.md:54] (machine voiceprint hint, "likely").
 - History, as of 2026-08-19, unconfirmed since: the company gave Tom of Best Postcards access to ServiceTitan for a direct-mail proposal; he said they would rather Tom build a real plan than send "here's a cost" and a couple of printouts, and that without Stephen's relationship the access request would have been refused [v3:data/earballs/transcripts/2026-08-19/rec_e75be3ea45/transcript.v1.md:72-99] (machine voiceprint hint).
 - History, as of 2026-08-19, unconfirmed since: he asked Stephen to re-send Travis the calendar invites for the recurring meetings, which had dropped off Travis's calendar [v3:data/earballs/transcripts/2026-08-19/rec_e75be3ea45/transcript.v1.md:60] (machine voiceprint hint).

@@ -43,6 +43,7 @@ One recording per pass. Never from memory: every fact cites `[rec_<id> hh:mm:ss]
 8. **Write and receipt.** Append every path written to the session note's `written:` list. Receipt, under eight lines: the home path; the summary path; facts filed (count, and the files); next actions for Gordon's task manager; proposals awaiting his yes (projects, ICE); questions. For the first ingest of all (`first-ingest` stage of the build job) add five filed facts with their cites for Gordon to spot-check; the stage is done on his word.
 
 ## Rules
+- Recordings with Laura Holden present are for Gordon's memory only: file the summary, quote nothing from them in any file [gordon 2026-10-02]. Whether that covers a whole long recording she was present for only in part is an open question for Gordon.
 - Chunks shown for speaker identification are long passages. A one-line snippet is not identification.
 - Nothing is marked human-confirmed except on Gordon's explicit word in this conversation.
 - Suspect words are asked about only when a fact hangs on them.

@@ -27,6 +27,7 @@ sources: ["[gordon 2026-10-01]", "[rec_640701d84d 2026-09-14]", "[rec_0d8753ed18
 - Met Gordon at a D&D group before the pandemic; a guest at Gordon and Leah's Totally Not a Wedding in Austin, May 2024 [v2:relationships/people/alex-post.md:37,41,86]; history, as of 2026-03-15, unconfirmed since.
 - Mother of Lily Post (10 in 2026), with primary custody [v2:relationships/people/alex-post.md:38,137], [v2:relationships/people/lily-post.md:11-12]; history, as of 2026-03-18, unconfirmed since.
 ## What we know
+- The reconnection coffee was in February 2025, not 2026 [confirmed gordon 2026-10-02].
 - Did the hard-drive swap between Gordon's rig and Leah's tower, Mon 2026-09-21 ~7:30 pm; the rig then moves to Alex's to stay online for Gordon's remote access [rec_640701d84d 2026-09-14 00:29:23–00:30:25]
 - NYC with Gordon 2026-09-16 to 09-18: Book of Mormon, an all-day concert [rec_0d8753ed18 2026-09-15 00:58:45]
 - History, as of 2026-09-09, unconfirmed since: Prime Directive Counseling's 501(c)(3) status is official; operating cost $85 per session (was $80); no bilingual capacity; the practice still runs out of the Windsor condo and is only starting to look for a proper office [v2:work/clients/prime-directive/prime-directive.md:38-40,152-153,175].
@@ -74,7 +75,8 @@ sources: ["[gordon 2026-10-01]", "[rec_640701d84d 2026-09-14]", "[rec_0d8753ed18
 - Pre-pandemic: met at a D&D group; Gordon did not trust her at first, sensing she was hiding something, which turned out to be a bad divorce she was not talking about [v2:relationships/people/alex-post.md:37,40,84]; as recorded 2026-03-15, unconfirmed since.
 - 2024-05: guest at Gordon and Leah's Totally Not a Wedding in Austin [v2:relationships/people/alex-post.md:86]; unconfirmed since.
 - 2024 fall: moved in with Jake; Gordon, having said his piece more than once, quietly stopped reaching out [v2:relationships/people/alex-post.md:88-90]; unconfirmed since.
-- February (v2 says 2026; see Open threads): Alex asked for coffee; Gordon chose a coffee shop rather than the house; she said everyone in her life shared his view of Jake and that she wanted out [v2:relationships/people/alex-post.md:92]; unconfirmed since.
+- ~~February (v2 says 2026; see Open threads): Alex asked for coffee; Gordon chose a coffee shop rather than the house; she said everyone in her life shared his view of Jake and that she wanted out [v2:relationships/people/alex-post.md:92]; unconfirmed since.~~ [superseded 2026-10-02: the year is 2025 [confirmed gordon 2026-10-02]]
+- February 2025 [confirmed gordon 2026-10-02]: Alex asked for coffee; Gordon chose a coffee shop rather than the house; she said everyone in her life shared his view of Jake and that she wanted out [v2:relationships/people/alex-post.md:92].
 - 2025 fall: first clients at the Windsor condo; Gordon wrote the copy, built the site, helped build the parking spot and paint [v2:relationships/people/alex-post.md:112-119]; unconfirmed since.
 - 2026-02-26: long conversation on IFS, burnout and rest (rec_43509d73d7 in v2's corpus) [v2:relationships/people/alex-post.md:143-151]; unconfirmed since.
 - 2026-03: "Alex Post elevation" listed in Gordon's relationship curation [v2:relationships/people/mark-benn.md:106]; unconfirmed since.

@@ -17,7 +17,7 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/project.md:25: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/project.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/build-handoff.md:15: inference words under a [gordon] cite; mark [inferred] or write `unknown`
-- work/copper-leaf/projects/hd-system-rebuild/docs/build-state.md:50: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/build-state.md:83: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-2026-10-01.md:19: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:21: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:136: inference words under a [gordon] cite; mark [inferred] or write `unknown`

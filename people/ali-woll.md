@@ -8,14 +8,14 @@ tier: thin
 mbti:
 skills: ["registered dietitian; left acute hospital work in March 2025 [v2:data/earballs-transcripts/2026-04-06/rec_5911c37521/transcript.md:140], [v3:data/earballs/transcripts/2026-05-15/rec_78fdaecdb9/transcript.v1.md:597,627]", "intuitive eating and health at any size niche (her words, 2026-04-06) [v2:data/earballs-transcripts/2026-04-06/rec_5911c37521/transcript.md:582]"]
 availability: {as_of: , note: ""}
-location: {city: , as_of: , source: ""}
+location: {city: "Windsor, CO", as_of: 2026-10-02, source: "[gordon 2026-10-02]"}
 roles:
   - {context: personal, role: "friend in Gordon and Leah's social circle [v2:relationships/people/ali-woll.md:21,44] (history, as of 2026-05-15)"}
   - {context: personal, role: "informal business mentee: Gordon coaches her on her practice; v2 notes she is not a WoA client, 'friends-helping-friends business coaching' [v2:data/earballs-transcripts/2026-04-06/mouth-ingest-notes.md:126] (history, as of 2026-05-15)"}
 last_seen: 2026-06-24
 want_to_see_by:
 cadence:
-contact: {emails: ["awoll540@gmail.com"], phones: [], address: "", birthday: "02-25", google_id: "", source: "email: attendee on Gordon's calendar event 'Gordon-Ali coffee' 2026-05-15 as recorded by v3 [v3:data/earballs/transcripts/2026-05-15/rec_78fdaecdb9/transcript.v1.md:19] (unconfirmed; see Open threads); birthday: Gordon's calendar all-day 'Ali Woll's birthday' on 2026-02-25 as indexed by v2 [v2:data/backlog-table-of-contents.md:1133] (history, unconfirmed since)"}
+contact: {emails: ["awoll540@gmail.com"], phones: [], address: "", birthday: "02-25", google_id: "", source: "email: attendee on Gordon's calendar event 'Gordon-Ali coffee' 2026-05-15 as recorded by v3 [v3:data/earballs/transcripts/2026-05-15/rec_78fdaecdb9/transcript.v1.md:19], confirmed hers [gordon 2026-10-02]; birthday: Gordon's calendar all-day 'Ali Woll's birthday' on 2026-02-25 as indexed by v2 [v2:data/backlog-table-of-contents.md:1133] (history, unconfirmed since)"}
 voiceprint: {enrolled: false, refs: 0, last_enrolled: , auto: paused}
 relationships:
   - {person: gordon, kind: friend, note: "friend and informal business mentee; mentoring sessions 2026-04-06 and 2026-05-15 [v2:relationships/people/ali-woll.md:21,26], [v3:data/earballs/transcripts/2026-05-15/rec_78fdaecdb9/transcript.v1.md:19]"}
@@ -34,6 +34,8 @@ sources: ["[v2:relationships/people/ali-woll.md]", "[v2:relationships/people/all
 - Married to Shane Mares, who works in higher ed [v2:relationships/people/ali-woll.md:22], [v2:data/earballs-transcripts/2026-04-06/rec_5911c37521/transcript.md:820]; a friend in Gordon and Leah's circle and, since spring 2026, someone Gordon coaches on her business [v2:relationships/people/ali-woll.md:21]; history, as of 2026-05-15.
 - Not Allie Wickham: v2 recorded Gordon's confirmation on 2026-04-04 after a bad merge of the two [v2:relationships/people/allie-woll.md:8-11].
 ## What we know
+- awoll540@gmail.com is her email address [gordon 2026-10-02]
+- She lives in Windsor, CO [gordon 2026-10-02]
 - 2026-06-24, unconfirmed since: an unlabelled speaker, planning a streaming studio: "Allie and Shane have a printer, so they're not using it in their garage" [v3:data/earballs/transcripts/2026-06-24/rec_50387504d4/transcript.v1.md:1709] (Ali Woll by "Shane" [inferred]; what printer is not stated).
 - 2026-06-20, unconfirmed since: Gordon reading RSVPs for a gathering at home: "Allie and Shane are coming"; "Sam and Allie are both bringing pre-mixed cocktails" [v3:data/earballs/transcripts/2026-06-20/rec_3860b59c59/transcript.v2.md:1647] (no voiceprint on that cluster; Gordon by content; the second "Allie" is taken as the same [inferred]).
 - 2026-05-18, unconfirmed since: Leah to Gordon: "I got Shane and Allie and Alex ... I know you're keeping primary with Alex as far as time goes, and probably with Allie, too"; "Shane seems really good for Allie"; Gordon: "The level in which I don't get that guy is staggering" (of Shane) [v3:data/earballs/transcripts/2026-05-18/rec_66166e6415/transcript.v1.md:329,350,359,368] (voiceprint hints, machine).
@@ -53,8 +55,8 @@ sources: ["[v2:relationships/people/ali-woll.md]", "[v2:relationships/people/all
 - History, as of 2026 spring: v2's Lake Day plan lists "Ali Woll and Shane Mares — Sunday Companion crew, obvious invites" [v2:home/lake-day.md:111].
 - History, 2026-02-25: Gordon's calendar had an all-day "Ali Woll's birthday" [v2:data/backlog-table-of-contents.md:1133].
 ## Open threads
-- Contact: the address awoll540@gmail.com comes from a calendar attendee list on the 2026-05-15 coffee [v3:data/earballs/transcripts/2026-05-15/rec_78fdaecdb9/transcript.v1.md:19]; v3's triage took it as hers ("A. Woll") [v3:work/projects/gordon-leah-relationship/_active/retreat-2026-06-19/triage/pending-id-triage.md:90-91]. Confirm it is Ali's. For Gordon.
-- Where she lives is not on file. The 2026-05-15 coffee was at 344 Cove Drive, Loveland [v3:data/earballs/transcripts/2026-05-15/rec_78fdaecdb9/transcript.v1.md:19]; Gordon's 2023 Sopris list has Jon Jestes at that address [doc:people/_sopris-locations.md:64]. Whether it is Ali and Shane's home now, or 1772 Sunshine Street is [v2:relationships/people/ali-woll.md:28], is unknown.
+- ~~Contact: the address awoll540@gmail.com comes from a calendar attendee list on the 2026-05-15 coffee [v3:data/earballs/transcripts/2026-05-15/rec_78fdaecdb9/transcript.v1.md:19]; v3's triage took it as hers ("A. Woll") [v3:work/projects/gordon-leah-relationship/_active/retreat-2026-06-19/triage/pending-id-triage.md:90-91]. Confirm it is Ali's. For Gordon.~~ [resolved 2026-10-02] Yes, awoll540@gmail.com is hers. [gordon 2026-10-02]
+- ~~Where she lives is not on file. The 2026-05-15 coffee was at 344 Cove Drive, Loveland [v3:data/earballs/transcripts/2026-05-15/rec_78fdaecdb9/transcript.v1.md:19]; Gordon's 2023 Sopris list has Jon Jestes at that address [doc:people/_sopris-locations.md:64]. Whether it is Ali and Shane's home now, or 1772 Sunshine Street is [v2:relationships/people/ali-woll.md:28], is unknown.~~ [resolved 2026-10-02] She lives in Windsor, CO. [gordon 2026-10-02]
 - Was the 2026-04-06 recap email ever sent, and did the follow-up working session on group format and the diamond happen beyond the 2026-05-15 coffee [v2:relationships/people/ali-woll.md:143-145]?
 - Did Ali and Alex Post meet at the *Companion* watch party [v2:relationships/people/ali-woll.md:144]? How Gordon first met Ali is not on file [v2:relationships/people/ali-woll.md:143].
 - Ali vs Allie: transcripts cannot tell them apart. Filed here only where "Shane," the dietitian practice, or the Woll calendar entries tie the mention to Ali. The v3 2026-03-25 "Allie W." Zoom belongs to Allie Wickham [doc:people/allie-wickham.md]. Not filed: bare "Allie" lines, Eric Pommier's housewarming list "Alex, Allie, Shane, Paula" [v3:data/earballs/transcripts/2026-03-30/rec_cfbf3ab5a7/transcript.v1.md:201] (probably Ali by "Shane" [inferred], but the line is garbled), and the 2026-05-15 "Shane was like there's a fire" line (speaker unclear) [v3:data/earballs/transcripts/2026-05-15/rec_78fdaecdb9/transcript.v1.md:2100].

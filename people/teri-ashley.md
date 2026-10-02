@@ -8,7 +8,7 @@ tier: thin
 mbti:
 skills: []
 availability: {as_of: , note: ""}
-location: {city: "Fort Collins, CO", as_of: 2023-12-13, source: "[doc:people/_sopris-locations.md:109 post 179]; v2 has Silverwood being sold and her moving to Tom Boldt's place as of 2026-03 (Open threads)"}
+location: {city: "Fort Collins, CO (house on Stover, with Tom Boldt)", as_of: 2026-10-02, source: "[gordon 2026-10-02]"}
 roles: []
 last_seen: 2026-04-24
 want_to_see_by:
@@ -24,6 +24,7 @@ sources: ["[doc:people/_sopris-locations.md]", "[doc:people/_backfill-census.md]
 - After Luke, her serious partners were Joe Jestes, then Joe Courant, both since deceased; with Joe Courant she settled at Silverwood, the first real stability in Leah's and Paula's childhood; Joe's son Ansel Courant is the sisters' step-brother [v2:relationships/people/paula-bernander.md:79-80], [v2:relationships/people/ansel-courant.md:20-22,40-42]; history, as of 2026-03-23, unconfirmed since.
 - Tom Boldt's partner; she brought him into the family orbit and, as of March 2026, was "on the deed" at his place, co-habiting and co-owning [v2:relationships/people/tom-boldt.md:45,94-96], [v2:relationships/leah.md:18] (from rec_cdda7890cf, 2026-03-17); history, unconfirmed since.
 ## What we know
+- Teri and Tom Boldt bought a house on Stover in Fort Collins [gordon 2026-10-02]
 - History, 2026-04-24, speaker not attributed (SPEAKER_00, an inner dialogue): "You looked at Terry's pain and losing Joe and got just enough glimpse of it to snap the door shut, knowing you just can't go there" [v3:data/earballs/transcripts/2026-04-24/rec_3b051703c0/transcript.v1.md:626].
 - History, as of 2026-04-10, unconfirmed since: Leah said she was "pretty emotionally tapped out from going to Denver and making decisions and dealing with my mom and my mom's shit"; v2 ties it to the Silverwood sale and the move to Tom's [v2:relationships/leah.md:237].
 - History, 2026-04-01, machine speaker label (content reads as Gordon): Leah, Paula and Teri had agreed Luke never got animated or upset; Teri: "that's probably why I married him. Because I came out of this high-conflict house, and he's just so calm and so even-keeled. Didn't find out until later he's a hyper-manipulator" [v3:data/earballs/transcripts/2026-04-01/rec_7d953ecaa8/transcript.v1.md:876], [v2:data/earballs-transcripts/2026-04-01/rec_4d0796e1e2/transcript.md:1011-1013].
@@ -42,7 +43,7 @@ sources: ["[doc:people/_sopris-locations.md]", "[doc:people/_backfill-census.md]
 - History, migrated 2026-03-21: she recommended the series Black Dove [v2:personal/content-backlog.md:91,100].
 - 2023-12-13: the Sopris locations list has Teri Ashley at 2949 Silverwood Drive, Fort Collins, CO [doc:people/_sopris-locations.md:109 post 179].
 ## Open threads
-- For Gordon: where does Teri live now? The Sopris list (2023-12-13) has 2949 Silverwood Drive, Fort Collins [doc:people/_sopris-locations.md:109]; v2 (2026-03/04) has Silverwood being sold and her moving onto the deed at Tom Boldt's new place [v2:relationships/people/tom-boldt.md:45,96,105], [v2:relationships/leah.md:237], next to the 1911 house in the hui plan [v2:personal/hui.md:20]; no city or street for Tom's place is on disk.
+- ~~For Gordon: where does Teri live now? The Sopris list (2023-12-13) has 2949 Silverwood Drive, Fort Collins [doc:people/_sopris-locations.md:109]; v2 (2026-03/04) has Silverwood being sold and her moving onto the deed at Tom Boldt's new place [v2:relationships/people/tom-boldt.md:45,96,105], [v2:relationships/leah.md:237], next to the 1911 house in the hui plan [v2:personal/hui.md:20]; no city or street for Tom's place is on disk.~~ [resolved 2026-10-02] Teri and Tom Boldt bought a house on Stover in Fort Collins. [gordon 2026-10-02]
 - Former surname: v2 has "Wiganowski" with "sp?" [v2:relationships/leah.md:18], [v2:relationships/people/MANIFEST.md:35]; a 2026-03-08 recording (machine label Gordon, possibly Leah) says "Wiganowski and Bernander are both spelled as they sound. Except for it's a Y and C" [v2:data/earballs-transcripts/2026-03-08/rec_3b88612747/transcript.md:740-746]. Spelling unconfirmed.
 - Did the August 2026 Alaska cruise with Teri happen? On 2026-09-14 a speaker (machine label SPEAKER_00) said "when we went to Alaska, um, Tom traveled for work a ton ... And he parked off site at Canopy" [rec_640701d84d 00:32:17]; Teri is not named.
 - The hui property: "906 Stover" with about $240K each for about 30% down [v2:personal/hui.md:20,26] against "900/906 Silver" with about $150K each for 20% down [v2:relationships/people/paula-bernander.md:45,152-154]. Whether any of it happened is not on disk.

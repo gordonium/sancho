@@ -1,7 +1,7 @@
 ---
 name: Recording rec_920d1a79bf · 2026-10-02 15:12 · 3 min
 type: transcript
-description: Plaud recording, 3 min, 1 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 3 min, Gordon and Enza (tour guide) after the bread-baking session in Calabria, 2026-10-02; ingested 2026-10-02, summary beside it (summary.md)
 lobe: both
 sources: ["[rec_920d1a79bf 2026-10-02]"]
 rec_id: rec_920d1a79bf
