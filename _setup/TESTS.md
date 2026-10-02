@@ -1,5 +1,5 @@
 # TESTS
-generated 2026-10-02 15:46 by test-all.py · 34 suites · 0 failing
+generated 2026-10-02 16:51 by test-all.py · 34 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -15,7 +15,7 @@ generated 2026-10-02 15:46 by test-all.py · 34 suites · 0 failing
 | nerd-run | PASS | test-nerd-run: PASS |
 | netstate | PASS | test-netstate: PASS |
 | nightly | PASS | test-nightly: PASS |
-| nomad-brief | PASS | test-nomad-brief: PASS (stay, drive today east 100, next couple of days, severe wait, no-candidate wait, freeze tonight, |
+| nomad-brief | PASS | test-nomad-brief: PASS (stay, drive today east 100, next couple of days, severe wait here and on the leg, wind advisory: |
 | notify | PASS | test-notify: PASS (10 sounding pushes, all with registered reasons) |
 | ping | PASS | test-ping: PASS |
 | pipeline | PASS | test-pipeline: PASS |

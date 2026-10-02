@@ -12,7 +12,7 @@ location: {city: "Milwaukee WI (the company's city; her own not stated)", as_of:
 roles:
   - {context: work/wizard-of-ads/clients/dm-heating, role: client contact}
   - {context: work/wizard-of-ads/clients/dm-heating, role: "client person: primary owner of D&M Heating & Air Conditioning; operations, marketing, phones, books [gordon 2026-10-01] [v2:work/clients/dm-heating.md:24,68]"}
-last_seen: 2026-09-10
+last_seen: 2026-09-24
 want_to_see_by:
 cadence:
 contact: {emails: [], phones: [], address: "", birthday: "", google_id: "", source: ""}
@@ -35,11 +35,17 @@ sources: ["[gordon 2026-10-01]", "[doc:recordings/inbox/rec_0b2f65c077/speakers.
 D&M Heating contact, Milwaukee [doc:work/wizard-of-ads/clients/dm-heating/entity.md]. Her last name is Dodge, her maiden name, used again since her divorce; it was Sartler for a while, which is why v2 and older client files say Karen Sartler [gordon 2026-10-01].
 Owner of D&M Heating & Air Conditioning with Jeff Goff and Tim Silva [gordon 2026-10-01]; v2 has her as the primary owner who runs operations, marketing, phones and books, "she IS the business day-to-day" (history, as of 2026-04-17) [v2:work/clients/dm-heating.md:24,68]. The three bought the company her father started in 1979 from him by SBA loan and owner financing (history, as of 2026-04-17) [v2:work/clients/dm-heating.md:26,118,121]. She writes and voices D&M's radio ads, a role inherited from her father (history, as of 2026-04-17) [v2:work/clients/dm-heating.md:149]. She found Wizard of Ads through the footer of Vi Wickam's CapitalHVAC site and Vi referred her to Gordon, which makes D&M Gordon's self-originated account (history, as of 2026-04-17) [v2:work/clients/dm-heating.md:27,28,113].
 ## What we know
+- Her brother has lung cancer [rec_0b2f65c077 2026-09-10 00:00:12] [confirmed gordon 2026-10-02]. As of 2026-09-24: it has spread to his bones and brain (15 spots in the brain); radiation began 2026-09-23 (three days that week, daily the next, two days the week after); pain not controlled on oxycodone and no pain-management specialist until October, so he may be admitted for pain; waiting on biopsy results before an oncology appointment; the radiologist doubts the brain radiation will help the pain and says the lung is the priority; he is staying at their parents' condo in Greenfield (they're 75), not eating, losing weight, and told their mother he had no hope left; his wife and child are up north; Karen is caring for her parents too and hadn't slept [rec_36f02fd22c 2026-09-24 00:13:37–00:23:27, 00:33:51] [confirmed gordon 2026-10-02]
+- 2026-09-10: he was going in the next day; on limited pain meds; her parents were driving down to Tennessee [rec_0b2f65c077 00:38:17]
+- 2026-09-24: behind on the books (taxes were due that Monday; her accountant gave her space); "for the first time I'm not bothered" by a slow month, because she's exhausted [rec_36f02fd22c 2026-09-24 00:12:37, 00:23:00] [confirmed gordon 2026-10-02]
+- Posts Facebook shout-outs to long-time customers; Dirk liked them [rec_36f02fd22c 00:47:29]
+- Oct 2026: going to Door County with Sophia on the distributor's annual dealer trip (Thu–Sun, with Packers tickets); likely away for the 10/8 monthly [rec_36f02fd22c 00:51:57–00:55:08]
+- Said she once had a husband who read the Book of Mormon (she never did) [rec_36f02fd22c 00:10:43]
 - 2026-10-01: name is Dodge again after a recent divorce; Sartler was her married name [gordon 2026-10-01].
 - Human-confirmed speaker on the Thu 9/10 12:01 D&M call [doc:recordings/inbox/rec_0b2f65c077/speakers.md] [confirmed gordon 2026-10-01].
 - 2026-10-01: Gordon named her "Karen Dodge, owner (other owners are Jeff Goff & Tim Silva)" [gordon 2026-10-01] [doc:work/wizard-of-ads/clients/dm-heating/knowledge.md].
 - 2026-10-01: the speakers file for the 09-10 call now lives with the client's transcripts; her cluster is SPEAKER_07, 10 min 49 s of talk, "07 Karen Dodge, owner", enrollable [doc:work/wizard-of-ads/clients/dm-heating/transcripts/rec_0b2f65c077/speakers.md] [confirmed gordon 2026-10-01].
-- 2026-09-24: on a raw, not yet ingested recording a D&M voice reads out an unsolicited mailer "Prepared for Karen R. Sartler, office manager, marketing director"; outside senders were still using Sartler and those titles at that date [rec_36f02fd22c 00:04:24] (speakers on this recording unconfirmed).
+- 2026-09-24: read out an unsolicited mailer from Andrew Hogan "Prepared for Karen R. Sartler, office manager, marketing director"; outside senders still use Sartler and those titles [rec_36f02fd22c 00:04:24] [confirmed gordon 2026-10-02]
 - 2026-09-10: she and Vanessa cover the D&M office between them; the part-time scanning position has wound down [rec_0b2f65c077 2026-09-10 00:14:02].
 - 2026-09-10: she joined the monthly Zoom without video; D&M had "switched offices" [rec_0b2f65c077 2026-09-10 00:02:58] [doc:work/wizard-of-ads/clients/dm-heating/summaries/2026-09-10_rec_0b2f65c077.md].
 - 2026-09-10: she sends the finished ads to Scott for airing [doc:work/wizard-of-ads/clients/dm-heating/summaries/2026-09-10_rec_0b2f65c077.md] [rec_0b2f65c077 2026-09-10 00:15:16].
@@ -68,9 +74,6 @@ Owner of D&M Heating & Air Conditioning with Jeff Goff and Tim Silva [gordon 202
 - History: v2's own person file for her was an auto-created stub (2026-04-23, from rec_79307c8d5d) with no facts [v2:relationships/people/karen-sartler.md:1-11].
 - History: v3 enrolled a voiceprint under the name Karen Sartler twice on 2026-05-28 from rec_2d62e0a1e9 (ref count 2) [v3:memory/people/karen-sartler/voice-profile.md:7-8]; Sancho's voiceprint for her is separate and the pipeline's.
 ## Open threads
-- One person, two surnames: v2, v3, the dm-heating knowledge file's People section and outside mail (2026-09-24) say Sartler; Gordon says Dodge [gordon 2026-10-01]. Resolved for the slug (census note: `karen-sartler` gets no file) [doc:people/_backfill-census.md]; the knowledge file's People line still carries v2's spelling [doc:work/wizard-of-ads/clients/dm-heating/knowledge.md].
-- Her brother's illness, said on the 2026-09-10 call [rec_0b2f65c077 00:00:12, 00:38:17], was read back to Gordon on 2026-10-01 and is awaiting his yes before it is filed here [doc:work/wizard-of-ads/clients/dm-heating/summaries/2026-09-10_rec_0b2f65c077.md]. The raw 2026-09-24 recording holds a longer account in a D&M voice [rec_36f02fd22c 00:13:37] (speakers unconfirmed, not ingested). For Gordon: file it or leave it out?
-- rec_36f02fd22c (2026-09-24, 59 min, raw) looks like a D&M call ("Hey Karen!" at 00:00:13) [rec_36f02fd22c 00:00:13]; no speaker is confirmed, so nothing said on it is attributed to her and `last_seen` stays at 2026-09-10 until ingest.
 - Role wording: v2 calls her primary owner [v2:work/clients/dm-heating.md:24]; the 2026-09-24 mailer calls her office manager and marketing director [rec_36f02fd22c 00:04:24]; Gordon says owner [gordon 2026-10-01]. Whether "primary" still holds is unconfirmed.
 - Family facts from v2 (Chris, the Sept 19 anniversary, Audrey) predate the divorce Gordon reported and are unconfirmed since 2026-04-17 [v2:work/clients/dm-heating.md:103] [gordon 2026-10-01].
 - Contact: no email or phone of her own is stated in a document read in this pass; v2 holds only the company's address and main line [v2:work/clients/dm-heating.md:21,22]. Field left empty.

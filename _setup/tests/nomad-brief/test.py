@@ -1,7 +1,7 @@
 """
 name: test-nomad-brief
 type: script
-description: nomad-brief.py and the people/_geo.json generator against fake Open-Meteo geocoding, Open-Meteo forecast and NWS alerts (the script's one network door, `_get`, is replaced in-process; no socket, so it also runs inside the Nerd sandbox), in a temp tree with the real thresholds file: in range -> stay; out of range tomorrow with one in-range candidate east at 100 miles -> "drive today: east, 100 miles"; out only on day three -> drive in the next couple of days; a Severe/Extreme alert -> wait; wind over the line flagged, never decided; no in-range direction -> wait; freeze tonight flagged regardless; outside the US -> alerts skipped with a note and NWS never called; a people file within reach appears (pending city geocoded by the brief, cached city placed offline by build-index, non-places skipped); one forecast call carries all 33 points; unknown location -> exit 2, failed forecast -> exit 1, no brief either way.
+description: nomad-brief.py and the people/_geo.json generator against fake Open-Meteo geocoding, Open-Meteo forecast and NWS alerts (the script's one network door, `_get`, is replaced in-process; no socket, so it also runs inside the Nerd sandbox), in a temp tree with the real thresholds file: in range -> stay; out of range tomorrow with one in-range candidate east at 100 miles -> "drive today: east, 100 miles"; out only on day three -> drive in the next couple of days; a Severe/Extreme alert -> wait, also one on the leg; wind never decides (Plan A): a 30 mph tailwind on the east leg gives a crosswind near 0 and a 30 mph north wind gives 30, gusts and the calmest 4-hour window said, a Wind Advisory and a Severe High Wind Warning on the leg named but the verdict unchanged, NWS asked at every ring point of each leg; before "Nomad season starts around <date>" in location.md -> here and alerts only, verdict "nomad season starts <date>; no drive verdict", one forecast point, and from that date on the full brief; no in-range direction -> wait; freeze tonight flagged regardless; outside the US -> alerts skipped with a note and NWS never called; a people file within reach appears (pending city geocoded by the brief, cached city placed offline by build-index, non-places skipped); one forecast call carries all 33 points; unknown location -> exit 2, failed forecast -> exit 1, no brief either way.
 why: The morning verdict is computed, never guessed (personal-morning step 4); a regression means a wrong driving day or a dropped person. Gap: the live APIs are not called here; response shapes are from Open-Meteo's and NWS's documentation, not a capture.
 reads: _setup/nomad-brief.py, _setup/build-index.py, _setup/sancho_lib.py, personal/nomad/thresholds.md
 writes: temp files only
@@ -75,16 +75,19 @@ S = {"weather": lambda lat, lon: COOL, "alerts": {}, "forecast_error": False}
 calls = []
 DATES = ["2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05"]
 
+CALM = lambda h: 12 if 7 <= h < 11 else 20  # hourly gusts: the calmest 4 hours are 7 to 11am
 def point_weather(w, lat, lon):
-    hourly_t, hourly_v = [], []
+    hourly_t, hourly_v, speed, wdir, gust = [], [], [], [], []
     for i, d in enumerate(DATES):
         for h in range(24):
             hourly_t.append(f"{d}T{h:02d}:00")
             hourly_v.append(w["lows"][i] if h >= 18 else (w["lows"][max(i - 1, 0)] if h < 9 else w["highs"][i]))
+            speed.append(w["wind"][i]); wdir.append(w.get("wdir", 0)); gust.append(w.get("gust", CALM)(h))
     tz = "Europe/Rome" if lon > 0 else "America/Chicago"
     return {"latitude": lat, "longitude": lon, "timezone": tz, "timezone_abbreviation": "CEST" if lon > 0 else "CDT", "utc_offset_seconds": 0,
-            "daily": {"time": DATES, "temperature_2m_max": w["highs"], "temperature_2m_min": w["lows"], "wind_speed_10m_max": w["wind"], "precipitation_sum": [0.0, 0.1, 0, 0]},
-            "hourly": {"time": hourly_t, "temperature_2m": hourly_v}}
+            "daily": {"time": DATES, "temperature_2m_max": w["highs"], "temperature_2m_min": w["lows"], "wind_speed_10m_max": w["wind"],
+                      "wind_gusts_10m_max": [max(w.get("gust", CALM)(h) for h in range(24))] * 4, "precipitation_sum": [0.0, 0.1, 0, 0]},
+            "hourly": {"time": hourly_t, "temperature_2m": hourly_v, "wind_speed_10m": speed, "wind_direction_10m": wdir, "wind_gusts_10m": gust}}
 
 def fake_get(url, headers=None, timeout=30):
     u = urlparse(url); q = parse_qs(u.query)
@@ -103,6 +106,8 @@ def fake_get(url, headers=None, timeout=30):
         return json.dumps({"features": [{"properties": a} for a in S["alerts"].get(pt, [])]}).encode()
     fail(f"unexpected URL {url}")
 nb._get = fake_get
+nb._today = lambda: nb.dt.date(2026, 10, 2)
+LOC = (tree / "personal/nomad/location.md").read_text()
 
 def run(*args):
     calls.clear()
@@ -130,7 +135,10 @@ check(b["verdict"]["kind"] == "stay" and md.count("**Verdict:** stay") == 1, f"i
 fc = [c for c in calls if c[0] == "api.open-meteo.com"]
 check(len(fc) == 1 and len(parse_qs(urlparse(fc[0][1]).query)["latitude"][0].split(",")) == 33, "one forecast call should carry here + 32 ring points")
 nws = [c for c in calls if c[0] == "api.weather.gov"]
-check(len(nws) == 1 and "point=30.2672,-97.7431" in nws[0][1] and nws[0][2].get("User-Agent"), f"NWS once for here, with a User-Agent: {nws}")
+check(len(nws) == 9 and "point=30.2672,-97.7431" in nws[0][1] and all(c[2].get("User-Agent") for c in nws),
+      f"NWS for here and each of the 8 one-point legs, with a User-Agent: {[c[1] for c in nws]}")
+check(len(b["candidates"]) == 8 and all("calmest 7am to 11am (gusts to 12 mph)" in md.split("## Wind on the legs", 1)[1].split(c["direction"] + " (", 1)[1].split("\n")[0]
+                                        for c in b["candidates"]), "every leg should carry its calmest window")
 check(b["alerts"]["status"] == "ok" and "none active (NWS)" in md, "no alerts should read 'none active'")
 reach = {p["slug"]: p for p in b["people"]["within_reach"]}
 check(set(reach) == {"pat-example"} and reach["pat-example"]["want_to_see_by"] == "2026-10-12" and 20 <= reach["pat-example"]["miles"] <= 35,
@@ -147,17 +155,51 @@ check(len(b["here"]["days"]) == 3 and b["here"]["days"][0]["high"] == 80 and b["
 r = subprocess.run([sys.executable, str(SETUP / "build-index.py")], env=env, capture_output=True, text=True, timeout=120)
 check(json.loads((tree / "people/_geo.json").read_text())["people"][0]["pending"] is False, "after the brief cached Bastrop, build-index should place Pat offline")
 
-# --- 2. out of range tomorrow, one in-range candidate east at 100 miles -> drive today; wind flagged, not decided
-S["weather"] = east_only({"highs": [84, 92, 93, 93], "lows": [58, 70, 70, 70], "wind": [35, 10, 10, 10]})
+# --- 2. out of range tomorrow, one in-range candidate east at 100 miles -> drive today; a 30 mph tailwind is a small crosswind
+TAIL = lambda w: {**w, "wind": [30, 30, 30, 30], "wdir": 270, "gust": lambda h: 22 if 7 <= h < 11 else 41}  # from the west, heading east
+DRIVE = {"highs": [84, 92, 93, 93], "lows": [58, 70, 70, 70], "wind": [10, 10, 10, 10]}
+def east_tail(lat, lon):
+    return TAIL(east_only(DRIVE)(lat, lon))
+S["weather"] = east_tail
 code, b, md = run("Austin, TX")
 check(code == 0, f"drive run exit {code}")
 v = b["verdict"]
 check(v["kind"] == "drive today" and v["direction"] == "east" and v["miles"] == 100, f"expected drive today east 100: {v}")
 check(v["line"].startswith("drive today: east, 100 miles, about 2 h 00 min"), f"verdict line: {v['line']}")
-check("wind 35 mph on the leg (flagged only" in v["line"], f"wind over the line should be flagged: {v['line']}")
+w = b["candidates"][0]["wind"]
+check(w["crosswind_max_mph"] is not None and w["crosswind_max_mph"] <= 2 and w["sustained_max_mph"] == 30 and w["gust_max_mph"] == 41,
+      f"a 30 mph tailwind should be a small crosswind, gusts 41: {w}")
+check(f"wind {nb.dayname('2026-10-02')}: gusts to 41 mph (sustained 30), crosswind up to 0 mph, calmest 7am to 11am (gusts to 22 mph)" in v["line"]
+      and "advisory line" not in v["line"], f"wind advisory on the verdict line: {v['line']}")
 check([c["direction"] for c in b["candidates"]] == ["east"] and b["candidates"][0]["timezone"] == "America/Chicago", f"candidates: {b['candidates']}")
 check(len(b["no_candidate_directions"]) == 7, f"seven directions should have no in-range point: {b['no_candidate_directions']}")
-check(len([c for c in calls if c[0] == "api.weather.gov"]) == 2, "alerts should be checked at here and at the chosen candidate")
+nws = [c[1] for c in calls if c[0] == "api.weather.gov"]
+E50, E100 = ring_pt(90, 50), ring_pt(90, 100)
+check(len(nws) == 3 and any(f"point={E50[0]:.4f},{E50[1]:.4f}" in u for u in nws) and any(f"point={E100[0]:.4f},{E100[1]:.4f}" in u for u in nws),
+      f"alerts at here, 50 and 100 miles east (every ring point of the leg): {nws}")
+check("## Wind on the legs" in md and "- east (100 mi, heading 90°): wind" in md, "the brief should carry the wind section")
+
+# --- 2b. the same leg with a 30 mph north wind: a full crosswind, over the advisory line, still drive today
+S["weather"] = lambda lat, lon: {**east_tail(lat, lon), "wdir": 0}
+code, b, md = run("Austin, TX")
+v = b["verdict"]
+check(v["kind"] == "drive today" and b["candidates"][0]["wind"]["crosswind_max_mph"] == 30
+      and "crosswind up to 30 mph, over the 30 mph advisory line" in v["line"], f"north wind on an east leg: {v['line']}")
+
+# --- 2c. wind alerts on the leg are named and never decide; a non-wind Severe on the leg waits
+S["weather"] = east_tail
+S["alerts"] = {f"{E50[0]:.4f},{E50[1]:.4f}": [{"event": "Wind Advisory", "severity": "Moderate", "headline": "Wind Advisory until 7 PM", "ends": "2026-10-02T19:00:00-05:00"}],
+               f"{E100[0]:.4f},{E100[1]:.4f}": [{"event": "High Wind Warning", "severity": "Severe", "headline": "High Wind Warning until 9 PM", "ends": "2026-10-02T21:00:00-05:00"}]}
+code, b, md = run("Austin, TX")
+v = b["verdict"]
+check(v["kind"] == "drive today", f"wind alerts must not set the verdict: {v['line']}")
+check("wind Fri 10-02: Wind Advisory (50 mi east), High Wind Warning (100 mi east), gusts to 41 mph" in v["line"], f"leg wind alerts by name: {v['line']}")
+check("- on the legs: Wind Advisory (Moderate), 50 mi east" in md and "- on the legs: High Wind Warning (Severe), 100 mi east" in md, "leg alerts listed under Alerts")
+S["alerts"] = {f"{E50[0]:.4f},{E50[1]:.4f}": [{"event": "Severe Thunderstorm Warning", "severity": "Severe", "headline": "Severe Thunderstorm Warning", "ends": ""}]}
+code, b, md = run("Austin, TX")
+check(b["verdict"]["line"].startswith("wait: Severe Thunderstorm Warning (Severe) on the leg, 50 mi east; otherwise drive today: east, 100 miles"),
+      f"a severe alert on the leg should wait: {b['verdict']['line']}")
+S["alerts"] = {}
 check([p["slug"] for p in b["candidates"][0]["people"]] == ["pat-example"], f"Pat is within 100 mi of the east point: {b['candidates'][0]['people']}")
 check("| east | 100 |" in md and "east (100 mi): Pat Example" in md, "the brief should list the east candidate and Pat with it")
 
@@ -194,6 +236,25 @@ check(b["alerts"]["status"] == "skipped" and "outside the US" in b["alerts"]["no
 check(not [c for c in calls if c[0] == "api.weather.gov"], "NWS must not be called outside the US")
 check(b["location"]["timezone"] == "Europe/Rome" and "timezone: Europe/Rome" in md, "the timezone comes from the forecast response")
 
+# --- 7b. before the nomad season starts: here and alerts only, no drive verdict, one forecast point; from the date on, the full brief
+(tree / "personal/nomad/location.md").write_text(LOC + "- **Nomad season starts around 2026-11-19** [gordon 2026-10-02]: fixture.\n")
+S["weather"] = east_only(DRIVE)  # would be "drive today" in season
+S["alerts"] = {"30.2672,-97.7431": [{"event": "Flood Watch", "severity": "Moderate", "headline": "Flood Watch through Saturday", "ends": ""}]}
+code, b, md = run("Austin, TX")
+check(code == 0 and b["verdict"]["kind"] == "pre-season" and b["verdict"]["line"] == "nomad season starts 2026-11-19; no drive verdict"
+      and "**Verdict:** nomad season starts 2026-11-19; no drive verdict" in md, f"pre-season verdict: {b and b['verdict']}")
+check("## Here" in md and "Flood Watch (Moderate)" in md and not any(s in md for s in ("## Freeze", "## Candidates", "## Wind on the legs", "## People")),
+      f"pre-season writes the here-section and alerts only:\n{md}")
+fc = [c for c in calls if c[0] == "api.open-meteo.com"]
+check(len(fc) == 1 and len(parse_qs(urlparse(fc[0][1]).query)["latitude"][0].split(",")) == 1 and len([c for c in calls if c[0] == "api.weather.gov"]) == 1,
+      "pre-season asks one forecast point and NWS once")
+check("candidates" not in b and b["season"] == {"starts": "2026-11-19", "active": False}, f"pre-season json: {sorted(b)}")
+(tree / "personal/nomad/location.md").write_text(LOC + "- Nomad season starts around 2026-10-02 [gordon 2026-10-02]: fixture.\n")
+code, b, md = run("Austin, TX")
+check(b["verdict"]["kind"] == "drive today" and b["season"]["active"] and "## Candidates" in md, f"on the start date the brief is full: {b['verdict']}")
+(tree / "personal/nomad/location.md").write_text(LOC)
+S["alerts"] = {}
+
 # --- 8. unknown location -> exit 2, no brief, no network
 code, b, md = run()
 check(code == 2 and b is None and not calls, f"unknown location: exit {code}, calls {len(calls)}")
@@ -205,4 +266,4 @@ check(code == 1 and b is None and not md, f"forecast failure: exit {code}")
 S["forecast_error"] = False
 
 shutil.rmtree(T, ignore_errors=True)
-print("test-nomad-brief: PASS (stay, drive today east 100, next couple of days, severe wait, no-candidate wait, freeze tonight, outside-US skip, people in reach, one forecast call, unknown and failed runs)")
+print("test-nomad-brief: PASS (stay, drive today east 100, next couple of days, severe wait here and on the leg, wind advisory: tailwind crosswind ~0, north wind 30, gusts, calmest window, leg wind alerts named and not deciding, pre-season and season start, no-candidate wait, freeze tonight, outside-US skip, people in reach, one forecast call, unknown and failed runs)")

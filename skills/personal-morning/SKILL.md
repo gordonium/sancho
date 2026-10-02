@@ -18,13 +18,13 @@ One exchange, ten lines, then the day. Facts come from the brief file the Mac wr
 
 ## Procedure
 
-1. **Where.** Read `personal/nomad/location.md`. If `city` is unknown or older than three days, ask first, in one line ("Where are you this morning?"), write the answer with `[gordon <date>]`, and continue. Never infer the city from the Mac's clock or the last known place.
+1. **Where.** Read `personal/nomad/location.md`. Before the nomad season starts (its date is in that file) give the weather where he is and skip the drive verdict and the candidates. If `city` is unknown or older than three days, ask first, in one line ("Where are you this morning?"), write the answer with `[gordon <date>]`, and continue. Never infer the city from the Mac's clock or the last known place.
 
 2. **The brief.** Request the `nomad.brief` command (args: the location file's city, or lat/lon if present) and wait up to 60 s for `personal/nomad/brief-<date>.md`. The command (Mac-side, keyless in v1) writes: the next three days' highs and lows and wind where he is; active severe-weather alerts; freeze risk tonight and tomorrow night; a ring of sample points at 50, 100, 150 and 200 miles in eight directions with each point's forecast highs and lows, so the nearest in-range direction is computed, not guessed; an estimated drive time per candidate (distance over 50 mph, v1); timezone at the location and at each candidate; the people from `people/_geo.json` within 200 miles of the location and within 100 miles of each candidate, with `want_to_see_by`. If the brief is older than today or the command fails, say "no fresh weather this morning" and skip the verdict.
 
 3. **Thresholds.** `personal/nomad/thresholds.md`: overnight low at most 60, daytime high at most 85 [rec_0c571abb1d 2026-09-22]; freeze line 32 for the plumbing; wind line for driving (Gordon sets it; until then 30 mph sustained is flagged, never decided). Routing chases cooler, not warmer.
 
-4. **The verdict.** From the brief: inside range for the next two days → **stay**; outside range in two days with an in-range candidate → **drive in the next couple of days**, direction and miles; outside range tomorrow → **drive today**. Severe weather or wind over the line on the candidate leg overrides to "wait" with the reason. Freeze tonight is said regardless of the verdict.
+4. **The verdict.** From the brief: inside range for the next two days → **stay**; outside range in two days with an in-range candidate → **drive in the next couple of days**, direction and miles; outside range tomorrow → **drive today**. Severe-weather warnings on the candidate leg override to "wait" with the reason; wind never overrides, it is an advisory (alerts, gusts, crosswind, calmest window; `thresholds.md` Plan A) [gordon 2026-10-02]. Freeze tonight is said regardless of the verdict.
 
 5. **People within reach.** From the brief: anyone within reach of the chosen direction, with their `want_to_see_by` if set, and anything in `people-and-places.md` on that heading. One clause each; the list is the point of the direction, so it is never dropped for length.
 

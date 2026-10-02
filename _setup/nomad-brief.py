@@ -2,9 +2,9 @@
 """
 name: nomad-brief
 type: command
-description: The nomad daily brief for the personal-morning skill (step 2). For a city or "lat,lon" (default: personal/nomad/location.md): three days of highs, lows, wind and precipitation here; active NWS alerts (US only; outside it, skipped with a note); freeze tonight and tomorrow night; a ring of 32 sample points (8 directions x ring_miles) with each direction's nearest in-range point, its miles, estimated drive time and timezone; people from people/_geo.json within reach of here and of each candidate; one computed verdict line. Keyless: Open-Meteo geocoding and forecast, NWS alerts. Writes personal/nomad/brief-<date>.md and a .json beside it with the same data.
+description: The nomad daily brief for the personal-morning skill (step 2). For a city or "lat,lon" (default: personal/nomad/location.md): three days of highs, lows, wind, gusts and precipitation here; active NWS alerts (US only; outside it, skipped with a note); freeze tonight and tomorrow night; a ring of 32 sample points (8 directions x ring_miles) with each direction's nearest in-range point, its miles, estimated drive time and timezone; per candidate leg a wind advisory (wind and dust alerts by name at here and every ring point out to the candidate, max gust, crosswind for the leg's heading, calmest 4-hour window), never a verdict; people from people/_geo.json within reach of here and of each candidate; one computed verdict line. Before "Nomad season starts around <date>" in location.md: the here-section and alerts only, one forecast point, verdict "nomad season starts <date>; no drive verdict". Keyless: Open-Meteo geocoding and forecast, NWS alerts. Writes personal/nomad/brief-<date>.md and a .json beside it with the same data.
 why: Routine 2 of the Phase 0 captures, "know whether today is a driving day"; weather and routing come from a script with real data, never from an MD instruction or a general sense of the region; the people overlay is the point [rec_0c571abb1d 2026-09-22]. Keyless until a source proves insufficient [gordon 2026-09-21].
-reads: personal/nomad/thresholds.md (every number used here, cited there: overnight_low_max_f 60 and daytime_high_max_f 85 [rec_0c571abb1d 2026-09-22], freeze_f 32 [gordon 2026-09-30], wind_sustained_mph 30 (placeholder, flagged never decided) [gordon 2026-09-30], drive_speed_est_mph, reach_people_miles, candidate_people_miles, ring_miles [derived: v1 design 2026-10-01]); personal/nomad/location.md (when no argument); people/_geo.json (built by build-index.py); personal/nomad/_geocache.json; Open-Meteo geocoding-api.open-meteo.com/v1/search and api.open-meteo.com/v1/forecast; NWS api.weather.gov/alerts/active
+reads: personal/nomad/thresholds.md (every number used here, cited there: overnight_low_max_f 60 and daytime_high_max_f 85 [rec_0c571abb1d 2026-09-22], freeze_f 32 [gordon 2026-09-30], wind_sustained_mph 30 (an advisory line, said against the crosswind, never decides) [gordon 2026-10-02], wind Plan A [gordon 2026-10-02], drive_speed_est_mph, reach_people_miles, candidate_people_miles, ring_miles [derived: v1 design 2026-10-01]); personal/nomad/location.md (the city when no argument; the nomad season start always); people/_geo.json (built by build-index.py); personal/nomad/_geocache.json; Open-Meteo geocoding-api.open-meteo.com/v1/search and api.open-meteo.com/v1/forecast; NWS api.weather.gov/alerts/active
 writes: personal/nomad/brief-<YYYY-MM-DD>.md and .json (the location's local date; a re-run that day replaces both); personal/nomad/_geocache.json (generated; the location and pending people cities, misses cached too)
 schedule: on demand (personal-morning requests it; args [<city or "lat,lon">]); exit 2 when the location is unknown or not a place, 1 when the forecast cannot be had (no brief written: "no fresh weather")
 test: _setup/tests/nomad-brief/
@@ -12,8 +12,9 @@ test: _setup/tests/nomad-brief/
 # A day here is its high plus the night after it (18:00 to 09:00 local, from the hourly forecast). Verdict (skill step 4):
 # out of range today or tomorrow -> drive today; out only on day three -> drive in the next couple of days; else stay.
 # A candidate is in range when tonight's low and the next two days are. Drive verdicts need an in-range candidate,
-# else "wait"; a Severe or Extreme NWS alert here or at the candidate overrides to "wait". Wind over the line is
-# flagged on the leg, never decided (thresholds.md). Freeze tonight is said regardless.
+# else "wait"; a Severe or Extreme NWS alert here or on the candidate's leg overrides to "wait", unless it is a wind or
+# dust alert: wind never sets the verdict, it is an advisory with the leg (thresholds.md, Plan A). Freeze tonight is
+# said regardless. Before the nomad season starts (location.md) there is no verdict, no ring and no people.
 from __future__ import annotations
 
 import datetime as dt, json, math, os, re, sys, urllib.error, urllib.request
@@ -34,6 +35,10 @@ DIRECTIONS = [("north", "N", 0), ("northeast", "NE", 45), ("east", "E", 90), ("s
 DAYS = 3
 NIGHT = (18, 9)            # a night runs 18:00 local to 09:00 the next morning
 SEVERE = {"Severe", "Extreme"}
+WIND_ALERT = re.compile(r"\bwind\b(?!\s+chill)|\bdust\b", re.I)  # Wind Advisory, High Wind Warning, Blowing Dust...; not Wind Chill
+DRIVE_HOURS = (6, 20)      # crosswind and the calmest window look at 06:00 to 20:00, here's local time
+CALM_HOURS = 4
+SEASON = re.compile(r"Nomad season starts around (\d{4}-\d{2}-\d{2})", re.I)
 GEOCODE_PER_RUN = 25       # people cities geocoded per run at most; the rest wait for the next run
 US_BOXES = [(24.3, 49.5, -125.0, -66.8), (51.0, 71.5, -180.0, -129.9), (18.8, 22.4, -160.6, -154.6), (17.8, 18.6, -67.4, -65.2)]
 NEED = ("overnight_low_max_f", "daytime_high_max_f", "freeze_f", "wind_sustained_mph", "drive_speed_est_mph",
@@ -63,6 +68,11 @@ def write_atomic(path: Path, text: str):
 
 
 # ---------- thresholds and geometry ----------
+def _today() -> dt.date:
+    """The Mac's date; tests replace it."""
+    return dt.date.today()
+
+
 def load_thresholds(root: Path) -> dict:
     p = root / "personal" / "nomad" / "thresholds.md"
     if not p.exists():
@@ -151,6 +161,16 @@ def location_from_file(root: Path) -> dict:
     return vals
 
 
+def nomad_season(root: Path) -> str:
+    """The season start from location.md ("Nomad season starts around YYYY-MM-DD"), or "" when unsaid."""
+    p = root / "personal" / "nomad" / "location.md"
+    m = SEASON.search(p.read_text(encoding="utf-8")) if p.exists() else None
+    try:
+        return dt.date.fromisoformat(m.group(1)).isoformat() if m else ""
+    except ValueError:
+        return ""
+
+
 def resolve_location(root: Path, arg: str, geo: Geo) -> dict:
     src = "argument"
     if not arg.strip():
@@ -181,7 +201,8 @@ def resolve_location(root: Path, arg: str, geo: Geo) -> dict:
 # ---------- forecast ----------
 def forecast(points: list[tuple[float, float]]) -> list[dict]:
     q = {"latitude": ",".join(f"{p[0]:.4f}" for p in points), "longitude": ",".join(f"{p[1]:.4f}" for p in points),
-         "daily": "temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum", "hourly": "temperature_2m",
+         "daily": "temperature_2m_max,temperature_2m_min,wind_speed_10m_max,wind_gusts_10m_max,precipitation_sum",
+         "hourly": "temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m",
          "timezone": "auto", "forecast_days": DAYS + 1, "temperature_unit": "fahrenheit", "wind_speed_unit": "mph",
          "precipitation_unit": "inch"}
     try:
@@ -213,8 +234,14 @@ def summarize(d: dict) -> dict:
         low = min(night) if night else col("temperature_2m_min", i + 1)  # no hourly: the next day's daily minimum
         precip = col("precipitation_sum")
         days.append({"date": date, "high": _r(col("temperature_2m_max")), "night_low": _r(low), "day_low": _r(col("temperature_2m_min")),
-                     "wind_max_mph": _r(col("wind_speed_10m_max")), "precip_in": None if precip is None else round(float(precip), 2)})
-    return {"timezone": d.get("timezone") or "", "tz_abbr": d.get("timezone_abbreviation") or "", "days": days}
+                     "wind_max_mph": _r(col("wind_speed_10m_max")), "gust_max_mph": _r(col("wind_gusts_10m_max")),
+                     "precip_in": None if precip is None else round(float(precip), 2)})
+    n = len(hourly.get("time") or [])
+    hcol = lambda k: (list(hourly.get(k) or []) + [None] * n)[:n]
+    hours = [{"t": t, "speed": s, "dir": w, "gust": g} for t, s, w, g in
+             zip(hourly.get("time") or [], hcol("wind_speed_10m"), hcol("wind_direction_10m"), hcol("wind_gusts_10m"))]
+    return {"timezone": d.get("timezone") or "", "tz_abbr": d.get("timezone_abbreviation") or "",
+            "utc_offset": int(d.get("utc_offset_seconds") or 0), "days": days, "hours": hours}
 
 
 def day_problems(day: dict, th: dict, high=True) -> list[str]:
@@ -254,6 +281,84 @@ def alerts_at(lat, lon, us: bool) -> dict:
     return {"status": "ok", "note": "", "items": items}
 
 
+class Alerts:
+    """NWS alerts per point, each point asked once a run; after one unavailable answer the rest are not asked."""
+    def __init__(self):
+        self.cache, self.down = {}, False
+
+    def at(self, pt, us: bool) -> dict:
+        if pt not in self.cache:
+            if self.down:
+                return {"status": "unavailable", "note": "NWS not asked after an earlier failure", "items": []}
+            self.cache[pt] = alerts_at(*pt, us)
+            self.down = self.cache[pt]["status"] == "unavailable"
+        return self.cache[pt]
+
+
+def is_wind(a: dict) -> bool:
+    return bool(WIND_ALERT.search(a.get("event") or ""))
+
+
+def leg_alerts(c: dict, here_alerts: dict, nws: Alerts) -> dict:
+    """Alerts here and at every ring point out to the candidate on its heading; one alert seen at two points is kept once."""
+    items, statuses = [{**a, "where": "here"} for a in here_alerts["items"]], [here_alerts["status"]]
+    for mi, pt, _ in c["_leg"]:
+        a = nws.at(pt, in_us_box(*pt))
+        statuses.append(a["status"])
+        items += [{**x, "where": f"{mi} mi {c['direction']}"} for x in a["items"]]
+    uniq = {}
+    for x in items:
+        uniq.setdefault((x["event"], x["headline"]), x)
+    status = "unavailable" if "unavailable" in statuses else "skipped" if all(s == "skipped" for s in statuses) else "ok"
+    return {"status": status, "items": list(uniq.values())}
+
+
+# ---------- wind (Plan A: an advisory with the leg, never the verdict) ----------
+def leg_wind(here: dict, c: dict, day: int) -> dict:
+    """Sustained, gusts, crosswind for the leg's heading and the calmest window, over here and the leg's ring points."""
+    fcs = [here] + [fc for _, _, fc in c["_leg"]]
+    date = here["days"][day]["date"]
+    pick = lambda k: [f["days"][day][k] for f in fcs if len(f["days"]) > day and f["days"][day].get(k) is not None]
+    by_hour = {}
+    for f in fcs:
+        shift = dt.timedelta(seconds=here["utc_offset"] - f["utc_offset"])  # a leg across a timezone line, in here's hours
+        for h in f["hours"]:
+            t = dt.datetime.fromisoformat(h["t"]) + shift
+            if t.date().isoformat() == date and DRIVE_HOURS[0] <= t.hour < DRIVE_HOURS[1]:
+                by_hour.setdefault(t.hour, []).append(h)
+    # wind_direction_10m is where the wind comes from; across the heading is speed x |sin(from - heading)|
+    cross = [float(h["speed"]) * abs(math.sin(math.radians(float(h["dir"]) - c["bearing"])))
+             for hs in by_hour.values() for h in hs if h["speed"] is not None and h["dir"] is not None]
+    windows = []
+    for start in range(DRIVE_HOURS[0], DRIVE_HOURS[1] - CALM_HOURS + 1):
+        span = range(start, start + CALM_HOURS)
+        g = [float(h["gust"]) for hr in span for h in by_hour.get(hr, []) if h["gust"] is not None]
+        if g and all(by_hour.get(hr) for hr in span):
+            windows.append((max(g), start))
+    calm = min(windows) if windows else None  # the lowest worst gust; a tie goes to the earlier window
+    return {"date": date, "bearing": c["bearing"], "alerts": [a for a in c["leg_alerts"]["items"] if is_wind(a)],
+            "sustained_max_mph": max(pick("wind_max_mph"), default=None), "gust_max_mph": max(pick("gust_max_mph"), default=None),
+            "crosswind_max_mph": _r(max(cross)) if cross else None,
+            "calmest": {"from": calm[1], "to": calm[1] + CALM_HOURS, "gust_max_mph": _r(calm[0])} if calm else None}
+
+
+def hour_text(h: int) -> str:
+    return f"{h % 12 or 12}{'am' if h % 24 < 12 else 'pm'}"
+
+
+def wind_text(w: dict, th: dict) -> str:
+    parts = [f"{a['event']} ({a['where']})" for a in w["alerts"]]
+    if w["gust_max_mph"] is not None:
+        parts.append(f"gusts to {w['gust_max_mph']} mph" + (f" (sustained {w['sustained_max_mph']})" if w["sustained_max_mph"] is not None else ""))
+    if w["crosswind_max_mph"] is not None:
+        over = w["crosswind_max_mph"] >= th["wind_sustained_mph"]
+        parts.append(f"crosswind up to {w['crosswind_max_mph']} mph" + (f", over the {th['wind_sustained_mph']:g} mph advisory line" if over else ""))
+    if w["calmest"]:
+        k = w["calmest"]
+        parts.append(f"calmest {hour_text(k['from'])} to {hour_text(k['to'])} (gusts to {k['gust_max_mph']} mph)")
+    return f"wind {dayname(w['date'])}: " + (", ".join(parts) or "no wind forecast")
+
+
 # ---------- people ----------
 def load_people(root: Path, geo: Geo) -> tuple[list[dict], str]:
     p = root / "people" / "_geo.json"
@@ -287,29 +392,55 @@ def person_line(r: dict, miles: float) -> dict:
 # ---------- the brief ----------
 def build(root: Path, arg: str) -> dict:
     th = load_thresholds(root)
+    season = nomad_season(root)
     geo = Geo(root)
     try:
         loc = resolve_location(root, arg, geo)
         here_pt = (loc["lat"], loc["lon"])
-        ring = [(name, abbr, brg, mi, destination(loc["lat"], loc["lon"], brg, mi)) for name, abbr, brg in DIRECTIONS for mi in th["ring_miles"]]
+        # Pre-season is judged on here's date below; the ring is left out only when the Mac's date puts the start more than
+        # two days off, which no timezone gap reaches, so a pre-season morning costs one forecast point, not 33.
+        want_ring = not season or _today() >= dt.date.fromisoformat(season) - dt.timedelta(days=2)
+        ring = [(name, abbr, brg, mi, destination(loc["lat"], loc["lon"], brg, mi))
+                for name, abbr, brg in DIRECTIONS for mi in th["ring_miles"]] if want_ring else []
         fcs = forecast([here_pt] + [r[4] for r in ring])
         here = fcs[0]
         if len(here["days"]) < DAYS:
             raise Fail(f"forecast has {len(here['days'])} days, need {DAYS}")
+        for d in here["days"]:
+            d["out"] = day_problems(d, th)
         us = loc["country_code"] == "US" if loc["country_code"] else in_us_box(*here_pt)
-        alerts = alerts_at(*here_pt, us)
+        nws = Alerts()
+        alerts = nws.at(here_pt, us)
+        head = {"generated": dt.datetime.now().astimezone().isoformat(timespec="seconds"), "date": here["days"][0]["date"],
+                "location": {**loc, "timezone": here["timezone"], "tz_abbr": here["tz_abbr"]}, "season": {"starts": season},
+                "thresholds": th, "here": {k: v for k, v in here.items() if k != "hours"}, "alerts": alerts}
+        nws_src = "NWS alerts" if alerts["status"] == "ok" else f"NWS alerts ({alerts['status']})"
+        if season and head["date"] < season:
+            head["season"]["active"] = False
+            line = f"nomad season starts {season}; no drive verdict"
+            return {**head, "verdict": {"kind": "pre-season", "why": line, "direction": "", "miles": None, "drive_min": None, "flags": [], "line": line},
+                    "sources": ["Open-Meteo geocoding", "Open-Meteo forecast", nws_src, "personal/nomad/location.md (season)"]}
+        head["season"]["active"] = True
 
         speed = th["drive_speed_est_mph"]
         cands, dry = [], []
         for name, abbr, brg in DIRECTIONS:
-            best = next(((mi, pt, fc) for (n, _, _, mi, pt), fc in zip(ring, fcs[1:]) if n == name and point_in_range(fc, th)), None)
+            line = [(mi, pt, fc) for (n, _, _, mi, pt), fc in zip(ring, fcs[1:]) if n == name]
+            best = next(((mi, pt, fc) for mi, pt, fc in line if point_in_range(fc, th)), None)
             if not best:
                 dry.append(abbr); continue
             mi, pt, fc = best
             cands.append({"direction": name, "abbr": abbr, "bearing": brg, "miles": mi, "lat": pt[0], "lon": pt[1],
-                          "drive_min": int(round(mi / speed * 60)), "timezone": fc["timezone"], "tz_abbr": fc["tz_abbr"], "days": fc["days"]})
+                          "drive_min": int(round(mi / speed * 60)), "timezone": fc["timezone"], "tz_abbr": fc["tz_abbr"], "days": fc["days"],
+                          "_leg": [x for x in line if x[0] <= mi]})
         coolest = lambda c: max(d["high"] for d in c["days"][1:DAYS])
         cands.sort(key=lambda c: (c["miles"], coolest(c), c["bearing"]))
+        d = here["days"]
+        leg_day = 0 if d[0]["out"] or d[1]["out"] else 1  # the day the leg would be driven: today on a drive-today verdict
+        for c in cands:
+            c["leg_alerts"] = leg_alerts(c, alerts, nws)
+            c["wind"] = leg_wind(here, c, leg_day)
+            del c["_leg"]
 
         people, people_note = load_people(root, geo)
         reach = sorted((person_line(r, miles_between(here_pt, (r["lat"], r["lon"]))) for r in people
@@ -320,34 +451,21 @@ def build(root: Path, arg: str) -> dict:
     finally:
         geo.save()
 
-    for d in here["days"]:
-        d["out"] = day_problems(d, th)
     freeze = {"line_f": th["freeze_f"], "tonight": {"low": here["days"][0]["night_low"]}, "tomorrow_night": {"low": here["days"][1]["night_low"]}}
     for k in ("tonight", "tomorrow_night"):
         lo = freeze[k]["low"]
         freeze[k]["freeze"] = lo is not None and lo <= th["freeze_f"]
 
-    cand_alerts = None
-    verdict = decide(here, cands, alerts, th, freeze)
-    if verdict["kind"] in ("drive today", "drive in the next couple of days"):
-        c = cands[0]
-        cand_alerts = alerts_at(c["lat"], c["lon"], in_us_box(c["lat"], c["lon"]))
-        c["alerts"] = cand_alerts
-        verdict = decide(here, cands, alerts, th, freeze, cand_alerts)
-
-    return {"generated": dt.datetime.now().astimezone().isoformat(timespec="seconds"), "date": here["days"][0]["date"],
-            "location": {**loc, "timezone": here["timezone"], "tz_abbr": here["tz_abbr"]},
-            "thresholds": th, "here": here, "alerts": alerts, "freeze": freeze, "candidates": cands, "no_candidate_directions": dry,
-            "people": {"within_reach": reach, "note": people_note}, "verdict": verdict,
-            "sources": ["Open-Meteo geocoding", "Open-Meteo forecast", "NWS alerts" if alerts["status"] == "ok" else f"NWS alerts ({alerts['status']})",
-                        "people/_geo.json", "personal/nomad/thresholds.md"]}
+    return {**head, "freeze": freeze, "candidates": cands, "no_candidate_directions": dry,
+            "people": {"within_reach": reach, "note": people_note}, "verdict": decide(here, cands, alerts, th, freeze),
+            "sources": ["Open-Meteo geocoding", "Open-Meteo forecast", nws_src, "people/_geo.json", "personal/nomad/thresholds.md"]}
 
 
 def dayname(date: str) -> str:
     return dt.date.fromisoformat(date).strftime("%a %m-%d")
 
 
-def decide(here, cands, alerts, th, freeze, cand_alerts=None) -> dict:
+def decide(here, cands, alerts, th, freeze) -> dict:
     d = here["days"]
     if any("no forecast" in x["out"] for x in d):
         v = {"kind": "wait", "why": "the forecast here is incomplete", "direction": "", "miles": None, "drive_min": None, "flags": []}
@@ -367,15 +485,14 @@ def decide(here, cands, alerts, th, freeze, cand_alerts=None) -> dict:
         else:
             c = cands[0]
             v.update(direction=c["direction"], miles=c["miles"], drive_min=c["drive_min"])
-            severe = [(a, "here") for a in alerts["items"] if a["severity"] in SEVERE]
-            severe += [(a, f"at the {c['direction']} point") for a in (cand_alerts or {}).get("items", []) if a["severity"] in SEVERE]
+            severe = [a for a in c["leg_alerts"]["items"] if a["severity"] in SEVERE and not is_wind(a)]
             if severe:
-                a, where = severe[0]
+                a = severe[0]
+                where = "here" if a["where"] == "here" else f"on the leg, {a['where']}"
                 v.update(kind="wait", why=f"{a['event']} ({a['severity']}) {where}; otherwise {kind}: {c['direction']}, {c['miles']} miles ({why})")
-            leg_day = 0 if kind == "drive today" else 1
-            winds = [x for x in (d[leg_day]["wind_max_mph"], c["days"][leg_day]["wind_max_mph"]) if x is not None]
-            if winds and max(winds) >= th["wind_sustained_mph"]:
-                v["flags"].append(f"wind {max(winds)} mph on the leg (flagged only; the wind line is not set)")
+            v["flags"].append(wind_text(c["wind"], th))
+            if c["leg_alerts"]["status"] == "unavailable" and alerts["status"] != "unavailable":
+                v["flags"].append("alerts unavailable on part of the leg")
     if freeze["tonight"]["freeze"]:
         v["flags"].append(f"freeze tonight (low {freeze['tonight']['low']}°F)")
     if freeze["tomorrow_night"]["freeze"]:
@@ -393,15 +510,17 @@ def decide(here, cands, alerts, th, freeze, cand_alerts=None) -> dict:
 
 def render(b: dict) -> str:
     loc, th, here = b["location"], b["thresholds"], b["here"]
+    pre = b["verdict"]["kind"] == "pre-season"
+    what = "Weather and alerts (nomad season not started)" if pre else "Weather, alerts, freeze, in-range directions, wind on the legs and people within reach"
     fm = ["---", f"name: Nomad brief {b['date']}", "type: brief", "lobe: personal",
-          f"description: Weather, alerts, freeze, in-range directions and people within reach for {loc['label']} on {b['date']}; written by nomad.brief, never by hand",
+          f"description: {what} for {loc['label']} on {b['date']}; written by nomad.brief, never by hand",
           f"generated: {b['generated']}", f"location: {json.dumps(loc['label'], ensure_ascii=False)}", f"lat: {loc['lat']}", f"lon: {loc['lon']}",
           f"timezone: {loc['timezone']}", "sources: [" + ", ".join(json.dumps(s) for s in b["sources"]) + "]", "---"]
     out = fm + [f"# Nomad brief · {loc['label']} · {b['date']}", "", f"**Verdict:** {b['verdict']['line']}", "",
                 f"## Here ({loc['timezone']}{', ' + loc['tz_abbr'] if loc['tz_abbr'] else ''})",
-                "| day | high °F | night low °F | wind max | precip | range |", "|---|---|---|---|---|---|"]
+                "| day | high °F | night low °F | wind max | gusts | precip | range |", "|---|---|---|---|---|---|---|"]
     for d in here["days"]:
-        out.append(f"| {dayname(d['date'])} | {d['high']} | {d['night_low']} | {d['wind_max_mph']} mph | {d['precip_in']} in | {'; '.join(d['out']) or 'in'} |")
+        out.append(f"| {dayname(d['date'])} | {d['high']} | {d['night_low']} | {d['wind_max_mph']} mph | {d['gust_max_mph']} mph | {d['precip_in']} in | {'; '.join(d['out']) or 'in'} |")
     out += ["", "## Alerts"]
     a = b["alerts"]
     if a["status"] != "ok":
@@ -410,6 +529,14 @@ def render(b: dict) -> str:
         out.append("- none active (NWS)")
     else:
         out += [f"- {x['event']} ({x['severity']}), until {x['ends'] or '?'}: {x['headline']}" for x in a["items"]]
+    if pre:
+        return "\n".join(out) + "\n"
+    leg = {}
+    for c in b["candidates"]:
+        for x in c["leg_alerts"]["items"]:
+            if x["where"] != "here":
+                leg.setdefault((x["event"], x["headline"]), x)
+    out += [f"- on the legs: {x['event']} ({x['severity']}), {x['where']}, until {x['ends'] or '?'}: {x['headline']}" for x in leg.values()]
     f = b["freeze"]
     out += ["", f"## Freeze (line {f['line_f']:g}°F)"]
     for k, label in (("tonight", "tonight"), ("tomorrow_night", "tomorrow night")):
@@ -424,6 +551,9 @@ def render(b: dict) -> str:
         out.append(f"- none in range within {th['ring_miles'][-1]} miles")
     if b["no_candidate_directions"]:
         out.append(f"- no in-range point: {', '.join(b['no_candidate_directions'])}")
+    if b["candidates"]:
+        out += ["", f"## Wind on the legs (advisory, never the verdict; crosswind and calmest window {hour_text(DRIVE_HOURS[0])} to {hour_text(DRIVE_HOURS[1])})"]
+        out += [f"- {c['direction']} ({c['miles']} mi, heading {c['bearing']}°): {wind_text(c['wind'], th)}" for c in b["candidates"]]
     out += ["", f"## People within reach ({th['reach_people_miles']:g} miles of here; {th['candidate_people_miles']:g} of a candidate)"]
     pl = lambda p: f"{p['name']} (people/{p['slug']}.md), {p['resolved'] or p['city']}, {p['miles']} mi" + \
         (f", want to see by {p['want_to_see_by']}" if p["want_to_see_by"] else "") + (f", last seen {p['last_seen']}" if p["last_seen"] else "")

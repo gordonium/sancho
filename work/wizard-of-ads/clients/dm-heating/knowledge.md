@@ -24,13 +24,15 @@ sources: ["[v2:work/clients/dm-heating.md]", "[v2:work/clients/dm-heating-voice-
 - Technicians named in evidence: Alyssa (named in a customer review), David, Erik, Sean, Dustin, Kraig, Elijah (sheet metal) [v2:work/clients/dm-heating-sacrosanct-copy.md:117,123], [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/from-client/20260605 website tweaks 2026.docx], [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/web-images/dm-heating-hvac-service-tech_erik.jpg].
 - Matt, IT/hosting owner, "psychotic about security"; Dirk, Carrier rep [v2:work/clients/dm-heating.md:80,81].
 - Leah (Copper Leaf), presented the website audit 2024-08-14 [v2:work/clients/dm-heating.md:336].
-- Surname conflict: this file (from v2) says Karen Sartler, married to Chris; Gordon on 2026-10-01 said "Karen Dodge, owner (other owners are Jeff Goff & Tim Silva)"; unresolved, flagged for Gordon [gordon 2026-10-01] [v2:work/clients/dm-heating.md]
+- Karen's surname: Dodge, her maiden name, used again since her divorce; Sartler was her married name, which is why v2 and outside mail (2026-09-24) still say Karen Sartler [gordon 2026-10-01] [rec_36f02fd22c 00:04:24]
 - Vanessa, office, with Karen; the part-time scanning position (paper-to-paperless) has wound down [rec_0b2f65c077 2026-09-10 00:14:02]
 - Sean, technician learning NTI boiler cleanings from Tim [rec_0b2f65c077 00:30:07]
 - Dustin, voiced the "Installing Is Our Calling" spot; sounds like Tim [rec_0b2f65c077 00:44:24]
 - Kevin Skalure (spelling unconfirmed), on the Wizard of Ads side of the monthly call [rec_0b2f65c077 00:19:30] [gordon 2026-10-01]
 - Dave, Peter Nevland's brother, produces and sends the ads; Scott receives them for airing [rec_0b2f65c077 00:15:31, 00:29:10] [gordon 2026-10-01]
 - Rolo, the office dog [rec_0b2f65c077 00:36:57]
+- Zach, technician; Sept 2026 came back worried about a customer (Donna) who felt faint at payment; Karen called until she answered [rec_36f02fd22c 2026-09-24 00:49:39]
+- Karen's father (the founder) visits the office; "the D from D&M" [rec_36f02fd22c 00:33:38]
 
 ## History
 - 1979: Dad starts the company out of the kitchen; original partner leaves 1980; effectively sole owner ~40 years [v2:work/clients/dm-heating.md:118,119].
@@ -66,6 +68,7 @@ sources: ["[v2:work/clients/dm-heating.md]", "[v2:work/clients/dm-heating-voice-
 - 2026-09-01: August 2026 Market Glimpse report filed; monthly reports exist for every month Jan to Aug 2026 [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/Monthly Reporting/].
 - 2026-09-10: new 30-second radio spots "Boiler Alert" and "LifeGiver Away" filed (newest evidence) [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/radio ads/20260910_DandM-BoilerAlert30A.mp3], [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/radio ads/20260910_DandM-LifeGiverAway30.mp3].
 - 2026-09-10: monthly Zoom (Peter, Kevin, Gordon; Karen, Jeff, Tim, Dustin): office rearranged; Q4 ad lineup (Installing Is Our Calling Sept, LifeGiver Oct, Boiler Expert Nov, Christmas open); boiler-cleaning-song idea; Gordon's web update [rec_0b2f65c077 2026-09-10]
+- 2026-09-24: monthly Zoom (Peter, Kevin, Gordon; Karen; her father briefly): Karen read out an unsolicited AI-search "report" from Andrew Hogan (trashed); Karen's brother's cancer; station question (95.7 vs 106.9); LSA quality; $500 press-release package explained; Christmas and Jan–Feb ad ideas; Karen away 10/8 [rec_36f02fd22c 2026-09-24]
 
 ## Numbers
 - Revenue: Dad's peak ~$1.2M; ~$2M post-acquisition (~2019); $3.1M in 2022; $2.6M in 2023; ~$2.5M in 2024 with six months of losses [v2:work/clients/dm-heating.md:32,33,133-137].
@@ -85,6 +88,9 @@ sources: ["[v2:work/clients/dm-heating.md]", "[v2:work/clients/dm-heating-voice-
 - Growth expectation: "at least double, probably triple in 3-5 years if internal operations tighten up" (2026-03-30) [v2:work/clients/dm-heating-voice-profile.md:59].
 - 2026-09: new site launched and settling; LSA responsiveness score back up to 88; August 2026 well below August 2025, which the Milwaukee flood had inflated (D&M was at its center; their TM saw their numbers rise more than any account) [rec_0b2f65c077 2026-09-10 00:26:51–00:28:26]
 - 2026-09: installs on the schedule, service busy with cleanings, a hot snap sold ACs, estimates slowed [rec_0b2f65c077 00:06:11]
+- Sept 2026: "a little slow," about the same as September 2025; August numbers not back yet; Karen behind on the books after her brother's diagnosis [rec_36f02fd22c 2026-09-24 00:03:10, 00:12:37]
+- Radio option 95.7 (80s–90s, #2 in Milwaukee per Adam): ~$1,300/week for 44 spots a month [rec_36f02fd22c 00:23:50–00:24:33]
+- LSA 2026-09-09 to 09-23: nine calls Google classed as direct business search (existing customers searching D&M), not charged [rec_36f02fd22c 00:32:24]
 
 ## Market and competitors
 - Service area: Milwaukee County plus Waukesha; preferred suburbs Greenfield, Greendale, Brookfield, Franklin, Muskego, West Allis; avoids north Milwaukee [v2:work/clients/dm-heating.md:36,59]. The 2026-04-17 homepage copy lists Milwaukee, Oak Creek, Franklin, Wauwatosa, West Allis, Whitefish Bay, Hales Corners, Cudahy, Greenfield, Muskego, Greendale, New Berlin, Brookfield, Mukwonago [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/D and M homepage.revised 4.17.docx].
@@ -97,6 +103,8 @@ sources: ["[v2:work/clients/dm-heating.md]", "[v2:work/clients/dm-heating-voice-
 - Seasonality: first frost explodes the phones; A/C maintenance impossible below 65 degrees; October/November maintenance backlog; May demand spike [v2:work/clients/dm-heating.md:293-298].
 - Market Glimpse snapshots on file 2024-09-19, 2025-12-01, and monthly Jan-Aug 2026 [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/market glimpse D & M heating 20240919.JPG], [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/Monthly Reporting/].
 - First Choice runs a long, slow educate-first radio spot Karen hears about hourly; Peter: even a poorly done ad with a clear message beats none [rec_0b2f65c077 2026-09-10 00:34:12]
+- 95.7 carries Capital Heating & Cooling (big presence) and First Choice; Jeff's mother (70s) on 106.9 oldies doesn't get the ads [rec_36f02fd22c 2026-09-24 00:24:33–00:26:43]
+- Karen's frustration: consolidated (PE-owned) companies keeping homegrown names; Peter: don't throw shade, be Milwaukee, serve people, charge a real price [rec_36f02fd22c 00:40:39–00:46:26]
 
 ## Campaigns / work
 - Radio on WISN (primary, since early 1990s) and 96.5 (secondary); Karen writes and voices; spots on file include Origin, Jingle Argument, T-Rex Tech Recruit, Lifegiver and Lifegiver 2, Cool Cash Rebates, Xmas Tim the Grinch, What's a Crossover, Long Winter, Run D&M (2025-08-07), Cool Tim (2025-09-08), All Things Furnace Springtime (2026-02-10), Shouldn't All Jobs Be This Way (2026-03-05), Humidity vs D&M (2026-07-15), Boiler Alert and LifeGiver Away (2026-09-10) [v2:work/clients/dm-heating.md:146-149], [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/radio ads/].
@@ -114,6 +122,12 @@ sources: ["[v2:work/clients/dm-heating.md]", "[v2:work/clients/dm-heating-voice-
 - Christmas-spot material (Sept 2026): the sub-zero Christmas (~2019) when everyone was on call and Karen ran phones from home; holiday party, bonuses two weeks before Christmas, half day Christmas Eve; Peter's notes in the call notes / copy bible [rec_0b2f65c077 2026-09-10 00:20:27, 00:46:20]
 - Boiler-cleaning song idea with Tim (steps: gas pressure, blue burners, scrub castings, clean pilots, water level, bleed radiators); maybe Jan–Feb [rec_0b2f65c077 00:30:37–00:42:28]
 - Gordon to email the web/LSA slide deck (2026-09-10) [rec_0b2f65c077 00:27:05]
+- Radio (Sept 2026): customers hear the ads and find them funny; the rapping ad (Installing Is Our Calling) heard clearly on air [rec_36f02fd22c 2026-09-24 00:23:50]
+- Station choice: Karen asked Adam about 95.7; Peter: don't pick stations by demographics; when there's more money, raise the spend on the current buy and let Adam spend it efficiently [rec_36f02fd22c 00:26:43–00:30:38]
+- Digital (Gordon): "mass media is the bullhorn, digital is the catcher's mitt"; LSA picks its own keywords; PPC is branded only, no service-keyword PPC; rate out-of-area or junk LSA leads as such [rec_36f02fd22c 00:31:10, 00:33:03, 00:34:54]
+- Press releases: $500 buys five releases over the coming months (Leah pushing Karen to buy; Karen buying); purpose is third-party validation in the stream AI reads [rec_36f02fd22c 00:35:28–00:37:05]
+- Ads pipeline: Christmas ad (Kevin, using the sub-zero Christmas story, maybe 2022, year unstated in the ad); January: service or a heartfelt origin story (Karen, Jeff and Tim); February similar; Tim's boiler-cleaning song still on the list; Karen liked recording three at once with Dave [rec_36f02fd22c 00:37:15–00:38:38, 00:46:46, 00:56:21–00:57:23]
+- Karen's Facebook shout-outs to long-time customers; Peter wants those stories for radio; Zach's welfare-check story as an ad seed [rec_36f02fd22c 00:47:29–00:50:53, 00:57:55]
 
 ## Open threads
 - Karen's 2026-06-05 tweak list, status unknown: LifeGiver page link to Peace of Mind not linked; broaden Peace of Mind and heating maintenance to boilers; update plan starting price; reword the Carrier-dealer claim on AC Repair (started as Bryant); use Karen's own photos; remove Tim's "doesn't like pictures" line; Heating Repair "see our service area" link goes to the home page with no service area; swap old "20 years old" photo under "Why do we do this?"; no commercial, zoning or ductless pages; Jeff dislikes the Brewers comment and Tim the Bears one; Contact photo of staff in the office; more photos of Dustin, Kraig and Elijah; sheet metal under install; reword MERV 8 filter copy with Jeff by email [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/from-client/20260605 website tweaks 2026.docx]. Later files suggest some were addressed (commercial page images 2026-07-23, service-area map 2026-07-24, office photos 2026-08-01, MERV 8 aligned in the 2026-08-28 FAQ draft) [inferred] [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/web-images/202605 New Website/], [v2:work/clients/dm-heating-drafts/dm-heating-faqs.docx].
@@ -126,5 +140,9 @@ sources: ["[v2:work/clients/dm-heating.md]", "[v2:work/clients/dm-heating-voice-
 - No event tracking in Google Analytics (opportunity noted 2024) [v2:work/clients/dm-heating.md:170].
 - Annual/fall cadence or meeting: not stated in evidence.
 - Superseded: ~~Website rebuild in progress; Nathan's Figma approved~~ [v2:work/clients/dm-heating.md:43] superseded by the launched site [doc:_CLIENTS/_Wizards of Ads CLIENTS/dmheating/from-client/20260605 website tweaks 2026.docx]. ~~Elliott Stark onboarded as writer; monitor~~ [v2:work/dashboard.md:43] superseded by [v2:work/clients/dm-heating.md:29]. ~~Clarissa, office staff~~ [v2:work/clients/dm-heating.md:71] superseded by [v2:work/clients/dm-heating.md:82]. ~~LifeGiver at the top of Heat Repair and AC Repair~~ [v2:work/clients/dm-heating-content-definition.md:84] superseded by [v2:work/clients/dm-heating-content-definition.md:86].
+- Karen to send long-time-customer stories to Peter and Kevin [rec_36f02fd22c 2026-09-24 00:50:53]
+- Karen to sort payment terms with Dirk (given to end of next month, expected end of December) [rec_36f02fd22c 00:51:27]
+- 2026-10-08 monthly: Karen likely away (Door County); Tim and Jeff may attend [rec_36f02fd22c 00:51:57]
+- Adam Donmoyer available for the November meeting in Austin [rec_36f02fd22c 00:28:50]
 
 ## History of corrections

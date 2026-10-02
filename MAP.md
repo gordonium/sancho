@@ -169,7 +169,7 @@ flowchart LR
 - _setup/pipeline/INDEX.md
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
-- … +689 more
+- … +698 more
 
 ## Level 2 · wiring
 
@@ -236,7 +236,7 @@ flowchart LR
 - `_setup/job-run.py` · Walk a job file (_queue/jobs/*.md) stage by stage, running each stage as a nerd.run session, advancing `current` on success, stopping at any `gate: human` stage. A failing stage gets a troubleshoot loop: up to 3 attempts; attempt 2 and later carry the evidence (test board, failing suites' output, log tail, the failed session's transcript tail) and a diagnose-first instruction; two attempts failing on identical evidence stop early (no progress). A session may end `Stage: blocked: <what Gordon must do>`, which pauses the job at a gate instead of failing it. Pushes (Gordon, 2026-10-01): warn on every stop that needs him (gate, blocked, stopped) with the evidence path; info for completions. `--auto` (queued by the watcher after a nerd.run result for the job lands, only for jobs with `advance: auto`) never re-runs a failed or blocked stage and yields to a live Nerd lease. A stage with `task_template:` and `vars:` is rendered (every `<var>` replaced) to _queue/inbox/_rendered/<job>_<stage>.md and run as the nerd.run task file, so the template's frontmatter (`quarantine_reader`, `writes_only`) governs the session. A job that says a blocked stage is not a blocked job (`on_blocked: continue`, or the sentence in its body) records a blocked stage with its reason, pushes nothing for it and moves on; it pushes one info per 25 finished stages and one warn at the end. A stage whose transcript shows a write outside its `writes_only` list stops the job with a warn, no retry. `--require-green` runs the board first and starts nothing on red. Detaches at once so the watcher stays free; progress lives in the job file.
 - `_setup/lint-layers.py` · Enforce the layering rule (architecture §2), the focus caps, the header rule, generated-file integrity, project next-action and waiting-for freshness, and dangling references. Exit 1 on any violation so the map build fails.
 - `_setup/nerd-run.py` · Run one headless Claude Code session (the Nerd) on the Mac for a task given in the request (`task_file:` inside the tree, or a request body ending with the line `-- end of task --`; a bare `task:` line is refused, ERRORS.md #7). Fixed tool allowlist, OS sandbox (writes only in the tree and the kit; network only GitHub and Anthropic), no MCP connectors, no outbound messaging, timeout, lease (kind, session, pid) while running, the request's `session:` echoed, transcript kept, one-line receipt. Every session carries the quarantine guard as a PreToolUse hook (the user-level registration does not reach a session started with project-only setting sources). A task file whose frontmatter says `quarantine_reader: true` starts the session with SANCHO_QUARANTINE_READER=1, which the guard admits to Read/Grep/Glob in the legacy folders only together with this session's nerd.run lease; a run fails if it touched a legacy folder and the guard logged nothing.
-- `_setup/nomad-brief.py` · The nomad daily brief for the personal-morning skill (step 2). For a city or "lat,lon" (default: personal/nomad/location.md): three days of highs, lows, wind and precipitation here; active NWS alerts (US only; outside it, skipped with a note); freeze tonight and tomorrow night; a ring of 32 sample points (8 directions x ring_miles) with each direction's nearest in-range point, its miles, estimated drive time and timezone; people from people/_geo.json within reach of here and of each candidate; one computed verdict line. Keyless: Open-Meteo geocoding and forecast, NWS alerts. Writes personal/nomad/brief-<date>.md and a .json beside it with the same data.
+- `_setup/nomad-brief.py` · The nomad daily brief for the personal-morning skill (step 2). For a city or "lat,lon" (default: personal/nomad/location.md): three days of highs, lows, wind, gusts and precipitation here; active NWS alerts (US only; outside it, skipped with a note); freeze tonight and tomorrow night; a ring of 32 sample points (8 directions x ring_miles) with each direction's nearest in-range point, its miles, estimated drive time and timezone; per candidate leg a wind advisory (wind and dust alerts by name at here and every ring point out to the candidate, max gust, crosswind for the leg's heading, calmest 4-hour window), never a verdict; people from people/_geo.json within reach of here and of each candidate; one computed verdict line. Before "Nomad season starts around <date>" in location.md: the here-section and alerts only, one forecast point, verdict "nomad season starts <date>; no drive verdict". Keyless: Open-Meteo geocoding and forecast, NWS alerts. Writes personal/nomad/brief-<date>.md and a .json beside it with the same data.
 - `_setup/notify.py` · Send one Pushover message to Gordon. Levels (Gordon, 2026-10-01): info -1 (silent: completions, recoveries, progress); warn 0 (sound: he must move: a job at a gate, stopped or blocked, a chain end); alert 0 for now with its own title and sound (pipeline red, watcher dead); priority 1 is reserved, so Pushover's quiet hours hold for every push. warn and alert carry `--reason=<slug>` from _setup/notify-reasons.md. The sender's session (`--session` or $SANCHO_SESSION) is echoed in the message. Deduped per key: sends when the message for a key changes, otherwise at most once a day.
 - `_setup/test-all.py` · Run every test under _setup/tests/*/ (test.sh or test.py), write _setup/TESTS.md (the test board), exit 1 if any fails. Off the Mac, suites whose header says `requires: mac` are skipped and the board is not written (ERRORS.md #2). PATH is set explicitly, so launchd's short PATH can't fail a suite (ERRORS.md #8); a suite during which the Mac slept says so on its row. `--fail-tail N` prints the last N lines of each failing suite (job.run's evidence).
 - `_setup/zoom-poll.py` · Poll Zoom cloud recordings (Server-to-Server OAuth). Per meeting: download the VTT transcript and the audio-only M4A into Sancho-Audio/zoom/<YYYY-MM-DD>_<topic-slug>/, leave the MP4 to `zoom.video` (a heavy command, so it waits for an unmetered network), and land the VTT as a recording in recordings/inbox/<rec_id>/ (transcript.md, speakers.md, meta.md, ledger row, source zoom) with Zoom's participant names kept verbatim as the speaker labels. No Groq when a VTT exists; a meeting with no VTT after VTT_GRACE_H hours goes to the normal pipeline stages by its M4A. Without credentials: prints "zoom: not configured", exits 0, and asks once in _setup/MAC-SETUP.md.
@@ -248,7 +248,7 @@ flowchart LR
 # LINT
 generated 2026-10-02 by lint-layers.py
 
-**28 problems, 1 warnings**
+**30 problems, 1 warnings**
 
 ## Problems (block the build)
 - work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md: data file contains an instruction to Claude ('never do'); describe the preference instead
@@ -256,6 +256,7 @@ generated 2026-10-02 by lint-layers.py
 - people/_backfill-census.md:41: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/gordon.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/lizzie-mack.md:31: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- personal/nomad/location.md:9: `city` cites [gordon] without his words; quote what he said, mark [inferred], or write `unknown`
 - personal/recordings/rec_868fb07db8/rec_868fb07db8/speakers.md:18: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/clients/home-directions/entity.md:20: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/clients/home-directions/entity.md:24: inference words under a [gordon] cite; mark [inferred] or write `unknown`
@@ -263,6 +264,7 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/project.md:25: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/project.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/build-handoff.md:15: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/build-state.md:50: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-2026-10-01.md:19: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:21: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:136: inference words under a [gordon] cite; mark [inferred] or write `unknown`
@@ -288,7 +290,7 @@ generated 2026-10-02 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-02 15:46 by test-all.py · 34 suites · 0 failing
+generated 2026-10-02 16:42 by test-all.py · 34 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -304,7 +306,7 @@ generated 2026-10-02 15:46 by test-all.py · 34 suites · 0 failing
 | nerd-run | PASS | test-nerd-run: PASS |
 | netstate | PASS | test-netstate: PASS |
 | nightly | PASS | test-nightly: PASS |
-| nomad-brief | PASS | test-nomad-brief: PASS (stay, drive today east 100, next couple of days, severe wait, no-candidate wait, freeze tonight, |
+| nomad-brief | PASS | test-nomad-brief: PASS (stay, drive today east 100, next couple of days, severe wait here and on the leg, wind advisory: |
 | notify | PASS | test-notify: PASS (10 sounding pushes, all with registered reasons) |
 | ping | PASS | test-ping: PASS |
 | pipeline | PASS | test-pipeline: PASS |

@@ -112,14 +112,14 @@ stages:
   - {name: holly-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: holly-cohen}, group: F, status: done}
   - {name: dan-morman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dan-morman}, group: F, status: done}
   - {name: dnelle-dowis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dnelle-dowis}, group: F, status: done}
-  - {name: emily-sheehan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: emily-sheehan}, group: F, status: active}
-  - {name: eric-pommier, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: eric-pommier}, group: F, status: pending}
-  - {name: laura-holden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: laura-holden}, group: F, status: pending}
-  - {name: gene-vann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gene-vann}, group: F, status: pending}
-  - {name: greg-verbanic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-verbanic}, group: F, status: pending}
-  - {name: isabel-jackson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: isabel-jackson}, group: F, status: pending}
-  - {name: jamie-joseph, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jamie-joseph}, group: F, status: pending}
-  - {name: john-marron, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-marron}, group: F, status: pending}
+  - {name: emily-sheehan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: emily-sheehan}, group: F, status: done}
+  - {name: eric-pommier, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: eric-pommier}, group: F, status: blocked, blocked: Gordon to say whether Eric Pommier has a cancer history (two unclear transcript lines  2026-04-15 and 2026-07-21) and confirm Kansas City  not Oregon (v2)  as where he and Laura moved from}
+  - {name: laura-holden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: laura-holden}, group: F, status: blocked, blocked: Gordon to say whether v2 s confidentiality protocol for recordings with Laura present carries into Sancho  and so whether laura-holden.md and eric-pommier.md may quote calls she was on}
+  - {name: gene-vann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gene-vann}, group: F, status: blocked, blocked: Gordon must say whether  Vann  is Gene s own surname or short for Van Zelfden  and whether they met by October 2025 (Plaud file dates) or around 2026-03-13 (v2); the file and census row are written wi}
+  - {name: greg-verbanic, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: greg-verbanic}, group: F, status: done}
+  - {name: isabel-jackson, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: isabel-jackson}, group: F, status: done}
+  - {name: jamie-joseph, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jamie-joseph}, group: F, status: done}
+  - {name: john-marron, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-marron}, group: F, status: active}
   - {name: john-metcalf, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: john-metcalf}, group: F, status: pending}
   - {name: kyle-heustis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: kyle-heustis}, group: F, status: pending}
   - {name: lily-post, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lily-post}, group: F, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: emily-sheehan
+current: john-marron
 waiting_on: []
 ---
 # Backfill people
@@ -382,3 +382,18 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T15:46:08+02:00 job.run: stage `dnelle-dowis` done (Stage: done · tests green)
 - 2026-10-02T15:46:08+02:00 job.run: 6 stages in one run; continuation queued (20261002T134608Z_job.run_9e5b32.md)
 - 2026-10-02T15:46:08+02:00 job.run: stage `emily-sheehan` started
+- 2026-10-02T15:56:16+02:00 job.run: stage `emily-sheehan` done (Stage: done · tests green)
+- 2026-10-02T15:56:16+02:00 job.run: stage `eric-pommier` started
+- 2026-10-02T16:07:21+02:00 job.run: stage `eric-pommier` blocked, recorded, job continues: Gordon to say whether Eric Pommier has a cancer history (two unclear transcript lines  2026-04-15 and 2026-07-21) and confirm Kansas City  not Oregon (v2)  as where he and Laura moved from
+- 2026-10-02T16:07:21+02:00 job.run: stage `laura-holden` started
+- 2026-10-02T16:18:22+02:00 job.run: stage `laura-holden` blocked, recorded, job continues: Gordon to say whether v2 s confidentiality protocol for recordings with Laura present carries into Sancho  and so whether laura-holden.md and eric-pommier.md may quote calls she was on
+- 2026-10-02T16:18:22+02:00 job.run: stage `gene-vann` started
+- 2026-10-02T16:26:08+02:00 job.run: stage `gene-vann` blocked, recorded, job continues: Gordon must say whether  Vann  is Gene s own surname or short for Van Zelfden  and whether they met by October 2025 (Plaud file dates) or around 2026-03-13 (v2); the file and census row are written wi
+- 2026-10-02T16:26:08+02:00 job.run: stage `greg-verbanic` started
+- 2026-10-02T16:31:03+02:00 job.run: stage `greg-verbanic` done (Stage: done · tests green)
+- 2026-10-02T16:31:03+02:00 job.run: stage `isabel-jackson` started
+- 2026-10-02T16:42:43+02:00 job.run: stage `isabel-jackson` done (Stage: done · tests green)
+- 2026-10-02T16:42:43+02:00 job.run: 6 stages in one run; continuation queued (20261002T144243Z_job.run_c53a3b.md)
+- 2026-10-02T16:42:43+02:00 job.run: stage `jamie-joseph` started
+- 2026-10-02T16:51:13+02:00 job.run: stage `jamie-joseph` done (Stage: done · tests green)
+- 2026-10-02T16:51:13+02:00 job.run: stage `john-marron` started

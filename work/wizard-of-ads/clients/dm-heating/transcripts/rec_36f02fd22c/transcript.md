@@ -1,7 +1,7 @@
 ---
 name: Recording rec_36f02fd22c · 2026-09-24 18:00 · 59 min
 type: transcript
-description: Plaud recording, 59 min, 7 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 59 min, D&M Heating & Air Conditioning monthly Zoom (Peter Nevland, Kevin Skalure, Gordon; Karen Dodge, her father briefly): the Andrew Hogan letter, Karen's brother, radio stations, LSA, press releases, Christmas and winter ads; ingested 2026-10-02, summary at work/wizard-of-ads/clients/dm-heating/summaries/2026-09-24_rec_36f02fd22c.md
 lobe: both
 sources: ["[rec_36f02fd22c 2026-09-24]"]
 rec_id: rec_36f02fd22c

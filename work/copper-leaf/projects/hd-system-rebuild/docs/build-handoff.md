@@ -49,7 +49,8 @@ The plan Gordon approved is the plan for this run. Before each stage, write that
 ## 3. Rules that bind this run
 - **Idiomatic, elegant Laravel.** The WordPress Readability Rule does not apply. [gordon 2026-10-01]
 - **Tests are automatic and must pass before a step is called done.** Never claim "tested" without a test that ran. [Sancho must-never 9]
-- **Model and effort:** Gordon wants real code written at the top setting. State at the start which model you are; you cannot see your effort level, so say that too.
+- **Model and effort:** Gordon wants real code written at the top setting. State at the start which model you are; you cannot see your effort level, so say that too. **From 2026-10-02 16:30: reviews run on Opus 5.5; building and fixing run on Fable** ("go ahead and run the reviews on Opus." [gordon 2026-10-02]); session effort max, Ultracode off ("I think I'll try running on Max instead of Ultracode" [gordon 2026-10-02]).
+- **If a model's safety classifier stops a response, that content is not produced again, reworded or on another model.** Say what was being written when it stopped, finish the parts of the task that do not need it, and leave the rest for Gordon. (A guard attack review was stopped this way on 2026-10-02 at about 15:40.)
 - **Independent review before a step is called done:** the kit spec's five review questions, by agents that did not write the code, with fixes and a rerun.
 - **Local only.** No server exists. No pushes: there are no remotes, and creating GitHub repositories is Gordon's. Commit locally, small commits, clear messages.
 - **Do not register hooks.** Do not edit `/Users/gordonium/.claude/settings.json` or anything under `/Users/gordonium/.claude/`. Build the hook scripts and their tests; registration is Gordon's step, from the installer's printed instructions. A broken hook would block every session on this Mac.
