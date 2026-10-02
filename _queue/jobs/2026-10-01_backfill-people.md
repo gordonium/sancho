@@ -56,9 +56,9 @@ stages:
   - {name: matt-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-willis}, group: C, status: done}
   - {name: rick-willis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rick-willis}, group: C, status: blocked, blocked: the file and census row are written; Gordon must say which account he told Rick had become  one of my favorite accounts  in June 2025 (v2 s happy-outlet and action-air files contradict)  and whether t}
   - {name: peter-nevland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: peter-nevland}, group: C, status: done}
-  - {name: robin-kressbach, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-kressbach}, group: C, status: active}
-  - {name: roy-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: roy-williams}, group: C, status: pending}
-  - {name: ryan-chute, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-chute}, group: C, status: pending}
+  - {name: robin-kressbach, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-kressbach}, group: C, status: done}
+  - {name: roy-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: roy-williams}, group: C, status: blocked, blocked: Gordon to say whether  Corrine  (keeps Roy s calendar) is Carmyn Wilson misheard or a separate person  Penny or Pennie  and whether the 2023 Austin address is current; the file and census row are writ}
+  - {name: ryan-chute, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-chute}, group: C, status: failed}
   - {name: stephen-semple, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stephen-semple}, group: C, status: pending}
   - {name: steve-rae, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: steve-rae}, group: C, status: pending}
   - {name: syre-klenke, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: syre-klenke}, group: C, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: robin-kressbach
+current: ryan-chute
 waiting_on: []
 ---
 # Backfill people
@@ -256,3 +256,10 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T03:40:35+02:00 job.run: stage `peter-nevland` started
 - 2026-10-02T03:49:02+02:00 job.run: stage `peter-nevland` done (Stage: done · tests green)
 - 2026-10-02T03:49:02+02:00 job.run: stage `robin-kressbach` started
+- 2026-10-02T03:56:39+02:00 job.run: stage `robin-kressbach` done (Stage: done · tests green)
+- 2026-10-02T03:56:39+02:00 job.run: stage `roy-williams` started
+- 2026-10-02T04:02:54+02:00 job.run: stage `roy-williams` blocked, recorded, job continues: Gordon to say whether  Corrine  (keeps Roy s calendar) is Carmyn Wilson misheard or a separate person  Penny or Pennie  and whether the 2023 Austin address is current; the file and census row are writ
+- 2026-10-02T04:02:54+02:00 job.run: stage `ryan-chute` started
+- 2026-10-02T04:05:04+02:00 job.run: stage `ryan-chute` attempt 1 failed (Stage: (no verdict line)); evidence _queue/results/20261002T014035Z_job.run_618866-ryan-chute-evidence-1.md
+- 2026-10-02T04:06:30+02:00 job.run: stage `ryan-chute` attempt 2 failed (Stage: (no verdict line)); evidence _queue/results/20261002T014035Z_job.run_618866-ryan-chute-evidence-2.md
+- 2026-10-02T04:06:30+02:00 job.run: stage `ryan-chute` stopped: identical failure on attempts 1 and 2 (no progress): Stage: (no verdict line). Evidence: _queue/results/20261002T014035Z_job.run_618866-ryan-chute-evidence-2.md

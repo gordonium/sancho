@@ -12,6 +12,16 @@ status: live during the build that started 2026-10-02 00:55
 
 Started 2026-10-02 00:55 on "Approved, GO!" [gordon 2026-10-02]. Rules and scope: `build-handoff.md`. Each stage goes build, then review (findings in `docs/reviews/`), then fix. The orchestrating thread updates this file every time an agent reports; it starts the next stage of a track only when the one before is fixed and its tests pass.
 
+## STOPPED at 04:00 on a usage limit (read this first)
+
+At about 04:00 on 2026-10-02 both running agents were ended by the service with the same message: "You've hit your monthly spend limit · raise it at claude.ai/settings/usage · your session limit resets 5:40am (Europe/Rome)". The message names two limits; which one actually stopped the work is unconfirmed. Nothing was lost that was committed, and both agents left unfinished work in their working trees:
+- **App, stage P2 (letters, invoices, mail):** no P2 commit yet. 79 changed or new files sit uncommitted on top of c5e734f in `/Users/gordonium/Dev/clc-laravel/hdonline-v4`. Its plan is written under "## P2" in `build-log-app.md`. Whether the tests pass in that state is unknown.
+- **Kit, K1 fix (guards):** last commit 581087a (the push rule, finding 3). 8 files sit uncommitted in `/Users/gordonium/Dev/clc-laravel/`; the agent was rewriting the self-test when it was cut off. Which findings are fixed is in the kit's git log since 00c07f8 and, if it got that far, under "K1 fixes" in `build-log-kit.md`.
+
+**To restart (the heartbeat, or Gordon saying "carry on"):** do nothing before 05:40. After that, start one fresh agent per track with this brief added to the stage's usual one: "an earlier agent was cut off mid-stage; its uncommitted work is in the working tree; read the stage's plan in the log and the diff, run the tests, keep what is sound, finish the stage, and commit; do not discard the work unseen." If a restarted agent is ended by the same limit message, stop and wait for Gordon: the monthly limit is his to raise.
+
+Still to do after these two: K3 (skills, plan-gate hooks, updates, parity); one review and fix of the guard fixes, K2 and K3; P2's review and fix; P3; P4 with the rehearsal on the real history; W2; the summary Z.
+
 ## Stages
 
 | Track | Stage | What | Status |
