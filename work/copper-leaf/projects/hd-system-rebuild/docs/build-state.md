@@ -12,7 +12,20 @@ status: live during the build that started 2026-10-02 00:55
 
 Started 2026-10-02 00:55 on "Approved, GO!" [gordon 2026-10-02]. Rules and scope: `build-handoff.md`. Each stage goes build, then review (findings in `docs/reviews/`), then fix. The orchestrating thread updates this file every time an agent reports; it starts the next stage of a track only when the one before is fixed and its tests pass.
 
-## STOPPED at 04:00 on a usage limit (read this first)
+## RESTARTED at 08:15 (read this first)
+
+**The cause of the 04:00 stop was the connection, not a usage limit.** "You did hit a wall, but I think you misdiagnosed it. You appear to have lost internet connectivity, perhaps because the hotel wifi hit a usage cap. I couldn't even ping Google. We appear to be back online. now, through my phone. Looking at my Claude usage, I don't see anything anywhere near used up" [gordon 2026-10-02] This supersedes the heading and the first paragraph of the section below, which repeated the service's own message. Nothing ran between 04:00 and 08:10; the repositories were exactly as described below when checked at 08:10. The Mac is now on a phone's metered connection.
+
+Gordon also switched Ultracode on, so from here the build runs as workflows, one per phase, with the orchestrating thread reading each result before starting the next:
+- **Workflow 1 (started 08:15):** kit chain = finish the K1 guard fixes, then K3, then two reviews (an attack on the fixed guards and the new hooks; a fit review of K2 and K3), then one fix. App chain = finish P2, then two reviews (plan fit; safety), then one fix. The two chains run side by side.
+- **Workflow 2:** P3 (Calendly, search, history, delete and restore, Settings and Connections), two reviews, fix.
+- **Workflow 3:** P4 (import and letter conversion, the rehearsal on the real history, demonstration set, browser tests), reviews, fix; W2 (how-tos and the runbooks' command names).
+- Then Z, the summary.
+If a workflow's agents die together again, suspect the connection first: check it, then resume the same workflow from where it stopped.
+
+Workflow 1 is run `wf_7dd7f3e2-dad`, started 08:17; its script is `/Users/gordonium/.claude/projects/-Users-gordonium-Sync-Sancho/cd83fc61-feee-41e8-9f21-bf4f7f14f778/workflows/scripts/hd-v4-build-1-wf_7dd7f3e2-dad.js`. To resume it after a cut: run the Workflow tool with that script path and `resumeFromRunId: wf_7dd7f3e2-dad`; finished agents are not rerun. Each chain stops by itself if a builder does not return or the kit's checks are red after the guard fixes.
+
+## Stopped at 04:00 (first reported as a usage limit; see above)
 
 At about 04:00 on 2026-10-02 both running agents were ended by the service with the same message: "You've hit your monthly spend limit · raise it at claude.ai/settings/usage · your session limit resets 5:40am (Europe/Rome)". The message names two limits; which one actually stopped the work is unconfirmed. Nothing was lost that was committed, and both agents left unfinished work in their working trees:
 - **App, stage P2 (letters, invoices, mail):** no P2 commit yet. 79 changed or new files sit uncommitted on top of c5e734f in `/Users/gordonium/Dev/clc-laravel/hdonline-v4`. Its plan is written under "## P2" in `build-log-app.md`. Whether the tests pass in that state is unknown.
