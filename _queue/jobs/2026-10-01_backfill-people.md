@@ -72,16 +72,16 @@ stages:
   - {name: nathan-ingram, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nathan-ingram}, group: C, status: blocked, blocked: Gordon to answer whether the continuity buy-sell naming Nathan as executor is signed and he s been briefed  where his partner track stands  and whether he is Alex Post s  Alabama pastor  Nathan (the f}
   - {name: david-mckinnis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: david-mckinnis}, group: H, status: blocked, blocked: Gordon to confirm the surname spelling (McKinnis  McInnis or McInnes); the file is written with the question in Open threads}
   - {name: adrian-van-zelfden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adrian-van-zelfden}, group: H, status: done}
-  - {name: pennie-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pennie-williams}, group: H, status: active}
-  - {name: rex-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rex-williams}, group: H, status: pending}
-  - {name: mark-effinger, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-effinger}, group: H, status: pending}
-  - {name: pegeen-reilly, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pegeen-reilly}, group: H, status: pending}
-  - {name: ryan-deiss, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-deiss}, group: H, status: pending}
-  - {name: etieno-essien, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: etieno-essien}, group: D, status: pending}
-  - {name: temple-grandin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: temple-grandin}, group: D, status: pending}
-  - {name: amy-ehrhardt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amy-ehrhardt}, group: D, status: pending}
-  - {name: lathan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lathan}, group: D, status: pending}
-  - {name: maria-pia-seirup, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: maria-pia-seirup}, group: E, status: pending}
+  - {name: pennie-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pennie-williams}, group: H, status: done}
+  - {name: rex-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rex-williams}, group: H, status: done}
+  - {name: mark-effinger, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-effinger}, group: H, status: done}
+  - {name: pegeen-reilly, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pegeen-reilly}, group: H, status: done}
+  - {name: ryan-deiss, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-deiss}, group: H, status: done}
+  - {name: etieno-essien, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: etieno-essien}, group: D, status: done}
+  - {name: temple-grandin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: temple-grandin}, group: D, status: done}
+  - {name: amy-ehrhardt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amy-ehrhardt}, group: D, status: done}
+  - {name: lathan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: lathan}, group: D, status: blocked, blocked: Gordon to say whether Lathan is still a co-owner of American Icon Spirits (separation paperwork 2026-08-28 vs his approval of Gordon s 10% on 2026-09-15) and give his surname; the file is written with}
+  - {name: maria-pia-seirup, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: maria-pia-seirup}, group: E, status: active}
   - {name: elliott-scott, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: elliott-scott}, group: E, status: pending}
   - {name: leslie-hong, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: leslie-hong}, group: E, status: pending}
   - {name: bob-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: bob-ratte}, group: E, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: pennie-williams
+current: maria-pia-seirup
 waiting_on: []
 ---
 # Backfill people
@@ -295,3 +295,22 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T10:44:57+02:00 job.run: stage `adrian-van-zelfden` started
 - 2026-10-02T10:52:03+02:00 job.run: stage `adrian-van-zelfden` done (Stage: done · tests green)
 - 2026-10-02T10:52:03+02:00 job.run: stage `pennie-williams` started
+- 2026-10-02T10:59:03+02:00 job.run: stage `pennie-williams` done (Stage: done · tests green)
+- 2026-10-02T10:59:03+02:00 job.run: stage `rex-williams` started
+- 2026-10-02T11:07:35+02:00 job.run: stage `rex-williams` done (Stage: done · tests green)
+- 2026-10-02T11:07:35+02:00 job.run: stage `mark-effinger` started
+- 2026-10-02T11:12:53+02:00 job.run: stage `mark-effinger` done (Stage: done · tests green)
+- 2026-10-02T11:12:53+02:00 job.run: stage `pegeen-reilly` started
+- 2026-10-02T11:18:32+02:00 job.run: stage `pegeen-reilly` done (Stage: done · tests green)
+- 2026-10-02T11:18:32+02:00 job.run: 6 stages in one run; continuation queued (20261002T091832Z_job.run_ae4705.md)
+- 2026-10-02T11:18:32+02:00 job.run: stage `ryan-deiss` started
+- 2026-10-02T11:26:51+02:00 job.run: stage `ryan-deiss` done (Stage: done · tests green)
+- 2026-10-02T11:26:51+02:00 job.run: stage `etieno-essien` started
+- 2026-10-02T11:33:01+02:00 job.run: stage `etieno-essien` done (Stage: done · tests green)
+- 2026-10-02T11:33:01+02:00 job.run: stage `temple-grandin` started
+- 2026-10-02T11:40:36+02:00 job.run: stage `temple-grandin` done (Stage: done · tests green)
+- 2026-10-02T11:40:36+02:00 job.run: stage `amy-ehrhardt` started
+- 2026-10-02T11:48:36+02:00 job.run: stage `amy-ehrhardt` done (Stage: done · tests green)
+- 2026-10-02T11:48:36+02:00 job.run: stage `lathan` started
+- 2026-10-02T11:52:43+02:00 job.run: stage `lathan` blocked, recorded, job continues: Gordon to say whether Lathan is still a co-owner of American Icon Spirits (separation paperwork 2026-08-28 vs his approval of Gordon s 10% on 2026-09-15) and give his surname; the file is written with
+- 2026-10-02T11:52:43+02:00 job.run: stage `maria-pia-seirup` started

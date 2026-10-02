@@ -1,11 +1,12 @@
 # LINT
 generated 2026-10-02 by lint-layers.py
 
-**27 problems, 1 warnings**
+**28 problems, 1 warnings**
 
 ## Problems (block the build)
 - work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md: data file contains an instruction to Claude ('never do'); describe the preference instead
 - work/copper-leaf/projects/hd-system-rebuild/docs/wp-kit-map.md: data file contains an instruction to Claude ('you must'); describe the preference instead
+- people/_backfill-census.md:41: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/gordon.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/lizzie-mack.md:31: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - personal/recordings/rec_868fb07db8/rec_868fb07db8/speakers.md:18: inference words under a [gordon] cite; mark [inferred] or write `unknown`

@@ -169,7 +169,7 @@ flowchart LR
 - _setup/pipeline/INDEX.md
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
-- … +642 more
+- … +657 more
 
 ## Level 2 · wiring
 
@@ -248,11 +248,12 @@ flowchart LR
 # LINT
 generated 2026-10-02 by lint-layers.py
 
-**27 problems, 1 warnings**
+**28 problems, 1 warnings**
 
 ## Problems (block the build)
 - work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md: data file contains an instruction to Claude ('never do'); describe the preference instead
 - work/copper-leaf/projects/hd-system-rebuild/docs/wp-kit-map.md: data file contains an instruction to Claude ('you must'); describe the preference instead
+- people/_backfill-census.md:41: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/gordon.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/lizzie-mack.md:31: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - personal/recordings/rec_868fb07db8/rec_868fb07db8/speakers.md:18: inference words under a [gordon] cite; mark [inferred] or write `unknown`
@@ -287,7 +288,7 @@ generated 2026-10-02 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-02 10:31 by test-all.py · 34 suites · 2 failing
+generated 2026-10-02 11:48 by test-all.py · 34 suites · 0 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -301,7 +302,7 @@ generated 2026-10-02 10:31 by test-all.py · 34 suites · 2 failing
 | nerd-concurrency | PASS | test-nerd-concurrency: PASS |
 | nerd-lease | PASS | test-nerd-lease: PASS |
 | nerd-run | PASS | test-nerd-run: PASS |
-| netstate | FAIL | test-netstate: FAIL: heavy request not deferred |
+| netstate | PASS | test-netstate: PASS |
 | nightly | PASS | test-nightly: PASS |
 | nomad-brief | PASS | test-nomad-brief: PASS (stay, drive today east 100, next couple of days, severe wait, no-candidate wait, freeze tonight, |
 | notify | PASS | test-notify: PASS (10 sounding pushes, all with registered reasons) |
@@ -313,7 +314,7 @@ generated 2026-10-02 10:31 by test-all.py · 34 suites · 2 failing
 | secrets | PASS | test-secrets: PASS |
 | stay-awake | PASS | test-stay-awake: PASS |
 | test-all | PASS | test-test-all: PASS |
-| watcher | FAIL | no result after 15 s; check _queue/HEALTH.md for when the watcher last ran |
+| watcher | PASS | test-watcher: PASS |
 | zoom-poll | PASS | test-zoom-poll: PASS |
 | skill:attribution-correction | PASS | test-skill-attribution-correction: PASS (structural) |
 | skill:backfill-person | PASS | test-skill-backfill-person: PASS (structural) |
