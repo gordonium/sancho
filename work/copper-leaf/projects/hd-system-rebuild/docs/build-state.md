@@ -25,6 +25,10 @@ Started 2026-10-02 00:55 on "Approved, GO!" [gordon 2026-10-02]. Rules and scope
 Deferred until after the morning: the four serious review findings from P3 (all in edge cases of Calendly and Google Docs; they matter before go-live, not for use on this Mac), the conversion of the old letters, the kit, backups.
 About 3 Fable hours: about $90 at tonight's max-effort rate, less at High (not yet measured).
 
+**22:00: go given, and how the stages are run.** "I bought a credit pack with some extra headroom. Make it so" [gordon 2026-10-02]. Fable at High cannot be set on the Agent tool, and the Workflow tool needs Gordon's own "use a workflow", so each Fable stage now runs as a **headless Claude Code session** started by `scratchpad/run-stage.sh`: `claude -p <brief> --model fable --effort high --permission-mode auto --add-dir <this project folder> --add-dir <the data folder> --max-budget-usd <cap> --output-format json`, detached, in the app folder. Its JSON result carries the stage's exact cost (`total_cost_usd`). Opus reviews still run as Agent-tool agents. Briefs are in the session scratchpad (`stage-W1-brief.txt`, and later W2, W3).
+
+**But the credit was not live yet:** a one-word test call to Fable at 22:00 cost $0 and was refused with "You've hit your monthly spend limit". The usage reading still shows extra usage switched off and the monthly limit at $150 with $151.66 spent: buying a pack does not raise the monthly limit or switch the credits back on. Gordon must do both. A check every 10 minutes (cron) starts W1 by itself as soon as the reading shows usage credits on and at least $45 of room under the limit.
+
 ## STOPPED at 20:27: the Fable credit is spent
 
 **Evening run, 18:42 to 20:27:** extra usage went from $53.18 to **$151.66** (limit $150; the app switched extra usage off again at the limit) = **$98.48** for about 196 Fable agent-minutes = **about $30 per Fable agent-hour at max effort**. Opus reviews do not touch the credit (weekly all models 59% to 64% for three reviews and this thread).
