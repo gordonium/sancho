@@ -89,16 +89,16 @@ stages:
   - {name: jeffrey-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeffrey-ratte}, group: E, status: blocked, blocked: Gordon must say whether people/jeff-ratte.md and people/jeffrey-ratte.md are one person (which slug stays) and confirm whether he is executor of Jeff and Sara s wills; the file and census row are writ}
   - {name: pierre-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pierre-ratte}, group: E, status: done}
   - {name: beatrice-ratte, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: beatrice-ratte}, group: E, status: done}
-  - {name: sara-moorehead, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sara-moorehead}, group: E, status: active}
-  - {name: gina-cizek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gina-cizek}, group: E, status: pending}
-  - {name: joan-tropiano-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: joan-tropiano-tucci}, group: E, status: pending}
-  - {name: stan-tucci-sr, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stan-tucci-sr}, group: E, status: pending}
-  - {name: stanley-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stanley-tucci}, group: E, status: pending}
-  - {name: luke-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luke-bernander}, group: E, status: pending}
-  - {name: paula-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paula-bernander}, group: E, status: pending}
-  - {name: teri-ashley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: teri-ashley}, group: E, status: pending}
-  - {name: tom-boldt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-boldt}, group: E, status: pending}
-  - {name: ansel-courant, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ansel-courant}, group: E, status: pending}
+  - {name: sara-moorehead, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sara-moorehead}, group: E, status: done}
+  - {name: gina-cizek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gina-cizek}, group: E, status: blocked, blocked: Gordon to say whether  Gina Tucci  is Gina Cizek  and how Zia Sadie connects her to Maria Pia (the file is written  with both in Open threads)}
+  - {name: joan-tropiano-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: joan-tropiano-tucci}, group: E, status: done}
+  - {name: stan-tucci-sr, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stan-tucci-sr}, group: E, status: done}
+  - {name: stanley-tucci, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: stanley-tucci}, group: E, status: done}
+  - {name: luke-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: luke-bernander}, group: E, status: done}
+  - {name: paula-bernander, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paula-bernander}, group: E, status: blocked, blocked: Gordon to say whether Paula has children of her own (v2 says 3; the roster says they are Jess s) and where she lives now (Sopris 2023 has 3500 Rolling Green Dr  Fort Collins; v2 March 2026 says she mo}
+  - {name: teri-ashley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: teri-ashley}, group: E, status: blocked, blocked: Gordon to say where Teri lives now (Sopris 2023 has 2949 Silverwood Dr  Fort Collins; v2 2026-03 has Silverwood sold and her living at Tom Boldt s place  address not on disk)}
+  - {name: tom-boldt, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-boldt}, group: E, status: done}
+  - {name: ansel-courant, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ansel-courant}, group: E, status: active}
   - {name: donna-thomas, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: donna-thomas}, group: E, status: pending}
   - {name: allie-wickham, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: allie-wickham}, group: F, status: pending}
   - {name: doug-huckaba, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: doug-huckaba}, group: F, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: sara-moorehead
+current: ansel-courant
 waiting_on: []
 ---
 # Backfill people
@@ -332,3 +332,22 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T12:44:23+02:00 job.run: stage `beatrice-ratte` started
 - 2026-10-02T12:49:00+02:00 job.run: stage `beatrice-ratte` done (Stage: done · tests green)
 - 2026-10-02T12:49:00+02:00 job.run: stage `sara-moorehead` started
+- 2026-10-02T12:56:46+02:00 job.run: stage `sara-moorehead` done (Stage: done · tests green)
+- 2026-10-02T12:56:46+02:00 job.run: stage `gina-cizek` started
+- 2026-10-02T13:01:48+02:00 job.run: stage `gina-cizek` blocked, recorded, job continues: Gordon to say whether  Gina Tucci  is Gina Cizek  and how Zia Sadie connects her to Maria Pia (the file is written  with both in Open threads)
+- 2026-10-02T13:01:48+02:00 job.run: stage `joan-tropiano-tucci` started
+- 2026-10-02T13:07:49+02:00 job.run: stage `joan-tropiano-tucci` done (Stage: done · tests green)
+- 2026-10-02T13:07:49+02:00 job.run: stage `stan-tucci-sr` started
+- 2026-10-02T13:13:36+02:00 job.run: stage `stan-tucci-sr` done (Stage: done · tests green)
+- 2026-10-02T13:13:36+02:00 job.run: stage `stanley-tucci` started
+- 2026-10-02T13:22:00+02:00 job.run: stage `stanley-tucci` done (Stage: done · tests green)
+- 2026-10-02T13:22:00+02:00 job.run: 6 stages in one run; continuation queued (20261002T112200Z_job.run_a74b8b.md)
+- 2026-10-02T13:22:00+02:00 job.run: stage `luke-bernander` started
+- 2026-10-02T13:28:07+02:00 job.run: stage `luke-bernander` done (Stage: done · tests green)
+- 2026-10-02T13:28:07+02:00 job.run: stage `paula-bernander` started
+- 2026-10-02T13:34:16+02:00 job.run: stage `paula-bernander` blocked, recorded, job continues: Gordon to say whether Paula has children of her own (v2 says 3; the roster says they are Jess s) and where she lives now (Sopris 2023 has 3500 Rolling Green Dr  Fort Collins; v2 March 2026 says she mo
+- 2026-10-02T13:34:16+02:00 job.run: stage `teri-ashley` started
+- 2026-10-02T13:41:04+02:00 job.run: stage `teri-ashley` blocked, recorded, job continues: Gordon to say where Teri lives now (Sopris 2023 has 2949 Silverwood Dr  Fort Collins; v2 2026-03 has Silverwood sold and her living at Tom Boldt s place  address not on disk)
+- 2026-10-02T13:41:04+02:00 job.run: stage `tom-boldt` started
+- 2026-10-02T13:49:01+02:00 job.run: stage `tom-boldt` done (Stage: done · tests green)
+- 2026-10-02T13:49:01+02:00 job.run: stage `ansel-courant` started
