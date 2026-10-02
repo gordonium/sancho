@@ -693,3 +693,189 @@ Started 2026-10-02 13:00 CEST. Fixer: Claude, model Fable 5.1 (`claude-fable-5-1
 **Rules I hold myself to.** Nothing is loosened to cure a false refusal unless the loosened shape can be shown safe; where it cannot, the refusal stays and the log says so. Every rule change keeps the earlier answers: all 869 + 756 cases are run before and after, and any case that was refused and is now allowed is listed by id with its reason. Every fix has a test that fails without it.
 
 **What I will not do.** Register a hook. Edit anything under `~/.claude/`. Contact a server. Type an ssh, rsync, scp, sftp or push example on my own command line (they live in files). Install anything with Homebrew. Push, or add a remote. Touch `~/Dev/clc-plugins/` or look inside `hdonline-v4/`. Edit the review files. Lay the template over the first app (finding 7 is a stage of its own).
+
+### What was done
+
+**The K2 and K3 fixes are finished, tested and committed. Finished 2026-10-02 15:35 CEST. Of the 49 findings (22 from the attack, 27 from the fit review), 46 are fixed and 3 are left for Gordon (fit 7, 15 and 25). None turned out to be "not a real problem": every finding I checked held. All 4 blockers are fixed. `bash bin/test-all.sh`: 4,092 tests, all pass. Over the attack reviewer's 756 cases, wrongly allowed went from 218 to 18 (none that the rules say must be refused), and wrongly refused from 16 to 10. Nothing is registered, installed, pushed or switched on. Last commit: `fec74fb`.**
+
+**One thing Gordon should read first.** The fit review's fix for its finding 5 (a database named in the shell is emptied by the tests) was `force="true"` on every line of the test config. I tried that with real PHP and it does **not** hold: the tests still migrated the database named in the shell. Laravel reads `$_SERVER` first, and that attribute sets only `getenv()` and `$_ENV`. The template now writes every setting twice (`<env force="true">` and `<server>`), and the proof runs the tests against a scratch database named in the shell and checks it is untouched. The review says the first app carries the `force="true"` fix in its own `phpunit.xml`. I did not look inside `hdonline-v4` (I may not). If its fix is that attribute alone, it does not protect it. That is question 1 below.
+
+**The test command and its result.**
+
+```
+bash /Users/gordonium/Dev/clc-laravel/bin/test-all.sh
+```
+
+Result: `Ran 4092 tests in 402s`, `OK`, exit code 0, in the kit folder just before the last commit (which changed documents and one comment; their own test files were run again after it, 146 tests, OK). The same command at the last commit, `fec74fb`, in a clean copy: `Ran 4092 tests in 436s`, `OK`. Failures 0, errors 0, skipped 0. It was 2,720 tests at the reviewed commit. Every earlier test is still there and still passes; the ones whose expected answer changed on purpose are listed further down, each with its reason.
+
+| Test file | Tests | What changed |
+|---|---|---|
+| `tests/test_reviewer_cases_k3.py` | 763 | new: the attack reviewer's 756 cases, one test each, and seven tests on the totals and the reasons |
+| `tests/test_k3_review_fixes.py` | 443 | new: the fixer's own cases for the guards, finding by finding, with the shapes next door that must stay refused |
+| `tests/test_k3_plan_gate_fixes.py` | 35 | new: the plan gate's findings (8 to 12, 19) |
+| `tests/test_pre_push_hook.py` | 21 | new: the project's pre-push hook, against real throwaway repositories |
+| `tests/test_project_template.py` | 112 | was 87: the test config's two lines, the stock-file rule, the new template pieces |
+| `tests/test_ship.py` | 103 | was 84: the review's range, a migration staging has run, the watch on production |
+| `tests/test_gate.py` | 90 | was 72: the lock file and what is installed, the shell's settings, Composer's settings as controls |
+| `tests/test_deploy_script.py` | 48 | was 37: the debug spellings, where a deploy stopped, a two-word Composer |
+| `tests/test_registration_check.py` | 51 | was 45 |
+| `tests/test_skills.py` | 42 | was 32 |
+| `tests/test_whats_due.py` | 42 | was 38 |
+| `tests/test_preflight.py` | 36 | was 33 |
+| `tests/test_tools_that_run_commands.py` | 34 | was 26 |
+| `tests/test_shell_guard.py` | 608 | was 604 |
+| `tests/test_kit_lint.py` | 67 | was 66 |
+| `tests/test_guard_selftest.py` | 21 | was 20 |
+| the other eleven files | 1,576 | same number of tests, still passing |
+
+Checks beyond that run, each done today:
+
+- **Every fix fails before and passes after.** A copy of the kit as it was at `d47f4ea` was given today's tests, and each test file was run there. 702 of the 4,092 tests fail on the old kit; none fails now. By file: the new guard cases 277 of 443, the reviewer's replay 206 of 763 (200 cases closed, 6 opened), the ship script 66 of 103, the template 31 of 112, the plan gate's new file 28 of 35, the pre-push hook 21 of 21, the gate 14 of 90, the deploy script 11 of 48, the skills 10 of 42, and 38 more across thirteen other files. (The ship script's 66 include every test whose Review line now carries a range, which the old script cannot read.)
+- **The proof with real PHP** (`bin/prove-template.py`, PHP 8.5.10, Laravel 13.34.0, Pest 5.3.0, Larastan 3.12.2, Pint 1.32.1, the real Composer): **52 of 52 checks**. It was run three times. The first run found two faults in my own new template tests, and the second found the fault in the review's fix for finding 5; both are described under "what the proof found". The third run is the 52 of 52.
+- **From a clean copy**, with the home folder pointed at an empty folder and a plain PATH: 4,092 tests, OK, in 436 seconds, at the last commit. The empty folder was still empty afterwards and the copy had no new files.
+- **The lints**: `python3 bin/kit-lint.py all` passes: 105 ledger rows, 129 rule IDs, 19 lessons, 41 mechanism rows.
+
+**The numbers over the attack reviewer's 756 cases.**
+
+| | At the review (`d47f4ea`) | Now |
+|---|---|---|
+| Wrongly allowed | 218 | 18 |
+| of those, "must" (the rules' own words cover it) | 48 | 0 |
+| "gap" | 81 | 3 (all three wait for Gordon) |
+| "limit" (inside the honest limit) | 25 | 13 |
+| "disguise" | 64 | 2 |
+| Wrongly refused | 16 | 10 |
+
+I checked the reviewer's numbers before changing anything: all 756 answers at `d47f4ea` were the ones the reviewer recorded.
+
+The first reviewer's 869 cases are still replayed too: 37 wrongly allowed (it was 38: case J29 is now refused), 11 wrongly refused, as before.
+
+*Still allowed, 18.* 13 are inside the honest limit and say so in the expected file: an address in a file that curl reads its settings from (QE30); an address put together from a variable (QE33); a command written into a script file or the shell's start-up file and run later (QG16, QG17); an artisan command of the app's own (QH19); a git remote known only by a nickname set earlier (QK30); code that connects through a library of its own (QK34, QK35); an address that forwards to another (QL18, QP38); half an address the browser completes (QP28); "back" (QP39); a page whose own script changes the path (QS22). 2 are deliberate disguises: the panel's name as a proxy service spells it (QP16), an address a page's script builds from pieces (QS28). 3 wait for Gordon: three GitHub pages that are not on the refused list (QR45, QR46, QR48; question 3).
+
+*Still refused, 10.* 8 are kept on purpose, because the looser shape could not be shown safe: a note after a command, on the same line, that names `ssh` or `gh` (QA12, QA13: in zsh at a prompt a `#` may not start a comment); a push from a folder held in a variable (QD43: question 5); an ssh command inside `$( ... )` (QH87); `supervisorctl` and `crontab` on staging (QH90, QH91: one letter away they stop the workers or delete the schedule); a production host named in a commit message (QL42); a web search for the panel's name (QP37). 2 wait for Gordon: the Actions and branch pages of repositories that are not Copper Leaf's (QR43, QR44; question 4).
+
+*Refused at the review and allowed now, 6. Each has a test for the dangerous shape next door, which stays refused.*
+- QD32: `cd <a folder outside the kit> && git push origin master`, from a session that stands in a kit project. The push acts where the `cd` leads, and `&&` means it does not run if the `cd` fails. Stays refused: the same with `;` in place of `&&`, a folder that does not exist, a folder inside the kit.
+- QD42 and QD44: a push in another repository whose folder is written with `$HOME`. `$HOME` is now worked out. Stays refused: any other variable, and `$HOME` followed by a kit project's path.
+- QE17: `composer global show laravel/forge-cli`. It asks about a package and installs nothing. Stays refused: `require` and `update` of that package, and running it.
+- QH92: `ls -la .env` on staging. It shows the file's name and size, not its content. Stays refused: every tool that prints the file.
+- QH94: `php --ini` on staging. It prints where PHP reads its settings from. Stays refused: `php -r`, `php -i` and a script name.
+
+**What the fixes cost.** The guard is stricter, and some ordinary things are now refused. The rules file says so (L-10.16) and so does the kit handoff.
+- A note after a command, on the same line, is refused when it names `ssh`, `gh` or `forge` and the command is a program whose words the guard judges (`php artisan migrate # before the ssh step`). Put the note on its own line.
+- A quoted word handed to another program is taken for a command when it begins with one of those program names (`say 'forge deploy now'`). So is text typed into a window.
+- `curl ... | sh` is refused, and so is text handed to any shell from a pipe or a here-string when it holds one of the refused things.
+- A call of more than one megabyte, or one quoted text of more than 100,000 characters, is refused at once, with a message that says to put the text in a file.
+- A variable whose name holds FORGE or DEPLOY_URL is refused where it is used (`$FORGE_TOKEN`).
+- The plan gate refuses every shell command that names the stamp store or the stamp program, except a program that only looks (`ls`, `cat`, `grep` and the like).
+- The ship script watches production for at least ten minutes after it pushes `main`.
+- The gate will not run until `composer install` has been run after a lock file changed.
+- `laravel-new.py` now says CONFLICT for a test file that was worked on. On a truly fresh project of a later Laravel release it may say CONFLICT too, until the new stock file is added to the kit (`templates/laravel-new/stock/README.txt` says how).
+
+**Finding by finding: the attack (`reviews/kit-K3-attack.md`).** All 22 fixed. The replay of its case file is commit `fc58a1e`.
+
+| # | Weight | Result |
+|---|---|---|
+| 1 | blocker | Fixed, `9dac356`. The guard judges every call in two readings: as written, and as a shell reads it (a `#` starts a comment only where a word begins; quote marks and here-documents as bash sees them). Refused if either reading refuses. |
+| 2 | should-fix | Fixed, `2026bdf`. `refs/`, `heads/`, `tags/`, `remotes/<name>/` are stripped before a name is compared; any beginning of `--tags`, `--all`, `--mirror` is that option; a push setting on the command line is refused. **And the pre-push hook is built**: `.kit/hooks/pre-push` in the template. Git hands it the real names, so it also stops what no text guard can read. It is a net, not a wall: `--no-verify` skips it, and it must be switched on once in each clone. |
+| 3 | should-fix | Fixed, `7632786`. More shells, `source`, text piped or here-stringed into a shell, `-c` for the wrappers, awk as code; every quoted word with a space is judged as a command by the program it would start; `git ... push` among another program's words is a push. |
+| 4 | should-fix | Fixed, `7632786`. The net the K1 fix dropped is back beside the new rule: a kit project's path in the text makes the push a project push; a folder that does not exist is "unknown"; a worktree or clone under the kit's own folders is found on disk; the disk's other name is the same path. |
+| 5 | should-fix | Fixed, `f1480a7`. After the remote command only a real `|`, `&&` or `>` may follow; a later `cd` carries its folder into the rule for printed files; `git --no-index` is refused on staging. |
+| 6 | should-fix | Fixed, `7632786`. A package manager behind `herd` or `php` is read as that package manager; `@version` is cut from a program word. |
+| 7 | should-fix | Fixed, `859ef0a`. The auto-merge tool and the move-to-cloud tool are refused by name in a kit project; the tool that merges the base branch is on the plan gate's list. Rule L-10.17 is widened. Question 6. |
+| 8 | should-fix | Fixed, `859ef0a`, `d8cf3ed` and `fec74fb`. Every shell command that names the stamp store or the stamp program is refused unless it only looks; `config/plan-gate.json` is not written by the file tools (PG-6). The three sentences that said more than is true are corrected: a stamp record shows that something wrote it. A deliberate forgery through a program is not stopped, and the documents now say "instruction". A real wall is Gordon's call (question 8). |
+| 9 | should-fix | Fixed, `859ef0a`. A stamp counts only for the project it names and for one job file. |
+| 10 | should-fix | Fixed, `859ef0a`. `$HOME`, `${HOME}`, `$PWD` and `~` are worked out; the project is taken from a full path, `--working-dir`, `-d`, `--prefix` and `git -C`; the git commands that rewrite the tree are judged; an ignored file under `.claude/` is no longer let through. |
+| 11 | should-fix | Fixed, `859ef0a`. Model and Effort are read from the stamped plan; an unknown level word is refused; with several open jobs the strictest holds. |
+| 12 | should-fix | Fixed as far as it can be, `859ef0a`. No stamp in a "bypass permissions" session; the stamp line names the permission mode; the installer's step 8 tries both modes. Whether the app shows its dialog in auto mode is not known: question 7. |
+| 13 | should-fix | Fixed in three of the four push cases, `7632786` (QD32, QD42, QD44 above). QD43 is kept refused: question 5. Of the twelve other cases of everyday work, three are opened (QE17, QH92, QH94), seven are kept and listed above with their rewrite, and two wait for Gordon (question 4). |
+| 14 | should-fix | Fixed, `859ef0a`. The failure message says who it is for ("every other session: carry on with your own work and tell Gordon"); the accepted timeout is 600 seconds or more. Running it only in kit sessions is question 9. |
+| 15 | minor | Fixed, `9dac356`. The whole word after `<<` is the mark; no here-document is seen inside quote marks or after a `#`. |
+| 16 | minor | Fixed, `f1480a7`. The other programs that reach a server, the remote-session editors, the other schemes, `ssh-keyscan` judged by its host. |
+| 17 | minor | Fixed, `f1480a7`. Number hosts with no scheme, the IPv6 form, backslash codes, backslashes for slashes, braces, text typed in pieces, reversed and base64 text. |
+| 18 | minor | Fixed, `f1480a7`. Artisan names that end `:install`, `:publish`, `:generate`; `file -f`, `--files0-from`. `supervisorctl` and `crontab` stay refused (above). |
+| 19 | minor | Fixed, `859ef0a`. The fallback line reads the path, not the whole input. |
+| 20 | minor | Fixed, `859ef0a`. The registration check refuses keys it does not know on a kit hook. |
+| 21 | minor | Fixed, `f1480a7`. A call over one megabyte is refused at once with a message that says what to do; large calls no longer take seconds. |
+| 22 | minor | Fixed, `7632786` and `f1480a7`: `=gh`, braces, `${IFS}`, printf and `$'...'` codes, a name glued from pieces in the same call. Two deliberate disguises stay open and are named in the honest limit. |
+
+**Finding by finding: the fit review (`reviews/kit-K2-K3-fit.md`).** 24 fixed, 3 left for Gordon.
+
+| # | Weight | Result |
+|---|---|---|
+| 1 | blocker | Fixed, `f0cc6a3` and `d8cf3ed`. The Review line names its range (`Review: PASS <base>..<reviewed> <date>`). The ship script refuses unless the base is the remote's `main` as just fetched, and refuses while the local `main` is ahead. The preflight (P9) says the same at the start of a job. The review skill fetches and counts from `origin/main`. The review's own case is a test, and is refused. |
+| 2 | blocker | Fixed, `2b9fecd`. The gate compares `composer.lock` with what is installed and will not run while they differ. The proof does it with the real Composer. |
+| 3 | blocker | Fixed, `2b9fecd`. Every key of Composer's `config` block is a control, but a short list that only tidies. Every `*.neon` of the project's own is one too. The proof adds an ignore-id under `config.policy`: exit 3, listed. |
+| 4 | should-fix | Fixed, `3b617f7`. Refused unless plainly off. Seven spellings tried with real PHP: none let through. |
+| 5 | should-fix | Fixed, `2b9fecd` and `3b617f7`, **not the way the review proposed** (see the top). Two layers, each proved by itself with real PHP: the test config's two lines, and the gate taking the app's settings out of its steps' environment. |
+| 6 | should-fix | Fixed, `3b617f7`. A file is replaced only when it is byte for byte a stock file the kit keeps. A hardened `phpunit.xml` is a CONFLICT and nothing changes. |
+| 7 | should-fix | **Left for Gordon and the orchestrating thread.** Laying the template over the first app is a stage of its own. Question 2. |
+| 8 | should-fix | Fixed, `f0cc6a3`. The ship script refuses when a migration changed after a `Staging:` line of the job file, or since the commit the `staging` pointer held. |
+| 9 | should-fix | Fixed, `3b617f7`. A stopped deploy says the step, whether the migrations had run, where the backup is, and that `RELEASE` was not written. The header and the per-project file say zero-downtime releases are required. The deploy box's lines are a file in the template, marked unconfirmed (question 10). |
+| 10 | should-fix | Fixed, `3b617f7`. Each program may be more than one word. Tried with real Composer. |
+| 11 | should-fix | Fixed, `f0cc6a3` and `d8cf3ed`. At least 600 seconds and at least as long as staging took; the skill reads the version line again just before Gordon presses Deploy. |
+| 12 | should-fix | Fixed, `3b617f7`. The test walks the whole config. The proof puts a real-looking key in a config file of the app's own: the gate fails. |
+| 13 | should-fix | Fixed, `d8cf3ed`. Step 7 no longer edits the project's `CLAUDE.md`; the facts go in before the review. |
+| 14 | should-fix | Fixed, `2ebc62d`. Once production is live, a missing Node line or server is DUE. With no `.nvmrc` the Node line is read from the CI workflow. |
+| 15 | should-fix | **Left for Gordon.** Which skill owns the words "ship it" once both kits are linked. Question 11. The pre-push hook now stops the WordPress skill's hand-made push of `main` in a Laravel project either way. |
+| 16 | minor | Fixed, `f0cc6a3`. No environment variable replaces the staging server; the tests edit a copy. |
+| 17 | minor | Fixed, `f0cc6a3`. Only `.md` files and `.gitkeep`. |
+| 18 | minor | Fixed, `3b617f7`. A test reads every name `app/` writes. The proof uses Faker in `app/`: the gate fails. |
+| 19 | minor | Fixed, `d8cf3ed`. A commit of job files only needs no new gate run; the Review line names the last gated commit. |
+| 20 | minor | Fixed, `3b617f7` and `d8cf3ed`. The log probe's web answer names the web's PHP version. |
+| 21 | minor | (a) Fixed, `3b617f7`: the backup goes beside the database's real place. (b) Left as question 12: it is already question 5 in the paperwork log. |
+| 22 | minor | (a) Fixed, `2b9fecd`: the record says when the kit had uncommitted changes. (b) The ship script prints the parity proof as one line for the job file's Notes, and the skill says to copy it: instruction. |
+| 23 | minor | Fixed as words, `f0cc6a3` and `fec74fb`: the script says so when it moves another job off staging, and rule L-9.3 now calls "one job at a time" instruction. |
+| 24 | minor | Fixed, `d8cf3ed`. Both skills now say why they end without a write, and laravel-update ends with a receipt line. |
+| 25 | minor | **Left for Gordon.** The skill no longer promises Boost's search before Boost is set up. Setting it up rewrites `CLAUDE.md`, so it is his say. Question 13. |
+| 26 | minor | (b) Fixed, `2ebc62d`: a note before go-live when no restore test is on record. (a) Not changed: reading PHP from `composer.json` errs toward a false alarm, and the server's own version is now compared by hand (finding 20). |
+| 27 | minor | Fixed, `2b9fecd`. The test removes its folder. |
+
+**What the proof with real PHP found in my own work.** Three things, all fixed before the last run:
+1. The dummy-credentials test, walking the whole config, tripped over two names that are no credentials (`app.aliases.Password`, `cache.stores.session.key`). They are on the test's short list now, with the reason.
+2. The rule against development-only packages, written as one of Pest's architecture rules, made Pest load Faker's classes, and one cannot be loaded. It is now a plain test that reads the names each file in `app/` writes. It also had Pint's own `App` namespace on its list; the project's own namespaces are taken off.
+3. The review's fix for finding 5 does not hold (top of this section).
+
+**Earlier tests whose expected answer changed, on purpose.**
+- `tests/test_shell_guard.py`, two push cases (013, 014): `cd <another repository> && git push ...` is now allowed (finding 13). Its test for a note after `php artisan test` now accepts any refusal letter.
+- `tests/test_push_scope.py`: a folder that does not exist is "unknown", not "other" (finding 4).
+- The first reviewer's expected file: E38 and E04 are refused by another rule letter; J29 was allowed and is now refused; the total went from 38 to 37.
+- `tests/test_plan_gate.py`: an effort word nobody knows ("turbo") is refused, not let through (finding 11).
+- `tests/test_job_file.py`, `tests/test_ship.py`, `tests/test_plan_to_ship.py`: every Review line carries its range; the stamp line names the permission mode; the sentence about production not moving names the seconds watched.
+- `tests/test_registration_check.py`: the file tools' list holds one more tool. `tests/test_installer.py`: eleven steps, not ten.
+- `tests/test_gate.py`: an analyser file in a subfolder is a control now.
+- `tests/test_deploy_script.py` and `tests/test_project_template.py`: the words of the debug refusal, and the deploy script's own lines.
+
+**Where the plan was silent or disagreed with itself, I took the safer reading.**
+- A push from a folder held in a variable: the first review's case G37 wants it refused, the second's QD43 wants it allowed. Kept refused.
+- A stamp made in auto mode: nothing says whether the app shows its dialog there. No stamp in bypass mode; auto mode still stamps, and the stamp line names the mode.
+- A stock file of a Laravel release the kit has no copy of: CONFLICT, not replace.
+- Debug in production: anything that is not plainly "off" counts as on.
+
+**Questions for Gordon.**
+1. **The first app's test config.** If `hdonline-v4/phpunit.xml` holds only `force="true"` on its `<env>` lines, a database named in the shell is still the one its tests use. The app track should try it (the template's `phpunit.xml` shows the two lines; `bin/prove-template.py` check 8a shows the try-out). I did not open the app.
+2. **Fit 7.** Laying the template over the first app needs a stage of its own. Until then do not run `laravel-new.py --apply` there. It will now refuse to overwrite the app's three test files and list them as conflicts to merge by hand.
+3. Add three GitHub pages to the refused list (the page that grants an application access, cloud workspaces, a repository's deployments)? It is a change to the rules file, which is yours.
+4. Narrow the refused Actions and branch pages to Copper Leaf's own repositories?
+5. A push from a folder held in a variable stays refused (`cd "$PLUGIN_DIR" && git push ...`), in every repository on this Mac. The two reviews disagree about it. If the WordPress ship skill writes its pushes that way, the Laravel guard will refuse them once it is registered. I may not read that kit, so I could not check. Look before registering, or say that such a push may pass when the session does not stand in a kit project.
+6. May a Laravel job ever be moved to a cloud session, or have auto-merge switched on? Both tools are refused by name in a kit project today.
+7. Does the app show its plan approval dialog in auto mode? The installer's step 8 is the try-out, and needs you.
+8. Do you want a real wall around the stamp store (the stamp written by something the session cannot write as)? Today it is a hook and instruction.
+9. Should the kit's self-test run only in sessions that stand in the kit folder? Today it runs after any change, in any session, and its message says who it is for.
+10. The lines for Forge's deploy box (`.kit/deploy-box.txt`) and the two-word Composer are unconfirmed until the first staging deploy. Zero-downtime deployment must be on for both sites.
+11. **Fit 15.** Who owns the words "ship it" when both kits are linked: proposal P-9 on the WordPress descriptions, or laravel-ship naming them for projects under `~/Dev/clc-laravel`?
+12. **Fit 21b.** The backup before a deploy: the plan says the encrypted archive in two places elsewhere; the template makes a checked copy on the same disk. (Question 5 in the paperwork log.)
+13. **Fit 25.** Set Boost up in the template (it rewrites `CLAUDE.md`), or leave it as a package only?
+14. Is the guard's new strictness acceptable (the list under "what the fixes cost")?
+
+**Not done.**
+- Nothing was tried against a registered hook: none is registered.
+- The first app was not opened, and the template was not laid over it.
+- The pre-push hook is in the template. It is in no real project yet, and switching it on in a clone is one git setting (the installer's step 11 prints it).
+- Finding 26a (PHP read from `composer.json`) is unchanged.
+
+**Untouched, checked at the end.** `~/.claude/settings.json` was last changed on 2026-10-01 at 21:23, before this stage, and `bin/check-registration.py` still says none of the six hooks is registered. The kit repository has no remote. Nothing under `~/Dev/clc-plugins/`, the import data folder or Downloads was read or written, and I did not look inside `hdonline-v4/`. Nothing was installed with Homebrew; Composer fetched packages for the proof's throwaway project only. In the Sancho tree only this log was written. In the Mac's temporary folder: the "before" run above left 279 throwaway test repositories behind (its tests failed before they could tidy up), and I removed exactly those. 23 small `clc-gate-report-test-` folders from before the fix of fit finding 27 are still there. I left them, as the reviewer did, because I cannot tell whose they are. The fixed test leaves none.
+
+**Refused by the app's safety check.** One command: a `sleep` chained in front of a `cat`, while I waited for a long test run. I did not work around it: I went on with other work, and later waited the way its own message said to. Nothing else was refused.
+
+**Commits of this stage** (kit repository, on top of `d47f4ea`): `fc58a1e`, `9dac356`, `2026bdf`, `7632786`, `f1480a7`, `859ef0a`, `f0cc6a3`, `2b9fecd`, `3b617f7`, `2ebc62d`, `d8cf3ed`, `fec74fb`.

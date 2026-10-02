@@ -105,14 +105,14 @@ stages:
   - {name: james-gilbert, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: james-gilbert}, group: F, status: blocked, blocked: Gordon must say whether to strike v2 s  wife  line now that Felix is his partner  whose medicated week the toddler text was about (his or Leah s)  whether rec_39b0317203 (2026-02-27) was his coffee wi}
   - {name: larry-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: larry-bloom}, group: F, status: done}
   - {name: alexia-blackwood, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: alexia-blackwood}, group: F, status: done}
-  - {name: ali-woll, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ali-woll}, group: F, status: active}
-  - {name: amber-crummy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amber-crummy}, group: F, status: pending}
-  - {name: brent-ballard, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brent-ballard}, group: F, status: pending}
-  - {name: chad-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chad-cohen}, group: F, status: pending}
-  - {name: holly-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: holly-cohen}, group: F, status: pending}
-  - {name: dan-morman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dan-morman}, group: F, status: pending}
-  - {name: dnelle-dowis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dnelle-dowis}, group: F, status: pending}
-  - {name: emily-sheehan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: emily-sheehan}, group: F, status: pending}
+  - {name: ali-woll, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ali-woll}, group: F, status: blocked, blocked: Gordon to confirm whether awoll540@gmail.com is Ali Woll s and where she lives; the file is written with both in Open threads}
+  - {name: amber-crummy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: amber-crummy}, group: F, status: done}
+  - {name: brent-ballard, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: brent-ballard}, group: F, status: done}
+  - {name: chad-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: chad-cohen}, group: F, status: done}
+  - {name: holly-cohen, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: holly-cohen}, group: F, status: done}
+  - {name: dan-morman, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dan-morman}, group: F, status: done}
+  - {name: dnelle-dowis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: dnelle-dowis}, group: F, status: done}
+  - {name: emily-sheehan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: emily-sheehan}, group: F, status: active}
   - {name: eric-pommier, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: eric-pommier}, group: F, status: pending}
   - {name: laura-holden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: laura-holden}, group: F, status: pending}
   - {name: gene-vann, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: gene-vann}, group: F, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: ali-woll
+current: emily-sheehan
 waiting_on: []
 ---
 # Backfill people
@@ -366,3 +366,19 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T14:40:27+02:00 job.run: stage `alexia-blackwood` started
 - 2026-10-02T14:49:33+02:00 job.run: stage `alexia-blackwood` done (Stage: done · tests green)
 - 2026-10-02T14:49:33+02:00 job.run: stage `ali-woll` started
+- 2026-10-02T14:55:38+02:00 job.run: stage `ali-woll` blocked, recorded, job continues: Gordon to confirm whether awoll540@gmail.com is Ali Woll s and where she lives; the file is written with both in Open threads
+- 2026-10-02T14:55:38+02:00 job.run: 6 stages in one run; continuation queued (20261002T125538Z_job.run_8dedeb.md)
+- 2026-10-02T14:55:38+02:00 job.run: stage `amber-crummy` started
+- 2026-10-02T15:03:55+02:00 job.run: stage `amber-crummy` done (Stage: done · tests green)
+- 2026-10-02T15:03:55+02:00 job.run: stage `brent-ballard` started
+- 2026-10-02T15:14:27+02:00 job.run: stage `brent-ballard` done (Stage: done · tests green)
+- 2026-10-02T15:14:27+02:00 job.run: stage `chad-cohen` started
+- 2026-10-02T15:24:36+02:00 job.run: stage `chad-cohen` done (Stage: done · tests green)
+- 2026-10-02T15:24:36+02:00 job.run: stage `holly-cohen` started
+- 2026-10-02T15:33:27+02:00 job.run: stage `holly-cohen` done (Stage: done · tests green)
+- 2026-10-02T15:33:27+02:00 job.run: stage `dan-morman` started
+- 2026-10-02T15:38:53+02:00 job.run: stage `dan-morman` done (Stage: done · tests green)
+- 2026-10-02T15:38:53+02:00 job.run: stage `dnelle-dowis` started
+- 2026-10-02T15:46:08+02:00 job.run: stage `dnelle-dowis` done (Stage: done · tests green)
+- 2026-10-02T15:46:08+02:00 job.run: 6 stages in one run; continuation queued (20261002T134608Z_job.run_9e5b32.md)
+- 2026-10-02T15:46:08+02:00 job.run: stage `emily-sheehan` started

@@ -27,6 +27,30 @@ If a workflow's agents die together again, suspect the connection first: check i
 
 Workflow 1's first run was `wf_7dd7f3e2-dad`, started 08:17; its script is `/Users/gordonium/.claude/projects/-Users-gordonium-Sync-Sancho/cd83fc61-feee-41e8-9f21-bf4f7f14f778/workflows/scripts/hd-v4-build-1-wf_7dd7f3e2-dad.js`. To resume it after a cut: run the Workflow tool with that script path and `resumeFromRunId: wf_7dd7f3e2-dad`; finished agents are not rerun. Each chain stops by itself if a builder does not return or the kit's checks are red after the guard fixes.
 
+## Workflow 2 running since 15:50
+
+Run `wf_7da8796e-459`; script `/Users/gordonium/.claude/projects/-Users-gordonium-Sync-Sancho/cd83fc61-feee-41e8-9f21-bf4f7f14f778/workflows/scripts/hd-v4-build-2-wf_7da8796e-459.js`. To resume after a cut: the Workflow tool with that script path and that run ID. App chain: P3 (Calendly, search, change history, delete and restore, Settings and Connections), then a plan-fit and a safety review, then one fix. Kit chain: a third review round on commit fec74fb (an attack on the 46 unreviewed fixes; a second look at the release gate, the deploy script and how the template is laid over an existing app), then one fix.
+
+Planned after it: workflow 3 = P4 (the import and the letter conversion, the rehearsal on the real history, the demonstration set, browser tests), reviews, fix. Workflow 4 = backups, restore and the morning check; the kit's template laid over the app; W2 (how-tos, and the runbooks' command and setting names); then Z, the summary.
+
+## Workflow 1 finished at 15:33 (nine agents, all returned)
+
+**Kit** (`/Users/gordonium/Dev/clc-laravel`, last commit fec74fb, tree clean; `bash bin/test-all.sh`: 4,092 tests, 0 failures, as the fixer reports, also from a clean copy with an empty home):
+- K1 guard fixes finished: 24 fixed, 1 left for Gordon. The first reviewer's 869 cases now: wrongly allowed 226 to 38 (those that must be refused: 71 to 0), wrongly refused 53 to 11; each case still open carries its reason.
+- K3 built (14 commits): seven skills (plan, write-plan, code, review, ship, update, parity), the two plan-gate hooks and the job-file program, the model-and-effort check, a preflight, the updates calendar and "what is due", the parity check. Documentation confirms a hook can attach to leaving plan mode but not that it receives the plan's text, so that row is labelled "instruction".
+- Two reviews (`reviews/kit-K3-attack.md`, `reviews/kit-K2-K3-fit.md`): 4 blockers, 25 should-fix, 20 minor. Blockers: a comment holding an apostrophe hid the lines after it from the guard; a commit on the local `main` could ship with no reviewer pointed at it; the gate passed with installed packages that were not the ones the lock file names; a change to the audit ignore list was not counted as a change to the controls.
+- Fix: 46 fixed, 0 rejected, 3 left for Gordon. **These 46 fixes have had no review yet; workflow 2 attacks them again.**
+
+**App** (`/Users/gordonium/Dev/clc-laravel/hdonline-v4`, branch feature/v4-build, last commit 9a61adf, tree clean; `herd composer test`: 1,011 tests, 3,707 assertions, 0 failed; lint, analysis and audit clean, as the fixer reports):
+- P2 built (letters, invoices with real PDFs, mail, all against stand-ins): 868 tests at 6ab6cf3; 27 decisions the documents did not settle, in `build-log-app.md`.
+- Two reviews (`reviews/app-P2-plan-fit.md`, `reviews/app-P2-safety.md`): 1 blocker, 11 should-fix, 20 minor. The blocker: the live-mail switch was read so that "off" meant on, and a production-mode site sent an invoice to the client instead of the trap. Others: a server left on the log mailer said "Invoice sent" while nothing left; a misspelt tag in a template went to the client unfilled; markdown typed into a name became a working link in the client's mail.
+- Fix: 31 fixed, 0 rejected, 1 left for Gordon.
+- A second working tree and a branch `p2-build` from the first, cut-off P2 builder are still in the app repository (three commits, superseded).
+
+**Questions for Gordon:** 43 from this workflow, in the agents' words, in `questions-for-gordon.md`; the earlier fifteen are further down this file.
+
+**Still owed, and who owns it:** laying the kit's project template over the app (the app carries 3 of the template's 15 pieces; `laravel-new.py --apply` must not be run there as it stands, because it would replace the app's hardened test files): a stage of its own, with backups, restore and the morning check, in workflow 4. The staged real-data file `legacy.sqlite` was made read-only at the file level at 15:40.
+
 ## Stopped at 04:00 (first reported as a usage limit; see above)
 
 At about 04:00 on 2026-10-02 both running agents were ended by the service with the same message: "You've hit your monthly spend limit · raise it at claude.ai/settings/usage · your session limit resets 5:40am (Europe/Rome)". The message names two limits; which one actually stopped the work is unconfirmed. Nothing was lost that was committed, and both agents left unfinished work in their working trees:
