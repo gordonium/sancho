@@ -1,0 +1,4 @@
+# _setup/tests/pipeline-rematch · INDEX
+generated 2026-10-02 by build-index.py · 1 entries
+
+- test.py · script · 2026-10-02 · earballs.py `rematch`, `retry` and the chunk fallback in a temp tree with a fake voiceprint library and no network. rematch --person --since examines every ready recording in the window where the person was a candidate, newest first, with no cap (26 changed clusters come back, past the old 20), lists only clusters whose top candidate changed (rec_id, handle, old, new, score), leaves out recordings before --since and ones where the person was never a candidate, writes the list to _queue/log/ as it goes and never touches speakers.md. retry puts a recording that failed five times back to `downloaded` with error count 0. A chunk ffmpeg cannot cut by copying is cut by re-encoding.

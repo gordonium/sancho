@@ -330,3 +330,211 @@ Started 2026-10-02 03:25 CEST. Fixer: Claude, model Fable 5.1 (`claude-fable-5-1
 **What I will not do.** Register a hook. Edit anything under `~/.claude/`. Contact a server. Type an ssh, rsync, scp, sftp or push example on my own command line (they live in files). Install anything. Push, or add a remote. Touch `~/Dev/clc-plugins/` or look inside `hdonline-v4/`. Edit the review files. Change the list of hosts the guard leaves alone, or add pages to the refused list beyond what a finding's fix needs: those are Gordon's (the real-rules test says "until Gordon decides otherwise").
 
 **How it is tested.** As K1: Python's own test runner, made-up hosts, nothing that depends on this Mac. New: the push rule's look at the disk goes through one small reader that the tests replace with a made-up disk, plus tests against real throwaway repositories (a clone, a worktree) in a temporary folder; the registered command line itself is run by the tests against a missing wrapper and against the wrapper cut at every line.
+
+### What was done
+
+**The K1 fixes are finished, tested and committed. Finished 2026-10-02 10:10 CEST. All 3 blockers and all 12 should-fix findings are fixed. Of the 10 minor findings, 8 are fixed, one (19) is left for Gordon, and one (25) is fixed in three of its five parts, with one part left for Gordon and one that no text guard can close. `bash bin/test-all.sh`: 2,475 tests, all pass. Nothing is registered, installed, pushed or switched on.**
+
+**Two fixers did this.** The first (plan above) was cut off at 04:00 when the connection dropped. It had made three commits and left eight files uncommitted. The second fixer (Claude, model Fable 5.1, `claude-fable-5-1`; I cannot see my own effort level; I wrote neither the kit nor the review) started at 08:20. What I did with the earlier work:
+- **Read all of it before trusting it**: the whole of `bin/guard_core.py` as committed, and the uncommitted diff of all eight files.
+- **Ran the tests as found**: 1,966 tests, 5 failing. One was the self-test's own test (the program had been rewritten, its tests not yet). Four were the installer's tests, which failed because the shell Claude's tools use has Herd's folder on the PATH, so the installer found Herd's `forge` and called it a problem. Neither was a fault in the unfinished work itself.
+- **Probed the three committed fixes with shapes of my own** (54 command texts beyond the reviewer's). They held, with one hole: a git alias that begins with `!` runs a shell command and was not judged (`git -c alias.x='!gh pr merge 3' x`). Fixed.
+- **Kept all of it.** I finished the self-test's tests, added tests for the Monitor tool and for the dev-server tool (the code was there, with no test), wrote the handoff section the new messages point at, and committed it in two commits. Then I did the rest of the plan: steps 5, 6, 7 and 10, and what was left of 9.
+
+**The test command and its result.**
+
+```
+bash /Users/gordonium/Dev/clc-laravel/bin/test-all.sh
+```
+
+Result at the last commit: `Ran 2475 tests in 189s`, `OK`, exit code 0. Failures 0, errors 0, skipped 0. Every test of K1 and K2 is still there and still passes. Two K1 test cases changed their expected answer from refuse to allow, each with the reason written beside it: a here-document handed to `cat` with an unquoted mark (first fixer), and `curl <readable address> | head -1` (finding 17).
+
+| Test file | Tests | What it covers |
+|---|---|---|
+| `tests/test_reviewer_cases.py` | 875 | new: the reviewer's 869 cases, one test each, and six tests on the totals and the reasons |
+| `tests/test_k1_review_fixes.py` | 435 | new: the fixer's own cases, finding by finding; random strings; one very long word |
+| `tests/test_shell_guard.py` | 604 | K1's 456, plus the first fixer's cases for findings 1, 3 and 20 |
+| `tests/test_tools_that_run_commands.py` | 26 | new: every tool that can start a program reaches its guard |
+| `tests/test_push_scope.py` | 19 | new (first fixer): the push rule against a made-up disk and real throwaway repositories |
+| `tests/test_guard_wrapper.py` | 38 | was 19: the registered command against a missing wrapper and a wrapper cut at every line |
+| `tests/test_registration_check.py` | 34 | was 19: lines that cannot block are refused |
+| `tests/test_guard_selftest.py` | 20 | was 7: a standing failure is not rerun; quick and slow groups |
+| `tests/test_kit_lint.py` | 66 | was 48: the mechanisms table, the project file's content, the honest limit held to its words |
+| `tests/test_real_rules.py` | 20 | was 13: Herd's `forge`, the deploy hook, DigitalOcean, odd spellings, with the real rules file |
+| `tests/test_installer.py` | 11 | was 5: Herd's `forge`, the way out, a fixed PATH |
+| `tests/test_browser_guard.py` | 47 | unchanged |
+| K2's four files | 280 | unchanged, still passing |
+
+Five more checks, each run once by hand today:
+- **Every fix fails before and passes after.** `tests/test_k1_review_fixes.py` was run against the kit as it stood before the guard commit: 254 of its 435 tests failed (the rest are the cases that must stay as they were). After: none. The lint and real-rules tests the same way: 39 of 86 failed before. The new tool tests against the commit before theirs: 12 of 25 failed.
+- **The tests notice a missing piece.** In a scratch copy, 41 pieces of the new guard code were switched off one at a time and the guard tests rerun. 37 made a test fail at once. Three had no test, and got one. The last was a check that could never fire; it was removed. All 40 that remain now fail a test when switched off.
+- **From a clean copy**, with the home folder pointed at an empty folder and a plain PATH: 2,475 tests, OK. The empty folder was still empty afterwards and the copy had no new files.
+- **End to end with the real rules file and the real wrapper**: 18 hook-shaped inputs (the Bash tool, Monitor, the terminal tool with its own folder, three browser tools). All 18 answered as they should, the review's own blocker cases among them.
+- **Random strings**: 120,000 strings of the words and signs the guard looks for, against both guards. One crash was found this way while the fixes were being written (a program name that looks like a wildcard with a broken range) and fixed; after that, none. A crash would have been a refusal, not a pass. A fixed run of 4,000 is now part of the tests.
+
+**The reviewer's 869 cases, before and after.**
+
+| | At the review (26a0dbc) | Now |
+|---|---|---|
+| Allowed / refused | 436 / 433 | 290 / 579 |
+| Wrongly allowed | 226 | 38 |
+| of which "must be refused" | 71 | **0** |
+| of which the same danger by another road | 56 | 18 (all Gordon's decision, finding 19, or a tag with a plain name) |
+| of which inside the stated limit | 41 | 16 (script files and clicks) |
+| of which deliberate disguise | 58 | 4 |
+| Wrongly refused | 53 | 11 (8 shell, 3 browser) |
+| Crashes | 0 | 0 |
+
+- 188 cases that were allowed are now refused. None of them is a case the reviewer wanted allowed.
+- 42 cases that were refused are now allowed. All 42 are cases the reviewer marked as everyday work. They are listed below with why each is safe.
+- Every one of the 49 cases where the guard still differs from the reviewer carries its reason in `tests/fixtures/reviewer-cases-K1-expected.txt`: OPEN (outside what text can show), KEPT (refused on purpose) or GORDON (his decision). A test refuses any other word.
+- To see the totals: `python3 ~/Dev/clc-laravel/tests/test_reviewer_cases.py --totals`.
+
+**Finding by finding.**
+
+| # | Weight | What was done | Commit |
+|---|---|---|---|
+| 1 | blocker | **Fixed.** Every `$( ... )`, backtick pair, `<( ... )` and `>( ... )` is found in the raw text and judged as a command of its own, at any depth; deeper than six is refused. I added: a git alias that begins with `!` | 17f3f39, c7d625f |
+| 2 | blocker | **Fixed.** `Monitor` is in the shell matcher and in the registration check's list, so the check fails without it. The guard judges its command and its web-socket address. The dev-server tool is judged by what `.claude/launch.json` says it runs. See "Every tool" below | aebddf6 |
+| 3 | blocker | **Fixed.** The push rule goes by the repository the push would act on: the tool's own folder, every `cd` and `git -C`, a clone or worktree anywhere on this Mac. A folder it cannot work out counts as a project. `git subtree push` and `git send-pack` are pushes. The review's other suggestion, a git `pre-push` hook in the project template, is **not built** (see "Not done") | 581087a |
+| 4 | should-fix | **Fixed.** The registered command checks that the wrapper is there and whole, and turns every exit code but 0 and 2 into 2. The two environment overrides are gone. The deadline covers reading the input | aebddf6 |
+| 5 | should-fix | **Fixed.** The registration check accepts only the kit's exact command text, refuses `async`, and requires a timeout | aebddf6 |
+| 6 | should-fix | **Fixed.** The way out is written for Gordon in four places: the wrapper's message, the registered command's message, the installer (always printed), and the kit handoff, section "If a guard breaks". The self-test remembers a failure and reports it at once; it runs the guard tests (33 seconds) after any change and the slow tests (150 seconds) only when their files changed. Two points are Gordon's: see questions 3 and 7 | aebddf6, 96125d9 |
+| 7 | should-fix | **Fixed.** For a host the guard passes over, options that point the connection elsewhere are refused (`-J`, `-W`, `-L`, `-F`, `-o HostName=`, `-o ProxyCommand=`, `rsync -e <another program>`, `GIT_SSH_COMMAND`). A key, a port and a user stay the other guard's business | c7d625f |
+| 8 | should-fix | **Fixed.** `forge` and `gh` are refused behind another program, by path, as a `.phar`, in code, in a variable or alias. Packages go by the last part of their name | c7d625f |
+| 9 | should-fix | **Fixed.** git with an address written out, `ssh://` `sftp://` `scp://` addresses and `wp --ssh=` are judged like an ssh destination. `ssh-copy-id`, `slogin`, `lftp`, `ansible` and the task runners Envoy and Deployer are refused. What is left is named in the honest limit | c7d625f |
+| 10 | should-fix | **Fixed**: `config:show`, the cached settings, a wildcard in a dot-name, a search through whole folders with no folder named. **Not changed**: `artisan env` (it prints the environment's name) and `about --json` (it prints what `about` prints, which the review's own cases F109 and E41 want allowed). Neither was tried on a real app | c7d625f |
+| 11 | should-fix | **Fixed.** The tools that print a file may print the logs and source files, not the database, stored documents or cached settings. `ls`, `stat` and `wc` still look at the database | c7d625f |
+| 12 | should-fix | **Fixed.** The marker is `/deploy/http`, in both rules files. Cost: a local path with those characters in it is refused too | c7d625f |
+| 13 | should-fix | **Fixed.** The rules file has a table, "What each mechanism rests on today", 35 rows; `bin/kit-lint.py mechanisms` fails when a rule that names a mechanism has no row. No guard row may say more than "built, not registered" | 6f42709 |
+| 14 | should-fix | **Fixed**, each loosening shown safe (below). **Kept refused**: `.env.example` on the server, `ssh -t`, a trailing `; echo` after the closing quote, a `;` inside a quoted pattern | c7d625f |
+| 15 | should-fix | **Fixed**: comment lines, `find`, `whereis`, `hash`, `[[` (first fixer); the kit's own repository and other repositories (finding 3's fix); the code host's documentation sub-domain; `brew uninstall gh`. **Kept refused**: a bare `rsync` among the words of a script (D105) | 17f3f39, 581087a, c7d625f |
+| 16 | minor | **Fixed.** `sort -ro`, `uniq - file`, `date --set`, `make:*`, `install:*`, `vendor:publish`, `schema:dump`, `dusk`, `model:prune` | c7d625f |
+| 17 | minor | **Fixed**: `www.` in front of the production name; a plain read may be followed by `head`, `tail`, `grep`, `jq`, `wc` or `echo`; `dig <host>`. **Kept refused**: a mailbox at the production name (`peter@app...`), because `user@host` is also how a server is named | c7d625f |
+| 18 | minor | **Fixed.** Addresses are matched with percent codes, look-alike dots, tabs, line breaks, soft hyphens, quote marks, `/./` and `/../` undone, as one number, and typed in two pieces. Left open and named in the limit: an address built from a variable, or decoded by a page's script | c7d625f |
+| 19 | minor | **Left for Gordon** (the review says so too). Question 1 | none |
+| 20 | minor | **Fixed** (first fixer): `bash <(cat ...)`, the pipe on a continued line, `&&>`, depth | 17f3f39 |
+| 21 | minor | **Fixed.** A word over 100,000 characters is refused unread. One million characters now answers in under a second | c7d625f |
+| 22 | minor | **Fixed.** The project lint checks the production sentence word for word, the alias and app root against the guard's rules file, a date on every line of sections 16 and 17, and anything shaped like a secret | 6f42709 |
+| 23 | minor | **Fixed.** Ledger rows for P-1, P-6, P-7 and P-9; row C-75 no longer overstates | 6f42709 |
+| 24 | minor | **Fixed.** `doctl` and `hub` are refused; DigitalOcean's API host is on the refused addresses | c7d625f |
+| 25 | minor | (a) a tag with a plain name cannot be told from a branch by text: **open**, in the limit; `2026.10-updates` stays refused, and the message says to write `refs/heads/...`. (b) `ssh -G <host>` passes: **fixed**. (c) Forge's own pages on the refused host: **left for Gordon**, question 4. (d) the handoff's sentence: **fixed**. (e) the simulator tool is in the browser matcher: **fixed** | c7d625f, 6f42709, aebddf6 |
+
+Herd's `forge` (from K2): the guard refuses it by name, by its path, behind `php` or `herd`, inside `zsh -lic`, in a variable and in code; nine forms are tested with the real rules file. The installer no longer says "not installed": it reports the file as Gordon's to decide. Question 2.
+
+**Every tool that can run a shell command** (blocker 2). I read the definitions of this Mac's tools in this session.
+- **Confirmed and covered**: `Bash` (a command); `Monitor` ("Shell command or script", run "in the same shell environment as Bash"; it can also open a web socket by address); `mcp__terminal__run_in_terminal` (a command, in a folder of its own); `mcp__Claude_Browser__preview_start` (starts the program that `.claude/launch.json` lists; covered through the browser hook, and the guard reads that file).
+- **Confirmed to take no command, so left out**: `mcp__terminal__open_terminal_tab` (it types nothing); the scheduling tools `CronCreate`, `mcp__scheduled-tasks__create_scheduled_task` and `RemoteTrigger` (they take a prompt for a later session); the simulator's `build` tool (it runs `xcodebuild` on a project, which is a script file as far as the guard goes); `NotebookEdit` (it edits, it does not run).
+- **Could not confirm**: whether a subagent's tool calls and a workflow's agents pass the same hooks (assumed yes: the hooks sit in the user's settings); what Claude Code does with a hook that exits 127 or times out (read, not tried; the registered command no longer depends on it); whether the hook's folder follows a `cd` made in an earlier call; what tools another connector may add later. A session that does not run on this Mac passes no hook here at all.
+- The list lives in one place, `bin/check-registration.py`, and `tests/test_tools_that_run_commands.py` fails if the hooks block and that list drift apart. A new tool is rule L-10.17: it goes into both before it is used.
+
+**The 42 cases that were refused and are now allowed, and why each is safe.**
+- *The kit's own repository and other repositories* (G47 to G50): the push rule is for kit projects. The kit's `main` deploys nothing.
+- *A mention is not a command* (D81, D85 to D87, D89, D91 to D93, D108): a comment line of plain characters; `find`, `whereis`, `hash` and `[[` run none of their words; text handed to `cat` or to `git commit -F -` is stored, not run. A here-document handed to python is searched for the program names, and a line that is only a comment does not count.
+- *Listing or removing a refused program* (B62, B63, B65, B66): `uninstall`, `list`, `show`, `ls` bring nothing in and run nothing. Only the first word after the package manager's name counts as its verb, so an option cannot hide another verb.
+- *`ssh -G <host>`* (D116): it prints the settings an alias stands for and connects to nothing. Exactly three words, or it is judged as any ssh.
+- *On staging* (F100 to F103, F116 to F121, F129): `php8.5` and `/usr/bin/php` are PHP, and what follows is checked as before; a `|` inside quote marks is part of a pattern to the server's shell too (the splitter follows the same quoting rules, and unpaired marks are refused); `echo` of plain words, `uptime` alone, `ps` in a few fixed forms, none of which can print a process's environment, `find` from a list of tests and printing only, `sed -n` with a line range only, `zcat` of a listed folder; the app root in quote marks is the same path.
+- *Copies* (F152, F153): `--info=` only changes what rsync prints; a wildcard may stand only after a listed folder written out in full.
+- *Addresses* (H31, H32, K33, K34): the documentation sub-domain of the code host is not a repository's settings page. For the panel itself every sub-domain is still refused.
+- *Production* (H38, H40 to H42, H46, L35, L36): `dig` asks the name system, not the host; after a plain read only `head`, `tail`, `grep`, `jq`, `wc` and `echo` may follow, with no variable, no second line, no file written and no production name again; only an `Accept:` header; `:443` and one closing slash are the same address.
+
+**What the fixes cost: honest work that is now refused.** Each has a rewrite, and the message says it.
+- Code handed to python, php, node, perl, ruby or osascript that holds the word `ssh`, `scp`, `rsync`, `gh` or `forge`, even inside a string. Write the code to a file and run the file.
+- The bare word `gh`, `forge`, `hub` or `doctl` among the words of a program that is not a text tool.
+- git over ssh to any host but GitHub.
+- A local path that contains `/deploy/http`.
+- On staging: `cat` of anything outside the logs and source files; `ps` and `find` in any form off their short lists.
+
+**The honest limit, as it now stands.** It is at the top of `bin/guard_core.py`, and it is rule L-10.16 in the kit's rules file. A test holds both to their words. The guard reads the text of a command or an address before a tool runs. It stops mistakes and drift. It is not a wall. It cannot see:
+1. **Inside a file.** A script, a Makefile target, a Composer or npm script, a file that is sourced, a task runner's own file. A command written into a file and then run is not judged. The file tools are never judged.
+2. **What a value will be when the command runs.** An address put together from a variable, the output of another command, text a program decodes. (For a program's name the plain forms are now caught: a variable or alias set in the same call.)
+3. **What code does.** It looks for the program names as whole words. Code that builds a name from pieces, or connects through a library of its own, is not seen.
+4. **Where a click leads.** Not a click, a bookmark, a form, a redirect, what the browser completes from half a name, or which page is open.
+5. **Whether a plain name is a branch or a tag.**
+6. **What an allowed program does inside.** An artisan command of the app's own can do on staging whatever the app can.
+7. **A tool it is not registered for, and a session that does not run on this Mac.**
+8. **Which environment a command will run in.**
+
+The rule that goes with it: a command that reaches a server, pushes or deploys is typed plainly, never put into a script, an alias, a variable or code; getting a refused command through by one of those roads is working around the guard. The real walls are elsewhere: no production key and no Forge token on this Mac, deploy-on-push off, and Gordon pressing Deploy.
+
+**Commits.** 8 since K2's `00c07f8`, local only, on `main`: `95926b6`, `17f3f39`, `581087a` (first fixer), `aebddf6`, `96125d9`, `c7d625f`, `6f42709`, `e7dcc9e`. No remote exists. The working tree is clean.
+
+**Not done, and why.**
+- **A git `pre-push` hook in the project template** (the review's second suggestion for finding 3). Git hands that hook the real names being pushed, so it would also stop a push from a script, an alias, or a tag with a plain name, and a bare `git push` after a `cd` made in an earlier call. It needs a file in the template, a line in the ship script and a piece in the project check. Those are K2's files, which have not had their review yet. It is a request to the stage that reviews and fixes K2 and K3, and is written in the kit handoff, section 6.
+- Nothing is registered. The hook facts were read, not tried with a live hook.
+- The WordPress kit was not opened. The option rule for hosts left to another guard refuses only options that point a connection elsewhere; a key, a port and a user are untouched. Whether a WordPress workflow uses one of the refused options was not checked, because this stage may not read that kit.
+
+**Questions for Gordon**, each with Sancho's pick.
+1. **GitHub pages that commit to `main`, cut a release or make a repository, and GitHub's API** are not on the refused list (finding 19). Add them? The lines for `config/guard-rules.json`: `github.com/*/*/new`, `github.com/*/*/edit`, `github.com/*/*/upload`, `github.com/*/*/delete`, `github.com/*/*/releases/new`, `github.com/new`, and `api.github.com/repos/*/*/` followed by `merges`, `git`, `actions`, `branches`, `keys`, `hooks`, `dispatches`. Pick: yes. Nothing in a Laravel job needs them, and the WordPress release gate gains too.
+2. **Herd's `forge` program.** Leave the file (the guard refuses it once registered, and it holds no token) or delete it (a Herd update may bring it back)? Pick: leave it, and never run `forge login` on this Mac.
+3. **Register the hooks for the whole Mac, or in each project's own settings?** For the whole Mac a broken guard stops every session, Sancho's unattended ones too; per project it covers less. Pick: the whole Mac, as designed, and tell Sancho's side first so a refused pipeline run is noticed.
+4. **Forge's documentation and price pages live on the panel's own host**, which is refused whole. The monthly re-read of source pages cannot fetch them. Allow those paths, or keep the host shut? Pick: keep it shut until the updates stage needs them.
+5. **GitHub over port 443** uses another name (`ssh.github.com`), which is not on the "left to another guard" list. Pick: add it only if the usual port is ever blocked.
+6. **Can a session that does not run on this Mac push `main`?** A cloud session or a remote agent passes none of these hooks. The reviewer asked this too. It needs an answer before the first ship.
+7. **Before the hooks are registered, Sancho's side must know**, so a refused run is not silent (must-never 10). That is a step for the thread that owns `_setup/`.
+
+**For stage K3 and the next review.**
+- New rules L-10.16 and L-10.17. The ledger has 104 rows and 126 rule IDs. Lesson LL-12 is new.
+- The table "What each mechanism rests on today" in the rules file has rows that say "not built: build step 6". When K3 builds the skills and the plan-gate hooks, those rows change in the same commit. The lint checks that a row exists, not that it is still true.
+- `bin/kit-lint.py project` is stricter: a staging alias that is given must be listed in `config/guard-rules.json`, or the file says "None yet" with a date. `bin/check-project.py` runs it.
+- The preflight should compare the session's tools with `SHELL_TOOLS` and `BROWSER_TOOLS` in `bin/check-registration.py`.
+- A hook that K3 adds needs its exact command text in `bin/check-registration.py`, or the check will not see it. The self-test's slow group lists its files by name in `bin/guard-selftest.py`; a new slow test goes there.
+- `bash bin/install-mac.sh --skip-tests` prints everything without running the guard tests. The installer's own tests use it.
+- The attack on the fixed guards should start from `tests/fixtures/reviewer-cases-K1-expected.txt`: 38 cases are still allowed, each with its reason.
+
+**Refused by the app's safety check:** nothing.
+
+**Untouched, checked at the end.** `~/.claude/settings.json` was last changed on 2026-10-01 21:23, before this run. `~/Dev/clc-plugins/` still shows five uncommitted files (counted, not read). Nothing inside `hdonline-v4/` was read, changed or staged. The review files were not edited. The kit has no remote. Nothing else was written in the Sancho tree but this section.
+
+## K3
+
+Started 2026-10-02 10:20 CEST. Builder: Claude, model Fable 5.1 (`claude-fable-5-1`). I cannot see my own effort level. Scope: items 6 and 7 of section 14 of `laravel-kit-spec.md`, and the parity skill of section 10. Nothing from item 8 onward: no pilot, no first parity review.
+
+Starting point, checked: the kit is at commit `e7dcc9e`, working tree clean. `bash bin/test-all.sh`: 2,475 tests in 179 s, OK.
+
+### Plan (written before coding)
+
+**The hook question, answered first, because the design hangs on it.** Read on 2026-10-02 in Claude Code's own documentation (the hooks page, the tools page, the permission-modes page and the subagents page at code.claude.com, through the summarising fetch tool), and in the Claude Code program installed on this Mac (version 2.1.286):
+
+- **Can a hook attach to leaving plan mode with approval? Yes, by the documentation.** Leaving plan mode is a tool call named `ExitPlanMode`. The tools page says tool names are "the exact strings you use in ... hook matchers", and lists `ExitPlanMode` as needing permission. The hooks page says a `PostToolUse` hook runs only after a tool has run, and a tool call the user turns down never runs. So a `PostToolUse` hook on `ExitPlanMode` fires when a plan was approved and not otherwise.
+- **Does that hook receive the plan's text? Not confirmed.** The documentation does not say what `ExitPlanMode` hands to a hook. The installed program does add the plan's text and the plan file's path to that tool's input before the hooks run (two fields, `plan` and `planFilePath`; read in the program's code, which is not written to be read). No session record on this Mac holds a plan-mode exit to compare with, and I may not register a hook to try it. So: built to use the text when it arrives, with an honest fallback when it does not, and the row is labelled "instruction" until it has been seen once with a live hook.
+- **The effort level can be read by a hook.** The hooks page lists an `effort` field with a `level` (low, medium, high, xhigh, max) on tool events. **The model cannot:** only the session-start event may carry it, "and Claude Code doesn't always include it". So the effort half of the check is built into the hook; the model half stays Gordon's confirmation, labelled so.
+- **Two limits of plan mode itself, from the permission-modes page**, which the spec's "real wall" should be read with: Gordon can leave plan mode with Shift+Tab without approving any plan (then there is no stamp, and the gate refuses); and in a terminal session started with "bypass permissions" available, the app does not enforce plan mode's blocks at all. In plan mode the file tools are blocked; shell commands are still reviewed one by one, not blocked wholesale.
+- Hooks in the user's settings also run for tool calls made by subagents (the subagents page says so). That answers one of the K1 fix's open points.
+
+**What will exist at the end**, all under `~/Dev/clc-laravel/`:
+
+1. **Seven skills**, each `skills/<name>/SKILL.md`: `laravel-plan`, `laravel-write-plan`, `laravel-code`, `laravel-review`, `laravel-ship`, `laravel-update`, `kit-parity`. Each description names Laravel and the folder `~/Dev/clc-laravel`, and none uses the WordPress skills' bare triggers ("ship it", "review this", "we're done"). They are written against K2's template and scripts (the gate, the ship script, `check-project.py`). Not linked anywhere: linking is a printed step of the installer.
+2. **The job file**, made by a program so the plan is copied, not retyped: `bin/job-file.py` (write a job file from an approved plan; add a line; check a file; say what state a job is in). Fixed lines at the start of a line, among them the three the ship script reads (`Review: ...`, `Ship it: Gordon <date>`, `Controls approved: Gordon <date>`). A test holds those three to the ship script's own patterns.
+3. **The plan-gate hooks**, as scripts with tests, on one shared core (`bin/plan_gate_core.py`):
+   - `bin/plan-stamp.py`: runs after an approved exit from plan mode. If the plan is for a kit project, it writes a stamp record (the plan's text and its fingerprint, the time, the session) into a folder in the kit that git ignores and that the second hook lets nobody else write. The agent does not write the stamp.
+   - `bin/plan-gate.py`: runs before every file-tool call and every shell command. A change to a file in a kit project is refused unless that project has an open job file whose plan matches a stamp record. The job files themselves may always be written. For shell commands it covers the obvious forms (a redirection into a file, `tee`, `sed -i`, `cp`, `mv`, `rm`, `touch`, `patch`, `git apply` and the like); the rest is instruction, as the spec says.
+   - The honest fallback: when the stamp hook was not handed the text, the record says so and the plan in the job file is the agent's copy; when there is no record at all (today: nothing is registered), the job file's stamp line says "agent". One line in a new settings file, `config/plan-gate.json`, says which kinds the gate accepts; it is Gordon's to change.
+4. **The model-and-effort check**: `bin/model-effort-check.py`, and the same check inside the gate hook. The plan carries `Model:` and `Effort:` lines. The gate refuses code changes until the job file records Gordon's confirmation, and, where the hook is handed the effort level, refuses when the session's level is below the plan's.
+5. **The preflight**: `bin/preflight.py <project>`. Reads only. One named line per check: git access first; the hooks registered; the kit's own tests last passed; `gh`, `forge`, `hub`, `doctl`; no key on this Mac with a fingerprint recorded for production; the local `.env` points at a local database; the staging alias's user; the project still has every template piece; the tree and the branch; what is due on the updates calendar; and the list of installed programs against the last one Gordon accepted.
+6. **Updates** (item 7): `config/updates-calendar.json` (one row per component and version, each with its source and the date it was read; and the list of apps), `bin/whats-due.py` (compares the calendar with each app's lock file on `main`, applies the two date rules and the 180, 90 and 30 day warnings, and says what is due; exit code 0 nothing due, 1 something due, 3 something overdue, 2 could not run), and the skill `laravel-update`.
+7. **Parity**: the skill `kit-parity`, `bin/parity-check.py` (runs the ledger lint, lists the gap rows, the rows not compared for a quarter, the rules changed since the last review, and the lessons that apply to the other kit), and the two folders the reviews and proposals go into, each with its format. No review is performed and no proposal is written.
+8. **A review agent with no write tools**: `config/agents/laravel-reviewer.md` (Read, Grep, Glob only). Linking it is a printed installer step.
+9. **Brought up to date**: `bin/check-registration.py` (six hooks, not three), `config/claude-settings-hooks.json` (the example; nothing registered), `bin/install-mac.sh` (still only prints: the skills, the agent, the six hooks, the "what is due" schedule), `bin/guard-selftest.py` (watches `skills/`), `CLAUDE.md` (the rules that change, new rule IDs, the mechanisms table), `LESSONS.md`, `parity/ledger.md`, `docs/HANDOFF-laravel-dev-kit.md`.
+
+**Decisions I am making where the spec is silent, to be listed again at the end.**
+- The stamp record lives in the kit folder, not in the project's `.git` folder beside the gate's records: a plan can be approved before a new project has a repository, and a clone or worktree must find it by the plan's fingerprint.
+- The plan gate fails differently from the guards. A broken guard refuses everything. A plan gate that cannot start refuses file changes that name the kit folder and lets shell commands through, so the kit can always be mended from the shell and the rest of the Mac is never locked. When it does run and cannot decide about a file in a project, it refuses.
+- `migrate:rollback` on staging stays refused always. The earlier stages handed K3 an exception ("when the job file records Gordon's say"). I am not building it: it loosens a guard rule that has just been attacked and fixed, and my brief does not ask for it. The job file gets the line it would read, so it can be added in one place later.
+- "When was the last monthly update" is read from the app's own job files (a `Kind:` line), not kept in a second list.
+
+**Order of work.** Each step ends with its tests green and a commit.
+1. The shared core, `job-file.py` and their tests.
+2. `plan-stamp.py`, `plan-gate.py`, the settings file, their tests; the model-and-effort check.
+3. `check-registration.py`, the example hooks block, the self-test's watch list; their tests.
+4. `preflight.py` and tests.
+5. The calendar, `whats-due.py` and tests.
+6. `parity-check.py`, the parity folders, tests.
+7. The seven skills, the review agent, and a test that holds them to the rules (names, descriptions, rule IDs that exist, scripts that exist, the fixed lines).
+8. The installer and its tests.
+9. Rules file, lessons, ledger, handoff; the lint.
+10. Full run of `bin/test-all.sh`, from a clean copy too; each new check switched off once to see a test fail; numbers here.
+
+**How it is tested.** Python's own test runner, as K1 and K2. Every hook is handed made-up hook input as text and judged by its answer; the project, the kit folder and the stamp store are made up in a temporary folder for each test, so nothing depends on this Mac and nothing is written into the real kit. The registered command lines are run for real against a hook script that is missing or cut short. `whats-due.py` is given its own "today" and made-up apps with made-up lock files. The preflight is run against stand-in programs. No test reads `hdonline-v4/`, `~/.claude/` or `~/Dev/clc-plugins/`.
+
+**What I will not do.** Register a hook. Edit anything under `~/.claude/`. Link a skill or an agent into a live folder. Install anything. Push, or add a remote. Write inside `hdonline-v4/`. Touch `~/Dev/clc-plugins/` (I read its three skills, as the brief says). Perform the first parity review or write a proposal for the WordPress kit. Start the pilot.

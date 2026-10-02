@@ -169,7 +169,7 @@ flowchart LR
 - _setup/pipeline/INDEX.md
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
-- … +634 more
+- … +642 more
 
 ## Level 2 · wiring
 
@@ -287,7 +287,7 @@ generated 2026-10-02 by lint-layers.py
 <details><summary>TESTS.md</summary>
 
 # TESTS
-generated 2026-10-02 09:32 by test-all.py · 34 suites · 0 failing
+generated 2026-10-02 10:31 by test-all.py · 34 suites · 2 failing
 
 | suite | result | last line |
 |---|---|---|
@@ -301,7 +301,7 @@ generated 2026-10-02 09:32 by test-all.py · 34 suites · 0 failing
 | nerd-concurrency | PASS | test-nerd-concurrency: PASS |
 | nerd-lease | PASS | test-nerd-lease: PASS |
 | nerd-run | PASS | test-nerd-run: PASS |
-| netstate | PASS | test-netstate: PASS |
+| netstate | FAIL | test-netstate: FAIL: heavy request not deferred |
 | nightly | PASS | test-nightly: PASS |
 | nomad-brief | PASS | test-nomad-brief: PASS (stay, drive today east 100, next couple of days, severe wait, no-candidate wait, freeze tonight, |
 | notify | PASS | test-notify: PASS (10 sounding pushes, all with registered reasons) |
@@ -313,7 +313,7 @@ generated 2026-10-02 09:32 by test-all.py · 34 suites · 0 failing
 | secrets | PASS | test-secrets: PASS |
 | stay-awake | PASS | test-stay-awake: PASS |
 | test-all | PASS | test-test-all: PASS |
-| watcher | PASS | test-watcher: PASS |
+| watcher | FAIL | no result after 15 s; check _queue/HEALTH.md for when the watcher last ran |
 | zoom-poll | PASS | test-zoom-poll: PASS |
 | skill:attribution-correction | PASS | test-skill-attribution-correction: PASS (structural) |
 | skill:backfill-person | PASS | test-skill-backfill-person: PASS (structural) |

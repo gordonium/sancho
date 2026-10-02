@@ -1,0 +1,5 @@
+# _setup/tests/zoom-poll · INDEX
+generated 2026-10-02 by build-index.py · 2 entries
+
+- fixture.vtt · vtt · 2026-10-02 · NO DESCRIPTION
+- test.py · script · 2026-10-02 · zoom-poll.py against a fake Zoom API (the script's one network door, `_open`, is replaced in-process; no socket, so it also runs inside the Nerd sandbox) and a fixture VTT, in a temp tree: missing credentials exit 0 with "zoom: not configured" and one MAC-SETUP.md line, never a second; a meeting with a VTT lands as transcript.md / speakers.md / meta.md in recordings/inbox/<rec_id>/ plus the VTT and M4A in Sancho-Audio/zoom/<date>_<slug>/, participant labels verbatim, exact name or alias matches as `source: zoom-label` candidates and never confirmed, a ledger row with source zoom; a meeting with no VTT goes to the Groq stages after the grace period and waits before it; metered mode defers the MP4 and queues zoom.video, which fetches it once unmetered; a second poll lands nothing twice; a failing poll turns the watchdog red only after 24 h with a fresh failure; the sync's 15-minute clock enqueues zoom.poll.

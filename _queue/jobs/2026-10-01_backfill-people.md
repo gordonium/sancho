@@ -64,15 +64,15 @@ stages:
   - {name: syre-klenke, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: syre-klenke}, group: C, status: done}
   - {name: todd-lyles, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: todd-lyles}, group: C, status: blocked, blocked: Gordon must say whether the  Todd  who connected Comfort Masters to Peter Nevland (census `todd-comfort-masters`) is Todd Lyles; the file and census row are written with the question in Open threads.}
   - {name: tom-wanek, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-wanek}, group: C, status: done}
-  - {name: vi-wickam, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: vi-wickam}, group: C, status: active}
-  - {name: cedric-yau, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: cedric-yau}, group: C, status: pending}
-  - {name: jeff-sexton, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-sexton}, group: C, status: pending}
-  - {name: zac-smith, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: zac-smith}, group: C, status: pending}
-  - {name: mike-catan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-catan}, group: C, status: pending}
-  - {name: nathan-ingram, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nathan-ingram}, group: C, status: pending}
-  - {name: david-mckinnis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: david-mckinnis}, group: H, status: pending}
-  - {name: adrian-van-zelfden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adrian-van-zelfden}, group: H, status: pending}
-  - {name: pennie-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pennie-williams}, group: H, status: pending}
+  - {name: vi-wickam, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: vi-wickam}, group: C, status: blocked, blocked: Gordon must say whether Christina is Vi s wife or partner  Allie s mother or stepmother  and whether her surname is Gressianu  and confirm that the unlabelled 2026-07-20 call (rec_851ab0f2d5) was with}
+  - {name: cedric-yau, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: cedric-yau}, group: C, status: done}
+  - {name: jeff-sexton, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: jeff-sexton}, group: C, status: done}
+  - {name: zac-smith, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: zac-smith}, group: C, status: done}
+  - {name: mike-catan, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mike-catan}, group: C, status: done}
+  - {name: nathan-ingram, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: nathan-ingram}, group: C, status: blocked, blocked: Gordon to answer whether the continuity buy-sell naming Nathan as executor is signed and he s been briefed  where his partner track stands  and whether he is Alex Post s  Alabama pastor  Nathan (the f}
+  - {name: david-mckinnis, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: david-mckinnis}, group: H, status: blocked, blocked: Gordon to confirm the surname spelling (McKinnis  McInnis or McInnes); the file is written with the question in Open threads}
+  - {name: adrian-van-zelfden, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: adrian-van-zelfden}, group: H, status: done}
+  - {name: pennie-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pennie-williams}, group: H, status: active}
   - {name: rex-williams, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rex-williams}, group: H, status: pending}
   - {name: mark-effinger, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: mark-effinger}, group: H, status: pending}
   - {name: pegeen-reilly, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: pegeen-reilly}, group: H, status: pending}
@@ -149,7 +149,7 @@ stages:
   - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
   - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
   - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: vi-wickam
+current: pennie-williams
 waiting_on: []
 ---
 # Backfill people
@@ -278,3 +278,20 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T09:48:10+02:00 job.run: stage `tom-wanek` done (Stage: done · tests green)
 - 2026-10-02T09:48:10+02:00 job.run: 6 stages in one run; continuation queued (20261002T074810Z_job.run_850257.md)
 - 2026-10-02T09:48:10+02:00 job.run: stage `vi-wickam` started
+- 2026-10-02T09:58:06+02:00 job.run: stage `vi-wickam` blocked, recorded, job continues: Gordon must say whether Christina is Vi s wife or partner  Allie s mother or stepmother  and whether her surname is Gressianu  and confirm that the unlabelled 2026-07-20 call (rec_851ab0f2d5) was with
+- 2026-10-02T09:58:06+02:00 job.run: stage `cedric-yau` started
+- 2026-10-02T10:05:16+02:00 job.run: stage `cedric-yau` done (Stage: done · tests green)
+- 2026-10-02T10:05:16+02:00 job.run: stage `jeff-sexton` started
+- 2026-10-02T10:11:31+02:00 job.run: stage `jeff-sexton` done (Stage: done · tests green)
+- 2026-10-02T10:11:31+02:00 job.run: stage `zac-smith` started
+- 2026-10-02T10:21:46+02:00 job.run: stage `zac-smith` done (Stage: done · tests green)
+- 2026-10-02T10:21:46+02:00 job.run: stage `mike-catan` started
+- 2026-10-02T10:29:19+02:00 job.run: stage `mike-catan` done (Stage: done · tests green)
+- 2026-10-02T10:29:19+02:00 job.run: stage `nathan-ingram` started
+- 2026-10-02T10:38:41+02:00 job.run: stage `nathan-ingram` blocked, recorded, job continues: Gordon to answer whether the continuity buy-sell naming Nathan as executor is signed and he s been briefed  where his partner track stands  and whether he is Alex Post s  Alabama pastor  Nathan (the f
+- 2026-10-02T10:38:41+02:00 job.run: 6 stages in one run; continuation queued (20261002T083841Z_job.run_3e4347.md)
+- 2026-10-02T10:38:49+02:00 job.run: stage `david-mckinnis` started
+- 2026-10-02T10:44:57+02:00 job.run: stage `david-mckinnis` blocked, recorded, job continues: Gordon to confirm the surname spelling (McKinnis  McInnis or McInnes); the file is written with the question in Open threads
+- 2026-10-02T10:44:57+02:00 job.run: stage `adrian-van-zelfden` started
+- 2026-10-02T10:52:03+02:00 job.run: stage `adrian-van-zelfden` done (Stage: done · tests green)
+- 2026-10-02T10:52:03+02:00 job.run: stage `pennie-williams` started

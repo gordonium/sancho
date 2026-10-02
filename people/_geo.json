@@ -1,0 +1,369 @@
+{
+ "generated": "2026-10-02",
+ "by": "build-index.py",
+ "geocache": "personal/nomad/_geocache.json",
+ "people": [
+  {
+   "slug": "adam-donmoyer",
+   "name": "Adam Donmoyer",
+   "city": "Austin, TX",
+   "query": "austin|tx",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-24",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "alex-post",
+   "name": "Alex Post",
+   "city": "Windsor, CO",
+   "query": "windsor|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-21",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "brian-brushwood",
+   "name": "Brian Brushwood",
+   "city": "Austin, TX area",
+   "query": "austin|tx",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-21",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "carmyn-wilson",
+   "name": "Carmyn Wilson",
+   "city": "Fort Collins CO [inferred: Gordon and Leah argue over her street number as a Fort Collins address]",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-10",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "daniel-whittington",
+   "name": "Daniel Whittington",
+   "city": "Austin, TX",
+   "query": "austin|tx",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-15",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "elliott-stark",
+   "name": "Elliott Stark",
+   "city": "Morehead City, NC",
+   "query": "morehead city|nc",
+   "want_to_see_by": "",
+   "last_seen": "2026-06-18",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "gordon-atkinson",
+   "name": "Gordon Atkinson",
+   "city": "Houston",
+   "query": "houston|",
+   "want_to_see_by": "",
+   "last_seen": "2026-07-30",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "greg-moore",
+   "name": "Greg Moore",
+   "city": "Philadelphia, PA",
+   "query": "philadelphia|pa",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-10",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "jack-heald",
+   "name": "Jack Heald",
+   "city": "Phoenix, AZ",
+   "query": "phoenix|az",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-23",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "jane-brewer",
+   "name": "Jane Brewer",
+   "city": "Windsor, CO (practice)",
+   "query": "windsor|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-28",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "jared-james",
+   "name": "Jared James",
+   "city": "Charlotte NC area (inferred)",
+   "query": "charlotte|nc",
+   "want_to_see_by": "",
+   "last_seen": "2026-07-16",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "ken-goodrich",
+   "name": "Ken Goodrich",
+   "city": "Las Vegas, NV (says he lives there; also a Lake Tahoe house he is at frequently)",
+   "query": "las vegas|nv",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-01",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "kyle-caldwell",
+   "name": "Kyle Caldwell",
+   "city": "Atlanta",
+   "query": "atlanta|",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "larry-bloom",
+   "name": "Larry Bloom",
+   "city": "Fort Collins / Loveland area",
+   "query": "fort collins / loveland|",
+   "want_to_see_by": "",
+   "last_seen": "",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "leah",
+   "name": "Leah Ashley",
+   "city": "Cheyenne, WY (a street named Luckie)",
+   "query": "cheyenne|wy",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-14",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "lizzie-mack",
+   "name": "Elizabeth Mack",
+   "city": "Texas (Hill Country)",
+   "query": "texas|",
+   "want_to_see_by": "2026-10-12",
+   "last_seen": "2026-09-15",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "luis-castaneda",
+   "name": "Luis Castaneda",
+   "city": "Houston, TX",
+   "query": "houston|tx",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-23",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "mark-benn",
+   "name": "Mark Benn",
+   "city": "Fort Collins / Loveland area",
+   "query": "fort collins / loveland|",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-23",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "mick-torbay",
+   "name": "Mick Torbay",
+   "city": "Toronto",
+   "query": "toronto|",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "olivia-la",
+   "name": "Olivia La",
+   "city": "Windsor, CO (practice)",
+   "query": "windsor|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-26",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "roy-williams",
+   "name": "Roy Williams",
+   "city": "Austin area (the Academy; formerly Buda)",
+   "query": "austin|",
+   "want_to_see_by": "2026-10-12",
+   "last_seen": "2026-09-21",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "ryan-chute",
+   "name": "Ryan Chute",
+   "city": "Portuguese Cove, NS, Canada",
+   "query": "portuguese cove|ns, canada",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-04",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "stephen-moore",
+   "name": "Stephen Moore",
+   "city": "Fort Worth, TX",
+   "query": "fort worth|tx",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-15",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "steve-rae",
+   "name": "Steve Rae",
+   "city": "Naples, FL",
+   "query": "naples|fl",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-01",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "vi-wickam",
+   "name": "Vi Wickam",
+   "city": "Loveland, CO",
+   "query": "loveland|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-21",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  }
+ ],
+ "skipped": [
+  {
+   "slug": "chris-maddock",
+   "city": "in the wind; public land in the Rockies",
+   "why": "not a place"
+  },
+  {
+   "slug": "craig-arthur",
+   "city": "Australia (city not stated)",
+   "why": "not a place"
+  },
+  {
+   "slug": "jeff-carpenter",
+   "city": "Charlotte NC (the company's city; his own not stated)",
+   "why": "not a place"
+  },
+  {
+   "slug": "jeff-goff",
+   "city": "Milwaukee WI (the company's city; his own not stated)",
+   "why": "not a place"
+  },
+  {
+   "slug": "karen-dodge",
+   "city": "Milwaukee WI (the company's city; her own not stated)",
+   "why": "not a place"
+  },
+  {
+   "slug": "kevin-skalure",
+   "city": "Montana (city not stated)",
+   "why": "not a place"
+  },
+  {
+   "slug": "peter-nevland",
+   "city": "near Austin, TX",
+   "why": "not a place"
+  },
+  {
+   "slug": "peter-seirup",
+   "city": "unknown",
+   "why": "not a place"
+  },
+  {
+   "slug": "rick-willis",
+   "city": "Oregon, about an hour from Portland (town not stated)",
+   "why": "not a place"
+  },
+  {
+   "slug": "stephen-semple",
+   "city": "Collingwood (country not stated in the source; v2 calls him Canadian)",
+   "why": "not a place"
+  },
+  {
+   "slug": "tim-silva",
+   "city": "Milwaukee WI (the company's city; his own not stated)",
+   "why": "not a place"
+  },
+  {
+   "slug": "william-lordan",
+   "city": "Connecticut (practice; town not stated)",
+   "why": "not a place"
+  }
+ ]
+}

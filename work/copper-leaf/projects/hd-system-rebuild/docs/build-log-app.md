@@ -483,3 +483,107 @@ Each finding is checked against the code first. Every fix has a test written to 
 18. **The tests plan-fit 20 lists** that the above did not already add: the letter job through a real database queue; the invoice PDF's own text; the naming rule's edge cases.
 
 Not planned as code, with the reason given per finding below: the company on the invoice and the letter (plan-fit 13: Gordon's to say), the look of a Doc after a fill and the credential's reach (plan-fit 19: only the real Google can show them), the leftover working tree of an earlier agent (not mine to remove).
+
+### What was done (finished 2026-10-02 10:25 CEST)
+
+**State: fixed, tested, committed.** 14 new commits on `feature/v4-build`, `c02c9e9` to `9a61adf`; working tree clean; no remote, nothing pushed. Of 32 findings: 31 fixed (two of them to the safer reading, with the question below; one in the parts that can be shown here), 0 rejected, 1 left for Gordon. All 32 held when checked against the code.
+
+**Evidence.** Run in the app folder through Herd's PHP 8.5 at 10:20:
+
+| Command | Result |
+|---|---|
+| `herd composer test` | passed: 1,011 tests, 3,707 assertions, 0 failed, about 15 s (868 tests, 3,054 assertions before) |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `herd composer audit` | no advisories; no package added |
+| the suite with `DB_DATABASE`, `APP_ENV=production`, `MAIL_MAILER=smtp`, `HD_MAIL_LIVE=true`, `HD_MAIL_LIVE_HOST`, a trap address, `HD_LETTERS_DRIVER=google` and made-up Brevo and Google values set in the shell, against a scratch database with a marker row | 1,011 passed; the marker row, its one user and both tables untouched |
+| the app's own reading of `HD_MAIL_LIVE` (`artisan config:show hd.mail`) with the word in the shell | `off`: false; `no`: false; `true`: true |
+| this Mac's log file before and after a run of the mail, letter and invoice tests | 11,668 lines both times |
+| one invented job run through the app outside the tests (local settings, a scratch database and scratch storage, removed afterwards): open, type in the Doc, correct the name and the address, send the invoice, send the letter, mark paid, take the payment back, mark paid again | invoice `HD-2610-008`; the Doc renamed and its places corrected while the typed sentence kept the old spelling; the stamp placed; eight lines in the message log, all "Sent"; four PDFs kept, each with its line; status "paid"; the file page answered 200 and showed "This was a mistake"; the mail as written read "Dear Ada," with no stray marks |
+
+Every fix has a test that failed first. The tests for the letter changes could not even load before the fix (the interface they call did not exist); the others failed on the assertion.
+
+**This Mac's local database** was migrated (`herd php artisan migrate`): one new migration adds three columns to `files`. The file page would fail on the old shape.
+
+**Not looked at in a browser**, as before. The new notices and the two new confirmations are tested on their HTML.
+
+**Nothing was refused by the app's safety check.** I opened nothing under `~/Dev/hd-v4-import-data/` or Downloads and did not read `~/Dev/clc-plugins/`.
+
+### Per finding: plan fit (`reviews/app-P2-plan-fit.md`)
+
+| # | Finding | Outcome |
+|---|---|---|
+| 1 | A server on the "log" mailer says "sent" | **Fixed** (`f926c49`). Anywhere but a developer's machine, a mailer that sends nothing is refused for every message, in the trap's rule and in its listener, with a notice that says what to set. Five environments tested. |
+| 2 | A missing place is recorded as written; a letter can go out showing `{{...}}` | **Fixed** (`6e98ed3`). `fill` reports which tags it found. The file records only those, remembers the places the Doc lacks (new column `letter_unplaced`), and says so on the screen with a "Look again" button. A letter that still shows a tag is refused, naming it. Tags are read whatever their capitals. All three of the reviewer's cases are tests. |
+| 3 | The stamp picture travels with the names | **Fixed** (`6e98ed3`). Both stores write the words first and the picture in a second batch. A picture that fails leaves the words in, the place empty, and the reason on the file; the queued job tries again. The requests are asserted against a faked Google that answers as its manual says for an image it cannot fetch. |
+| 4 | An hourly invoice goes out for one hour, with "[period]" | **Fixed to the safer reading** (`66cafdd`), and asked below. An invoice whose description still says "[period]" is refused, to send and to mark paid. The file says so, and says when the price is still one hour's rate. Where the hours go is Gordon's. |
+| 5 | An old unpaid invoice cannot be paid here | **Fixed to the safer reading** (`66cafdd`), and asked below. The file screen offers "Give this invoice a number" for an old invoice that is not paid; from then on it works like any other. The import numbers nothing by itself. Tested with an imported unpaid invoice, through to the paid copy. |
+| 6 | "Mark paid" is one click and cannot be undone | **Fixed** (`66cafdd`). It asks first, naming the client and the amount. "This was a mistake" takes the payment back: the history keeps who recorded it and who took it back, the status steps back, nothing is sent. |
+| 7 | A Connecticut or New York letter can go with no stamp | **Fixed** (`6e98ed3`). Refused until the stamp is in the Doc: no image in Settings, a picture that could not be placed, or a Doc with no place for it. "No stamp" on the file sends without one. |
+| 8 | The mail leaves before anything is written down | **Fixed** (`386f889`). The lines are written first, then the PDF is kept, then the mailer is called, then the lines are completed. A message the system never heard back about is "Not confirmed" on the screen, with advice to look in the mail service's log before sending again. |
+| 9 | Loose ends when a send fails halfway | **Fixed** (`386f889`). The address, the mailer and the trap are asked before anything else; the PDF and the revision are read before the Doc is shared; the Doc is shared last; a PDF is kept only once its line is in the message log; the invoice takes the file's wording in the same act that records it as sent. One case remains by its nature: if Brevo refuses after the Doc was shared, the Doc stays shared; the message log says "Not sent" with the reason. |
+| 10 | A very long Doc name cannot be kept | **Fixed** (`c8ac981`). Each part cut to 60 characters; the longest name is 153. Tested through the real form at the lengths it allows. |
+| 11 | Small things in the name and the text | **Fixed** (`c8ac981`): `/` and `_` become hyphens; a job with no service reads "Re: Services at ..." as its invoice does. Not changed: a name in a script with no Latin spelling still becomes `client`; the rule is letters and digits. |
+| 12 | A changed service keeps the old price | **Fixed** (`66cafdd`). Nothing changes by itself; the file says the price and wording are still the other service's standard and offers the new one in one click. |
+| 13 | A company is not named when a person is | **Left for Gordon** (question 3). The reviewer says to ask; old records' company fields are unchecked, so printing them is not the safer reading. |
+| 14 | The paid copy can differ from the invoice sent | **Fixed** (`66cafdd`): the "mark paid" question says so, with both amounts. |
+| 15 | A full month is an error page; numbers are safe only inside a transaction | **Fixed** (`66cafdd`). A notice on the form, nothing saved. `DraftInvoice` now opens its own transaction, so stage P3's Calendly intake is safe whatever it does. A test watches the number being read inside it. |
+| 16 | A replaced stamp image does not reach letters already made | **Fixed** (`6e98ed3`). The file remembers which image it placed. A new image reaches the letters not yet sent; a letter that has gone keeps the one it went with (asked below). |
+| 17 | A setting can be destroyed | **Fixed** (`3be2ea6`). |
+| 18 | The example file gives every server `APP_ENV=production` | **Fixed** (`21202e4`): `.env.example` and the README say staging sets `APP_ENV=staging` first, and a test reads both. The code no longer rests on that line alone (safety 2). |
+| 19 | The Google class: what could not be run | **Fixed where it can be shown here** (`6e98ed3`): a named range Google reports in two pieces is left alone and reported as a place the Doc lacks; tags in a header, footer or second tab now show up as places the Doc lacks; the PDF export is asked for as a PDF. **Not changed, because only the real Google can show them:** the look of a line after a fill (insert first, then delete), the credential's reach (Gordon's question 4 of P2), the refresh token's life. They stay on the list above, "What cannot be proven". |
+| 20 | Important rules with no test | **Fixed** (`e0b38ff` and with each fix). Added: a server on a mailer that sends nothing; a tag sent, a place missing; Google refusing the picture; an hourly invoice as it goes out; an imported unpaid invoice; a letter with no stamp image; the write failing after the mail left; a send that fails after the PDF, at the revision, at the sharing; the letter job through the database queue, and put back on it when Google is out of reach; the invoice PDF and its paid copy read as text from the file itself; a town with no street, a first name only, a very long name. Two processes at one invoice number: the mechanism is tested (the number is read inside a transaction, and the database lets one writer in at a time); a real race is not run in the suite. No browser. |
+
+### Per finding: safety (`reviews/app-P2-safety.md`)
+
+| # | Finding | Outcome |
+|---|---|---|
+| 1 | The live switch reads "off" and "no" as on (blocker) | **Fixed** (`c02c9e9`). Live for the word `true` alone. A test reads the real `config/hd.php` with seventeen words. |
+| 2 | Staging starts in production mode | **Fixed** (`21202e4`). Live now takes three lines: production, `HD_MAIL_LIVE=true`, and `HD_MAIL_LIVE_HOST` naming the host in `APP_URL`. A staging site given production's environment file still mails no client. |
+| 3 | A server on the log mailer says "sent" and logs the whole message | **Fixed** (`f926c49`), with plan-fit 1. |
+| 4 | Markdown in a name becomes a link | **Fixed** (`531765f`). The framework's own secured encoding for markdown mail is switched on. The reviewer's strings are the test: no link, no image, and the plain-text part reads as typed. |
+| 5 | Sent first, written second; a timeout recorded as "not sent" | **Fixed** (`386f889`), with plan-fit 8. No answer from Brevo, an error of Brevo's own, or an answer without a message name is "not confirmed", never "not sent". Only a plain refusal (a 4xx answer) is "not sent". |
+| 6 | A copy whose answer is lost is made again | **Fixed** (`6e98ed3`). Each copy carries a mark (Drive's `appProperties`) that is kept on the file before the copy is asked for; a second try looks for it first. Against the real Google this is written, not run. |
+| 7 | The last lock looks at the envelope | **Fixed** (`0c635a4`): it judges the addresses the request is built from, and the envelope too. |
+| 8 | A long name makes a letter impossible to send | **Fixed** (`c8ac981`), with plan-fit 10. |
+| 9 | One odd report stops a batch; no limit | **Fixed** (`b89157f`). A report's time is believed only between the moment the message went and now; a report that goes wrong does not stop the rest; a batch over 500 is refused. |
+| 10 | A letter is shared and kept before the app knows mail can go | **Fixed** (`386f889`), with plan-fit 9. |
+| 11 | Google's access token in plain text in the database | **Fixed** (`6e98ed3`): kept encrypted with the app's key. |
+| 12 | One-line fields accept line breaks | **Fixed** (`289381e`): one rule, on names, companies, phones, streets, towns, the people on a job and the inspector. Notes and the invoice description still take lines. An old record is not held to it for a field a correction leaves alone. |
+| note | The trap writes addresses into the log | **Fixed** (`0c635a4`): how many, never which. |
+| note | A leftover working tree and branch `p2-build` | **Not mine, left alone.** It is the first P2 builder's: three commits, all superseded by `dadcc67`. Question 8. |
+| note | The Treasurer's name and the Gmail address in `config/hd.php`; corrections rewriting sent letters | Already asked of Gordon in P2 (questions 1 and 5 there). Unchanged. |
+
+### Decisions the documents did not settle
+
+1. **Live is three lines** (production, the switch, the site named). Why: a line can be mistyped and a file can be copied; a site's own address cannot be copied by accident. Gordon enters `HD_MAIL_LIVE_HOST` on production at go-live.
+2. **Only the word `true` switches mail on.** "yes", "on" and "1" do not.
+3. **"Not confirmed" is a third state of a message**, beside sent and not sent. A 5xx answer from Brevo and a timeout are both "may have gone".
+4. **A message's PDF is kept just before it is sent, after its line is written.** So a PDF may be kept for a message that was then refused; its line says "Not sent" and the screen offers no "PDF as sent" for it.
+5. **The invoice row changes only in the act that records it as sent.** Before, it was brought up to date first and stayed changed when the send failed.
+6. **A place the Doc lacks is asked for again only when there is something new to say there, or when a person presses "Look again"** (or "Bring the Doc up to date", or Send).
+7. **A letter that is to carry a stamp is not sent without it.** When Peter puts the stamp in by hand, the file must say "No stamp". Asked below.
+8. **A sent letter keeps the stamp image it went with.** Asked below.
+9. **The mark on a copy is a random identifier, not the file's number.** Why: a rebuilt database would give the same numbers to other files, and a file would adopt a stranger's Doc.
+10. **A named range in two pieces is not written to.** Why: writing the value into each piece says it twice, and nothing shows that Google ever does this.
+11. **An old invoice gets its number from a person, on the file.** The file takes the old invoice's price and wording where it has none, because here an invoice reads from its file.
+12. **Taking a payment back sends nothing.** The paid copy that went stays in the message log.
+13. **A report's time must lie between the moment the message went and now**, give or take five minutes; otherwise it is "now".
+14. **Sharing a Doc writes no history line.** It is the last thing before the message, and the message log shows what became of that.
+
+### Questions for Gordon
+
+1. **Hourly design work: where do the hours go?** An hours box beside the rate, with the total worked out once and stored; or a price that starts empty. Today the price starts at one hour ($475), the file says so, and the invoice cannot go until "[period]" is replaced.
+2. **Old invoices not yet paid at cutover: numbered by a person, one at a time (as built), or all of them by the import?** The old data may show many old invoices as unpaid that were paid long ago; that is why the import numbers none.
+3. **Should the company print under the person's name** on the invoice and at the head of the letter? Today the company shows only when nobody is named.
+4. **A Connecticut or New York letter is refused until its stamp is in the Doc.** Right? If Peter places the stamp by hand, he chooses "No stamp" on the file.
+5. **A letter already sent keeps its stamp image when a new one is uploaded.** Right, or should old letters take the new image at their next correction?
+6. **When a payment recorded by mistake is taken back, nothing is sent.** If a paid copy went to the wrong client, telling them is a person's call. Right?
+7. **`HD_MAIL_LIVE_HOST` is one more line to enter on production at go-live** (the site's own name). It goes in the cutover runbook.
+8. **The app repository still has a second working tree and a branch `p2-build`** from the first P2 builder (three commits, superseded). Remove both before the first push? Sancho's pick: yes.
+
+### For the stages that follow
+
+- **P3.** Ask `Outbox::check($file, $kind)` before doing anything for the sake of a message. A message-log line has a third state: `Send::isUnconfirmed()`. The Connections panel should show: whether the mailer is one that sends nothing; whether mail is live and, if not, which of the three lines is missing; Docs in the letters folder that carry a mark (`appProperties.hdLetter`) no file holds. A Calendly intake must validate names and addresses with `ClientFields` and `PropertyFields` (they now refuse line breaks). `DraftInvoice` is safe outside a transaction. New routes: `files.invoice.payment.destroy` (take a payment back), `files.invoice.number.store`. Taking a payment back is ordinary `updated` lines on the invoice (`paid_at` to nothing) in one batch with the status. `LetterDocs` has `find`, `placeholders`, and `fill` now returns what it placed.
+- **P4.** Make each migrated Doc with the tagged places (or with the `{{tags}}` standing, and let `PrepareLetter` fill them); otherwise a correction only renames it and the file lists every place as lacking. A migrated letter whose stamp is already in its text must have `stamp` empty or `none` on the file, or it cannot be sent again from here. The stamp in `letter_filled` now reads `picture:ct@<image file name>`. Unpaid old invoices are not numbered by the import; put the old invoice's description and total on the invoice row, and they are carried to the file when a person numbers it. `files.letter_mark` is unique and may be empty.
+- **Paperwork (W2) and the deploy script.** New setting `HD_MAIL_LIVE_HOST` (empty everywhere but production at go-live). Staging's list begins with `APP_ENV=staging`. A server must have `MAIL_MAILER=brevo` before any client mail: with `log` the app refuses and says so. One new migration since `6ab6cf3`.
