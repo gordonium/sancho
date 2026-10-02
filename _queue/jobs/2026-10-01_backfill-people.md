@@ -143,13 +143,13 @@ stages:
   - {name: hazel, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: hazel}, group: F, status: done}
   - {name: paige-austin, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: paige-austin}, group: F, status: done}
   - {name: robin-neighbor, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: robin-neighbor}, group: F, status: done}
-  - {name: matt-builder, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-builder}, group: F, status: active}
-  - {name: ryan-painter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-painter}, group: F, status: pending}
-  - {name: tom-godaddy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-godaddy}, group: F, status: pending}
-  - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: pending}
-  - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: pending}
-  - {name: review, gate: human, status: pending, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
-current: matt-builder
+  - {name: matt-builder, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: matt-builder}, group: F, status: done}
+  - {name: ryan-painter, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ryan-painter}, group: F, status: done}
+  - {name: tom-godaddy, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: tom-godaddy}, group: F, status: blocked, blocked: Gordon to give Tom s surname and contact details  if he wants them in this contact-only file}
+  - {name: molly-bloom, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: molly-bloom}, group: F, status: done}
+  - {name: delia, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: delia}, group: F, status: blocked, blocked: Gordon must say which Delia this file is (the friend from your youth and college  or client Delia Viader)  whether the friend is the Sopris  Delia Hammerslaugh  in Lexington  MA  and the spelling of M}
+  - {name: review, gate: human, status: waiting, note: "Gordon reads people/INDEX.md and the needs_gordon rows; duplicates merged on his word"}
+current: review
 waiting_on: []
 ---
 # Backfill people
@@ -452,3 +452,14 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T19:48:22+02:00 job.run: stage `robin-neighbor` started
 - 2026-10-02T19:54:44+02:00 job.run: stage `robin-neighbor` done (Stage: done · tests green)
 - 2026-10-02T19:54:44+02:00 job.run: stage `matt-builder` started
+- 2026-10-02T20:04:00+02:00 job.run: stage `matt-builder` done (Stage: done · tests green)
+- 2026-10-02T20:04:00+02:00 job.run: stage `ryan-painter` started
+- 2026-10-02T20:13:08+02:00 job.run: stage `ryan-painter` done (Stage: done · tests green)
+- 2026-10-02T20:13:08+02:00 job.run: stage `tom-godaddy` started
+- 2026-10-02T20:17:31+02:00 job.run: stage `tom-godaddy` blocked, recorded, job continues: Gordon to give Tom s surname and contact details  if he wants them in this contact-only file
+- 2026-10-02T20:17:31+02:00 job.run: stage `molly-bloom` started
+- 2026-10-02T20:22:40+02:00 job.run: stage `molly-bloom` done (Stage: done · tests green)
+- 2026-10-02T20:22:40+02:00 job.run: stage `delia` started
+- 2026-10-02T20:27:37+02:00 job.run: stage `delia` blocked, recorded, job continues: Gordon must say which Delia this file is (the friend from your youth and college  or client Delia Viader)  whether the friend is the Sopris  Delia Hammerslaugh  in Lexington  MA  and the spelling of M
+- 2026-10-02T20:27:37+02:00 job.run: 6 stages in one run; continuation queued (20261002T182737Z_job.run_f816d4.md)
+- 2026-10-02T20:27:46+02:00 job.run: stopped at human gate `review`
