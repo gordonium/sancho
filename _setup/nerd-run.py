@@ -13,7 +13,7 @@ from __future__ import annotations
 import os, re, sys, json, time, signal, fcntl, argparse, datetime, subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from sancho_lib import tree_root, read_frontmatter, live_leases, write_lease
+from sancho_lib import tree_root, read_frontmatter, live_leases, write_lease, nerd_admit, as_paths, task_frontmatter, EX_DEFER
 
 ROOT = tree_root()
 KIT = Path(os.environ.get("SANCHO_KIT", Path.home() / "Dev/clc-plugins"))
@@ -24,7 +24,11 @@ DEFAULT_TIMEOUT = 1800
 MAX_BUDGET_USD = "10"
 GUARD = ROOT / "_setup" / "quarantine-guard.py"
 GUARD_LOG = ROOT / "_queue" / "log" / "quarantine-access.log"
-GUARD_MATCHER = "Read|Grep|Glob|Bash"
+GUARD_MATCHER = "Read|Grep|Glob|Bash|Write|Edit|MultiEdit|NotebookEdit"  # reads: the quarantine; writes: other sessions' leases (ERRORS.md #12)
+# Model per task [gordon 2026-10-01: "Sonnet too dumb; Opus 5.5 high"]: a task's own frontmatter may say otherwise.
+DEFAULT_MODEL, DEFAULT_EFFORT = "claude-opus-5-5", "high"
+EFFORTS = ("low", "medium", "high", "xhigh", "max")
+MODEL_RE = re.compile(r"^claude-[a-z0-9][a-z0-9.-]{2,60}$")
 
 # What a Nerd session may use. Read/Write/Edit are further limited by the sandbox and the path rules in nerd-settings.json.
 ALLOWED = ["Read", "Glob", "Grep", "Write", "Edit", "TodoWrite",
@@ -51,18 +55,49 @@ TASK:
 END_MARK = "-- end of task --"
 
 
-def effective_settings() -> Path:
-    """nerd-settings.json plus the quarantine guard as a PreToolUse hook, written beside the lock. The session is started with
+def effective_settings(rid: str = "", effort: str = DEFAULT_EFFORT) -> Path:
+    """nerd-settings.json plus the quarantine guard as a PreToolUse hook, written beside the lock (one fixed name: the sandbox
+    protects exactly that file from the session; two sessions side by side share it, and each one's effort also travels in
+    its own environment as CLAUDE_CODE_EFFORT_LEVEL). The session is started with
     `--setting-sources project`, so the hook registered in ~/.claude/settings.json never fires in it (measured 2026-10-01:
     a Read under gordon-os-v2 from a nerd.run session left no line in either guard log)."""
     st = json.loads(SETTINGS.read_text(encoding="utf-8"))
     pre = st.setdefault("hooks", {}).setdefault("PreToolUse", [])
     if not any("quarantine-guard.py" in str(h.get("command", "")) for e in pre for h in e.get("hooks", [])):
         pre.append({"matcher": GUARD_MATCHER, "hooks": [{"type": "command", "command": f'/usr/bin/python3 "{GUARD}"', "timeout": 10}]})
+    st["effortLevel"] = effort
     STATE.mkdir(parents=True, exist_ok=True)
     out = STATE / "nerd-settings.json"
     out.write_text(json.dumps(st, indent=1), encoding="utf-8")
     return out
+
+
+def model_and_effort(task: str) -> tuple[str, str, str]:
+    """`model:` and `effort:` from the task's own frontmatter; anything missing or malformed falls back to the default, and says so."""
+    fm = task_frontmatter(task)
+    model, effort, notes = str(fm.get("model") or "").strip(), str(fm.get("effort") or "").strip().lower(), []
+    if model and not MODEL_RE.match(model):
+        notes.append(f"model `{model[:40]}` is not a model id, using {DEFAULT_MODEL}")
+        model = ""
+    if effort and effort not in EFFORTS:
+        notes.append(f"effort `{effort[:20]}` is not one of {'/'.join(EFFORTS)}, using {DEFAULT_EFFORT}")
+        effort = ""
+    return model or DEFAULT_MODEL, effort or DEFAULT_EFFORT, "; ".join(notes)
+
+
+def model_used(transcript: Path) -> str:
+    """The model the session itself reported at start (the transcript's init event), or ''."""
+    try:
+        for ln in transcript.read_text(errors="replace").splitlines()[:50]:
+            try:
+                ev = json.loads(ln)
+            except ValueError:
+                continue
+            if isinstance(ev, dict) and ev.get("type") == "system" and ev.get("model"):
+                return str(ev["model"])
+    except OSError:
+        pass
+    return ""
 
 
 def fenced_names() -> list[str]:
@@ -132,8 +167,9 @@ def load_task(a) -> tuple[str, dict]:
     return str(task), fm
 
 
-def build_argv(prompt: str, settings: Path = SETTINGS) -> list[str]:
+def build_argv(prompt: str, settings: Path = SETTINGS, model: str = DEFAULT_MODEL) -> list[str]:
     return [CLAUDE, "-p", prompt,
+            "--model", model,
             "--output-format", "stream-json", "--verbose",
             "--settings", str(settings),
             "--setting-sources", "project",          # the user's own settings (and their permissions) don't leak in
@@ -162,23 +198,30 @@ def main() -> int:
     if not Path(CLAUDE).exists():
         print(f"nerd-run: claude not found at {CLAUDE}")
         return 1
+    model, effort, me_note = model_and_effort(task)
+    only = as_paths(task_frontmatter(task).get("writes_only"))
     STATE.mkdir(parents=True, exist_ok=True)
-    lock = open(STATE / "nerd-run.lock", "w")
-    try:
-        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except BlockingIOError:
-        print("nerd-run: another Nerd session is running; one at a time")
-        return 1
+    # Admission is decided and the lease written under one short lock, so two starts in the same second cannot both get in.
+    with open(STATE / "nerd-admit.lock", "w") as gate:
+        fcntl.flock(gate, fcntl.LOCK_EX)
+        ok, why = nerd_admit(ROOT, only, f"nerd-{rid}")
+        if not ok:
+            print(f"nerd-run: deferred: {why}; this request waits and starts when the lease clears")
+            return EX_DEFER
+        lease = write_lease(ROOT, f"nerd-{rid}", "nerd.run", f"{session} · requested by {by}", os.getpid(), task, only)
+    if why:
+        print(f"nerd-run: note: running {why}; this session writes only {', '.join(only)}")
+    if me_note:
+        print(f"nerd-run: note: {me_note}")
     results = ROOT / "_queue" / "results"
     results.mkdir(parents=True, exist_ok=True)
     others = [p.stem for p, fm in live_leases(ROOT) if fm.get("kind") == "interactive"]
     if others:
         print(f"nerd-run: note: an interactive Nerd holds a lease ({', '.join(others)}); this session runs beside it")
-    lease = write_lease(ROOT, f"nerd-{rid}", "nerd.run", f"{session} · requested by {by}", os.getpid(), task)
     transcript = results / f"{rid}.transcript.jsonl"
     started = time.time()
     status, final = "ok", ""
-    env = {**os.environ, "SANCHO_IN_NERD": rid, "SANCHO_SESSION": f"nerd.run {rid}",
+    env = {**os.environ, "SANCHO_IN_NERD": rid, "SANCHO_SESSION": f"nerd.run {rid}", "CLAUDE_CODE_EFFORT_LEVEL": effort,
            "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"}
     env.pop("SANCHO_QUARANTINE_READER", None)  # never inherited: only this task file's own flag sets it
     if reader:
@@ -186,7 +229,7 @@ def main() -> int:
     guard_lines = log_lines()
     try:
         with transcript.open("w") as out:
-            p = subprocess.Popen(build_argv(PREAMBLE.format(rid=rid, by=by, session=session, task=task), effective_settings()), cwd=ROOT,
+            p = subprocess.Popen(build_argv(PREAMBLE.format(rid=rid, by=by, session=session, task=task), effective_settings(rid, effort), model), cwd=ROOT,
                                  stdout=out, stderr=subprocess.STDOUT, start_new_session=True, env=env)
             try:
                 rc = p.wait(timeout=timeout)
@@ -216,7 +259,9 @@ def main() -> int:
         status = "failed (quarantine guard did not fire: the session touched a legacy folder and quarantine-access.log has no new line)"
     receipt = next((l for l in reversed(final.splitlines()) if l.startswith("Receipt:")), "Receipt: (none given)")
     print(final[-3000:])
-    print(f"nerd-run: {status} in {int(time.time() - started)} s{' · quarantine reader' if reader else ''} · session {session} · transcript _queue/results/{transcript.name} · {receipt}")
+    ran = model_used(transcript)
+    asked = f"model {model} effort {effort}" + (f" (the session reported {ran})" if ran and ran != model else "")
+    print(f"nerd-run: {status} in {int(time.time() - started)} s{' · quarantine reader' if reader else ''} · {asked} · session {session} · transcript _queue/results/{transcript.name} · {receipt}")
     return 0 if status == "ok" else 1
 
 

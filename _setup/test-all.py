@@ -21,6 +21,14 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--fail-tail", type=int, default=0, help="print the last N output lines of each failing suite")
 a = ap.parse_args()
 rows, failed, skipped, tails = [], 0, 0, []
+if ON_MAC and not IN_NERD:  # one board at a time per tree, even when two Nerd sessions run side by side (a second run waits for the first)
+    try:
+        import fcntl, hashlib
+        _state = Path(os.environ.get("SANCHO_STATE", Path.home() / ".local/state/sancho")); _state.mkdir(parents=True, exist_ok=True)
+        _board_lock = open(_state / f"test-all-{hashlib.md5(str(ROOT).encode()).hexdigest()[:8]}.lock", "w")
+        fcntl.flock(_board_lock, fcntl.LOCK_EX)
+    except OSError:
+        pass
 # dot-folders are tool state, not suites (Claude Code leaves .claude/.cc-writes beside files it edits)
 suites = [d for d in sorted((ROOT / "tests").iterdir()) if d.is_dir() and d.name != "skills" and not d.name.startswith(".")]
 suites += [d for d in sorted((ROOT / "tests" / "skills").glob("*")) if d.is_dir() and not d.name.startswith(".")] if (ROOT / "tests" / "skills").exists() else []

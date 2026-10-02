@@ -118,7 +118,7 @@ def instruction_reason(part):
 
 
 HOOK_COMMAND = '/usr/bin/python3 "$HOME/Sync/Sancho/_setup/quarantine-guard.py"'
-HOOK_MATCHER = "Read|Grep|Glob|Bash|mcp__terminal__run_in_terminal"
+HOOK_MATCHER = "Read|Grep|Glob|Bash|Write|Edit|MultiEdit|NotebookEdit|mcp__terminal__run_in_terminal"
 
 
 # ---------- the list ----------
@@ -456,7 +456,147 @@ def check_command(tool, command, cwd, roots, discriminator, caller, hook_input):
     allow_logged(caller, tool, shown, "env gate")
 
 
+# ---------- leases: one writer per path (ERRORS.md #12) ----------
+
+LEASE_TREE = os.environ.get("SANCHO_LEASE_TREE", TREE)
+LEASE_DIR = os.path.join(LEASE_TREE, "_queue", "leases")
+WRITE_TOOLS = ("Write", "Edit", "MultiEdit", "NotebookEdit")
+LEASE_STALE_SECONDS = 2 * 3600
+
+
+def process_alive(pid):
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except PermissionError:
+        return True
+    except (OSError, ValueError, TypeError):
+        return False
+
+
+def scoped_leases():
+    """Live leases that declare `writes_only`: (name, pid, [tree-relative paths])."""
+    import time
+    found = []
+    try:
+        names = sorted(os.listdir(LEASE_DIR))
+    except OSError:
+        return found
+    for file_name in names:
+        if not file_name.endswith(".md") or file_name.startswith("."):
+            continue
+        path = os.path.join(LEASE_DIR, file_name)
+        try:
+            with open(path, "r", encoding="utf-8") as lease_file:
+                head = lease_file.read(4000).split("\n---", 1)[0]
+            fields = dict(re.findall(r"(?m)^(\w+):[ \t]*(.*)$", head))
+            raw = fields.get("writes_only", "").strip()
+            if not raw:
+                continue
+            try:
+                scope = json.loads(raw)
+            except ValueError:
+                scope = [piece.strip().strip("\"'") for piece in raw.strip("[]").split(",")]
+            scope = [str(item).strip().rstrip("/") for item in (scope if isinstance(scope, list) else [scope]) if str(item).strip()]
+            pid = fields.get("pid", "").strip()
+            alive = process_alive(pid) if pid else time.time() - os.path.getmtime(path) < LEASE_STALE_SECONDS
+            if scope and alive:
+                found.append((file_name[:-3], pid, scope))
+        except OSError:
+            continue
+    return found
+
+
+def ancestor_pids():
+    """This hook's parents, as far up as ps will say: the session that made the call, and whatever started it."""
+    import subprocess
+    seen, pid = [str(os.getppid())], os.getppid()  # the direct parent needs no ps (ps is refused inside a nerd.run sandbox)
+    for _ in range(15):
+        try:
+            parent = subprocess.run(["/bin/ps", "-o", "ppid=", "-p", str(pid)], capture_output=True, text=True, timeout=3).stdout.strip()
+        except Exception:
+            break
+        if not parent.isdigit() or int(parent) <= 1:
+            break
+        seen.append(parent)
+        pid = int(parent)
+    return seen
+
+
+def holds_lease(name, pid):
+    """The caller holds a lease when it is that nerd.run session (its request id is in the environment nerd-run.py gave
+    it), or when the lease's process is one of its parents (an interactive session under nerd-lease.py)."""
+    request_id = os.environ.get("SANCHO_IN_NERD")
+    if request_id and name == "nerd-" + request_id:
+        return True
+    return bool(pid) and pid in ancestor_pids()
+
+
+def write_targets(tool, tool_input, cwd):
+    targets = []
+    if tool in WRITE_TOOLS:
+        for field in ("file_path", "notebook_path"):
+            if isinstance(tool_input.get(field), str) and tool_input[field].strip():
+                targets.append(absolute(tool_input[field], cwd))
+    elif isinstance(tool_input.get("command"), str):
+        text = normalise_command(tool_input["command"])
+        for match in re.finditer(r"(?:&>>?|\d?>>?\|?)\s*([^\s;|&<>()]+)|(?<![\w./-])tee\s+(?:-a\s+|--append\s+)?([^\s;|&<>()]+)", text):
+            word = match.group(1) or match.group(2)
+            if word and not word.startswith("/dev/"):
+                targets.append(absolute(word, cwd))
+    return targets
+
+
+def check_leases(tool, tool_input, cwd, caller):
+    """Refuse a Write, Edit, MultiEdit or Bash redirection onto a path inside another live lease's `writes_only`."""
+    targets = write_targets(tool, tool_input, cwd)
+    if not targets:
+        return
+    import fnmatch
+    leases = scoped_leases()
+    tree = os.path.realpath(LEASE_TREE)
+    for target in targets:
+        relative = os.path.relpath(os.path.realpath(target), tree)
+        if relative.startswith(".."):
+            continue
+        for name, pid, scope in leases:
+            if not any(relative == item or relative.startswith(item + "/") or fnmatch.fnmatch(relative, item) for item in scope):
+                continue
+            if holds_lease(name, pid):
+                continue
+            try:
+                os.makedirs(LOG_DIR, exist_ok=True)
+                with open(os.path.join(LOG_DIR, "lease-access.log"), "a", encoding="utf-8") as log_file:
+                    log_file.write("\t".join([now_text(), "refused", caller, tool, one_line(relative, 200), name]) + "\n")
+            except Exception:
+                pass
+            print(json.dumps({"hookSpecificOutput": {
+                "hookEventName": "PreToolUse",
+                "permissionDecision": "deny",
+                "permissionDecisionReason": (
+                    "LEASE GUARD: " + relative + " is inside the writes_only of the live lease " + name + " (_queue/leases/). "
+                    "One writer per path at a time (must-never 5): leave this file to that session, or wait until its lease is gone. "
+                    "Do not reach the file another way. This refusal is logged."
+                ),
+            }}))
+            sys.exit(0)
+
+
 # ---------- registration ----------
+
+def covers_writes():
+    """Is the registered hook's matcher wide enough for the lease check (Write and Edit), not only for reads?"""
+    try:
+        with open(SETTINGS_FILE, "r", encoding="utf-8") as settings_file:
+            settings = json.load(settings_file)
+    except Exception:
+        return False
+    for entry in settings.get("hooks", {}).get("PreToolUse", []):
+        if any("quarantine-guard.py" in str(hook.get("command", "")) for hook in entry.get("hooks", [])):
+            if "Write" in str(entry.get("matcher", "")) and "Edit" in str(entry.get("matcher", "")):
+                return True
+    return False
+
 
 def is_registered():
     try:
@@ -473,7 +613,8 @@ def is_registered():
 
 def install():
     """Add the hook to ~/.claude/settings.json, keeping everything already there."""
-    if is_registered():
+    widen = is_registered()
+    if widen and covers_writes():
         print("quarantine-guard: already registered in " + SETTINGS_FILE)
         return 0
     settings = {}
@@ -485,15 +626,21 @@ def install():
         with open(backup, "w", encoding="utf-8") as backup_file:
             backup_file.write(original)
         print("quarantine-guard: backup at " + backup)
-    settings.setdefault("hooks", {}).setdefault("PreToolUse", []).append({
-        "matcher": HOOK_MATCHER,
-        "hooks": [{
-            "type": "command",
-            "command": HOOK_COMMAND,
-            "timeout": 10,
-            "statusMessage": "Checking the legacy-folder quarantine",
-        }],
-    })
+    if widen:
+        # registered before the lease check existed (reads only): the same hook now also sees Write and Edit
+        for entry in settings.get("hooks", {}).get("PreToolUse", []):
+            if any("quarantine-guard.py" in str(hook.get("command", "")) for hook in entry.get("hooks", [])):
+                entry["matcher"] = HOOK_MATCHER
+    else:
+        settings.setdefault("hooks", {}).setdefault("PreToolUse", []).append({
+            "matcher": HOOK_MATCHER,
+            "hooks": [{
+                "type": "command",
+                "command": HOOK_COMMAND,
+                "timeout": 10,
+                "statusMessage": "Checking the legacy-folder quarantine",
+            }],
+        })
     temp = SETTINGS_FILE + ".tmp-quarantine"
     with open(temp, "w", encoding="utf-8") as temp_file:
         json.dump(settings, temp_file, indent=2)
@@ -508,7 +655,8 @@ def install():
 def main():
     if "--check" in sys.argv[1:]:
         registered = is_registered()
-        print("quarantine-guard: " + ("registered" if registered else "NOT registered") + " in " + SETTINGS_FILE)
+        print("quarantine-guard: " + ("registered" if registered else "NOT registered") + " in " + SETTINGS_FILE
+              + ("; for reads only: run --install again to add the lease check on Write and Edit (ERRORS.md #12)" if registered and not covers_writes() else ""))
         sys.exit(0 if registered else 1)
     if "--install" in sys.argv[1:]:
         sys.exit(install())
@@ -529,6 +677,13 @@ def main():
         cwd = hook_input.get("cwd") or os.getcwd()
         agent_id = hook_input.get("agent_id")
         caller = "subagent" if isinstance(agent_id, str) and agent_id.strip() else "main"
+
+        try:
+            check_leases(tool, tool_input, cwd, caller)
+        except SystemExit:
+            raise
+        except Exception:
+            pass  # a lease check that breaks must not stop every write on the Mac; the quarantine checks below still run
 
         if isinstance(tool_input.get("command"), str):
             # Bash puts the shell command in "command". Its plain-English "description"

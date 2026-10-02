@@ -13,7 +13,7 @@ from __future__ import annotations
 import os, re, sys, json, time, fcntl, argparse, datetime, subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from sancho_lib import tree_root, read_frontmatter, _parse_scalar, live_leases, enqueue, advance_pending
+from sancho_lib import tree_root, read_frontmatter, _parse_scalar, live_leases, enqueue, advance_pending, nerd_admit, EX_DEFER
 
 ROOT = tree_root()
 SETUP = ROOT / "_setup"
@@ -255,16 +255,23 @@ def write_evidence(rid: str, name: str, attempt: int, verdict: str, nerd_out: st
     return p
 
 
-def wait_for_nerd() -> str | None:
+def stage_writes(job: Path, st: dict):
+    """The `writes_only` a stage's session will declare (only a rendered task file carries it to nerd-run)."""
+    rendered = render(job, st)
+    return read_frontmatter(rendered)[0].get("writes_only") if rendered else None
+
+
+def wait_for_nerd(only=None) -> str | None:
     """None when no Nerd holds the tree; otherwise who does. An interactive Nerd is not waited for (it may run all day);
-    a nerd.run in flight is, up to NERD_WAIT_S (must-never 5: one writer)."""
+    a nerd.run in flight is, up to NERD_WAIT_S (must-never 5: one writer), unless this stage's `only` (its writes_only)
+    cannot meet the running session's (nerd_admit: two at once at most)."""
     end = time.monotonic() + NERD_WAIT_S
     while True:
         live = live_leases(ROOT)
         inter = [p.stem for p, fm in live if fm.get("kind") == "interactive"]
         if inter:
             return f"interactive Nerd ({inter[0]})"
-        if not live:
+        if not live or nerd_admit(ROOT, only)[0]:
             return None
         if time.monotonic() >= end:
             return f"nerd.run still running ({live[0][0].stem})"
@@ -284,6 +291,8 @@ def attempt_stage(job: Path, st: dict, rid: str, attempt: int, brief: str) -> tu
     else:
         argv = ["python3", NERD, "--task", task_for(job, st) + tail]
     r = subprocess.run(argv, env=env, capture_output=True, text=True)
+    if r.returncode == EX_DEFER:  # another session got in between the wait and the start: not an attempt, the watcher resumes the job
+        return "busy", (r.stdout.strip().splitlines() or ["a Nerd session"])[-1][:200], r.stdout, ""
     kind, verdict = verdict_of(r.stdout)
     only = read_frontmatter(rendered)[0].get("writes_only") if rendered else st.get("writes_only")
     if only:
@@ -310,11 +319,11 @@ def run_stage(job: Path, st: dict, rid: str) -> tuple[str, str, Path | None]:
     name = st.get("name")
     brief, prev_sig, evidence = "", None, None
     for attempt in range(1, MAX_ATTEMPTS + 1):
-        busy = wait_for_nerd()
+        busy = wait_for_nerd(stage_writes(job, st))
         if busy:
             return "busy", busy, evidence
         kind, verdict, out, btext = attempt_stage(job, st, rid, attempt, brief)
-        if kind in ("done", "blocked"):
+        if kind in ("done", "blocked", "busy"):
             return kind, verdict, evidence
         evidence = write_evidence(rid, name, attempt, verdict, out, btext)
         if kind == "scope":  # not a thing another attempt fixes: the job stops and Gordon is warned

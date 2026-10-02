@@ -13,7 +13,7 @@ from __future__ import annotations
 import os, re, sys, json, time, fcntl, signal, shutil, datetime, subprocess
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from sancho_lib import tree_root, read_frontmatter, live_leases, enqueue, advance_pending, pid_alive
+from sancho_lib import tree_root, read_frontmatter, live_leases, enqueue, advance_pending, pid_alive, nerd_admit, as_paths, task_frontmatter, EX_DEFER
 
 ROOT = tree_root()
 Q = ROOT / "_queue"
@@ -146,6 +146,15 @@ def run_one(req: Path, commands: dict, env: dict) -> str:
     finished = now()
     lines = (out or "").rstrip().splitlines()
     summary = lines[-1] if lines else "(no output)"
+    if cmd == "nerd.run" and code == EX_DEFER:
+        # a Nerd holds what this task would write: not a failure and nothing for Gordon to do, so no push (STATUS.md 2026-10-01 23:40)
+        DEFERRED.mkdir(parents=True, exist_ok=True)
+        os.replace(claimed, DEFERRED / req.name)
+        write_result(req.name, {"command": cmd, "status": "deferred", "started_at": iso(started), "finished_at": iso(finished),
+                                "exit_code": "", "log": rel_log, "session": session, "job": job},
+                     f"deferred: {summary}\n\nWaiting in _queue/deferred/; the watcher starts it when the lease clears.")
+        log_line(f"{iso(started)} {rid} {cmd} deferred (info): {summary} · session {session}")
+        return "deferred"
     body = f"{summary}\n\n```\n" + "\n".join(lines[-TAIL_LINES:]) + "\n```"
     write_result(req.name, {"command": cmd, "status": status, "started_at": iso(started), "finished_at": iso(finished),
                             "exit_code": code, "log": rel_log, "requested_by": fm.get("requested_by") or "",
@@ -184,6 +193,26 @@ def release_pending():
         if job_file(job):
             req = enqueue(ROOT, "job.run", [job, "--auto"], "watcher", "watcher: Nerd lease cleared", job)
             log_line(f"{iso(now())} job {job} released (no Nerd lease); queued {req.name}")
+
+
+def deferred_nerds() -> list[Path]:
+    """nerd.run requests waiting in deferred/ for a lease to clear (heavy requests waiting for the network are the others there)."""
+    return [p for p in sorted(DEFERRED.glob("*.md")) if str(read_frontmatter(p)[0].get("command") or "") == "nerd.run"] if DEFERRED.exists() else []
+
+
+def release_nerds():
+    """A deferred nerd.run goes back on the queue when it could start: no nerd.run lease live, or only ones whose
+    `writes_only` cannot meet this task's. Oldest first; an info line in the log, no push."""
+    for p in deferred_nerds():
+        fm, body = read_frontmatter(p)
+        try:
+            text = (ROOT / str(fm["task_file"])).read_text(encoding="utf-8") if fm.get("task_file") else body
+        except OSError:
+            text = ""
+        ok, why = nerd_admit(ROOT, as_paths(task_frontmatter(text).get("writes_only")))
+        if ok:
+            os.replace(p, REQ / p.name)
+            log_line(f"{iso(now())} {p.stem} nerd.run released from deferred (info): {why or 'no Nerd holds the tree'}")
 
 
 def notify_on_change(cmd: str, status: str, summary: str, env: dict, job: str = "", session: str = ""):
@@ -328,6 +357,17 @@ def quarantine_section(t: datetime.datetime) -> tuple:
     return problems, ["", "## Quarantine reads"] + out + main_refusals[-20:]
 
 
+def pipeline_line() -> str:
+    """The pipeline's own verdict (the bold line of recordings/STATUS.md), so a recording that failed for good shows in
+    HEALTH.md too and not only in a file nobody opens on a quiet day (rec_1716cb70ff, 2026-10-01)."""
+    try:
+        text = (ROOT / "recordings" / "STATUS.md").read_text(encoding="utf-8")
+    except OSError:
+        return "no recordings/STATUS.md"
+    m = re.search(r"(?m)^\*\*([A-Z]+)\*\*:?\s*(.*)$", text)
+    return f"{m.group(1)}: {m.group(2)[:200]}" if m else "recordings/STATUS.md has no verdict line"
+
+
 def health(commands: dict, ran: list, t: datetime.datetime, held: list | None = None, awake_since: float | None = None):
     held = held or []
     ticks = STATE / "ticks.json"
@@ -402,6 +442,8 @@ def health(commands: dict, ran: list, t: datetime.datetime, held: list | None = 
         problems.append(f"{unpushed} commits not pushed to GitHub")
     if stale_leases:
         problems.append(f"{len(stale_leases)} stale lease(s)")
+    if re.match(r"(AMBER|RED)", pipeline_line()):
+        problems.append("pipeline " + pipeline_line().split(":")[0] + " (recordings/STATUS.md)")
     if "NEWER" in secrets:
         problems.append("secrets plaintext newer than the encrypted copy")
     q_problems, q_lines = quarantine_section(t)
@@ -420,6 +462,8 @@ def health(commands: dict, ran: list, t: datetime.datetime, held: list | None = 
         f"- awake since {datetime.datetime.fromtimestamp(awake_since or t.timestamp()).strftime('%H:%M')}; scheduled runs wait for {SETTLE_MIN:g} min awake: "
         + (f"{len(held)} held ({', '.join(held)})" if held else "none held"),
         f"- jobs waiting for a Nerd lease to clear: {pend_text or 'none'}",
+        f"- nerd.run requests waiting for a lease to clear (deferred, start on their own): {', '.join(p.stem for p in deferred_nerds()) or 'none'}",
+        f"- pipeline: {pipeline_line()}",
         f"- git: {unpushed} commit(s) not pushed; {n_excl} file(s) excluded",
         f"- network: {NET.get('label', '?')}, {'METERED: heavy commands deferred (' + str(len(list(DEFERRED.glob('*.md'))) if DEFERRED.exists() else 0) + ' waiting)' if NET.get('metered') else 'unmetered'}",
         f"- secrets: {secrets}",
@@ -451,6 +495,8 @@ def check_network() -> dict:
         st = {"label": f"unknown (netstate failed: {e})", "metered": False}
     if not st.get("metered") and DEFERRED.exists():
         for p in DEFERRED.glob("*.md"):
+            if str(read_frontmatter(p)[0].get("command") or "") == "nerd.run":
+                continue  # waiting for a lease, not for the network: release_nerds() decides
             os.replace(p, REQ / p.name)
             log_line(f"{iso(now())} {p.stem} released from deferred (network {st.get('label')})")
     return st
@@ -471,6 +517,7 @@ def main():
     awake_since = settle(now())
     settled = time.time() - awake_since >= SETTLE_MIN * 60
     release_pending()
+    release_nerds()
     ran, held = [], []
     for req in sorted(REQ.glob("*.md")) if REQ.exists() else []:
         if req.name.startswith("."):

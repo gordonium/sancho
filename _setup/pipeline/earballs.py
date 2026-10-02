@@ -2,7 +2,7 @@
 """
 name: earballs
 type: script
-description: The recording pipeline. Plaud fetch (incremental every 5 min, full reconcile daily) → download → Groq transcription → pyannote diarization + embeddings → voiceprint match → transcript.md / speakers.md / meta.md in recordings/inbox/ → recordings/STATUS.md → watchdog push. Also backfill, reprocess, library rebuild.
+description: The recording pipeline. Plaud fetch (incremental every 5 min, full reconcile daily) → download → Groq transcription → pyannote diarization + embeddings → voiceprint match → transcript.md / speakers.md / meta.md in recordings/inbox/ → recordings/STATUS.md → watchdog push. Also backfill, reprocess, library rebuild. Holds the Zoom tables, the Zoom line of STATUS.md, the Zoom watchdog rule, and the 15-minute clock that enqueues `zoom.poll` (_setup/zoom-poll.py does the polling and landing).
 why: Architecture §13. Recordings are the main raw input; the pipeline must keep up without anyone watching, and say so loudly when it can't (must-never 10). Ported from v3's tools/earballs (code only) with Sancho's changes: no silence stripping, incremental fetch, ledger in Sancho-Audio, library derived from speakers.md records, three speaker states.
 reads: ~/.config/sancho/env (PLAUD_BEARER_TOKEN, PLAUD_BASE_URL, GROQ_API_KEY, HUGGINGFACE_TOKEN); Plaud web API; Sancho-Audio/inbox/; Sancho-Audio/processed/; recordings/**/speakers.md (confirmation records); people/*.md (voiceprint.auto)
 writes: Sancho-Audio/processed/<rec_id>.{ogg,json}; Sancho-Audio/voiceprints/; Sancho-Audio/ledger.sqlite (+ ledger-backups/); recordings/inbox/<rec_id>/; recordings/backlog/<era>/<rec_id>/; recordings/STATUS.md; ~/.local/state/sancho/pipeline.*
@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from sancho_lib import tree_root, read_frontmatter  # noqa: E402
+from sancho_lib import tree_root, read_frontmatter, enqueue  # noqa: E402
 
 # ---------------------------------------------------------------- config
 
@@ -98,6 +98,10 @@ CREATE INDEX IF NOT EXISTS ix_status ON recordings(status);
 CREATE TABLE IF NOT EXISTS groq_usage (day TEXT PRIMARY KEY, audio_seconds REAL DEFAULT 0, backfill_seconds REAL DEFAULT 0, requests INTEGER DEFAULT 0);
 CREATE TABLE IF NOT EXISTS audit (id INTEGER PRIMARY KEY AUTOINCREMENT, ts TEXT, stage TEXT, rec_id TEXT, action TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT);
+CREATE TABLE IF NOT EXISTS zoom_meetings (uuid TEXT PRIMARY KEY, meeting_id TEXT, topic TEXT, start_time TEXT, duration_seconds REAL, host TEXT,
+  folder TEXT, rec_id TEXT, landed_via TEXT, state TEXT, note TEXT, first_seen TEXT, updated_at TEXT);
+CREATE TABLE IF NOT EXISTS zoom_files (file_id TEXT PRIMARY KEY, uuid TEXT, file_type TEXT, recording_type TEXT, recording_start TEXT, path TEXT,
+  size_bytes INTEGER, sha256 TEXT, state TEXT, note TEXT, failed_since TEXT, updated_at TEXT);
 """
 
 
@@ -342,7 +346,12 @@ def chunk_audio(p: Path, work: Path) -> list[tuple[float, Path]]:
         if start >= dur:
             break
         cp = work / f"chunk_{i:03d}{p.suffix}"
-        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{start:.3f}", "-t", str(length), "-i", str(p), "-c", "copy", str(cp)], check=True, timeout=600)
+        try:
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{start:.3f}", "-t", str(length), "-i", str(p), "-c", "copy", str(cp)], check=True, timeout=600)
+        except subprocess.CalledProcessError:
+            # a stream ffmpeg cannot cut by copying (rec_1716cb70ff: exit 234 on all five tries) is cut by re-encoding to Opus instead
+            cp = work / f"chunk_{i:03d}.re.ogg"
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{start:.3f}", "-t", str(length), "-i", str(p), "-vn", "-c:a", "libopus", "-b:a", "32k", str(cp)], check=True, timeout=900)
         out.append((float(start), cp))
     return out
 
@@ -812,12 +821,56 @@ def cmd_sync(a) -> int:
             write_status(c)  # a long run shouldn't leave STATUS.md stale
             if st == "rate_limited":
                 break
+    zoom_schedule(c)
     msgs.append(f"processed: {done['ready']} ready, {done['failed']} failed" + (", Groq rate-limited" if done["rate_limited"] else ""))
     backup(c)
     write_status(c)
     watchdog(c)
     print("earballs sync: " + "; ".join(msgs))
     return 0
+
+
+ZOOM_EVERY_MIN = 15
+
+
+def zoom_configured() -> bool:
+    return all(ENV.get(k) for k in ("ZOOM_ACCOUNT_ID", "ZOOM_CLIENT_ID", "ZOOM_CLIENT_SECRET"))
+
+
+def zoom_schedule(c) -> bool:
+    """The Zoom poll's clock (§13.6): this 5-minute sync enqueues `zoom.poll` every 15 minutes once the Zoom keys exist, so the poll
+    runs through the queue and leaves a result. Without keys it is enqueued once, ever (that run writes the setup line in MAC-SETUP.md).
+    Nothing is queued while an earlier zoom.poll still waits."""
+    if any(list((ROOT / "_queue" / d).glob("*_zoom.poll_*.md")) for d in ("requests", "deferred", "running") if (ROOT / "_queue" / d).exists()):
+        return False
+    if not zoom_configured():
+        if meta_get(c, "zoom_setup_enqueued"):
+            return False
+        meta_set(c, "zoom_setup_enqueued", now_utc())
+    else:
+        h = hours_since(meta_get(c, "zoom_enqueued_at"))
+        if h is not None and h * 60 < ZOOM_EVERY_MIN - 0.5:
+            return False
+    meta_set(c, "zoom_enqueued_at", now_utc())
+    enqueue(ROOT, "zoom.poll", [], by="launchd", session="schedule zoom.poll")
+    return True
+
+
+def zoom_status(c) -> str:
+    """The Zoom line of STATUS.md."""
+    if not zoom_configured():
+        return "- Zoom: not configured" + (" (what to create at Zoom is in _setup/MAC-SETUP.md)" if meta_get(c, "zoom_state") else "")
+    n = lambda table, where: c.execute(f"SELECT COUNT(*) FROM {table} WHERE {where}").fetchone()[0]  # noqa: E731
+    vtt, groq = n("zoom_meetings", "state='landed' AND landed_via='vtt'"), n("zoom_meetings", "state='landed' AND landed_via='groq'")
+    waiting = n("zoom_meetings", "state IN ('waiting', 'landing')")
+    v_done, v_wait = n("zoom_files", "file_type='MP4' AND state='done'"), n("zoom_files", "file_type='MP4' AND state='deferred'")
+    a_wait, failing = n("zoom_files", "file_type!='MP4' AND state='deferred'"), n("zoom_files", "state='failed'")
+    line = (f"- Zoom: {vtt + groq} meeting(s) landed ({vtt} from Zoom's transcript, {groq} via Groq), {waiting} waiting · video: {v_done} downloaded, "
+            f"{v_wait} waiting for zoom.video · {a_wait} audio deferred (metered), {failing} file(s) failing "
+            f"· last poll: {(meta_get(c, 'zoom_last_poll_ok') or 'never')[:16]}")
+    if meta_get(c, "zoom_fail_since"):
+        line += f" · **poll failing since {meta_get(c, 'zoom_fail_since')[:16]}: {(meta_get(c, 'zoom_last_error') or '')[:160]}**"
+    return line
 
 
 def heal(c):
@@ -907,6 +960,92 @@ def cmd_library(a) -> int:
     return 0
 
 
+def cmd_retry(a) -> int:
+    """A recording that failed MAX_ERRORS times is left alone for good; this gives it a fresh round at the next sync."""
+    c = db()
+    row = c.execute("SELECT * FROM recordings WHERE id=?", (a.rec_id,)).fetchone()
+    if not row:
+        print(f"earballs retry: {a.rec_id} is not in the ledger")
+        return 1
+    if row["status"] != ST_FAILED and not row["error_count"]:
+        print(f"earballs retry: {a.rec_id} is {row['status']} with no errors; nothing to retry")
+        return 0
+    back = ST_DOWNLOADED if row["audio_path"] and (AUDIO / row["audio_path"]).exists() else ST_QUEUED
+    upd(c, a.rec_id, status=back if row["status"] == ST_FAILED else row["status"], error_count=0, next_try_at=None)
+    audit(c, "retry", a.rec_id, "reset", f"was {row['status']} after {row['error_count']} errors: {str(row['last_error'] or '')[:160]}")
+    write_status(c)
+    print(f"earballs retry: {a.rec_id} set to {back if row['status'] == ST_FAILED else row['status']}, error count 0; the next sync tries it again")
+    return 0
+
+
+def speaker_rows(location: str) -> dict:
+    """speakers.md as {cluster: (candidate slug or None, confirmed)}; a missing file is {}."""
+    out = {}
+    f = ROOT / location / "speakers.md"
+    for ln in f.read_text(errors="replace").splitlines() if f.exists() else []:
+        cells = [x.strip() for x in ln.strip().strip("|").split("|")]
+        if not ln.lstrip().startswith("|") or len(cells) < 5 or cells[0] in ("cluster", "") or set(cells[0]) <= set("-: "):
+            continue
+        cand = cells[2].split()[0] if cells[2] and cells[2] != "none" else None
+        out[cells[0]] = (cand, cells[3] or None)
+    return out
+
+
+def cmd_rematch(a) -> int:
+    """name: rematch · reads: the ledger, each recording's speakers.md, voiceprints/ · writes: _queue/log/rematch-<slug>-<stamp>.tsv only
+    (never speakers.md: the attribution-correction skill does that on Gordon's word).
+    Every recording made ready since --since where <slug> was a candidate or a confirmation, newest first, no cap
+    [gordon 2026-10-01]; lists the clusters whose top candidate is different against today's library."""
+    import numpy as np, time as _t
+    if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", a.person) or not re.fullmatch(r"\d{4}-\d\d-\d\d(T[\d:.+Z-]*)?", a.since):
+        print("earballs rematch: needs --person <slug> and --since <ISO date>")
+        return 1
+    c = db()
+    lib = load_library().get("speakers", {})
+    refs = {slug: np.load(VOICE_SPK / f"{slug}.npy") for slug in lib if (VOICE_SPK / f"{slug}.npy").exists()}
+    q, args = "SELECT id, location, ready_at FROM recordings WHERE status=? AND location IS NOT NULL AND ready_at >= ?", [ST_READY, a.since]
+    if a.until:
+        q, args = q + " AND ready_at < ?", args + [a.until]
+    rows = c.execute(q + " ORDER BY ready_at DESC", args).fetchall()
+    log = ROOT / "_queue" / "log" / f"rematch-{a.person}-{dt.datetime.now().strftime('%Y%m%dT%H%M%S')}.tsv"
+    log.parent.mkdir(parents=True, exist_ok=True)
+    started, examined, no_emb, changed, stopped = _t.monotonic(), 0, 0, [], None
+    with log.open("a") as out:
+        out.write("rec_id\thandle\told\tnew\tscore\n")
+        for row in rows:
+            if _t.monotonic() - started > RUN_BUDGET_S:  # the pipeline's run budget: stop cleanly, say where, nothing is dropped
+                stopped = row["ready_at"]
+                break
+            old = speaker_rows(row["location"])
+            if not any(a.person in pair for pair in old.values()):
+                continue
+            examined += 1
+            f, lf = VOICE_REC / f"{row['id']}.npy", VOICE_REC / f"{row['id']}.labels.json"
+            if not f.exists() or not lf.exists():
+                no_emb += 1
+                continue
+            emb, labels = np.load(f), json.loads(lf.read_text())["labels"]
+            for cluster, (cand, _conf) in old.items():
+                if cluster not in labels:
+                    continue
+                v = emb[labels.index(cluster)]
+                sim, slug = max(((max(cos(v, x) for x in np.atleast_2d(m)), s) for s, m in refs.items()), default=(0.0, None))
+                new = slug if sim >= SIM_CANDIDATE else None
+                if new != cand:
+                    line = f"{row['id']}\t{cluster}\t{cand or 'none'}\t{new or 'none'}\t{sim:.2f}"
+                    changed.append(line)
+                    out.write(line + "\n")
+                    out.flush()  # partial results survive a stop
+            if examined % 50 == 0:
+                print(f"earballs rematch: {examined} examined so far, {len(changed)} changed", flush=True)
+    for line in changed:
+        print(line)
+    tail = f"; STOPPED at the run budget, continue with --until {stopped}" if stopped else ""
+    print(f"earballs rematch: {a.person} since {a.since}: {len(rows)} recordings ready in the window, {examined} had {a.person} as a candidate, "
+          f"{len(changed)} cluster(s) changed, {no_emb} without saved embeddings; list in {log.relative_to(ROOT)}{tail}")
+    return 0
+
+
 def cmd_status(a) -> int:
     c = db()
     write_status(c)
@@ -953,6 +1092,15 @@ def problems(c) -> list[tuple[str, str, str]]:
             out.append(("critical", "disk", f"Only {free:.0f} GB free for audio."))
     except OSError:
         pass
+    # Zoom poll (zoom-poll.py): a failing poll shows on STATUS.md's Zoom line at once; it becomes a problem only when it has stayed red
+    # 24 h and failed again in the last 2 h (a Mac asleep for a day has not been failing for a day). Then the red alert rule applies.
+    zf, zl = hours_since(meta_get(c, "zoom_fail_since")), hours_since(meta_get(c, "zoom_last_fail"))
+    if zoom_configured() and zf is not None and zf > 24 and zl is not None and zl < 2:
+        out.append(("critical", "zoom", f"Zoom poll failing since {meta_get(c, 'zoom_fail_since')[:16]}: {(meta_get(c, 'zoom_last_error') or '')[:120]}"))
+    day_ago = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=24)).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    zs = c.execute("SELECT COUNT(*) FROM zoom_files WHERE state='failed' AND failed_since < ?", (day_ago,)).fetchone()[0]
+    if zs:
+        out.append(("warn", "zoom-files", f"{zs} Zoom file(s) failing to download for over a day (the ledger's zoom_files table names them)."))
     bh = hours_since(meta_get(c, "last_backup"))
     if bh is not None and bh > 48:
         out.append(("warn", "backup", "Ledger backup is over two days old."))
@@ -1023,6 +1171,7 @@ def write_status(c):
           f"- last Plaud list: {(meta_get(c, 'last_list_ok') or 'never')[:16]} · last full reconcile: {(meta_get(c, 'last_full_reconcile') or 'never')[:16]} · token: {meta_get(c, 'token_state', 'unknown')} · network: {meta_get(c, 'network', 'unknown')}",
           f"- Groq today: {g[0] / 3600:.1f} audio-hours in {g[2]} requests ({g[1] / 3600:.1f} h backfill of {BACKFILL_DAILY_AUDIO_S / 3600:.0f} h cap)",
           f"- voiceprint library: {len(load_library().get('speakers', {}))} people · diarization: {DIAR_MODEL}",
+          zoom_status(c),
           f"- ledger backup: {(meta_get(c, 'last_backup') or 'never')[:16]}",
           f"- data today: {down / 1048576:.0f} MB audio downloaded, {up / 1048576:.0f} MB sent to Groq (sync.com backs the audio up again)"
           + (f" · **metered network ({metered()}): backfill, bulk re-downloads and downloads over 50 MB wait**" if metered() else ""), ""]
@@ -1047,6 +1196,8 @@ def main(argv=None) -> int:
     r = sub.add_parser("reprocess"); r.add_argument("rec_id"); r.add_argument("--num-speakers", type=int, required=True); r.set_defaults(fn=cmd_reprocess)
     sub.add_parser("library").set_defaults(fn=cmd_library)
     sub.add_parser("status").set_defaults(fn=cmd_status)
+    m = sub.add_parser("rematch"); m.add_argument("--person", required=True); m.add_argument("--since", required=True); m.add_argument("--until"); m.set_defaults(fn=cmd_rematch)
+    t = sub.add_parser("retry"); t.add_argument("rec_id"); t.set_defaults(fn=cmd_retry)
     a = ap.parse_args(argv)
     return a.fn(a)
 

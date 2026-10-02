@@ -229,14 +229,70 @@ def advance_pending(state: Path, job: str | None = None, why: str = "", drop: bo
     return d
 
 
-def write_lease(root: Path, name: str, kind: str, session: str, pid: int, note: str = "") -> Path:
-    """One lease file: who holds the tree (kind, session, pid, since). Cowork reads it as text; the Mac also checks the pid."""
+def write_lease(root: Path, name: str, kind: str, session: str, pid: int, note: str = "", writes_only: list | None = None) -> Path:
+    """One lease file: who holds the tree (kind, session, pid, since), or with `writes_only` only those paths.
+    Cowork reads it as text; the Mac also checks the pid; the guard refuses other sessions' writes inside `writes_only` (ERRORS.md #12)."""
+    import json
     d = root / "_queue" / "leases"
     d.mkdir(parents=True, exist_ok=True)
     p = d / f"{name}.md"
     stamp = datetime.datetime.now().astimezone().isoformat(timespec="seconds")
     tmp = d / f".{name}.tmp"
-    tmp.write_text(f"---\nname: {name}\ntype: lease\nlobe: both\ndescription: {kind} Nerd session holds the tree ({session})\n"
-                   f"kind: {kind}\nsession: {session}\npid: {pid}\nstarted: {stamp}\n---\n{note[:500]}\n", encoding="utf-8")
+    scope = f"writes_only: {json.dumps(as_paths(writes_only))}\n" if as_paths(writes_only) else ""
+    holds = "holds " + ", ".join(as_paths(writes_only)) if scope else "holds the tree"
+    tmp.write_text(f"---\nname: {name}\ntype: lease\nlobe: both\ndescription: {kind} Nerd session {holds} ({session})\n"
+                   f"kind: {kind}\nsession: {session}\npid: {pid}\nstarted: {stamp}\n{scope}---\n{note[:500]}\n", encoding="utf-8")
     os.replace(tmp, p)
     return p
+
+
+# ---------- disjoint write sets (STATUS.md 2026-10-01 23:40: two Nerd sessions at once when their writes cannot meet) ----------
+NERD_MAX_PARALLEL = 2
+EX_DEFER = 75  # nerd-run.py's exit code for "cannot start now, a Nerd holds what this task writes" (sysexits EX_TEMPFAIL)
+
+
+def as_paths(v) -> list[str]:
+    """A `writes_only` value (list, one string, or nothing) as tidy tree-relative paths."""
+    items = v if isinstance(v, list) else [v] if v not in (None, "") else []
+    return [s for s in (str(x).strip().removeprefix("./").rstrip("/") for x in items) if s]
+
+
+def paths_overlap(a: list[str], b: list[str]) -> str | None:
+    """The first pair that can name the same file: equal, one a folder above the other, or a wildcard match either way."""
+    import fnmatch
+    for x in a:
+        for y in b:
+            if x == y or x.startswith(y + "/") or y.startswith(x + "/") or fnmatch.fnmatch(x, y) or fnmatch.fnmatch(y, x):
+                return f"{x} / {y}"
+    return None
+
+
+def task_frontmatter(text: str) -> dict:
+    """The frontmatter a task carries at its top (a task file is given to the Nerd whole), or {}."""
+    m = re.match(r"\s*---\n(.*?)\n---\s*(?:\n|$)", text, re.S)
+    try:
+        return _parse_block(m.group(1)) if m else {}
+    except Exception:
+        return {}
+
+
+def nerd_admit(root: Path, writes_only, me: str = "") -> tuple[bool, str]:
+    """May a nerd.run session start now? Yes with no other nerd.run lease live. Beside a live one only when both sides
+    declare `writes_only`, the sets cannot meet, and fewer than NERD_MAX_PARALLEL are running. A session without
+    `writes_only` keeps the one-at-a-time rule (must-never 5)."""
+    mine = as_paths(writes_only)
+    live = [(p, fm) for p, fm in live_leases(root) if fm.get("kind") == "nerd.run" and p.stem != me]
+    if not live:
+        return True, ""
+    if len(live) >= NERD_MAX_PARALLEL:
+        return False, f"{len(live)} Nerd sessions are already running ({', '.join(p.stem for p, _ in live)})"
+    if not mine:
+        return False, f"this task declares no writes_only and {live[0][0].stem} is running"
+    for p, fm in live:
+        theirs = as_paths(fm.get("writes_only"))
+        if not theirs:
+            return False, f"{p.stem} holds the whole tree (no writes_only)"
+        hit = paths_overlap(mine, theirs)
+        if hit:
+            return False, f"write sets overlap with {p.stem} ({hit})"
+    return True, f"beside {', '.join(p.stem for p, _ in live)} (disjoint writes)"

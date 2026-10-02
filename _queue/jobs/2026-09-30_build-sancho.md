@@ -15,7 +15,7 @@ stages:
   - {name: first-ingest,    gate: human,     status: done,    note: "rec_0c571abb1d ingested 2026-10-01; Gordon confirmed all five spot-check facts [confirmed gordon 2026-10-01]"}
   - {name: batch-B2,        status: active,  note: "2026-10-01: ten WoA client folders built from cited v2/_CLIENTS evidence (entity, knowledge, guidelines where a voice file existed); people slugs referenced but people/ files are B5; former clients and CLC/PM clients not yet folders"}
 current: batch-B2   # 2026-10-02 01:45: B2 landed; B3 business files extended; B4 plugin registry landed (work/copper-leaf/plugins/); people backfill job running (B5 in effect); skills #4, #5, #6, #7 built; Nerd tasks held for the morning: loop/guard follow-ups, nomad.brief, zoom-poll; next for Gordon: review gate on people, work-morning routine design (#9), thinking skills (#8), contacts import (#11, needs a Google Takeout export)
-hops: 2
+hops: 3
 hop_cap: 24
 waiting_on:
   - {what: "GitHub migration to gordonium (both repos)", evidence: "_design/STATUS.md contains the word 'migrated' under Nerd's replies", status: done, since: 2026-09-30T22:40+02:00, done_at: 2026-09-30T23:27+02:00}

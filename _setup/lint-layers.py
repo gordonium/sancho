@@ -272,7 +272,64 @@ def check_test_tempdirs():
                     problem(f"{rel(t)}:{n}: `{var}=$(mktemp -d)` without a same-line `[ -d \"${var}\" ] || … exit` guard")
 
 
+NEXT_RE = re.compile(r"^\s*(?:[-*]\s*)?next:\s*(.+?)\s*\(announced (\d{1,2}):(\d{2})\)", re.I)
+STALE_NEXT_MIN = 30
+
+
+def check_stale_next():
+    """Work announced and not started (ERRORS.md #11, 2026-10-02): a session note in _queue/sessions/ whose lease is live and
+    whose `next: <what> (announced HH:MM)` line is older than STALE_NEXT_MIN minutes. When the work starts the line becomes `doing:`."""
+    from sancho_lib import live_leases
+    live = {p.stem for p, _ in live_leases(ROOT, prefix="")}
+    now = datetime.datetime.now()
+    d = ROOT / "_queue" / "sessions"
+    for note in sorted(d.glob("*.md")) if d.exists() else []:
+        if note.stem not in live:
+            continue
+        for n, ln in enumerate(note.read_text(errors="replace").splitlines(), 1):
+            m = NEXT_RE.match(ln)
+            if not m or int(m.group(2)) > 23 or int(m.group(3)) > 59:
+                continue
+            at = now.replace(hour=int(m.group(2)), minute=int(m.group(3)), second=0, microsecond=0)
+            if at > now + datetime.timedelta(minutes=5):  # a clock time later than now was said yesterday
+                at -= datetime.timedelta(days=1)
+            if (now - at).total_seconds() > STALE_NEXT_MIN * 60:
+                problem(f"{rel(note)}:{n}: announced {m.group(1)[:80]} at {at.strftime('%H:%M')}, not started (live lease, `next:` older than {STALE_NEXT_MIN} min)")
+
+
+def check_reversed_decisions():
+    """A reversed decision must not come back as a rule (ERRORS.md #10). Rows of _design/decisions.md that say dropped,
+    reversed or supersedes and end with a `lint: [phrase, phrase]` field name the phrases; any skills/*/SKILL.md or
+    _setup/templates/*.md containing one (any case) is a problem."""
+    f = ROOT / "_design" / "decisions.md"
+    if not f.exists():
+        return
+    phrases = []
+    for n, ln in enumerate(f.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+        m = re.search(r"lint:\s*\[([^\]]*)\]", ln)
+        if not m or not ln.lstrip().startswith("|"):
+            continue
+        if not re.search(r"\b(dropped|reversed|supersedes?|superseded)\b", ln, re.I):
+            warn(f"_design/decisions.md:{n}: a `lint: [..]` field on a row that does not say dropped, reversed or supersedes; ignored")
+            continue
+        date = re.match(r"\|\s*(\d{4}-\d\d-\d\d)", ln.lstrip())
+        for ph in m.group(1).split(","):
+            ph = ph.strip().strip("\"'`“”").lower()
+            if len(ph) >= 4:
+                phrases.append((ph, date.group(1) if date else f"line {n}"))
+    if not phrases:
+        return
+    for t in sorted((ROOT / "skills").glob("*/SKILL.md")) + sorted((ROOT / "_setup" / "templates").glob("*.md")):
+        for n, ln in enumerate(t.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+            low = ln.lower()
+            for ph, when in phrases:
+                if ph in low:
+                    problem(f"{rel(t)}:{n}: reversed-decision phrase \"{ph}\" (decisions.md {when}: dropped, reversed or superseded)")
+
+
 def main():
+    check_stale_next()
+    check_reversed_decisions()
     check_claude_md()
     check_capped(ROOT / "personal" / "me" / "brief.md", BRIEF_MAX)
     check_capped(ROOT / "personal" / "me" / "watch.md", WATCH_MAX)
