@@ -1,11 +1,11 @@
 # recordings · STATUS
-generated 2026-10-03 02:52 CEST by earballs.py · pipeline AMBER
+generated 2026-10-03 03:53 CEST by earballs.py · pipeline AMBER
 
 **AMBER**: 4 recording(s) failed 5 times; see recordings/STATUS.md.
 
 - waiting for ingest (recordings/inbox/): 5; oldest rec_4b51249c15 recorded 2026-10-02 08:40
 - fresh in the pipeline: 0 to download, 0 to transcribe, 26 ready in total, 1 junk
-- last Plaud list: 2026-10-03T00:52 · last full reconcile: 2026-10-03T00:02 · token: ok · network: online
+- last Plaud list: 2026-10-03T01:53 · last full reconcile: 2026-10-03T00:02 · token: ok · network: online
 - Groq today: 0.0 audio-hours in 0 requests (0.0 h backfill of 6 h cap)
 - voiceprint library: 23 people · diarization: pyannote/speaker-diarization-3.1
 - Zoom: not configured (what to create at Zoom is in _setup/MAC-SETUP.md)
