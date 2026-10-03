@@ -1,5 +1,5 @@
 # personal/projects/alaska-2027 · INDEX
-generated 2026-10-02 by build-index.py · 21 entries
+generated 2026-10-03 by build-index.py · 21 entries
 
 - 00-trip-brief.md · doc · 2026-09-30 · Alaska 2027 planning: Trip Brief
 - 01-rig.md · doc · 2026-09-30 · Alaska 2027 planning: The Rig — 1990 Toyota Sunrader

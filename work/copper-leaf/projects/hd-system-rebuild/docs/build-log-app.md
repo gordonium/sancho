@@ -1044,3 +1044,218 @@ Builder: Fable (claude-fable-5-1, started at effort high per the brief; the leve
 3. **The command `hd:convert-letters`** (`--file=`, `--latest=`, `--since=`, `--dry-run`, `--again`): for each file, the old letter becomes the file's letter Doc the way a new letter is made (template copy, header filled, named by the rule), the old body after it, the old greeting kept where the letter has one; the file's letter fields set; the old public addresses of the letter and its invoice recorded in `old_links`; a source note on the file. A compiled inspection report gets its own Doc: a title page (title, property, date, who it was prepared for), then its sections in order as real headings.
 4. **Photos.** The app keeps the old photos itself, on the records disk under `old-photos/`, by their path under the old uploads folder. The dry run writes the list of paths the chosen letters need to a private file; only those are taken out of the backup zip.
 5. **Tests** on invented letters and reports, then the run on the 12 newest letters and files 9541, 9755 and 9917, then the three checks, then this log.
+
+### What was done (finished 2026-10-03, about 10:05 CEST)
+
+**In one line:** the conversion is built and tested, the 12 newest letters and the three Seirup reports are converted on this Mac with all 55 of their pictures, and the three checks pass. Three commits: cb05659, 267e6c1, 3962edd; tree clean; no remote.
+
+**To look at them:** open `http://hdonline-v4.test/files/<number>` and press "Open the Doc" in the Letter panel.
+- Letters (consultations, newest first): files **10206, 10205, 10204, 10203, 10202, 10201, 10199, 10198, 10197, 10196, 10195, 10194**.
+- Compiled inspection reports: files **9541** (2021-05-07), **9755** (2022-05-29) and **9917** (2024-03-07).
+
+### What was built
+
+- **`php artisan hd:convert-letters`** with `--file=` (a file number, repeatable), `--latest=` (that many of the newest consultation letters), `--since=` (every letter and report of a job from that day on), `--dry-run` (reads and counts, makes nothing, and writes the list of photos still wanted) and `--again` (a file converted before gets a new Doc; the old one goes to the trash). It prints counts and file numbers only and writes the same to `storage/app/private/conversion/` (git-ignored).
+- **Reading the old record** (`app/Letters/Body/OldLetterMarkup.php`): paragraphs with their bold, italics, links and line breaks; headings in three levels; bulleted and numbered lists; pictures on a line of their own with the caption under them in italics; an empty table dropped and counted; a table with text kept, one line per row with " | " between cells, counted, and the file listed for a person. Left out, because the old page hid them: the note titles inside a compiled report, the editor's own notes, the "Bank Summary" heading. A block or element it does not know (an embed, an iframe, a video, a form) stops that letter with the reason; nothing is guessed. Old text is trusted with nothing: it only ever becomes text; a link keeps its address only when it is http, https or mailto; a photo path that tries to leave the photo folder is no photo.
+- **Writing the body** through the one Doc wrapper (`LetterDocs::writeBody`, and `blank` for a report's own Doc), on both stores, from one shared plan (`BodyEdits`), as the tagged places already work. The body goes in place of the template's line "[Write the letter here.]", or after the greeting if that line is gone. Words first, pictures after, so a picture that fails keeps no words out. The real Google class sends what Google's manual describes (text, paragraph styles, bullets, bold and italic, pictures lent from Drive for the moment as the stamp is); it is tested against made-up answers only.
+- **A letter** becomes the file's letter exactly as a new one is made (template copy, header filled, named by the rule, stamp by the file's stamp), then the old body. The old letters open with their own "Dear ...": that greeting is kept and stands in the greeting's place, so it is not said twice. A letter with none gets the system's.
+- **A compiled report** gets a Doc of its own: a title page (the title "Home Inspection Report", the property's address, the job's date, the cover photo, "Prepared for:" with the client's name and address), then, from a new page, the report as it was compiled, in order: the letter to the lender with its letterhead and signature, then each section as a real heading (the old h2 as Heading 1, h3 as Heading 2, h4 as Heading 3). The address, the date and the client on the title page are tagged places, so a correction on the file still reaches them.
+- **The table of contents.** In v3 it was never part of a report: the page built a menu from the headings each time it was shown. So there is nothing to convert. The Doc's sections are real headings, which gives Google Docs the same outline in its side panel, and "Insert, Table of contents" would build one from them. The links to the firm's pages on water and radon tests, which v3 added to that menu for some jobs, are not carried over.
+- **What the file then holds:** the Doc, its name, its revision; the letter noted as sent on the day the old record was last edited; a source note (the old record's number, how many pictures, tables and gaps); a history line "Letter brought over from WordPress (v3)" in the import's name. The File screen shows the letter, "Open the Doc" and "Send the letter again". The old public addresses of the letter and of its invoice (and the address either had before a rename) are in `old_links`, pointing at the file and at the invoice.
+- **The stand-in's Doc page** now shows a Doc as it reads: bold and italics, headings, list items, links, a dashed line where a new page starts, and the stamp and the photos as images, served from the app's own store to somebody signed in.
+- **Photos.** The app keeps them on the records disk under `old-photos/` (the folder `config/hd.php` already named), by their path under the old uploads folder; the old plugin's own images (two letterheads, the signature) under `old-photos/plugin/`. `storage/app/records/` is ignored by git (checked with `git check-ignore`) and is never served by address.
+- **Tests** (`tests/Feature/Import/ConvertLettersTest.php`, 12 cases, invented letters and reports only): the reading, case by case; the hidden parts; three kinds of unknown content refused; a path that climbs out; the whole conversion of a letter with the file's fields, the source note, the old links, the File screen and the Doc page; a report with its title page, headings and a later correction reaching it; the dry run, a second run, `--again`; a failure leaving the file "Not imported yet"; a letter with no greeting; the exact requests the Google class would send.
+
+### The run on the real letters and reports
+
+Before the run the rehearsal database was copied to `~/Dev/hd-v4-import-data/hdonline-v4-rehearsal.before-W6.sqlite` (Gordon may delete it). The dry run listed 51 pictures wanted. 49 photos were taken out of the backup zip by name (each was in `uploads-listing.txt`), and nothing else was unpacked; 3 images came from the v3 plugin clone, which was only read. 52 files, 7.3 MB.
+
+| What | Count | Files |
+|---|---|---|
+| Letters converted | 12 | 10206, 10205, 10204, 10203, 10202, 10201, 10199, 10198, 10197, 10196, 10195, 10194 |
+| Compiled reports converted | 3 | 9541, 9755, 9917 |
+| Pictures placed in the Docs | 55 | 24 in the letters, 31 in the reports (the cover photos, letterheads and signatures among them) |
+| Photos missing | 0 | |
+| Pictures on another site | 0 | |
+| Tables with text kept | 0 | |
+| Empty tables dropped | 0 | |
+| Failed | 0 | |
+| Old links recorded | 33 | 16 letter addresses, 17 invoice addresses (3 of them addresses from before a rename) |
+| A second run | 15 "already converted", nothing made | |
+
+Each of the 15 was then opened through the app, signed in as the first local login, printing status codes and counts only: every File screen 200 with "Open the Doc" and "Send the letter again" and without "Not imported yet"; every Doc page 200; every picture on it served (55 pictures and 12 stamps); no `{{tag}}` left standing; the 12 letters each carry their stamp; the reports carry 111 to 114 headings each.
+
+Two things the run found, both fixed:
+1. **The first run failed on all 12 letters**, before any Doc was made: Settings on this Mac names a letter template that is a Google Doc, which the stand-in cannot see. The same would have failed "Create the letter" on every new file here. The stand-in now uses its own template in that case (commit 3962edd, with a test); the setting itself was not touched. The 12 files were left clean ("Not imported yet") by the failure, as designed.
+2. **The three reports were converted twice**: the first time one picture was missing in each, the older letterhead image, which the compiled reports of 2021 and 2022 use and I had not copied. With it copied they were made again with `--again`; the three earlier Docs are in the stand-in's trash.
+
+File 9917 has no job type in the old data, but its record is a compiled report, so it converted as one. File 10200 is not among the 12: it is not a consultation with a letter that has text.
+
+### The checks
+
+Run in the app folder through Herd's PHP 8.5, after the last code commit:
+
+| Command | Result |
+|---|---|
+| `herd composer test` (with the browser suite) | passed: 1,395 tests, 5,674 assertions, 0 failed, about 30 s (1,383 before the stage) |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `curl` on the Herd address | `/up` 200, `/login` 200 |
+| `npm run build` | the stylesheet rebuilt for the Doc page's new classes (`public/build` is ignored by git) |
+
+### Decisions the documents did not settle
+
+1. **The old greeting stays.** It stands in the greeting's tagged place, and the file remembers the system's own greeting as written, so nothing is "behind". If the client's name is later corrected, the system writes its own greeting there, as it does on any letter.
+2. **"Letter sent" on a converted file** shows the day the old record was last edited: the old system kept no sending, and this is the nearest witness (the same rule as the paid date in W1). Without a date the screen would say "Send the letter", not "Send the letter again". W5 left old jobs at "Not yet"; this changes that for converted files only.
+3. **A report's Doc is named by the letter rule** ("Home-Directions-letter_..."), because the app renames a Doc to that rule whenever the file is corrected. A name of its own for reports is a small change if Gordon wants one.
+4. **The report's title is always "Home Inspection Report".** v3 said "Building Inspection Report" for a commercial property; not carried.
+5. **Headings with nothing under them are kept** in a report, as v3 showed them (most of a short report's 114 headings are such). Dropping them would be easy and is Gordon's call.
+6. **A report has no "Re:" line, greeting or stamp**, and the file is told it is owed none, so the screen does not warn about missing places.
+7. **A table with text becomes lines**, not a table in the Doc. None of these 15 has one; the three that the dry run of 2026-10-02 found among all letters will be listed by file when they are converted.
+8. **A missing photo leaves a line in italics** saying a photo was here, so the gap is seen by whoever opens the Doc. None in these 15.
+9. **Photos sit on the records disk**, not under `storage/app/private`: that is where the Google class reads an image it lends to Google, and where `config/hd.php` already put them. Both are private and ignored by git. They are needed only until the letters are in Google.
+10. **`--again` refuses** a converted letter that has since been sent from v4.
+11. **The architecture test's list** of classes that may name a Doc store gained the stand-in's picture controller, beside the stand-in's Doc controller (commit 267e6c1). No other control was changed.
+12. **Old addresses** are recorded as `<old site>/reports/<slug>/` and `<old site>/invoices/<slug>/`, from the plugin's own address rules. Not checked against the live site. Where a record was renamed more than once, only the first earlier address is kept.
+
+### Not done, and why
+
+- **Google was not called.** Not proven until the real account exists, beyond W5's list: that Google takes the body's requests as written (space under a paragraph, a page break before one, bullets, a line break inside a paragraph, a picture's size); how long a report of 300 paragraphs takes; and Google's limit on writes per minute, which the full run of 438 letters with about 1,100 photos will meet (about five calls per photo), so that run must pace itself.
+- **The stand-in's PDF is still words only**, with "[photo]" where a picture stands. "Send the letter again" on this Mac therefore makes a plain PDF (mail here goes to the log, not to a client). Google's own PDF carries the pictures.
+- **The other letters** (438 since 2022-06-21) and the other 102 compiled reports: not asked for in this stage. `--since=2022-06-21` is the command; the photos must be in the store first.
+- **Loading the photos is by hand** (the dry run's list, then the files taken from the backup). A command for it at cutover is not built.
+- **The two v2-era Loveland inspections** (files 4604 and 8695): their text is not in the WordPress copy; a later stage.
+- **Redirects** from the old addresses to the new letters: recorded, not served.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent, no Google service called. `.env` was read for the names of its settings only and not changed. `legacy.sqlite` was read, never written. The backup zip was opened only for the 49 named photos. The plugin clones were read, not changed. The rehearsal database was changed only by the conversion (15 files' letter fields, 15 source notes, 33 old links, history lines), after the backup. Real text was looked at only with every letter and digit masked. One slip to own: the first commit of the stage went in with one architecture test failing, because I piped the test output and lost its result; the next commit fixed it, and the full suite passed after it.
+
+## W7: real Google Docs
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, from 3962edd on `feature/v4-build`. Scope: this Mac's letters move from the stand-in to the real Google account (office@homedirections.net, `drive.file` only): the template dressed, the whole path proven on invented files, the 15 converted files re-made as real Docs, and whatever the real API breaks fixed, with tests against made-up answers.
+
+### Plan (written before any code)
+
+1. **Dress the template.** A command, `hd:dress-template`, through the app's own Google class: the firm's name line at the top gives way to the logo, and Peter's signature goes on a line of its own between "Sincerely," and his name. Both pictures by the upload-and-briefly-share route. It changes only what still stands as the plain template had it (the name line; "Sincerely," directly over the name), in one batch that Google takes whole or not at all, and records in Settings that the template was dressed; once that is recorded it does nothing unless told `--again`, and even then only fills what is still plain. It never replaces the Doc, so Peter's edits stay.
+2. **Pictures in a folder of their own.** The app's copies of pictures (the logo, the stamps, every photo) go into a subfolder of the letters folder, so the letters folder holds letters.
+3. **Switch this Mac**: `HD_LETTERS_DRIVER=google` in `.env`, that line only.
+4. **Prove it on invented files**, made through the app's own screens (signed in as the first local login, through the app's HTTP kernel): Test Google; a Connecticut and a New York file, each named as a build test; the letter made; the client's name corrected; the letter sent (mail to the log); the PDF read. Each test Doc moved into "Build tests".
+5. **Re-make the 15** with `hd:convert-letters --again`, after a copy of the rehearsal database. Not sent.
+6. **Fix what breaks**, each with a test against made-up answers; then the three checks and this log.
+
+### What was done (finished 2026-10-03, about 10:45 CEST)
+
+**In one line:** this Mac's letters are real Google Docs now. The template is dressed, the whole path is proven on three invented files against the real Google account, the 15 converted files are real Docs with all 55 pictures, and the three checks pass. Six commits, faa604c, ca0d63a, dbfe2e6, 8930b26, f85e31a, 2b2cfd9; tree clean; no remote. No letter was sent on a real file, nothing was shared with anybody, and no mail left this Mac.
+
+### What worked the first time against the real account
+
+Everything P2, W5 and W6 listed as "cannot be proven until the real account exists" for Google, except the three points under "Still not proven" below:
+
+- `drive.file` alone is enough. Google's Docs interface reads and edits a Doc the app made with it; `--docs-scope` was not needed.
+- The template copy into the folder with its mark; the fill of the seven tagged places as named ranges, refused if the Doc changed meanwhile; the address block closing up for a client with no street; the rename; the list of revisions; the PDF; the trash.
+- **Pictures by the upload-and-briefly-share route.** The firm's Workspace allows "anyone with the link". Google fetched every picture from Drive's own link while it was shared: the logo, the signature, both stamps and all 55 pictures of the converted files, PNG, JPEG and GIF. Afterwards none of the 54 pictures the app keeps in Drive was still shared (checked by asking Drive).
+- **The body of an old letter as written**: space under a paragraph, a new page before one, headings, bullets, bold and italics, a picture's size. A report of 338 paragraphs with 16 pictures went in in one go and exports as a PDF of 2.1 MB.
+- **Correcting the client's name** on a file: the Doc was renamed by the rule, the name and the greeting changed, and the same surname typed by hand in a sentence of the letter stayed as typed.
+- **Sending**: the Doc became readable by link (its preview address answers 200 to somebody not signed in; the unsent test Doc answers 401), the PDF was made and kept, the revision noted, and the mail written to the log.
+- "Test Google" on Settings, Connections: "Google is working. Google answered: the app signed in and can open the letters folder "Home Directions letters" and the letter template."
+
+### Step 1, the template: dressed
+
+`php artisan hd:dress-template --logo=<image> --signature=<image>` (commit faa604c). It kept the two images with the firm's records (`settings/letter-template-logo.png`, `settings/letter-template-signature.gif` on the records disk, as the stamps are kept), and in one batch put the logo in place of the line "HOME DIRECTIONS, inc." (200 by 90 points, with space under it) and the signature on a line of its own between "Sincerely," and "Peter Seirup, P.E." (88.5 by 37 points, its own size). Every `{{...}}` tag is where it was. I exported the template as a PDF and looked at it: logo, date, client block, "Re:" line, greeting, the line for the letter, "Sincerely,", signature, name, the two licence lines, the stamp's place.
+
+- Template: Doc `14n-h-JfyP70o8O78q9s9899afZBlpuHzElXM_AcAkCo` (the same Doc as before; it was edited, not replaced).
+- **It does not wipe Peter's edits.** It changes only a line that still stands as the plain template had it: the first line being exactly the firm's name, and "Sincerely," standing directly over "Peter Seirup". Settings records that the template was dressed (`google.letter_template_dressed`, 2026-10-03); with that record the command does nothing at all, and says so (run a second time on the real template: "The template was dressed on 2026-10-03. Nothing was changed"). `--again` looks once more and still only fills what is plain. It never replaces the Doc.
+- **The signature looks acceptable on screen and soft in print.** The file the brief named, `peter_signature.gif`, is 118 by 49 pixels. It is placed at its own size so it is not blown up, but it is a small scan. v3's letters used another scan, `uploads/2020/11/peter-signature-pe.jpg`, which the backup's list of uploads holds; I did not take it out of the backup. Peter can drop a better scan into the template in Google Docs at any time.
+- **The stamps** go in at Google's own choice of size, 142 points (about two inches), because the app sends no size for a stamp. If that is too large or small, say so; it is one line.
+
+### Step 2, the switch
+
+`HD_LETTERS_DRIVER=google` was added as the last line of `.env`; nothing else in the file was touched (78 lines before, 79 after). `php artisan config:show hd.letters.driver` answers `google`.
+
+### Step 3, the proof on invented files
+
+Three files made through the app's own screens (its HTTP kernel, signed in as the first local login), every one named as a test ("Buildtest", "Invented Test Lane", and a note "INVENTED BUILD TEST (W7, 2026-10-03). Not a client."). Each Doc was moved into the subfolder **"Build tests"** (folder `1NGMUFmgMi-qUYkoZUdUl6Fbb5sOLXUZK`) inside the letters folder.
+
+| File | What | Doc | Result |
+|---|---|---|---|
+| 10208 | Connecticut, a client with a street address | `1UmNE4JLogzK9Dox-mUJ71csb7hhhiNN66GC5Ia6n7uc` | made on opening the file; the Connecticut stamp in; name corrected (Doc renamed, name and greeting changed, the hand-typed surname untouched); "The letter is up to date."; sent; PDF read |
+| 10209 | New York, a couple with no street address | `1fXopw1G9XI-k4_clvzIaNiZwJ6_PNIb11QVkMUPTdtQ` | made; the address block closed up; the New York stamp in; sent; PDF read |
+| 10210 | New Jersey, a company, a virtual visit | `1n4MKVBrHVYs6Ty_23jVaEaulfpI1hVHwzAwUf4BVcHI` | made; no stamp, and no gap where it would be; not sent |
+
+- I wrote a short invented body into the first two through the app's own body-writing (a bold line saying the letter is an invented test, a paragraph, a heading, two bullets), then read both PDFs as kept at sending, one page each: logo, date, client block, "Re:" line, greeting, the body, "Sincerely,", signature, name and licences, and the right stamp in each.
+- **Mail stayed here.** The mailer is the log mailer; the four lines in the message log (each letter to its invented client address and the office's blind copy) were written to `storage/logs/laravel.log` and went nowhere.
+- **The two sent test Docs are readable by anyone who has their link**, as a sent letter is. They hold invented text only.
+- The three test files are left visible in the app (they are the newest three on the Dashboard) so that Gordon can open them; "Delete this file" on each puts them away.
+
+### Step 4, the 15 re-made as real Docs
+
+`hd:convert-letters --again` on the 15 files of W6, after a copy of the rehearsal database (`~/Dev/hd-v4-import-data/hdonline-v4-rehearsal.before-W7.sqlite`, integrity check ok; Gordon may delete it). All 15 are real Docs in the letters folder, named by the rule, not shared by link, not sent. 55 pictures placed (24 in the letters, 31 in the reports), 0 refused, 0 missing. A second run made nothing ("already converted" 15 times).
+
+| File | Doc |
+|---|---|
+| 10206 | `1cBX35nnXq-ewWMl76HaDxezbIs4Ghf0FP8GXHwR8mNk` |
+| 10205 | `1tapaoOH8YvqhetGUeZZReedhrtH_HCoGcemL1EMDzEg` |
+| 10204 | `1-1szg8VkDpLKJoFT00jqBeI7VVRFS8Av4GcjN-MUeOs` |
+| 10203 | `18uNI6KXA2GaMqwB_uWUtA9e9AcloI1uX9dN2jUcNIEo` |
+| 10202 | `1zcQb8S1iYAOT9XV4Tnsw3kID9uf-FjhdJ4wdhajOFcc` |
+| 10201 | `1Rin_8GtkLzqTkkGgowWAYC6n-P5DY-Xt9FRsiajAAJg` |
+| 10199 | `1wXzzm2D-v791mrLkWTAKAj1JzIPpaDDqAfdVe88Pnew` |
+| 10198 | `1n95cANt1IRLocGNsP7I4VbkdFdX32eiRqX9yjRzfqds` |
+| 10197 | `1MTRq46MNH-4pPuW1M3wGRvP5bZtZmEYKabPuHVi-_ZA` |
+| 10196 | `1l9H5jUVGW8LCYdMzaebl5UjBYd30d98AFAYABMwJZqY` |
+| 10195 | `18Hl3RSIQnGOsbYrLHGVySP2CfqkEADBVpw4grlvOoOo` |
+| 10194 | `1orsWpUCvXlnkWRX3O-r1fgQEbXeCuu0RNwjTrOby2c4` |
+| 9541 (report) | `1PD0bQ3ERLhMK9fTqDw0w_ZOjpj5yxpdi2zm2j23EM1E` |
+| 9755 (report) | `1ybj2feLFbbOeW4CeOTL1ypGgRaFgXgRC3UV8AKnNCrg` |
+| 9917 (report) | `1ry-WTJR9lH5VilqWq0hRj8PZUX2riqfNH-DLGFfcJfo` |
+
+Checked for each of the 15, by counts and yes or no only (I did not read any of them): the Doc is in the letters folder; its name is the file's and follows the rule; it is not readable by link; no `{{tag}}` stands in it; the line "[Write the letter here.]" is gone; a letter holds its photos plus three (logo, signature, stamp) and seven tagged places; a report holds its pictures, 112 to 115 headings and four tagged places; the File screen answers 200 with "Open the Doc" pointing at Google, "Send the letter again", and no "Not imported yet". The three reports export as PDFs of 1.75, 2.06 and 0.21 MB (made in memory to measure, not kept).
+
+Pace on this line: about 25 seconds a letter and 43 seconds a report. Google never said the app was asking too fast.
+
+### What the real account broke or showed, and what I did
+
+1. **Every call made its own connection.** A call took about 1.6 seconds here, of which 0.9 was connecting; opening an invented file waited 27 seconds for its letter. The calls now share one open connection: 0.65 seconds a call, measured (commit ca0d63a). On this Mac the letter is still made while the person waits (the queue here runs at once), about 10 seconds for a file with a stamp; on a server the queue worker does it behind the screen.
+2. **The line dropped in the middle of the run** (this Mac's connection, not Google: a timeout, then "could not resolve host"). Six conversions failed, and each file was left clean, "Not imported yet", as designed. But one template copy had been made by Google with its answer lost, and the file had forgotten the copy's mark, so the copy stayed in the letters folder with no file knowing it (Doc `19H2d36gjfIEhxztl6I8QRvttH02ZMRNNZ-WKgphPewE`; I found it by asking Drive for every Doc the app can see and comparing with the files, and put it in the trash through the app). Fixed (commit f85e31a, two tests): a file whose failed Doc cannot be put away keeps the mark, and the next try finds the Doc by it and puts it in the trash first; and `--again` now refuses to make a second Doc when the first cannot be put away. The six were run again and converted. No Doc in the letters folder is unknown to a file now.
+3. **Built as a precaution, not met:** when Google says the app is asking too fast (429, or Drive's 403 with that reason) the call waits 5, 15 and 30 seconds and is made again (four tests against made-up answers); writing a body and placing a batch of pictures get two minutes, not thirty seconds. The full run of 438 letters will need the first.
+4. **The app's copies of pictures** went straight into the letters folder as W5 built it. They now go into a subfolder, "Pictures in the letters (the app's copies)" (folder `1b5wWkB1vOBnRC9N686m6yFmMNXnWgHWE`, made by the app the first time a picture is uploaded), so the letters folder holds letters. `hd:google-connect` forgets that folder if it is gone, so it is made again (commit 2b2cfd9).
+5. **A test that failed one run in a hundred** (two invented clients drawn the same phone number by chance) showed itself once during the stage; the two are now given different numbers (commit 8930b26). Not Google's doing.
+
+### The checks
+
+Run in the app folder through Herd's PHP 8.5, after the last code commit:
+
+| Command | Result |
+|---|---|
+| `herd composer test` (with the browser suite) | passed: 1,418 tests, 5,748 assertions, 0 failed, about 30 s (1,395 before the stage). One warning, in the browser suite, which this stage did not touch; I did not trace it |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `curl` on the Herd address | `/up` 200, `/login` 200 |
+
+The suite stays offline: every new test answers for Google with made-up responses, in the shapes the real account gave today.
+
+### Decisions the documents did not settle
+
+1. **A control was changed, and Gordon should know:** the architecture test that keeps the Google class out of the rest of the app now also lets `DressTemplateCommand` name it, beside `GoogleConnectCommand`, for the same reason (it sets up Google itself). Nothing else in the tests' controls was touched.
+2. The logo stands in the body of the letter, at the top, not in the page header: it shows once, as v3 showed it, and Peter can move it.
+3. Pictures get a folder of their own (above). Whoever the letters folder is shared with sees that folder and "Build tests".
+4. The images of the template are kept with the firm's records and named in Settings (`letter_template_image.logo`, `.signature`), like the stamps.
+5. The test Docs were moved into "Build tests" by a small addition to the Google class (make a folder inside another, move a Doc), called from my scratch script. The app itself has no notion of a test file.
+6. A failed conversion that cannot reach Google leaves the file with a mark and no Doc; the File screen still says "Not imported yet".
+
+### What Gordon or Peter should look at
+
+1. **The template** in Google Docs (Doc `14n-h-JfyP70o8O78q9s9899afZBlpuHzElXM_AcAkCo`): the look, the font (Arial 11, Google's default), the logo's size, and the signature scan.
+2. **The 15 real Docs**, each from its File screen with "Open the Doc". I checked them by counts, not by eye: how the photos sit, the captions, the spacing and the reports' title pages want a person's look.
+3. **The stamp's size** (about two inches).
+4. **The three test files** 10208, 10209, 10210 and their Docs in "Build tests"; two of those Docs are readable by link. Delete the files and trash the Docs when they have served.
+5. **Opening a file on this Mac waits about 10 seconds** for Google. A server does this in the background.
+6. File 10207 (the invented file of the W3 walkthrough, marked deleted) still points at a stand-in Doc, which cannot be opened now.
+
+### Still not proven
+
+- Taking a Doc out of the trash again, and finding a letter's copy by its mark after a lost answer: built and tested against made-up answers, not exercised on the real account (finding a picture by its mark, the same kind of question, was, for every picture placed).
+- Google's limit on writes per minute was not reached with 15 files.
+- What a Doc does when Peter types at the very edge of a tagged place.
+- Not done, by the brief: the other 438 letters and 102 reports; no real letter sent.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent, no Doc or folder shared with anybody by me (a picture is shared by link for the seconds Google needs to fetch it, and a sent test letter is readable by link, both as designed). The plugin clone was read for the two images only. `legacy.sqlite` was read by the conversion, never written. The rehearsal database was changed by the three invented files, the 15 conversions and four Settings rows, after the copy. Real text was not read: the 15 Docs were checked by counts. Two slips to own: I copied `.env` into `~/Dev/hd-v4-import-data/` as a safety copy before adding the line, which put a second copy of the credentials on disk; I removed that copy in the next command. And the dropped line left one stray Doc in Peter's folder for about ten minutes (item 2 above).

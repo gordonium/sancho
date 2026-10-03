@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02",
+ "generated": "2026-10-03",
  "by": "build-index.py",
  "geocache": "personal/nomad/_geocache.json",
  "people": [
@@ -22,6 +22,66 @@
    "query": "windsor|co",
    "want_to_see_by": "",
    "last_seen": "2026-09-21",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "alexia-blackwood",
+   "name": "Alexia Blackwood",
+   "city": "Longmont, CO",
+   "query": "longmont|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-03",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "ali-woll",
+   "name": "Ali Woll",
+   "city": "Windsor, CO",
+   "query": "windsor|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-06-24",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "allie-wickham",
+   "name": "Allie Wickam",
+   "city": "Loveland, CO",
+   "query": "loveland|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-14",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "amber-crummy",
+   "name": "Amber Crummy",
+   "city": "Fort Collins, CO",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-23",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "amy-ehrhardt",
+   "name": "Amy Ehrhardt",
+   "city": "Lakewood, CO",
+   "query": "lakewood|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-03",
    "lat": null,
    "lon": null,
    "resolved": "",
@@ -52,6 +112,18 @@
    "pending": true
   },
   {
+   "slug": "chad-cohen",
+   "name": "Chad Cohen",
+   "city": "West Bloomfield Township, MI",
+   "query": "west bloomfield township|mi",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-10",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
    "slug": "daniel-whittington",
    "name": "Daniel Whittington",
    "city": "Austin, TX",
@@ -64,12 +136,144 @@
    "pending": true
   },
   {
+   "slug": "danilo-italy-tour",
+   "name": "Danilo",
+   "city": "Calabria, Italy",
+   "query": "calabria|italy",
+   "want_to_see_by": "",
+   "last_seen": "2026-10-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "dnelle-dowis",
+   "name": "D'nelle Dowis",
+   "city": "Littleton, CO",
+   "query": "littleton|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-03-09",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "donna-thomas",
+   "name": "Donna Thomas",
+   "city": "Fort Collins, CO",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-23",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "doug-huckaba",
+   "name": "Doug Huckaba",
+   "city": "Loveland, CO",
+   "query": "loveland|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-14",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "dr-mitch-janosik",
+   "name": "Dr. Mitch Janosik",
+   "city": "Fort Collins, CO",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-03-18",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
    "slug": "elliott-stark",
    "name": "Elliott Stark",
    "city": "Morehead City, NC",
    "query": "morehead city|nc",
    "want_to_see_by": "",
    "last_seen": "2026-06-18",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "emily-sheehan",
+   "name": "Emily Sheehan",
+   "city": "Wethersfield, CT",
+   "query": "wethersfield|ct",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-08",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "enza-italy-tour",
+   "name": "Enza",
+   "city": "Calabria, Italy",
+   "query": "calabria|italy",
+   "want_to_see_by": "",
+   "last_seen": "2026-10-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "eric-pommier",
+   "name": "Eric Pommier",
+   "city": "Windsor, CO (house), with a Kansas City studio apartment for work stints",
+   "query": "windsor|co , with a kansas city studio apartment for work stints",
+   "want_to_see_by": "",
+   "last_seen": "2026-07-21",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "etieno-essien",
+   "name": "Etieno Essien",
+   "city": "São Paulo, Brazil",
+   "query": "são paulo|brazil",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-15",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "franca-nonna-italy",
+   "name": "Franca",
+   "city": "Calabria, Italy",
+   "query": "calabria|italy",
+   "want_to_see_by": "",
+   "last_seen": "2026-10-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "gina-cizek",
+   "name": "Gina Cizek",
+   "city": "Paradise Valley, AZ (Phoenix area)",
+   "query": "paradise valley|az",
+   "want_to_see_by": "",
+   "last_seen": "2026-07-31",
    "lat": null,
    "lon": null,
    "resolved": "",
@@ -100,12 +304,72 @@
    "pending": true
   },
   {
+   "slug": "guy-hanington",
+   "name": "Guy Hanington",
+   "city": "Cheyenne, WY",
+   "query": "cheyenne|wy",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-23",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "holly-cohen",
+   "name": "Holly Cohen",
+   "city": "West Bloomfield Township, MI",
+   "query": "west bloomfield township|mi",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-10",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "isaac",
+   "name": "Isaac",
+   "city": "Mankato, MN",
+   "query": "mankato|mn",
+   "want_to_see_by": "",
+   "last_seen": "",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "isabel-jackson",
+   "name": "Isabel Jackson",
+   "city": "Knoxville, TN",
+   "query": "knoxville|tn",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-08",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
    "slug": "jack-heald",
    "name": "Jack Heald",
    "city": "Phoenix, AZ",
    "query": "phoenix|az",
    "want_to_see_by": "",
    "last_seen": "2026-09-23",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "james-gilbert",
+   "name": "James Gilbert",
+   "city": "Loveland, CO",
+   "query": "loveland|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-14",
    "lat": null,
    "lon": null,
    "resolved": "",
@@ -136,6 +400,54 @@
    "pending": true
   },
   {
+   "slug": "jeffrey-ratte",
+   "name": "Jeffrey Ratte",
+   "city": "Ellensburg, WA (in the house; Seattle address also on file)",
+   "query": "ellensburg|wa",
+   "want_to_see_by": "",
+   "last_seen": "2026-10-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "john-marron",
+   "name": "John Marron",
+   "city": "Fort Collins, CO",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-06-19",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "john-metcalf",
+   "name": "John Metcalf",
+   "city": "Loveland, CO",
+   "query": "loveland|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-17",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "kay-ullman",
+   "name": "Kay Ullman",
+   "city": "Ridgefield, CT (history; deceased; her house since sold)",
+   "query": "ridgefield|ct",
+   "want_to_see_by": "",
+   "last_seen": "2026-07-31",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
    "slug": "ken-goodrich",
    "name": "Ken Goodrich",
    "city": "Las Vegas, NV (says he lives there; also a Lake Tahoe house he is at frequently)",
@@ -160,12 +472,36 @@
    "pending": true
   },
   {
+   "slug": "kyle-heustis",
+   "name": "Kyle Heustis",
+   "city": "Fort Collins, CO",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-03",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
    "slug": "larry-bloom",
    "name": "Larry Bloom",
    "city": "Fort Collins / Loveland area",
    "query": "fort collins / loveland|",
    "want_to_see_by": "",
-   "last_seen": "",
+   "last_seen": "2026-09-15",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "laura-holden",
+   "name": "Laura Holden",
+   "city": "Windsor, CO (house, closed 2026-04-15), with a Kansas City apartment for work stints",
+   "query": "windsor|co , with a kansas city apartment for work stints",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-03",
    "lat": null,
    "lon": null,
    "resolved": "",
@@ -178,6 +514,30 @@
    "query": "cheyenne|wy",
    "want_to_see_by": "",
    "last_seen": "2026-09-14",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "leslie-hong",
+   "name": "Leslie Hong",
+   "city": "Saint Paul, MN",
+   "query": "saint paul|mn",
+   "want_to_see_by": "",
+   "last_seen": "2026-07-31",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "lily-post",
+   "name": "Lily Post",
+   "city": "Windsor, CO",
+   "query": "windsor|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-23",
    "lat": null,
    "lon": null,
    "resolved": "",
@@ -197,11 +557,23 @@
   },
   {
    "slug": "luis-castaneda",
-   "name": "Luis Castaneda",
+   "name": "Luis Castañeda",
    "city": "Houston, TX",
    "query": "houston|tx",
    "want_to_see_by": "",
    "last_seen": "2026-09-23",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "luke-bernander",
+   "name": "Luke Bernander",
+   "city": "Fort Collins, CO",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-21",
    "lat": null,
    "lon": null,
    "resolved": "",
@@ -220,12 +592,72 @@
    "pending": true
   },
   {
+   "slug": "matt-mcintosh",
+   "name": "Matt McIntosh",
+   "city": "Atchison, KS",
+   "query": "atchison|ks",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-05",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
    "slug": "mick-torbay",
    "name": "Mick Torbay",
    "city": "Toronto",
    "query": "toronto|",
    "want_to_see_by": "",
    "last_seen": "2026-09-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "mike-catan",
+   "name": "Mike Catan",
+   "city": "Cave Creek, AZ (Phoenix area)",
+   "query": "cave creek|az",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-05",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "mike-orth",
+   "name": "Mike Orth",
+   "city": "Loveland, CO",
+   "query": "loveland|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-08",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "mikhail-voloshin",
+   "name": "Mikhail Voloshin",
+   "city": "Asheville area, NC",
+   "query": "asheville area|nc",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-03",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "nathan-ingram",
+   "name": "Nathan Ingram",
+   "city": "Helena, AL",
+   "query": "helena|al",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-10",
    "lat": null,
    "lon": null,
    "resolved": "",
@@ -244,12 +676,156 @@
    "pending": true
   },
   {
+   "slug": "paige-austin",
+   "name": "Paige Austin",
+   "city": "Florida (city not on file)",
+   "query": "florida|",
+   "want_to_see_by": "",
+   "last_seen": "2026-07-17",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "patrick-rauland",
+   "name": "Patrick Rauland",
+   "city": "Westminster, CO",
+   "query": "westminster|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-07-31",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "paula-bernander",
+   "name": "Paula Bernander",
+   "city": "Fort Collins, CO (Old Town)",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-04-10",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "pegeen-reilly",
+   "name": "Pegeen Reilly",
+   "city": "Omaha, NE",
+   "query": "omaha|ne",
+   "want_to_see_by": "",
+   "last_seen": "2026-10-01",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "pennie-williams",
+   "name": "Pennie Williams",
+   "city": "Austin, TX",
+   "query": "austin|tx",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-21",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "pia-italy-tour",
+   "name": "Maria Pia (tour)",
+   "city": "Calabria, Italy",
+   "query": "calabria|italy",
+   "want_to_see_by": "",
+   "last_seen": "2026-10-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "pierre-ratte",
+   "name": "Pierre Ratte",
+   "city": "Healdsburg, CA",
+   "query": "healdsburg|ca",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-08",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "pino-italy-tour",
+   "name": "Pino",
+   "city": "Calabria, Italy",
+   "query": "calabria|italy",
+   "want_to_see_by": "",
+   "last_seen": "2026-10-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "ren-rauland",
+   "name": "Ren Rauland",
+   "city": "Westminster, CO",
+   "query": "westminster|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-04",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "rob-rowe",
+   "name": "Rob Rowe",
+   "city": "Ridgefield, CT",
+   "query": "ridgefield|ct",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-21",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "robin-neighbor",
+   "name": "Robin (neighbor)",
+   "city": "Loveland, CO",
+   "query": "loveland|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-05-23",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
    "slug": "roy-williams",
    "name": "Roy Williams",
    "city": "Austin area (the Academy; formerly Buda)",
    "query": "austin|",
    "want_to_see_by": "2026-10-12",
    "last_seen": "2026-09-21",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "russell-quintero",
+   "name": "Russell Quintero",
+   "city": "Ocean Springs, MS",
+   "query": "ocean springs|ms",
+   "want_to_see_by": "",
+   "last_seen": "2026-03-21",
    "lat": null,
    "lon": null,
    "resolved": "",
@@ -268,12 +844,60 @@
    "pending": true
   },
   {
+   "slug": "sara-moorehead",
+   "name": "Sara Moorehead",
+   "city": "Ellensburg, WA (Seattle address also on file)",
+   "query": "ellensburg|wa",
+   "want_to_see_by": "",
+   "last_seen": "2026-10-02",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "sawyer-rauland",
+   "name": "Sawyer Rauland",
+   "city": "Westminster, CO",
+   "query": "westminster|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-03-24",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "stanley-tucci",
+   "name": "Stanley Tucci",
+   "city": "London",
+   "query": "london|",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-28",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "stephanie-steward",
+   "name": "Stephanie Steward",
+   "city": "Fort Collins, CO",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-09-04",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
    "slug": "stephen-moore",
    "name": "Stephen Moore",
    "city": "Fort Worth, TX",
    "query": "fort worth|tx",
    "want_to_see_by": "",
-   "last_seen": "2026-09-15",
+   "last_seen": "2026-09-23",
    "lat": null,
    "lon": null,
    "resolved": "",
@@ -292,6 +916,42 @@
    "pending": true
   },
   {
+   "slug": "ted-klontz",
+   "name": "Ted Klontz",
+   "city": "Boulder, CO",
+   "query": "boulder|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-04-26",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "temple-grandin",
+   "name": "Temple Grandin",
+   "city": "Colorado (Colorado State University)",
+   "query": "colorado|",
+   "want_to_see_by": "",
+   "last_seen": "2026-08-28",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
+   "slug": "teri-ashley",
+   "name": "Teri Ashley",
+   "city": "Fort Collins, CO (house on Stover, with Tom Boldt)",
+   "query": "fort collins|co",
+   "want_to_see_by": "",
+   "last_seen": "2026-04-24",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
+  },
+  {
    "slug": "vi-wickam",
    "name": "Vi Wickam",
    "city": "Loveland, CO",
@@ -302,9 +962,26 @@
    "lon": null,
    "resolved": "",
    "pending": true
+  },
+  {
+   "slug": "zac-smith",
+   "name": "Zac Smith",
+   "city": "Kansas City, MO",
+   "query": "kansas city|mo",
+   "want_to_see_by": "",
+   "last_seen": "2026-05-27",
+   "lat": null,
+   "lon": null,
+   "resolved": "",
+   "pending": true
   }
  ],
  "skipped": [
+  {
+   "slug": "ansel-courant",
+   "city": "Paula's condo 'on Horsetooth' (Fort Collins area [inferred]); moved to Colorado 'in September' (year [inferred] 2025)",
+   "why": "not a place"
+  },
   {
    "slug": "chris-maddock",
    "city": "in the wind; public land in the Rockies",
@@ -313,6 +990,11 @@
   {
    "slug": "craig-arthur",
    "city": "Australia (city not stated)",
+   "why": "not a place"
+  },
+  {
+   "slug": "elliott-scott",
+   "city": "Montana (city not stated)",
    "why": "not a place"
   },
   {
@@ -336,6 +1018,11 @@
    "why": "not a place"
   },
   {
+   "slug": "maria-pia-seirup",
+   "city": "unknown (Connecticut, state only, as of 2024-08-20)",
+   "why": "not a place"
+  },
+  {
    "slug": "peter-nevland",
    "city": "near Austin, TX",
    "why": "not a place"
@@ -343,6 +1030,11 @@
   {
    "slug": "peter-seirup",
    "city": "unknown",
+   "why": "not a place"
+  },
+  {
+   "slug": "rex-williams",
+   "city": "Austin area (his businesses are on the private part of the Wizard Academy campus; residence not stated)",
    "why": "not a place"
   },
   {

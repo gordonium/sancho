@@ -1,5 +1,5 @@
 # Sancho · MAP
-generated 2026-10-02 by build-map.py. Three zoom levels; Level 0 is the picture to remember.
+generated 2026-10-03 by build-map.py. Three zoom levels; Level 0 is the picture to remember.
 
 ## FOCUS
 
@@ -105,7 +105,7 @@ flowchart LR
 - **Food routine to habit** (personal/food) · next: Design the Sunday session skill (build order #6); first session picks four dinners
 - **Nomad daily check** (personal/nomad) · next: Design the personal morning routine incl. the nomad check (build order #5)
 - **Build Sancho** (work/copper-leaf) · next: Claude Code on the Mac: watcher, launchd, Sancho-Audio, Sancho-Secrets, Sancho-Private, autocommit fix, ping
-- **Home Directions system rebuild** (work/copper-leaf) · next: Build running overnight from this thread since 2026-10-02 00:55 (kit, app and paperwork tracks; state in docs/build-state.md). Gordon in the morning: read the summary at the top of docs/build-log.md, then the account checklist in docs/runbook-accounts.md
+- **Home Directions system rebuild** (work/copper-leaf) · next: Gordon: open the working version at http://hdonline-v4.test (logins in the app folder, storage/app/private/local-logins.txt) and read docs/build-log.md; then say go on the rest of the local build (review blockers, old-letter conversion, backups) or wait for the weekly Fable reset; send the drafted note to Anthropic if he wants
 
 ## Changed this week
 
@@ -169,7 +169,7 @@ flowchart LR
 - _setup/pipeline/INDEX.md
 - _setup/pipeline/earballs.py
 - _setup/pipeline/earballs.sh
-- … +781 more
+- … +791 more
 
 ## Level 2 · wiring
 
@@ -246,14 +246,15 @@ flowchart LR
 <details><summary>LINT.md</summary>
 
 # LINT
-generated 2026-10-02 by lint-layers.py
+generated 2026-10-03 by lint-layers.py
 
-**30 problems, 1 warnings**
+**34 problems, 0 warnings**
 
 ## Problems (block the build)
 - work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md: data file contains an instruction to Claude ('never do'); describe the preference instead
 - work/copper-leaf/projects/hd-system-rebuild/docs/wp-kit-map.md: data file contains an instruction to Claude ('you must'); describe the preference instead
 - people/_backfill-census.md:41: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- people/dr-mitch-janosik.md:18: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/gordon.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - people/lizzie-mack.md:31: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - personal/nomad/location.md:9: `city` cites [gordon] without his words; quote what he said, mark [inferred], or write `unknown`
@@ -263,8 +264,10 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/project.md:24: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/project.md:25: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/project.md:29: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/project.md:32: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/build-handoff.md:15: inference words under a [gordon] cite; mark [inferred] or write `unknown`
-- work/copper-leaf/projects/hd-system-rebuild/docs/build-state.md:83: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/build-state.md:79: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/build-state.md:187: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-2026-10-01.md:19: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:21: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/census-part2-2026-10-01.md:136: inference words under a [gordon] cite; mark [inferred] or write `unknown`
@@ -275,6 +278,7 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/docs/phase0-brief.md:87: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/phase0-brief.md:136: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/phase0-brief.md:147: inference words under a [gordon] cite; mark [inferred] or write `unknown`
+- work/copper-leaf/projects/hd-system-rebuild/docs/phase0-brief.md:174: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/plan-v2.md:171: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/plan-v2.md:177: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 - work/copper-leaf/projects/hd-system-rebuild/docs/requirements.md:81: inference words under a [gordon] cite; mark [inferred] or write `unknown`
@@ -283,7 +287,6 @@ generated 2026-10-02 by lint-layers.py
 - work/copper-leaf/projects/hd-system-rebuild/docs/runbook-accounts.md:380: inference words under a [gordon] cite; mark [inferred] or write `unknown`
 
 ## Warnings
-- secrets check skipped: this process can't see ~/.config/sancho (sandboxed)
 
 </details>
 

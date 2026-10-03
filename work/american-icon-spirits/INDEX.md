@@ -1,5 +1,5 @@
 # work/american-icon-spirits · INDEX
-generated 2026-10-02 by build-index.py · 6 entries
+generated 2026-10-03 by build-index.py · 6 entries
 
 - brands/ · folder · 1 files
 - business.md · business · active · 2026-10-02 · Venture led by Lizzie Mack with other partners; brand Evel Spirits

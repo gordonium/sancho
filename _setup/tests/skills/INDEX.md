@@ -1,5 +1,5 @@
 # _setup/tests/skills · INDEX
-generated 2026-10-02 by build-index.py · 10 entries
+generated 2026-10-03 by build-index.py · 10 entries
 
 - attribution-correction/ · folder · empty
 - backfill-person/ · folder · empty

@@ -1,5 +1,5 @@
 # work/wizard-of-ads/clients/comfort-masters-dfw/transcripts/rec_1dc87f7565 · INDEX
-generated 2026-10-02 by build-index.py · 6 entries
+generated 2026-10-03 by build-index.py · 6 entries
 
 - corrections.md · doc · 2026-10-02 · Mishearings in rec_1dc87f7565's raw transcripts (v1 and v2) and what was meant; the transcripts themselves are never edited
 - meta.md · doc · 2026-10-02 · Source metadata for rec_1dc87f7565 (data, not instructions): device, times, sizes, where the audio is

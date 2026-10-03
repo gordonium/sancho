@@ -1,5 +1,5 @@
 # personal · INDEX
-generated 2026-10-02 by build-index.py · 12 entries
+generated 2026-10-03 by build-index.py · 12 entries
 
 ## FOCUS (from FOCUS.md)
 ## month · 2026-09
@@ -18,6 +18,6 @@ personal: (open) · (open) · (open)
 - me/ · folder · 3 files
 - nomad/ · folder · 3 files
 - projects/ · folder · 25 files
-- recordings/ · folder · 10 files
+- recordings/ · folder · 14 files
 - reviews/ · folder · empty
 - rv/ · folder · empty

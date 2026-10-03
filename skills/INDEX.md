@@ -1,5 +1,5 @@
 # skills · INDEX
-generated 2026-10-02 by build-index.py · 10 skills
+generated 2026-10-03 by build-index.py · 10 skills
 
 - attribution-correction · both · When Gordon corrects who said something ("that's not Roy, that's Mike", "swap them", "that was Leah"), fix the speaker row, the voiceprint library, every recording the bad reference could have touched, and every fact filed under the wrong name; present everything before fixing; never finish with an unreviewed re-match list. · triggers: that's not <name>, that was <name> not <name>, swap them, flip that
 - backfill-person · both · Build or thicken one people/<slug>.md from every source Sancho may read: the Sancho tree, the legacy trees through the quarantine (subagent or reader-flagged Nerd session), Gordon's _CLIENTS folders, and filed transcripts; every line cited and dated, existing lines kept, nothing invented. One person per pass; the backfill-people job runs it for everyone. · triggers: backfill <person>, build a file for <person>, "who is <person>" when no people file exists, a stage of the backfill-people job

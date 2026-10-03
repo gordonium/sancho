@@ -1,5 +1,5 @@
 # work/wizard-of-ads/clients/comfort-masters-dfw/summaries · INDEX
-generated 2026-10-02 by build-index.py · 3 entries
+generated 2026-10-03 by build-index.py · 3 entries
 
 - 2026-09-15_rec_d32d657ed1.md · summary · 2026-10-02 · Stephen Moore asks Gordon to soften the "why behind Comfort Masters" page so it doesn't read as "I did it all by myself"; Gordon will relay to Jack Heald, who wrote it
 - 2026-09-15_rec_d46f439a37.md · summary · 2026-10-02 · Minutes after Stephen's call, Gordon tells Jack that Stephen is having "an attack of modesty" about the "why" page and proposes where a humility line goes; Jack notes the photo shows three girls where the copy says two; Jack will add a sentence or two

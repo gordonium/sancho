@@ -1,4 +1,4 @@
 # _setup/tests/nerd-concurrency · INDEX
-generated 2026-10-02 by build-index.py · 1 entries
+generated 2026-10-03 by build-index.py · 1 entries
 
 - test.py · script · 2026-10-02 · nerd.run deferral and disjoint-writes concurrency with a fake claude in a temp tree. sancho_lib.nerd_admit: alone yes; beside a whole-tree session no; beside a session with `writes_only` only when this task's `writes_only` cannot meet it; never a third. nerd-run.py: a refused start exits 75 with "deferred", starts no session and leaves no lease; a disjoint task runs beside the live one and its lease carries `writes_only`; `model:` and `effort:` in the task's frontmatter reach the session (defaults claude-opus-5-5 / high; a malformed model falls back). The watcher: an exit 75 moves the request to _queue/deferred/ with a `deferred` result and no push, the network release leaves it there, and it returns to requests/ once the lease is gone.

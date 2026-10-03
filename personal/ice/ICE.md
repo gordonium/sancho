@@ -1,5 +1,5 @@
 # personal · ICE
-generated 2026-10-02 by build-index.py · 4 ideas
+generated 2026-10-03 by build-index.py · 4 ideas
 
 | idea | status | area | project | captured | next review | file |
 |---|---|---|---|---|---|---|

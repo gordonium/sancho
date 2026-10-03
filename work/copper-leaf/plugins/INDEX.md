@@ -1,5 +1,5 @@
 # work/copper-leaf/plugins · INDEX
-generated 2026-10-02 by build-index.py · 7 entries
+generated 2026-10-03 by build-index.py · 7 entries
 
 - copper-leaf-filmadelphia-festival-calendar.md · doc · active · 2026-10-02 · Festival schedule page (day x time across five theater lanes) for Philadelphia Film Society, filmadelphia.org; v1.0.0
 - copper-leaf-wa-learndash-customizations.md · doc · active · 2026-10-02 · LearnDash tweaks for Wizard Academy's Ad Writers' Guild: lesson video (Wistia or YouTube), comments, mail; v1.9.0

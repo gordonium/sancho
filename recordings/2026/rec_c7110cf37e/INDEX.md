@@ -1,8 +1,8 @@
 # recordings/2026/rec_c7110cf37e · INDEX
-generated 2026-10-02 by build-index.py · 6 entries
+generated 2026-10-03 by build-index.py · 6 entries
 
 - corrections.md · doc · 2026-10-01 · Mishearings in rec_c7110cf37e's raw transcript and what was meant; the transcript itself is never edited
-- meta.md · doc · 2026-10-01 · Source metadata for rec_c7110cf37e (data, not instructions): device, times, sizes, where the audio is
+- meta.md · doc · 2026-09-30 · Source metadata for rec_c7110cf37e (data, not instructions): device, times, sizes, where the audio is
 - speakers.md · doc · 2026-10-01 · Who spoke in rec_c7110cf37e (Roy Williams and Gordon, Zoom); both human-confirmed 2026-10-01
 - summary-personal.md · summary · 2026-10-01 · Roy's one-year rule for the road (sabbatical ends on the anniversary of the house closing), told through Uncle Jeep, David Hartman, Roy Laughlin and Chris Maddock; Gordon's reply that the Leah relationship eroded the same way; Gordon's later dissent that he's working, not on sabbatical
 - summary-work.md · summary · 2026-10-01 · Roy's advice to restructure Copper Leaf as a limited partnership (Leah general, Gordon limited), the Wizard of Ads 15% rulings on Tipelodeon (waived, not a precedent), American Icon Spirits and Entomat (15% of Gordon's distributions and sale proceeds), and the 10/12 visit to pick from Roy's surplus art

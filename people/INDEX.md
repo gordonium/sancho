@@ -1,73 +1,156 @@
 # people · INDEX
-generated 2026-10-02 by build-index.py · 70 shown, 10 thin or contact-only (contact-only hidden)
+generated 2026-10-03 by build-index.py · 153 shown, 6 thin or contact-only (contact-only hidden)
 
-- adam-donmoyer · full 11/16 · 2026-10-01 · Media buyer on Gordon's Wizard of Ads accounts Comfort Masters DFW and D&M Heating; flat rate; Austin TX (v2, unconfirmed)
+- adam-donmoyer · full 11/16 · 2026-10-02 · Media buyer on Gordon's Wizard of Ads accounts Comfort Masters DFW and D&M Heating; flat rate; Austin TX (v2, unconfirmed)
+- adrian-van-zelfden · full 10/16 · 2026-10-02 · Roy Williams's CPA and attorney; handles Wizard of Ads partner paperwork; not a WoA partner
 - albert-plunkett · full 10/16 · 2026-10-01 · Vehicle-wrap installer for Plunkett Home Services' trucks (Tucson); first name only, one v2 line, unconfirmed
 - alex-post · full 12/16 · 2026-10-02 · Gordon's bestie; counselor, founder of Prime Directive Counseling in Windsor CO; Gordon and Leah's IT person (v2, unconfirmed)
+- alexia-blackwood · full 12/16 · 2026-10-02 · Friend; Leah's best friend ("bestie"); school-district IT; D&D and Blood on the Clocktower player; Longmont
+- ali-woll · full 13/16 · 2026-10-02 · Registered dietitian running a telehealth practice; friend Gordon mentors on her business; married to Shane Mares
+- allie-wickham · full 14/16 · 2026-10-02 · Runs a virtual-assistant business; took over LottoEdge content from Gordon in 2026; Vi Wickam's daughter; friend
 - amanda-moore · full 11/16 · 2026-10-01 · Co-owner of Comfort Masters DFW with husband Stephen Moore; runs marketing, office ops and CSR coordination (v2, unconfirmed)
+- amber-crummy · full 13/16 · 2026-10-02 · Gordon's lover and close friend of about 20 years; Fort Collins, works at CSU and nights at hotels; married to Brian, four kids
+- amy-ehrhardt · full 11/16 · 2026-10-02 · Grayson Erhard's wife; pianist who runs a music school (per v2); Grayson's sounding board on Tipelodeon
+- ansel-courant · full 11/16 · 2026-10-02 · Leah's step-brother (son of her late stepfather Joe Courant); family-circle regular, D&D drop-in, cat-sitter
+- beatrice-ratte · full 9/16 · 2026-10-02 · Gordon's great-aunt "Aunt Bea" (Ratté side); her blue cheese dip and coffeecake are family recipes (v2, unconfirmed)
+- bob-ratte · full 9/16 · 2026-10-02 · Gordon's maternal grandfather, "Popère"; with Dora ("Nonna") hosted the family Christmas parties (v2, unconfirmed)
+- brent-ballard · full 13/16 · 2026-10-02 · Friend and pickleball partner; photographer Gordon calls in for client shoots; Alex Post's ex; on Gordon's outer orbit
 - brian-brushwood · full 11/16 · 2026-10-02 · Wizard of Ads partner, magician and YouTube creator near Austin TX; consulted with Gordon on LottoEdge (v2, unconfirmed)
 - carmyn-wilson · full 12/16 · 2026-10-02 · Wizard of Ads partner (web builds, project management); long-time colleague of Vi Wickam; Gordon's friend and build collaborator
+- cedric-yau · full 12/16 · 2026-10-02 · Wizard of Ads partner; SEO and data specialist (Linebacker Data); co-taught the Wizard Academy search-engines class
+- chad-cohen · full 12/16 · 2026-10-02 · Friend and early mentor; owned Chez Lenard, the Ridgefield CT hot dog stand Gordon worked at as a teen; lives near Detroit with Holly
+- chris-lema · full 10/16 · 2026-10-02 · WordPress-world blogger and AI product maker; Gordon studied his skill graph and dislikes him; not WoA
 - chris-maddock · thin 4/16 · 2026-10-01 · Someone Gordon and Roy both know; lives in a small van RV, mostly on public land in the Rockies; Roy's live example of the wanderer who never came back; spelling unconfirmed; seed from v2/v3 pending (overnight people backfill)
 - chris-plunkett · full 9/16 · 2026-10-02 · Owner and founder (2013) of Plunkett Home Services, Tucson AZ, a Wizard of Ads client; husband of Scarlett (v2, unconfirmed)
 - chris-torbay · full 10/16 · 2026-10-02 · Wizard of Ads radio copywriter on the Travis Crawford HVAC account (Paul Harvey-style story spots); Mick Torbay's brother; a pilot
 - craig-arthur · full 11/16 · 2026-10-02 · Wizard of Ads partner in Australia, called the first WoA Partner; lead partner on Action Air (Lubbock), where Gordon runs digital
 - dan-griffiths · full 9/16 · 2026-10-01 · Co-owner of the CheckVet brands with his wife Dr. Marty Greer; handles finances for all entities (v2, unconfirmed)
+- dan-morman · full 10/16 · 2026-10-02 · Friend in Gordon's Austin circle, one he says he knows well; the March 2025 dinner where Gordon met Lizzie Mack
 - danelle-bullock · full 9/16 · 2026-10-01 · Mitchell's Magic/Cullins client person; wife of owner Josh Bullock; handles Columbus marketing (v2, unconfirmed)
 - daniel-whittington · full 11/16 · 2026-10-02 · WoA partner and Chancellor of Wizard Academy; lead partner on Plunkett Home Services; Gordon's friend (v2, unconfirmed)
+- danilo-italy-tour · full 8/16 · 2026-10-02 · Owns the tour company running Gordon's Calabria family-history tour (Sept–Oct 2026); translates; Enza's son
 - dave-young · full 10/16 · 2026-10-02 · WoA partner and Vice Chancellor of Wizard Academy; on the Plunkett Home Services account; radio and media buying (v2, unconfirmed)
+- david-mckinnis · full 10/16 · 2026-10-02 · Founder of PRWeb and Newsworthy.ai; a seriously major Wizard Academy donor; not a WoA partner
+- delia · full 10/16 · 2026-10-02 · Unresolved: Gordon's friend Delia from his youth and college (Marchison?) or Copper Leaf client Delia Viader, Napa winery
 - devin-wright · full 9/16 · 2026-10-02 · WoA media buyer, hired and trained by Roy Williams; buys media on Action Air; removed from Mitchell's Magic (v2)
-- doug-huckaba · thin 7/16 · 2026-10-01 · Friend; Kubernetes expert; 4-wheeling fanatic and expert; welder; seed from v2/v3 pending (overnight people backfill)
+- dnelle-dowis · full 14/16 · 2026-10-02 · Owner of Berry Interesting, a Denver-area WordPress agency; WordCamp Denver co-organizer; friend Gordon advised
+- donna-thomas · full 10/16 · 2026-10-02 · Leah's stepmother, Luke Bernander's wife; Leah's help and hospital driver through the March 2026 surgery recovery
+- dora-ratte · full 10/16 · 2026-10-02 · Gordon's maternal grandmother, "Nonna"; Italian, married a French-Canadian; hosted family Christmas (v2/v3, unconfirmed)
+- doug-huckaba · full 14/16 · 2026-10-03 · Friend; Kubernetes expert at CDOT (v3); 4-wheeling fanatic, welder, Toyota engine-swap hand; Loveland, CO
+- dr-mitch-janosik · full 10/16 · 2026-10-02 · Gordon's GP (primary care), Family Clinic of Fort Collins per v2; friendly, seen only at the office
+- elliott-scott · full 12/16 · 2026-10-02 · Gordon's younger brother; born 1988, transitioned about 2004; military background; in Montana, a daughter (2026-02)
 - elliott-stark · full 11/16 · 2026-10-02 · Wizard of Ads writer (partner or contractor unconfirmed), former D&M Heating ad writer; fishing and business author; sent Gordon to Ted Klontz
+- emily-sheehan · full 12/16 · 2026-10-02 · Friend since nursery school; Wethersfield, CT; Yale summer program for gifted youth (2026); close to Leah too
+- enza-italy-tour · full 8/16 · 2026-10-02 · Tour guide on Gordon's Calabria tour; mother of Danilo, who owns the tour company
+- eric-pommier · full 11/16 · 2026-10-02 · Laura Holden's husband; remote Director of Expansion through Aug 2026 (per Laura); moved from Kansas City to Windsor, CO
+- etieno-essien · full 10/16 · 2026-10-02 · Entomat co-founder and shareholder; edible-insect specialist in São Paulo, Brazil, originally Nigeria; goes by Eti
+- franca-nonna-italy · full 8/16 · 2026-10-02 · The older Italian nonna who runs the bread-baking session on Gordon's Calabria tour
+- gene-vann · full 11/16 · 2026-10-02 · Voice talent and Wizard Academy regular; the best-read person Gordon knows; friend and intellectual sparring partner
+- gina-cizek · full 11/16 · 2026-10-02 · Gordon's godmother; a cousin on his mother's side; with husband Stan in Paradise Valley, AZ (Phoenix area)
 - gordon-atkinson · full 11/16 · 2026-10-02 · WoA partner and writer; writer on Society Hill Plumbing until dropped in 2026; former Academy artist in residence
 - gordon · thin 5/16 · 2026-10-02 · The principal. Full brief in personal/me/brief.md; this file exists so recordings and roles have one identity to point at
 - grayson-erhard · full 10/16 · 2026-10-01 · Founder, owner and primary developer of Tipelodeon (formerly SongTipper); Gordon holds 20%
-- greg-moore · full 13/16 · 2026-10-01 · Owner and Master Plumber of Society Hill Plumbing, North Philadelphia; WoA client, Gordon is lead partner; one of Gordon's favorites (v2)
+- greg-moore · full 13/16 · 2026-10-03 · Owner and Master Plumber of Society Hill Plumbing, North Philadelphia; WoA client, Gordon is lead partner; one of Gordon's favorites (v2)
+- greg-verbanic · full 10/16 · 2026-10-02 · Childhood friend; core crew of Rock and Rob's DJ Service with Rob Rowe and Gordon; nothing on file after high school
+- guy-hanington · full 11/16 · 2026-10-02 · Leah's boyfriend since April 2026 (not family); lives in Cheyenne, WY; Army veteran; runs D&D games; has a son
+- hazel · full 9/16 · 2026-10-02 · Friend of Leah's and Gordon's from the Colorado poly / Queer Pile circle since spring 2026; trans; parent of Zoe; surname unknown
+- holly-cohen · full 12/16 · 2026-10-02 · Friend; Chad Cohen's wife of about 12 years; lives in West Bloomfield Township, MI; with Chad on visits and trips
+- isaac · full 9/16 · 2026-10-02 · Owner of Ignite (HVAC, Mankato MN), Peter Nevland's WoA client and a Copper Leaf web client; surname not on file; seed from v2/v3 pending (overnight people backfill)
+- isabel-jackson · full 12/16 · 2026-10-02 · Old friend, Kat's first; Knoxville, TN; partner Cliff died July 2026; Gordon plans to spend December 2026 with her
 - jack-heald · full 13/16 · 2026-10-02 · Wizard of Ads partner, writer on Comfort Masters DFW; owner of Cult Your Brand; thinking partner to Gordon; Phoenix AZ (2024)
-- jake-williams · full 10/16 · 2026-10-02 · President of Wizard of Ads and Roy Williams's younger son; runs the partner group (v2/v3, unconfirmed since)
-- james-gilbert · thin 3/16 · 2026-10-01 · Person in Leah's circle; seed from v2/v3 pending (subagent read); only recording-sourced lines so far
-- jane-brewer · full 11/16 · 2026-10-01 · Owner and chiropractor (DC, DCCJP), Precision Chiro Co., Windsor CO; WoA client since Oct 2025, CLC/PM client 5+ years; known 10+ years
-- jared-james · full 13/16 · 2026-10-02 · Founder and owner of LottoEdge (scratch-off odds data); Gordon's WoA client Jan 2024 to mid-2026, engagement wound down, roster retired
+- jake-williams · full 10/16 · 2026-10-03 · President of Wizard of Ads and Roy Williams's younger son; runs the partner group (v2/v3, unconfirmed since)
+- james-gilbert · full 12/16 · 2026-10-03 · Friend; Leah's close friend of a decade and Gordon's; Felix's partner; Loveland; Freedom Day backyard host
+- jamie-joseph · full 10/16 · 2026-10-02 · James Gilbert's former partner; estranged from Gordon's Loveland circle; v2's "she who shall not be named"
+- jane-brewer · full 11/16 · 2026-10-02 · Owner and chiropractor (DC, DCCJP), Precision Chiro Co., Windsor CO; WoA client since Oct 2025, CLC/PM client 5+ years; known 10+ years
+- jared-james · full 13/16 · 2026-10-01 · Founder and owner of LottoEdge (scratch-off odds data); Gordon's WoA client Jan 2024 to mid-2026, engagement wound down, roster retired
 - jason-skaggs · full 10/16 · 2026-10-02 · Wizard of Ads writer; writer and production on Action Air (Lubbock); first writer on D&M Heating, departed (v2, unconfirmed since)
 - jeff-carpenter · full 11/16 · 2026-10-02 · GM / operations at Travis Crawford HVAC (Charlotte NC), a WoA client; owns the revenue numbers on the team calls
 - jeff-goff · full 11/16 · 2026-10-02 · Co-owner of D&M Heating & Air Conditioning (Milwaukee) with Karen Dodge and Tim Silva; field and estimates side
 - jeff-ratte · thin 4/16 · 2026-10-02 · Gordon's uncle; did the Annapurna circuit with Sara Moorehead in the mid-90s; seed from v2/v3 pending (overnight people backfill)
+- jeff-sexton · full 10/16 · 2026-10-02 · Wizard of Ads partner; a heavyweight writer Roy brings into big work; Gordon keeps his distance (v2, 2026-03-27)
+- jeffrey-ratte · full 10/16 · 2026-10-02 · Gordon's uncle, his mother's brother; married to Sara Moorehead; home outside Ellensburg WA (a ranch), Seattle address too
 - jesse-olson · full 10/16 · 2026-10-02 · Owner of The Happy Outlet (residential electrical, Reno NV); WoA client under Rick Willis; Gordon runs the digital side
+- joan-tropiano-tucci · full 9/16 · 2026-10-02 · Family on Gordon's mother's side; Stan Tucci Sr.'s wife, called "Aunt" in v2's roster
+- john-marron · full 12/16 · 2026-10-02 · Mail carrier; Loveland-circle friend of Gordon and Leah via James Gilbert; in outer orbit with Gordon since 2026-03
+- john-metcalf · full 13/16 · 2026-10-02 · Graphic designer (branding, logos); WoA partner by 2026; teaches design (CSU, Front Range); Loveland friend of Gordon's
 - johnny-molson · full 10/16 · 2026-10-02 · Wizard of Ads partner; lead partner on CheckVet (CheckIN/CheckOUT Vet), where Gordon runs digital
 - jordan-ohlmann · full 10/16 · 2026-10-02 · Owner of Action Air Plumbing & Septic (Lubbock TX) with his wife Megan; a voice in the radio spots
 - josh-bullock · full 10/16 · 2026-10-01 · Owner of Mitchell's Magic (One Hour HVAC, Avon OH) and Cullins (Columbus); WoA client principal (v2, unconfirmed)
 - karen-dodge · full 11/16 · 2026-10-02 · D&M Heating & Air Conditioning (Milwaukee); owner-side contact on Gordon's calls; Dodge is her maiden name, used again since her divorce
+- kay-ullman · full 10/16 · 2026-10-02 · Gordon's youth-group leader and mentor at Jesse Lee Memorial UMC, Ridgefield CT; died June 2025 (history)
 - ken-goodrich · full 11/16 · 2026-10-02 · Home-services owner (Goettl, Kennerator); Roy Williams client; 2025 outside advisor and would-be investor at The Happy Outlet
 - kevin-skalure · full 11/16 · 2026-10-02 · Ad writer on the Wizard of Ads side of the D&M Heating account with Peter Nevland; in Montana; surname spelling unconfirmed
 - kyle-caldwell · full 11/16 · 2026-10-02 · Wizard of Ads media buyer; buys the radio for Travis Crawford HVAC (v2/v3, unconfirmed since)
-- larry-bloom · full 8/16 · 2026-10-01 · Molly Bloom's father; one of Gordon's CSU professors; a possible route to Aaron Sorkin for Lizzie Mack's story
+- kyle-heustis · full 12/16 · 2026-10-02 · Friend of Gordon's in Fort Collins; former Marine; self-built home on 10 acres; did the patio railings; camper home base
+- larry-bloom · full 11/16 · 2026-10-02 · Molly Bloom's father; one of Gordon's CSU professors; a possible route to Aaron Sorkin for Lizzie Mack's story
+- lathan · full 11/16 · 2026-10-02 · Co-owner of American Icon Spirits (Evel Spirits) with Lizzie Mack; labels, merch and branding; surname unknown
+- laura-holden · full 15/16 · 2026-10-02 · Counselor, owner of True Course Counseling (Copper Leaf Press Managed client); Gordon's close friend; Eric Pommier's wife
 - leah · full 10/16 · 2026-10-02 · Gordon's wife of 11 years, separating (transition ends when the house closes); runs Copper Leaf and Press Managed operations; seed from v2/v3 pending (subagent read)
+- leslie-hong · full 12/16 · 2026-10-02 · Gordon's older sister (née Seirup); counselor in St. Paul, MN; Maggie's mother; rarely in touch (history)
+- lily-post · full 10/16 · 2026-10-02 · Alex Post's daughter, a minor (10 in early 2026); Gordon calls Alex and Lily his "other family"
 - lizzie-mack · full 14/16 · 2026-10-01 · Leads Entomat and American Icon Spirits (Evel Spirits); runs Thrival and Whiskey Sherpa; seed from v2/v3 pending (build thread)
 - luis-castaneda · full 11/16 · 2026-10-02 · Wizard of Ads digital partner who manages Google Ads (PPC) on Comfort Masters DFW; works closely with Vi Wickam
-- luke-bernander · thin 7/16 · 2026-10-02 · Leah's father; helping Gordon outfit the camper (second awning, bike hitch); seed from v2/v3 pending (overnight people backfill)
-- mark-benn · full 13/16 · 2026-10-02 · Gordon's therapist and former college professor; sessions in person, paid; seed from v2/v3 pending (overnight people backfill)
+- luke-bernander · full 10/16 · 2026-10-02 · Leah's and Paula's father, married to Donna; helping Gordon outfit the camper (second awning, bike hitch)
+- maria-pia-seirup · full 12/16 · 2026-10-02 · Gordon's mother; Treasurer of Home Directions, Inc. (records payments, edits letters); Peter Seirup's wife
+- mark-benn · full 14/16 · 2026-10-02 · Gordon's psychologist (Fort Collins practice) and former CSU professor; sessions every ~6 weeks per v2
+- mark-effinger · full 9/16 · 2026-10-02 · Major Wizard Academy donor; former PRWeb employee of David McKinnis, hired after exploiting PRWeb; into mushrooms
 - marty-greer · full 11/16 · 2026-10-02 · Owner and veterinarian of the CheckVet brands (CheckIN, CheckOUT, Marshall Pet Care), Sun Prairie WI; canine reproduction vet
+- matt-builder · full 12/16 · 2026-10-02 · General contractor who built Gordon and Leah's screened patio, 2025-26; close-out settled 2026-05-08; surname unknown
+- matt-mcintosh · full 12/16 · 2026-10-02 · Close friend of Gordon's for ~15 years, met through Blue Lions; Marine; handyman and golfer in Atchison, Kansas
 - matt-willis · full 10/16 · 2026-10-02 · WoA partner, Rick Willis's son; on The Happy Outlet with Rick and Gordon: content, brand alignment, media buying (v2/v3)
 - megan-ohlmann · full 10/16 · 2026-10-02 · Marketing Director and co-owner of Action Air Plumbing & Septic (Lubbock TX) with her husband Jordan; primary client contact
 - mick-torbay · full 11/16 · 2026-10-02 · Wizard of Ads writer on the Travis Crawford HVAC account team; Chris Torbay's brother; a pilot; writes ads, jingles and audio signatures
-- olivia-la · full 11/16 · 2026-10-02 · Associate chiropractor at Precision Chiro Co. (Windsor CO) under Dr. Jane Brewer; Gordon wrote her website bio (final 2026-06-03)
+- mike-catan · full 12/16 · 2026-10-02 · Wizard of Ads partner (Gordon, 2026-10-01) and a friend; Phoenix area, Cave Creek AZ address (2024)
+- mike-orth · full 13/16 · 2026-10-02 · Gordon's college friend from the Birch apartments, his sparring partner; wrestled; Loveland, CO as of 2023
+- mikhail-voloshin · full 13/16 · 2026-10-02 · AI engineer, runs Mighty Data, Inc.; co-taught the Wizard Academy search-engines class; Leah's close friend
+- molly-bloom · full 9/16 · 2026-10-02 · Public figure (Molly's Game); Larry Bloom's daughter; Gordon met her once, at her talk in Loveland
+- nathan-ingram · full 13/16 · 2026-10-02 · Web designer and builder (WordPress, Beaver Builder); built D&M's 2026 site as Gordon's sub; ex business coach; friend
+- olivia-la · full 11/16 · 2026-10-01 · Associate chiropractor at Precision Chiro Co. (Windsor CO) under Dr. Jane Brewer; Gordon wrote her website bio (final 2026-06-03)
+- paige-austin · full 10/16 · 2026-10-02 · Gordon and Leah's former housecleaner of about ten years, and a friend; moved from Colorado to Florida in spring 2026
+- patrick-rauland · full 12/16 · 2026-10-02 · WordPress developer and friend on a biweekly call; Gordon's candidate WoA digital partner; WordCamp Denver co-organizer
+- paula-bernander · full 12/16 · 2026-10-02 · Leah's sister; Gordon's sister-in-law and one of his closest people; county job with first-responder medical certs
+- pegeen-reilly · full 11/16 · 2026-10-02 · Wizard Academy board member; ActBlue program-management background per v2; Omaha, NE; Gordon: "freaking fantastic"
+- pennie-williams · full 10/16 · 2026-10-02 · Roy Williams's wife; Wizard Academy circle, not a WoA partner; Austin (2023 list)
 - peter-nevland · full 11/16 · 2026-10-02 · Wizard of Ads partner; lead on Comfort Masters DFW and leads the D&M Heating calls; brought Gordon onto his teams in May 2024
 - peter-seirup · full 10/16 · 2026-10-01 · Gordon's father; P.E., of Home Directions, Inc.; Gordon is rebuilding his report and letter-writing system
-- rick-willis · full 11/16 · 2026-10-02 · WoA partner, lead on The Happy Outlet (Reno NV); writes the radio; Matt Willis's father; Gordon is his supporting partner
+- pia-italy-tour · full 8/16 · 2026-10-02 · Translator on Gordon's Calabria tour; Pino's wife; not Gordon's mother (Maria Pia Seirup)
+- pierre-ratte · full 10/16 · 2026-10-02 · Gordon's uncle, his mother's other brother; Healdsburg, CA as of 2023 (v2 and Sopris list, unconfirmed since)
+- pino-italy-tour · full 8/16 · 2026-10-02 · Translator on Gordon's Calabria tour; Pia's husband
+- ren-rauland · full 11/16 · 2026-10-02 · Friend; owns Audacious Immersive; Patrick Rauland's wife and Sawyer's mother (Gordon, 2026-10-01)
+- rex-williams · full 10/16 · 2026-10-02 · Roy Williams's elder son; runs Crowded Barrel distillery and Alchemy bar on the Academy campus (v2/v3); not a partner
+- rick-willis · full 11/16 · 2026-10-03 · WoA partner, lead on The Happy Outlet (Reno NV); writes the radio; Matt Willis's father; Gordon is his supporting partner
+- rob-rowe · full 12/16 · 2026-10-02 · One of Gordon's oldest friends; best man at his first wedding; led the iHeartRadio app team; Ridgefield, CT
 - rob · thin 5/16 · 2026-10-01 · Gordon's friend from high school; best man at Gordon's first wedding; led the team that built the iHeartRadio app; surname unknown; seed from v2/v3 pending (overnight people backfill)
-- robert-nathan-allen · full 8/16 · 2026-10-01 · Entomat partner (RNA); connections, logistics and partnerships; seed from v2/v3 pending (build thread)
+- robert-nathan-allen · full 9/16 · 2026-10-02 · Entomat partner (RNA); connections, logistics and partnerships; seed from v2/v3 pending (build thread)
 - robin-kressbach · full 9/16 · 2026-10-02 · Wizard of Ads partner and graphic designer; truck wraps, shirts and logo work on the Plunkett Home Services account (v2/v3, unconfirmed)
-- roy-williams · full 12/16 · 2026-10-02 · Founder of Wizard of Ads and Wizard Academy; holds 15% of Gordon's WoA cut; Gordon's mentor; Austin area
-- ryan-chute · full 12/16 · 2026-10-02 · WoA partner on the sales side ("Wizard of Sales"); matchmaker who brought Society Hill to WoA; based in Nova Scotia
-- sara-moorehead · thin 4/16 · 2026-10-02 · With Gordon's uncle Jeff Ratte; did the Annapurna circuit in the mid-90s; seed from v2/v3 pending (overnight people backfill)
+- robin-neighbor · full 11/16 · 2026-10-02 · Neighbor in Loveland, CO and occasional pickleball partner of Gordon's; with Brian, owns dogs Basil and Timber
+- roy-williams · full 13/16 · 2026-10-03 · Founder of Wizard of Ads and Wizard Academy; holds 15% of Gordon's WoA cut; Gordon's mentor; Austin area
+- russell-quintero · full 11/16 · 2026-10-02 · Friend or contact of Gordon's, context not on disk; Quintero household on the Sopris list, Ocean Springs, MS
+- ryan-chute · full 13/16 · 2026-10-02 · WoA partner on the sales side ("Wizard of Sales"); matchmaker who brought Society Hill to WoA; based in Nova Scotia
+- ryan-deiss · full 9/16 · 2026-10-02 · Wizard Academy board member (chairman per Roy 2019, v2 2026); DigitalMarketer founder/CEO; Gordon's instructor
+- ryan-painter · full 12/16 · 2026-10-02 · House painter, Intermountain Painting; painted Gordon and Leah's house exterior, spring 2026; surname unknown
+- sara-moorehead · full 12/16 · 2026-10-02 · With Gordon's uncle Jeff Ratte; did the Annapurna circuit in the mid-90s; seed from v2/v3 pending (overnight people backfill)
+- sawyer-rauland · full 11/16 · 2026-10-02 · Child; Patrick and Ren Rauland's daughter, friends of Gordon's (Gordon, 2026-10-01)
 - scarlett-plunkett · full 9/16 · 2026-10-02 · Ops manager of Plunkett Home Services, Tucson AZ, a Wizard of Ads client; wife of owner Chris Plunkett (v2, unconfirmed)
-- stephen-moore · full 12/16 · 2026-10-01 · Owner and founder of Comfort Masters DFW (Fort Worth HVAC); its radio voice; face of the "why" story
+- scott-beasley · full 10/16 · 2026-10-02 · Friend in Gordon and Leah's circle; the friendship Gordon named in March 2026 as the next one to deepen
+- shannon-janelle · full 9/16 · 2026-10-02 · Friend or contact of Gordon's, context not on disk; named only in v2's people roster (2026-03-15)
+- stan-tucci-sr · full 9/16 · 2026-10-02 · Family on Gordon's mother's side; Dora and Bob Ratté's nephew, called "Uncle" in v2's roster; Joan's husband
+- stanley-tucci · full 11/16 · 2026-10-02 · Actor ("Yes, the actor"); Gordon's cousin on his mother's side, first cousin once removed per v2 and Gordon
+- stephanie-steward · full 12/16 · 2026-10-02 · Realtor (Fort Collins); handled Sopris and Cove for Gordon and Leah; broker for the 2026 Cove sale; Leah once her assistant
+- stephen-moore · full 12/16 · 2026-10-02 · Owner and founder of Comfort Masters DFW (Fort Worth HVAC); its radio voice; face of the "why" story
 - stephen-semple · full 11/16 · 2026-10-02 · Wizard of Ads partner; lead on Travis Crawford HVAC who brought Gordon in on LSA and PPC; co-hosts Empire Builders
 - steve-rae · full 13/16 · 2026-10-02 · WoA partner who offers himself as "sage" on accounts for 1 to 2%; one-time media buyer on Society Hill; Naples, FL
 - syre-klenke · full 10/16 · 2026-10-02 · Wizard of Ads partner; original, then reclaimed, lead on CheckVet before handing it to Johnny Molson (history)
+- ted-klontz · full 13/16 · 2026-10-02 · Boulder parts-work therapist (IFS-adjacent, Satir lineage); ran Gordon's 3-day intensive 2026-04-24 to 26
+- temple-grandin · full 10/16 · 2026-10-02 · Animal scientist; named in March 2026 as joining Entomat's board as a small shareholder (history, unconfirmed)
+- teri-ashley · full 10/16 · 2026-10-02 · Leah and Paula's mother; Tom Boldt's partner; Luke Bernander's ex-wife; sold the Silverwood family home in 2026
 - tim-silva · full 11/16 · 2026-10-02 · Co-owner of D&M Heating & Air Conditioning (Milwaukee) with Karen Dodge and Jeff Goff; service side, the boiler man
 - todd-lyles · full 9/16 · 2026-10-02 · Runs Service Excellence (home-services operations training); Wizard of Ads partner; Exit Ready co-developer
+- tom-boldt · full 10/16 · 2026-10-02 · Teri Ashley's partner (Leah's mother's); took a healthcare company public; owns 1/8 of a NYC apartment; father of three
+- tom-godaddy · full 11/16 · 2026-10-02 · Domain broker at GoDaddy, reached through Roy Williams; Gordon's business contact for premium domains; surname unknown
 - tom-wanek · full 10/16 · 2026-10-02 · Wizard of Ads partner; lead partner on Mitchell's Magic + Cullins, where Gordon is digital lead; ad writer and media strategist
 - travis-crawford · full 10/16 · 2026-10-02 · Owner and founder (2009) of Travis Crawford HVAC / Plumbing / Electric, Charlotte NC, a Wizard of Ads client; the voice of its radio
-- vi-wickam · full 13/16 · 2026-10-02 · Senior Wizard of Ads digital partner in Loveland; Gordon's friend of 10+ years who introduced him to Wizard Academy
-- wes-brewer · full 9/16 · 2026-10-01 · Husband of Dr. Jane Brewer (Precision Chiro Co., WoA and Copper Leaf client); social friend of Gordon and Leah through Jane
+- vi-wickam · full 13/16 · 2026-10-03 · Senior Wizard of Ads digital partner in Loveland; Gordon's friend of 10+ years who introduced him to Wizard Academy
+- wes-brewer · full 9/16 · 2026-10-02 · Husband of Dr. Jane Brewer (Precision Chiro Co., WoA and Copper Leaf client); social friend of Gordon and Leah through Jane
 - william-lordan · full 10/16 · 2026-10-02 · Chiropractor (DC, DCCJP), Precision Chiropractic, Connecticut; Copper Leaf DINABY website client since 2025-09; Jane Brewer's school friend
+- zac-smith · full 13/16 · 2026-10-02 · Wizard of Ads partner, former Wizard Academy vice chancellor; close friend of Gordon; Kansas City, MO; wife LeAnne
