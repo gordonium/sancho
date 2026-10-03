@@ -129,7 +129,7 @@ stages:
   - {name: patrick-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: patrick-rauland}, group: F, status: done}
   - {name: ren-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: ren-rauland}, group: F, status: done}
   - {name: sawyer-rauland, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: sawyer-rauland}, group: F, status: done}
-  - {name: rob-rowe, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rob-rowe}, group: F, status: blocked, blocked: Gordon to confirm whether people/rob.md and people/rob-rowe.md are the same person  so rob.md can be retired into rob-rowe.md}
+  - {name: rob-rowe, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: rob-rowe}, group: F, status: done}
   - {name: russell-quintero, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: russell-quintero}, group: F, status: done}
   - {name: scott-beasley, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: scott-beasley}, group: F, status: blocked, blocked: Gordon to say who said what about Beasley on 2026-03-20 (v3 voice matching and v2 speaker labels swap Gordon and Leah)  including who drove him home after Too Many Zoos and who planned the  more frien}
   - {name: shannon-janelle, task_template: _setup/templates/nerd-task-backfill-person.md, vars: {slug: shannon-janelle}, group: F, status: blocked, blocked: Gordon to say who Shannon Janelle is to him  and whether she is Shannon Alexander (Sopris  Philadelphia)  the Philadelphia Shannon with kids  the Keep in Touch  Shannon  or the  Shannon s Birthday ( 8}
@@ -463,3 +463,4 @@ One stage per person from the census, priority 1 first (referenced in the Sancho
 - 2026-10-02T20:27:37+02:00 job.run: stage `delia` blocked, recorded, job continues: Gordon must say which Delia this file is (the friend from your youth and college  or client Delia Viader)  whether the friend is the Sopris  Delia Hammerslaugh  in Lexington  MA  and the spelling of M
 - 2026-10-02T20:27:37+02:00 job.run: 6 stages in one run; continuation queued (20261002T182737Z_job.run_f816d4.md)
 - 2026-10-02T20:27:46+02:00 job.run: stopped at human gate `review`
+- 2026-10-03T15:42:51+02:00 cowork-remote (cr-6c8e93): Gordon confirmed rob.md and rob-rowe.md are one person; rob.md retired into rob-rowe.md; rob-rowe set done (review gate, 1 of 10).
