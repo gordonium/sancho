@@ -1259,3 +1259,122 @@ The suite stays offline: every new test answers for Google with made-up response
 - Not done, by the brief: the other 438 letters and 102 reports; no real letter sent.
 
 **Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent, no Doc or folder shared with anybody by me (a picture is shared by link for the seconds Google needs to fetch it, and a sent test letter is readable by link, both as designed). The plugin clone was read for the two images only. `legacy.sqlite` was read by the conversion, never written. The rehearsal database was changed by the three invented files, the 15 conversions and four Settings rows, after the copy. Real text was not read: the 15 Docs were checked by counts. Two slips to own: I copied `.env` into `~/Dev/hd-v4-import-data/` as a safety copy before adding the line, which put a second copy of the credentials on disk; I removed that copy in the next command. And the dropped line left one stray Doc in Peter's folder for about ten minutes (item 2 above).
+
+## W8: five v2 inspection reports
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, from 2b2cfd9 on `feature/v4-build`. Scope: the Letter panel moved above the Job on the File screen (Gordon, this morning); then a small pilot of Phase 2 on his word: the five v2-era inspection reports of files 4604, 8695, 2426, 5894 and 7570, rebuilt from v2's own database backups.
+
+### Plan (written before any code)
+
+0. Move the Letter panel above the Job panel; a browser test and the feature test hold the new order; checks; commit.
+1. Find the backup: stream each candidate, keep only the five reports' rows in a scratch SQLite outside every repository, and count per backup before choosing.
+2. Read v2's source for how a report was put together.
+3. Build a reader, a compiler and a command in the app, tested on invented rows; the Doc goes through the same letters path and is filed like W6's compiled reports.
+4. Run it on the five; count; never fill a gap.
+5. If cheap, compare with backups from before August 2015.
+6. The three checks; this log.
+
+### What was done (finished 2026-10-03, about 11:10 CEST)
+
+**In one line:** two of the five reports are now real Google Docs on their files (4604 and 8695), compiled from v2's own notes with nothing invented; the other three (2426, 5894, 7570) have no report text anywhere in v2's database, in any backup read, so nothing was made for them. Three commits: 2d78ba4, 797d879, 0e89dc9; tree clean; no remote.
+
+**To look at them:** `http://hdonline-v4.test/files/4604` and `/files/8695`, "Open the Doc" in the Letter panel (now above the Job).
+
+### Step 0: the Letter panel above the Job
+
+On the File screen the order is now Letter, Job, Invoice description, Invoice, Messages. The Letter and the Invoice no longer share a row; each is a full-width panel. One new browser test checks the order in a real browser; the feature test that held the old order now holds the new one. Commit 2d78ba4.
+
+### Per report
+
+| File | v2 report | Job date | Notes v2 holds | With text | Without text | Not shown by v2's page | Sections with notes | Pictures in the Doc | Doc |
+|---|---|---|---|---|---|---|---|---|---|
+| 4604 | 4542 | 2009-06-21 | 138 | 138 | 0 | 0 | 30 | 3 (letterhead twice, signature) | `1dmk95dCuPJjslRs3t7nXh92sFgpF8Jk1EaliXmYWb1A` |
+| 8695 | 8681 | 2017-03-25 | 144 | 143 | 1 (v2 note row 276917) | 2 (rows 276957, 276964) | 30 | 11 (cover, 7 photos, letterhead twice, signature) | `1Pzci6nShVS0z9bZQKOjb4Q_Uj9kvKrWMW4o7fYAfrRI` |
+| 2426 | 2362 | 2000-03-03 | 0 | 0 | | | 0 | | none made |
+| 5894 | 5836 | 2004-10-07 | 0 | 0 | | | 0 | | none made |
+| 7570 | 7513 | 2006-11-01 | 0 | 0 | | | 0 | | none made |
+
+- **File 8695, what is missing:** one note chosen for the report has no text in v2 (row 276917, library number 858). The notes library still has text under that number, but v2 copied a note's text into the report at the moment it was chosen, so the library's words today are not known to be the report's words: nothing was written in its place. Two notes with text (rows 276957 and 276964, both photo notes) sit in section 0, which v2's page never drew for an inspection; they are left out as v2 left them out, and listed here.
+- **Files 2426, 5894 and 7570, why nothing:** v2 holds a job row and a client row for each (all three were bulk-loaded on 2014-12-10), but no report note and no section row, in any of the six backups that carry the notes table (2015-02-01, 2015-04-13, 2015-07-24, 2015-08-17, 2019-11-11, 2020-06-17). These jobs date from before v1 existed (2000 to 2006). Their reports were never in v2; if they survive, it is as Word files (`legacy-sources.md` lists about 2,500). That is a Phase 2 question, not a gap of the 2015 bug. All three still say "Not imported yet" on the File screen. The command lists each as "suspiciously few notes".
+- Both Docs were checked by counts and yes or no only (I did not read them): the Doc exists and is named by the rule; no `{{tag}}` is left; no tagged place is lacking; the File screen answers 200 with "Open the Doc" pointing at Google and without "Not imported yet"; the PDF Google makes of each is 0.36 MB and 1.09 MB (made in memory to measure, not kept); neither was sent or shared. A second run made nothing ("already converted" twice).
+
+### The backups used
+
+All read only, as streams, from `~/Sync/Gordonium Enterprises Sync/_CLIENTS/`. The newest backup holding each table was used, after counting the five reports' rows in every candidate:
+
+| v2 table | Backup used | Rows kept |
+|---|---|---|
+| `REPORT_DATA_NOTES` (the notes of each report, with their text) | `HD Online/REPORT_DATA_NOTES_20200617.sql` (2020-06-17; 348,336 rows in all) | 282 |
+| `REPORTS` | `HD Online/20201215 Data Migration/homedire_hdo_a2.sql` (2020-12-15) | 5 |
+| `CONTACTS` | the same | 7 |
+| `REPORT_DATA_SECTIONS` for report 8681 | `HD Online/exports from DH 20191102/hdonlinedh18_FINAL_20191111.sql.gz` (2019-11-11) | 32 |
+| `REPORT_DATA_SECTIONS` for report 4542 | `homedirections.net/HDonline/backup/clctech_hdonline_live_20150817.sql` (2015-08-17) | 30 |
+| `SECTIONS`, `NOTES` (only the 680 library notes whose numbers these reports use), `NOTE_EXTENSIONS` (51) | `hdonlinedh18_FINAL_20191111.sql.gz` | 32, 680, 51 |
+
+- The 282 note rows are identical in the 2019-11-11 and the 2020-06-17 backups (same row, same text, same order). `homedire_hdo_a2.sql` of 2020-12-15 holds only `REPORTS` and `CONTACTS`: it has no notes.
+- **Report 4542's section rows are not in the 2019 backup.** v2 marked that report archived, and v2's archive step moves a report's notes and sections into files and deletes the rows. Its notes are in the database all the same (138 rows); its sections were taken from the newest backup that still has them, 2015-08-17. The same 30 section rows are in all four 2015 backups.
+- The extract is `~/Dev/hd-v4-import-data/v2-pilot/v2-pilot.sqlite` (0.9 MB), made by `extract.py` beside it (a streaming reader of the dumps; it prints counts only). Its `pilot_sources` table says which backup each table came from, and the app copies that onto the file's source note. It also keeps the five reports' rows from every backup read, for the comparison below. v2's source (PHP files only, without its config file) is unpacked in `v2-pilot/source/` from `hdonline_v2grayson_master-from-github_20210629_5-years-old.zip`. The other zip, `HDonlineLIVE-master ...`, turned out to be the older system (one table per client) and was removed again.
+- The cover and seven photos of report 8681 (and the seven small copies v2 showed of them, 15 files) were taken by name out of `HD Online/HD LOCAL 20200804/hdonline_files_to_a2h_20191102.tar` into the app's private photo store (`storage/app/records/old-photos/v2/`, ignored by git, 0.8 MB). Nothing else was unpacked. The app placed the full photo wherever v2 showed the small copy.
+
+### How v2 compiled a report (from `hdonline/preview_final_report.php` and `functions.php`)
+
+- **There is nothing to substitute.** When a note was chosen, v2 copied its text into the report's own row. An extension's answers picked a variant of the note from the library, and that variant's text was copied. So a report's rows already read as the report read; the library and the extension questions are not needed to compile it. They are in the extract only to say whether a number still exists.
+- The page, in order: the cover photo, who the report is for, the property and the date; the agreement (unless the job hid it); a letter to the lender when section 1 has an observation, in three parts sorted by note number (sewage, water supply, termites); the summary (section 2): observations, suggestions, fixed closing words, then one note of general information; then three parts, "Exterior surroundings" (sections 3 to 14), "Foundation basement and garage" (15 to 26) and "Interior finishes" (27 to 32, 34, 35), each section in the report's own order with its observations, suggestions and general information; then the supplement on mold (unless hidden). A section with no observation and no suggestion is not drawn. With detached structures, section 7 moves to the end.
+- **The property facts and the job's comment were never on the cover.** Year built, square footage, house type, water and sewage were fields of the booking form and of the emails; the report page does not print them. They are on the file already, from the import.
+
+### What was built
+
+- **`php artisan hd:convert-v2-reports --file=<number>`** (repeatable; `--dry-run`, `--again`, `--from=`). Per file it prints the v2 report number, the notes v2 holds, those with text, those without (by v2 row number), those v2's page would not have shown, the sections, the pictures and the Doc's ID; it writes the same to `storage/app/private/conversion/`, with a list of the photos still wanted. Nothing with a name.
+- **A reader** (`app/Import/V2/V2Reports.php`) over a new read-only connection, `v2`, named by `HD_V2_DATABASE`; **a compiler** (`CompileV2Report`) that follows v2's page as described above; **the converter** (`ConvertV2Report`) that makes the Doc and files it as W6's compiled reports are: a title page whose address, date and client are tagged places, the Doc named by the rule, a source note on the file with the counts and the backups, a history line "imported" in v2's name.
+- v2's fixed wording (the agreement, the summary's closing words, the mold supplement) was taken from v2's source into `resources/v2/` by a script, not retyped.
+- The steps that make and take away a converted Doc moved out of `ConvertOldLetter` into `ConvertedDoc`, unchanged, so both conversions leave a file the same way (commit 797d879; W6's 12 tests pass as they were).
+- **Tests** (`tests/Feature/Import/ConvertV2ReportsTest.php`, 7 cases, invented rows only): the order of a report against v2's; the lender's letter sorted as v2 sorted it; a note without text counted and nothing written for it; notes v2 would not show; hidden agreement and supplement; detached structures; the Doc, the file's fields and the source note through the stand-in; dry run, second run, `--again`; a report with no notes left alone; an unknown element failing the report and leaving the file clean; the messages when the extract is missing.
+
+### Step 5: before and after August 2015 (counts only, nothing repaired)
+
+Report 4542, the only one of the five that existed then:
+
+| Backup | Notes held | Text differs from 2020 |
+|---|---|---|
+| 2015-02-01 | 114 | 8 |
+| 2015-04-13 | 108 | 8 |
+| 2015-07-24 | 107 | 8 |
+| 2015-08-17 | 97 | 8 |
+| 2019-11-11 and 2020-06-17 | 138 | |
+
+- **Notes there before August 2015 and gone after: 0.** Every note row in any of the earlier backups is in the 2020 backup.
+- The loss ran the other way and was undone: the report was loaded with 138 notes (row numbers 3499 to 3636, without a gap), had lost 24 by 2015-02-01 and 41 by 2015-08-17, and has all 138 again in 2019 and 2020. So a restore after 2015-08-17 put them back.
+- 8 notes read differently in the 2015 backups than in 2020. Which wording is the one the client received is not known from the database. The Doc carries the 2020 wording. For a person to decide; I did not look at the texts.
+
+### The checks
+
+Run in the app folder through Herd's PHP 8.5, after the last commit:
+
+| Command | Result |
+|---|---|
+| `herd composer test` (with the browser suite) | passed: 1,426 tests, 5,853 assertions, 0 failed (1,418 before the stage). The one warning in the browser suite is the one W7 noted |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `curl` on the Herd address | `/up` 200, `/login` 200 |
+
+### Decisions the documents did not settle
+
+1. **A control was changed, and Gordon should know:** `phpunit.xml` gained two lines that pin the new `HD_V2_DATABASE` to memory, in both places, as it does the old system's. It adds a pin; it loosens nothing.
+2. **`.env` on this Mac gained one line,** `HD_V2_DATABASE=` with the path of the extract (79 lines before, 81 after with a blank line; no credential; no copy of the file was made).
+3. **"Letter sent" on a v2 report shows the day of the job.** v2 kept no sending, and its "last modified" was touched by later maintenance, so the job's day is the nearest honest witness. Without a date the screen would offer "Send the letter", not "again".
+4. **Each of the three parts starts a new page; each section does not.** v2 started every section on a new page.
+5. **The title is "Home Inspection Report"** ("Building Inspection Report" for a commercial job, as v2 said it). The title page follows W6's, so a correction on the file reaches it.
+6. **The lender's letter sorts note numbers as words, not numbers,** because v2 did.
+7. **A note in a section v2 did not draw is left out and listed,** not appended. If Gordon wants such notes at the end of the Doc under their own heading, that is a small change.
+8. **Left out on purpose:** v2's "Reference Information" links to two Word files on the old site; the table of contents (a menu, as in v3); v2's special agreement for two jobs of April 2010; consultations from v2 (the command says "not an inspection" and makes nothing).
+9. **Fewer than 40 notes counts as "suspiciously few"** for an inspection (these two have 138 and 144).
+10. The old public address of a v2 report is not recorded as an old link: it contains the client's code.
+
+### Not done, and why
+
+- **Files 2426, 5894, 7570:** no text in v2 (above). Finding their Word files is Phase 2.
+- **The 8 notes of report 4542 that read differently in 2015:** counted, not compared by eye, not changed.
+- **The older "archived" files** v2 wrote when it archived a report (`archived-stuff/<report>-RDN.csv`) were not looked for; for 4542 the database still has every note.
+- The extract is by hand (`extract.py`, outside the repository). A command for the full Phase 2 load is not built.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed, nothing pushed, no mail sent, no Doc sent or shared by me (a picture is shared by link for the seconds Google needs to fetch it, as designed). Under `~/Sync/` the backups were only read and only this section was written. `legacy.sqlite` was not written. The rehearsal database was copied first (`hdonline-v4-rehearsal.before-W8.sqlite`, integrity check ok; Gordon may delete it) and changed only by the two conversions. Real text was not read: note markup was profiled by tag names and by paths with every letter and digit masked.
