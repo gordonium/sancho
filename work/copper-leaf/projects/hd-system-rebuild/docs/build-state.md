@@ -12,7 +12,29 @@ status: live during the build that started 2026-10-02 00:55
 
 Started 2026-10-02 00:55 on "Approved, GO!" [gordon 2026-10-02]. Rules and scope: `build-handoff.md`. Each stage goes build, then review (findings in `docs/reviews/`), then fix. The orchestrating thread updates this file every time an agent reports; it starts the next stage of a track only when the one before is fixed and its tests pass.
 
-## 10:35 (Oct 3): Gordon away for the day; the plan (read this first)
+## 12:35 (Oct 3): more while Gordon is out (read this first)
+
+"There's a 19 minute file of feedback from us looking at it this morning, getting transcribed now. Anything else you can do while I'm still out?" [gordon 2026-10-03]
+- **W10 started 12:35** (Fable, cap $20): the serious P3 findings (a booking rescheduled twice opening a second file; a Doc Peter wrote in trashed on cancellation; tying Calendly bookings to imported jobs at cutover; logins quietly changing other logins; "Switch bookings off" without a notice). Brief: `scratchpad/stage-W10-brief.txt`.
+- **How-tos for Peter and Maria Pia started 12:36** (Opus, documents only): `docs/howto-peter.md`, `docs/howto-maria-pia.md`. **Written** (about 1.5 pages each, from the code and tests, not clicked through). The writer's list of things likely to confuse them, to fold into the next Fable stage: on this Mac "Send" says "sent to" the client though mail only goes to a log (and the Doc is still shared by link); old jobs show "Not yet" for letter, invoice and receipt though those went long ago; the board says "Receipt" where the buttons say "paid copy"; "Mark paid" records today's date and mails the receipt at once; a name alone never brings up "been here before"; "Send" does not catch an unreplaced "[Write the letter here.]".
+- **Letter revisions, asked by Gordon** (his words in `phase0-brief.md`): the design and four picks put to him (number under the date; the client's link goes to a frozen view-only copy, the working Doc stays private; converted letters start as Revision 1; the first send publishes Revision 1 if needed). Stage W11 (cap about $15) after W10, on his yes; then he tests on Andy Hoder's job 10193.
+- **The feedback recording:** when it lands, it is read as data (must-never 8) and turned into a list of proposed changes for Gordon to confirm; nothing in it is acted on directly. At 12:38 it was not in `recordings/inbox/` yet; the pipeline was AMBER, with three recordings refused by Groq with "HTTP 403: Access denied. Please check your network settings." (the Sancho thread's to look at; cause unconfirmed).
+- Not without Gordon: converting all the remaining old letters (about 440 Docs in the firm's Drive; the cutover step). Gordon: "Yup, we'll do the letters when the fable use resets" [gordon 2026-10-03]. Note for him: the conversion is the app's own command and uses no model; Fable is needed only to fix what it turns up.
+
+## 12:05 (Oct 3): for Gordon when he is back
+
+**Done today while he was out, and nothing is running now.** Total spent this month: about **$241.89 of the $300 limit** (today: W5 $17.68, W6 $15.68, W7 $12.43, W8 $12.34, W9 $10.30; the reviews ran on Opus, inside the plan).
+- **Letters are real Google Docs on this Mac**, in "Home Directions letters" (shared with homedirectionsinc@gmail.com as editor): **28 letters and reports converted**, every photo placed; the template dressed with the logo and Peter's signature (look at the signature, which came out small, and the stamp size).
+- **The Letter box sits above the Job**; the board of four steps replaced the status; the other screen changes he asked for are in.
+- **Old v2 reports:** Hartsel Court 2009 and 2730 Granada Dr 2017 rebuilt as Docs from v2's own data; the three Hoder inspections have no notes in any v2 backup (likely Word or earlier systems; Phase 2).
+- **Safety:** the review's blocker (pictures lent to Google by link could stay readable) is fixed, and a sweep of the real Drive found **73 pictures, 0 readable by link**.
+- App at commit **8e278ec**; 1,440 tests pass; lint and analysis clean.
+
+**W9 (11:44 to 12:03): $10.30.** 9 review findings fixed, 7 left for Gordon (6, 7, 8, 10, 11, 15, 16 in `reviews/app-W5-W8.md`); `--again` now refuses a Doc changed since conversion unless `--discard-edits`; 12 photos inside tables (files 9773, 9808, 9824, 9825, 9933) and 2 photo-only letters (9873, 10032) now counted; `hd:unshare-pictures` sweeps Drive. Not proven: the new lending path ran only against fakes.
+
+**What Gordon is asked:** (1) look at the template and a few of the 28 Docs; (2) decide review finding 6, and whether findings 8, 10, 11 and 15 are wanted before go-live; (3) delete the invented test files 10208 to 10210 and trash their Docs in "Build tests"; (4) before converting all the old letters, about 1,042 photos must come out of the backup (294 letters wait on them), and `hd:unshare-pictures` runs after; (5) the four serious P3 findings; (6) the draft note to Anthropic.
+
+## 10:35 (Oct 3): Gordon away for the day; the plan
 
 "let's move the Letter box up above the Job as that's what's actually used most often. I'm off for the day, shopping in Tropea. Do what you can. I'll be back midday or this evening" [gordon 2026-10-03]. The Letter-box move is item 0 of W8's brief.
 

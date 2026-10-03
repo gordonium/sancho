@@ -1378,3 +1378,118 @@ Run in the app folder through Herd's PHP 8.5, after the last commit:
 - The extract is by hand (`extract.py`, outside the repository). A command for the full Phase 2 load is not built.
 
 **Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed, nothing pushed, no mail sent, no Doc sent or shared by me (a picture is shared by link for the seconds Google needs to fetch it, as designed). Under `~/Sync/` the backups were only read and only this section was written. `legacy.sqlite` was not written. The rehearsal database was copied first (`hdonline-v4-rehearsal.before-W8.sqlite`, integrity check ok; Gordon may delete it) and changed only by the two conversions. Real text was not read: note markup was profiled by tag names and by paths with every letter and digit masked.
+
+## W9: fixes after the review of W5 to W8
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, about 11:35 to 12:05 CEST, from 0e89dc9 on `feature/v4-build`. Work list: `docs/reviews/app-W5-W8.md` (1 blocker, 6 should-fix, 9 minor). Four commits, 572a3e5, 3930451, a0f700c, 8e278ec; tree clean; no remote.
+
+**In one line:** the blocker is fixed and tested, the sweep ran on the real Google account and found no picture readable by link (73 pictures, 0 shared, 0 to fix), should-fix 2 to 5 and minor 9, 12, 13 and 14 are fixed, and the three checks pass. Findings 6, 7, 8, 10, 11, 15 and 16 are left for Gordon.
+
+### The sweep on the real account
+
+`herd php artisan hd:unshare-pictures`, first with `--dry-run`, then for real, 2026-10-03 at about 11:55:
+
+| What | Count |
+|---|---|
+| Pictures the app keeps in Google Drive (every image it can see with `drive.file`, the trash included) | 73 |
+| Of those, readable by anyone with the link | 0 |
+| Of those, fixed | 0 (nothing to fix) |
+| Pictures written down as lent and not struck off | 0 |
+
+A second, separate reading agreed (one read-only listing, counts only): 73 of 73 pictures came back with their permissions listed, 146 permissions of the kind "user" (the owner and the office Gmail account, through the folder), none of the kind "anyone". The same listing over the app's Docs: 40 Docs, 6 of them in the trash, 2 readable by link, both under Drive's name `anyoneWithLink`. Those two are the sent test letters of the invented files 10208 and 10209, left as they are, as the brief allows. So the question "is a file readable by link" is one this account answers, and the answer for the pictures is no.
+
+### Per finding
+
+| # | Finding | Outcome |
+|---|---|---|
+| 1 | A lent picture can stay readable by link (blocker) | **Fixed** (572a3e5, and the traps in 3930451) |
+| 2 | `--again` trashes a Doc somebody wrote in | **Fixed** (3930451): it refuses unless told `--discard-edits` |
+| 3 | Photos in tables, and letters made only of photos, left out without a count | **Fixed** (3930451), counted and listed below |
+| 4 | A photo not loaded yet gives a false line in the Doc | **Fixed** (3930451) |
+| 5 | A picture batch whose answer is lost can go in twice | **Fixed** (572a3e5) |
+| 6 | This Mac holds the production Google credential; the rehearsal's Docs are in the production folder | **Left for Gordon**: a decision (adopt the 30 Docs at cutover, or trash them first), then revoke this Mac's consent once the server has its own |
+| 7 | The test Docs are readable by link; test files 10208 to 10210 on the Dashboard; file 10207 points at a stand-in Doc | **Left for Gordon**: the brief lets the test Docs stay; deleting the three files is one button each |
+| 8 | The unused signed stamp address still serves the stamps without a login | **Left**: not a one-line change (route, controller, the address made on every fill, the stand-in's reading of it) |
+| 9 | "Send" leaves the link sharing on when the mail then fails | **Fixed** (8e278ec) |
+| 10 | A new consent does not revoke the old refresh token | **Left** |
+| 11 | Settings accepts a template link the app cannot open | **Left** |
+| 12 | "Letter sent" on a converted file is a guess shown as a fact | **Fixed** on the File screen (a0f700c): the date is followed by "the old system's date; it kept no record of the sending". The board's tick and date are unchanged |
+| 13 | An old paid invoice with no amount or wording points at a form that is not there | **Fixed** (a0f700c): its own message. No test of its own; the unpaid message's two tests pass unchanged |
+| 14 | A cancelled booking looks like any other in search results | **Fixed** (a0f700c): a "Booking cancelled" mark, with a test; stylesheet rebuilt |
+| 15 | People marked "copied" are copied when an old letter is sent again | **Left** |
+| 16 | The orchestrating thread's state file names a client and two streets | **Left**: not the app's file, and not mine to write |
+
+Fixed 9, rejected 0, left 7.
+
+### Finding 1, what now holds
+
+- **Written down first.** A new table, `lent_pictures`, holds the Drive ID of every picture before Google is asked to share it. The row goes only when the sharing is known to be gone. So a sharing whose answer was lost, a removal that failed and a process that died each leave a row.
+- **The removal always runs, for every picture.** It no longer stops at the first failure and never throws: what the caller hears is the result of what it was doing. Each removal is tried three times (at once, after 2 seconds, after 5). A sharing already gone counts as gone; on Drive's "not found" the app asks which permissions the picture has and removes any of the kind "anyone", whatever its name.
+- **What was left is taken off** before any picture is lent again, at the start of `hd:convert-letters`, `hd:convert-v2-reports` and `hd:dress-template`, and by the scheduler every five minutes (`hd:unshare-pictures --lent`, which asks Google nothing while the list is empty).
+- **`hd:unshare-pictures`** without `--lent` also asks Drive for every image the app keeps, the trash included, and removes any link sharing. It never touches a Doc. `--dry-run` counts only. It fails (exit 1) if anything could not be unshared.
+- **One run at a time per image.** A run holds an image while it is lent (at most 10 minutes if the run dies). A second run waits up to 30 seconds and then says the image is in use; the sweep leaves a held image to the run that holds it.
+- **Ctrl-C and a stop from the system** end a conversion run after the file in hand, with its report; files not reached are listed. `hd:dress-template` finishes its one batch.
+- **Tests** (`tests/Feature/Letters/LentPicturesTest.php`, 9 cases, made-up Google answers): written down before the sharing and struck off after; one removal failing three times while the others go through, the body's result kept, then the command clearing it; a sharing whose answer is lost taken back; a dead run's picture taken off before the next lending; "not found" and an "anyone" permission under another name; two runs and one image; the full sweep with its counts, the dry run changing nothing; the two cases of finding 5.
+- **By hand, not by an automatic test:** Ctrl-C. Laravel does not set signal traps while tests run. A dry run over the letters since 2022-06-21, interrupted after 0.45 seconds, said "Stopping once the file in hand is done", reported 334 that would convert and listed 100 files as not reached.
+- **Not proven on the real account:** the new lending itself. No conversion was run in this stage, so the real account saw only the sweep and the listing. After the next real conversion, `hd:unshare-pictures` is the check.
+
+### Finding 2, the choice
+
+`--again` now **refuses** a file whose Doc has changed since the conversion noted its revision, and says so by file number ("left alone"). `--discard-edits` with `--again` puts such a Doc in the trash and makes a new one. Every Doc that went to the trash is listed by file number ("made again: the earlier Doc is in the trash"). The same in `hd:convert-v2-reports`. A Doc counts as changed when its newest revision is not the one noted, so a name correction the system itself wrote into it counts too: the refusal errs on the side of keeping. With `--again` the check asks the store for the revision, in a dry run too.
+
+### Findings 3 and 4, the counts (dry run over the letters since 2022-06-21, nothing made)
+
+| What | Count | Files |
+|---|---|---|
+| Letters that would convert | 409 | |
+| Reports that would convert | 1 | |
+| Already converted | 25 letters, 1 report | |
+| Photos that stood in a table, now set after the table's lines | 12 | 9773, 9808, 9824, 9825, 9933 |
+| Tables with text kept, for a person to check | 3 | 9773, 9808, 9838 |
+| Empty tables dropped | 85 | |
+| Letters made only of photos, now counted as letters | 2 | 9873, 10032 |
+| Photos not in the app's photo store yet | 1,053 references, 1,042 different files, in 294 letters | the list is beside the dry run's counts |
+| Pictures kept on another site, not brought over | 13 | |
+
+- A photo in a table's cell, a heading or a caption is placed after it, and the ones from tables are counted and listed by file. Words standing in a figure outside its caption are kept as a line.
+- A letter of photos and no words is a letter: the import's note keeps pictures when it asks "is there anything in it". `hd:import` was run again on the rehearsal database and put 2 notes right (files 9873 and 10032; notes saying "nothing" 9,456 before, 9,454 after). Both now say "Not imported yet" and are among the 409.
+- A letter with a photo not in the store **waits**: it is left alone, listed by file, and converted on a later run once the photo is loaded. `--without-missing-photos` converts it anyway, and the line in the Doc then says only "A photo was here. It was not brought over." The count is named "photos not in the app's photo store". `hd:convert-v2-reports` still converts with that line.
+- **So the cutover run needs the photos loaded first**, or 294 of the 409 letters wait.
+
+### Finding 5
+
+Each picture batch names the revision Google gave after the words went in, so Google refuses it once the Doc has moved. After a lost answer the Doc is read again and its pictures counted: if they are in, nothing is sent again; if not, each picture goes by itself on the revision Google last gave.
+
+### Finding 9
+
+When the mail service plainly refuses a letter, or the answer to the sharing is lost, the Doc's link sharing is taken off again, unless the message log shows a letter of that file that left or may have left (then somebody may hold the link, and it stays). One test.
+
+### The checks
+
+Run in the app folder through Herd's PHP 8.5 after the last commit (8e278ec):
+
+| Command | Result |
+|---|---|
+| `herd composer test` (with the browser suite) | passed: 1,440 tests, 5,938 assertions, 0 failed, about 30 s (1,426 before the stage). The one warning W7 and W8 noted is still there |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `curl` on the Herd address | `/up` 200, `/login` 200 |
+| `npm run build` | the stylesheet rebuilt for the new mark (`public/build` is ignored by git) |
+
+### Controls and data touched, for Gordon to know
+
+1. **No allowance in the architecture tests was changed.** The sweep and the unsharing of a Doc go through the one interface (`LetterDocs` gained `unsharePictures` and `unshareLink`; the stand-in and the test double answer them).
+2. **Three existing tests were changed to fit the new rules:** the test of the status migration rolls that migration back by name (a later migration stands after it now); the conversion tests pass `--without-missing-photos` where their invented letter lacks a photo on purpose, and one expects the store to be asked for the revision before the trash; a made-up permission name became Drive's real one.
+3. **A migration:** `2026_10_03_000002_create_lent_pictures_table` (adds one table; its way back drops it; no existing row is touched).
+4. **The rehearsal database** was copied first to `~/Dev/hd-v4-import-data/hdonline-v4-rehearsal.before-W9.sqlite` (integrity check ok, 10,210 files; Gordon may delete it), then given the new table and the 2 corrected notes. Nothing else in it changed.
+5. **Google:** two listings and the sweep, which changed nothing because nothing was shared. No Doc was made, changed, sent or shared. No picture was lent.
+6. The scheduler has a second line. On this Mac nothing runs the scheduler; on a server the host's every-minute call covers it.
+
+### What Gordon must do
+
+1. Decide finding 6 (adopt or trash the rehearsal's 30 Docs at cutover) and write it into the cutover runbook.
+2. Delete the invented files 10208 to 10210 when they have served, and trash their Docs; two are readable by link.
+3. Say whether findings 8, 10, 11 and 15 are wanted before go-live.
+4. Before the full conversion: load the 1,042 photos (the dry run's list), and after it run `herd php artisan hd:unshare-pictures`.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent, nothing shared with anybody, no letter or invoice sent. `legacy.sqlite` was read by `hd:import` and the dry runs, never written. In the Sancho tree only this section was written. One thing to own: the first test runs printed nothing and exited 1 because a test double lacked the interface's new method; found and fixed before any commit.
