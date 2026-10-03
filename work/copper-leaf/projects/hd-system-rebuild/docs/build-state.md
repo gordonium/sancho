@@ -12,7 +12,13 @@ status: live during the build that started 2026-10-02 00:55
 
 Started 2026-10-02 00:55 on "Approved, GO!" [gordon 2026-10-02]. Rules and scope: `build-handoff.md`. Each stage goes build, then review (findings in `docs/reviews/`), then fix. The orchestrating thread updates this file every time an agent reports; it starts the next stage of a track only when the one before is fixed and its tests pass.
 
-## 00:50 (Oct 3): BUILDING the morning version, Gordon asleep (read this first)
+## 02:15 (Oct 3): the morning version is DONE; nothing is running (read this first)
+
+**W4 done (01:57 to 02:09): $5.72, 41 turns, 11.9 minutes.** The CT and NY stamps loaded into Settings from the v3 plugin clone (new command `hd:stamp`; stored on the records disk, which git ignores); a test sends a letter on an invented CT file and one on an invented NY file, each with its own stamp. States written as words are now read as two-letter codes on every client and property save; `hd:fix-states` on the rehearsal database: clients 34 non-code values before, 11 changed, 23 left (they are not states: zips, a town, street lines, a country; kept "as recorded"); properties 11 before, 0 changed. Stylesheet rebuilt (`npm run build`; public/build is ignored by git). Old emails a browser rejects can be saved again (server-side check with a plain message). Findings 5, 7, 8 and 9 left for Gordon, one line each in the log. Checks: **1,387 tests, 5,491 assertions, 0 failed**; lint and analysis clean; `/up` and `/login` 200. 4 commits, last **4b4866f**.
+
+**Reading 02:10:** $172.92 spent of $300 (+$21.26 since 00:48 for the whole morning version: two test calls $1.77, W1 $5.74, W2 $8.03, W4 $5.72; W3 on Opus). Keep-awake stopped; no cron; nothing running. The summary for Gordon is at the top of `docs/build-log.md`. No further stage starts without his word: he is unhappy about the billing, and the morning aim is met.
+
+## 00:50 (Oct 3): BUILDING the morning version, Gordon asleep
 
 "Nope, I need it for tomorrow. I'm unhappy and I want Anthropic to know that. Please go ahead with the build. I'm going to sleep" [gordon 2026-10-03]. He had raised the monthly limit to **$300** (reading 00:48: $151.66 spent, $148.34 of room). A one-word Fable test call went through (it cost $0.68 and hit its own $0.50 cap); a second test, a headless Fable session at high effort in auto mode with no connectors, ran one git command and answered correctly ($1.09, no denials).
 
@@ -31,6 +37,10 @@ Total caps $120 of the $148 of room. Keep-awake on for 10 hours; Mac on mains.
 
 **W3 started 01:21 (Opus, Agent tool, no code):** a smoke run of the everyday screens over the REAL imported records, counts only (status codes, exceptions by class, timings), plus a check that the CSS built at 01:23 on 2026-10-02 still covers the newer screens, and the everyday actions on one invented file made in the app and marked deleted afterwards. This reads real rows through the app's pages, which goes a step past the handoff's "real rows are touched by the rehearsal command and nothing else"; Sancho's call, because Gordon's aim is that it works on his real history, and the checker prints counts and IDs only. Findings: `reviews/app-W3-walkthrough.md`. Then **W4** (Fable fix, cap $30) of whatever blocks normal use, plus a rebuild of the front-end assets if the CSS check says so.
 - Reading 01:19: about $167 spent (W2 $8.03 on $159.17), about $133 left.
+
+**W3 done (01:21 to 01:57, Opus, 390,729 tokens; `reviews/app-W3-walkthrough.md`): the app works on the real history when used as it should be.** About 11,190 requests: all 10,206 imported File screens and their change history, the Dashboard's whole scroll (409 pages, every file once, newest first), 199 searches (months, years, surnames, full names, streets), Settings, New File, deleted files, the stand-in Calendly; invoice PDFs for 61 old files by address and 754 old invoices made in memory. Every answer 200, except 62 × 404 on the old-invoice PDF address, which the app refuses by its own rule; **no 500s, no exceptions from app code**; slowest screen 40 ms. All 20 everyday steps worked on one invented file (#10207), left marked deleted. Findings: 1 that blocks letters until set up (no stamp images in Settings, so a CT or NY letter is refused with a clear message), 2 should-fix (saving an old client whose state is stored as a word empties it: 34 clients on 41 files; the stylesheet predates most screens: 25 classes in 10 views missing), 6 minor.
+
+**W4 started 01:57** (Fable, cap $30): load the CT and NY stamps from the v3 plugin clone into Settings (not into the repository), normalise states written as words and fix the imported rows, rebuild the stylesheet, let old emails the browser rejects still save; leave the other minor findings for Gordon.
 
 **The note to Anthropic:** drafted, not sent: `docs/draft-note-to-anthropic-2026-10-03.md`. Gordon sends it himself.
 

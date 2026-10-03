@@ -69,7 +69,7 @@ status: written 2026-10-03 01:55 CEST by a checker on Opus 5.5 (effort level not
 ### 8. Gaps in the old data that show on the screens. Weight: minor (data; repair is Phase 2)
 - **A required part blank, 1 screen:** file 9762 has a paid invoice with no wording, so its Invoice description panel shows an empty paragraph above the total. The other 19 files with no wording are unpaid and show an empty text box, which is right.
 - **No price:** 48 files show "Not recorded" (e.g. 9568, 9572, 9584).
-- **"Give this invoice a number":** offered on all 647 unpaid old invoices; for 63 of them there is nothing to bill and it refuses with a clear message ("This invoice has no price or no wording yet ..."). The other 584 would print a correct PDF (finding-free; see below).
+- **"Give this invoice a number":** offered on all 647 unpaid old invoices; for 63 of them there is nothing to bill and it refuses with a clear message ("This invoice has no price or no wording yet ..."). The other 584 print a PDF (see "The invoice PDF on old files" below).
 - **Zip codes with four digits:** 4,019 clients on 4,681 files (CT 3,809, NJ 121, MA 63, others): the leading zero was lost in the old system and the import copied it. It shows in the mailing address and would print on an invoice or letter address block.
 - **No address:** 84 properties have no address at all ("Address not recorded"); 2 of the 584 numberable unpaid invoices would print "Services at: on <date>" (files 9658, 9712).
 
@@ -80,7 +80,7 @@ status: written 2026-10-03 01:55 CEST by a checker on Opus 5.5 (effort level not
 
 ## What was checked, in numbers
 
-**Requests:** about 11,150 through the app (11,080 through its HTTP kernel, about 110 through Herd's web server). Every one answered 200, except as designed: 62 answers of 404 (the old invoices' PDF address, below) and the 302 redirects after each form, login and log-out. **No 500 anywhere.**
+**Requests:** about 11,190 through the app (about 11,070 through its HTTP kernel, about 120 through Herd's web server). Every one answered 200, except as designed: 62 answers of 404 (the old invoices' PDF address, below) and the 302 redirects after each form, login and log-out. **No 500 anywhere.**
 
 **Exceptions:** none from app code in any answer. In `storage/logs/laravel.log`, nothing from use of the site on the real data. Written during this check: 1 WARNING (finding 1, by design), 4 DEBUG (the invented file's 4 messages on the log mailer), and 3 ERROR lines thrown by the checker's own throwaway scripts (1 `TypeError`, 2 `DOMException`), not app code. Older lines in the same file: 1 ERROR from W1's own check script (a `TypeError` in its use of `SessionGuard`), and 122 EMERGENCY plus many WARNING lines from test runs on 2026-10-02 between 01:00 and 07:00 UTC (environments "laravel" and "testing"); none came from the site.
 
@@ -125,7 +125,8 @@ status: written 2026-10-03 01:55 CEST by a checker on Opus 5.5 (effort level not
 | Street search | 25 ms / 34 ms (n 40) | 24 ms / 33 ms (n 5) |
 | Whole address line | 31 ms / 40 ms (n 40) | |
 | File screen | 18 ms / 38 ms (n 10,206) | 17 ms / 23 ms (n 16, including the largest pages and the busiest client and property) |
-| Settings / New File | 6 ms / 3 ms | 9 ms / 7 ms |
+| Settings | 6 ms (n 1) | 9 ms / 10 ms (n 3) |
+| New File form | 3 ms (n 1) | 7 ms / 7 ms (n 3) |
 | A scroll page of the Dashboard | 6 ms at most (n 408) | |
 | Form posts in the walkthrough | | 75 ms at most (mark paid, which makes and keeps a PDF) |
 
@@ -136,8 +137,8 @@ Through Herd's web server like a browser, logged in as local login #1 (the owner
 1. New File by hand: client "Test Walkthrough", property "1 Example Street, Testville, CT", opinion, a visit tomorrow. Opened as **file #10207** (client #8694, property #9113); no "may already be on file" prompt; the letter made at once (stand-in Doc); invoice **HD-2610-096**.
 2. Corrections: the client's mobile phone, the property's year built, the job's time: each "Saved", each in the history.
 3. Invoice description and price ($375.00): saved, shown on the invoice.
-4. The letter: brought up to date after the corrections; "Open the Doc" (stand-in page) 200; "Send the letter" with the CT stamp refused (finding 1); the file's stamp set to "No stamp"; letter sent; status Sent.
-5. The invoice: "Look at the PDF" 200; sent; "The PDF as sent" 200; marked paid (the paid copy went with it; status Paid); paid copy sent again.
+4. The letter: brought up to date after the corrections; "Open the Doc" (stand-in page) 200; "Send the letter" with the CT stamp refused (finding 1); the file's stamp set to "No stamp"; letter sent; status Booked to Sent.
+5. The invoice: "Look at the PDF" 200; sent; "The PDF as sent" 200; marked paid (the paid copy went with it; status Sent to Paid); paid copy sent again.
 6. Delete (two steps): gone from the Dashboard, found under "Deleted files", opened read-only with the red banner and no forms but Restore. Restore: back on the Dashboard.
 7. Change history before the final delete: 13 entries, 26 lines, from "Client entered ... File opened ... Invoice made ... Letter created" to "File restored".
 8. **Then marked deleted again, as the app does (a mark), so it is not on Peter's Dashboard.** It stays under "Deleted files".

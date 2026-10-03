@@ -886,3 +886,47 @@ The browser tests ran on the suite's in-memory database only: `.env` was not cha
 - The P3 review findings (`docs/reviews/app-P3-*.md`) are untouched: none stops an everyday path.
 
 **Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. Nothing was installed with Homebrew; no hook was registered; nothing was pushed.
+
+## W4: fixes after the walkthrough
+
+Fixer: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, about 00:00 to 00:10 CEST, from 1063e6c on `feature/v4-build`. Work list: `docs/reviews/app-W3-walkthrough.md`. Four commits, 3cf56d0, f1f753f, 61cb065, 4b4866f; tree clean; no remote.
+
+### Finding 1, the stamp images: done
+
+A new command, `hd:stamp ct|ny <image>`, puts an image in Settings exactly as an upload there does: the file is copied to the records disk under `settings/stamp-<ct|ny>-<date>.<ext>` and the Setting `stamp.<ct|ny>` points at it; an earlier image is never destroyed. Run with no arguments it says which stamps have an image. The two images were copied from the v3 plugin clone (nothing there was changed): the Connecticut stamp from `peter-seirup-engineering-stamp_WEB_20231106.png` (47,291 bytes) and the New York stamp from `peter-seirup-engineering-stamp_NY_WEB_20240306.png` (50,239 bytes). They sit in `storage/app/records/settings/`, which git ignores (checked with `git check-ignore`). Evidence: `hd:stamp` before showed "no image" for both; after, "image at [settings/stamp-ct-20261003-000703.png]" and "image at [settings/stamp-ny-20261003-000703.png]". A new test (`tests/Feature/Settings/StampCommandTest.php`) puts both images in through the command, opens an invented Connecticut file and an invented New York file, finds each letter carrying its own stamp in the stand-in Doc, sends both through the stand-ins and the array mailer, and finds 2 messages mailed and both files marked sent. No real file was touched.
+
+### Findings 2 and 6, states stored as words: done
+
+- `UsStates::code()` reads a state however it was written ("ct", "CT ", "Connecticut", "NEW YORK", "Conn.", "N.Y.", "Washington, D.C.") as its two-letter code, and hands anything else back trimmed, so nothing is lost. It runs in the `saving` hook of both `Client` and `Property` (so every save, by a form, in code, or by the import, is covered; the property's old upper-casing is replaced by it) and on the typed value before validation in the client, property and New File form requests, so a word passes the list rule. A stored value that is still no state is offered in the state list as its own entry, "<value> (as recorded)", so saving the form keeps it instead of emptying it (the client form) or refusing (the property form). The refusal for a word that is no state now reads "Choose a state from the list."
+- `hd:fix-states` (with `--dry-run`) reads the rows the old system left, through the records so each change is in the history (old value, new value, by "The system"), writes the run by ID to `storage/app/private/fixes/` (git-ignored), and changes nothing when run again. Values it cannot read are counted on the screen and listed only in that file.
+- Tests on invented data: `tests/Unit/UsStatesTest.php` (14 spellings), `tests/Feature/Files/StatesAsWordsTest.php` (the two forms, New File with the stamp following, a word that is no state refused, a save in code, the "as recorded" entry kept, the command's dry run, run and second run with the history and the file checked). Two existing tests were updated for the new behaviour: "Conn" is now read as CT, so the New File refusal test uses a word that is no state; the email message changed (finding 4).
+- **The rehearsal database, before and after** (counts only, from the command's own output): clients with a state that is not a code: 34 before, 11 changed (5 kinds of spelling: a code in mixed case, or the full name), 23 after; properties: 11 before, 0 changed, 11 after. The 34 left are not states at all: zip codes, a town, a street line, a country, a two-letter code of no US state, and truncated words. They are left as recorded, offered in the list as such, and are for the Phase 2 data repair. The second dry run reported 0 would change on both tables.
+
+### Finding 3, the stylesheet: done
+
+`npm run build` in the app folder: `public/build/assets/app-q25iADag.css` (46.51 kB; the old `app-C9a8RWUE.css` is gone). The classes the checker named are all in it now, 1 rule each: `font-normal`, `hover:text-red-900`, `pb-2`, `self-end`, `space-y-0.5`, `space-y-3`, `font-serif`, `p-8`, `text-[15px]`, `whitespace-pre-wrap`, `break-all`. The local site serves the new file (`/login` names it). `public/build` is git-ignored (line 17 of `.gitignore`), so it stays ignored and is not committed; a server builds its own.
+
+### Finding 4, old emails a browser will not accept: done
+
+`OneEmail::accepts()` asks the app's own `email` rule. In the client fields and the contact fields, the email input is a plain text field while the stored value is not one address (with the hint "As recorded in the old system; leave it, or type one address."), and an email field otherwise. The server's rule still applies to a change, with the message "Type one email address, like name@example.com, or leave the email empty." on the client, the New File form and a person on a job. Tests: `tests/Feature/Files/OldEmailsTest.php` (the field's type both ways, a phone corrected while the old email stands, the message on the client and on a contact, a contact's old email); one browser test in `tests/Browser/FileScreenTest.php` corrects a phone on a client whose stored email holds two addresses, in Chromium, and sees "Client saved."
+
+### Left for Gordon
+
+- Finding 5 (a mail address the mailer refuses is not caught) waits for Gordon: not reachable with today's data in normal use.
+- Finding 7 ("Create the letter" offered on every imported file) waits for Gordon: a decision before go-live.
+- Finding 8 (gaps in the old data: blank wording, no price, four-digit zips, no address) waits for Gordon: Phase 2 data repair.
+- Finding 9 (messages shown as sent to the client's own address on this Mac) waits for Gordon: `HD_MAIL_TRAP` in the local `.env` is his to set; `.env` was not changed.
+
+### Evidence
+
+Run in the app folder through Herd's PHP 8.5 on 2026-10-03, after the last commit:
+
+| Command | Result |
+|---|---|
+| `herd composer test` (with the browser suite) | passed: 1,387 tests, 5,491 assertions, 0 failed, about 26 s (1,355 before the stage; 1 warning the runner gives no detail for) |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `curl` on the Herd address | `/up` 200, `/login` 200 |
+| `git status` | clean; `git log 1063e6c..HEAD` 4 commits |
+
+Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent. `.env` and `legacy.sqlite` untouched; the rehearsal database was changed only by `hd:fix-states` (11 client rows) and `hd:stamp` (2 settings rows). One slip to own: the first version of the fix command printed the values it left to my terminal, and some turned out to be street lines in the state column; none was copied anywhere, and the command now keeps such values in its private file only.
