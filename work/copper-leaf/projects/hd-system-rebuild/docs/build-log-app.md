@@ -1703,3 +1703,96 @@ Both frozen copies were then moved into "Build tests". What this showed about Go
 6. **Edit again and publish again** to see Revision 3. A later send would send Revision 3; a copy already sent stays readable to whoever holds its link.
 
 **Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent (the log mailer wrote two lines for the invented file). Google was called for the invented file 10211, for the new folder, and once to read the state of 10193's Doc when checking that its File screen renders; no real file's Doc was copied, shared or sent. In the Sancho tree only this section was written.
+
+## W12: fixes after the review of W10 and W11
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, afternoon, from 738bbd8 on `feature/v4-build`. Work list: `docs/reviews/app-W10-W11.md`, should-fix 1 and 2 and minor 3. Three commits, one per item: eea0c40, 094b1f6, 284975b; tree clean; no remote.
+
+**In one line:** the two should-fix findings and minor 3 are fixed and tested, the three checks pass, the rehearsal database held nothing wrongly marked, and the two published copies that exist are now locked so that only the owning account can unlock them.
+
+**To own:** this plan was settled before the first line of code but written here at the end, not first, which the handoff asks for.
+
+### Plan
+
+1. One set of checks for every frozen copy, whichever road it is made by; `hd:start-revisions` narrowed to converted letters; look at the rehearsal database.
+2. The import's date rule narrowed to dates that cannot be real; the upcoming jobs listed; the tie proven together with the import; the two runbook lines.
+3. The owner-only lock in the freeze, and a command for the copies that already exist.
+4. The three checks, `/up` and `/login`.
+
+### 1. Sending a Revision 1 from the old system (eea0c40)
+
+- **What was wrong, confirmed before the change:** four of the new tests fail on the old code. A Revision 1 "from the old system" was frozen and mailed with whatever the Doc held.
+- **What holds now.** `PublishRevision` has one pair of steps that both roads go through, a new revision and an old one alike:
+  - before the lock: the stamp's picture must be in Settings, and the Doc is brought into step with the file (`PrepareLetter`);
+  - inside the lock: the stamp is in the letter, no `{{tag}}` still shows, and the template's "[Write the letter here.]" is gone.
+- For an old-system Revision 1 the order is: brought into step; then "has the Doc changed since it came?"; then the checks. A Doc the system itself had to put right (a stamp that was never placed) has moved on by that, so the send is refused with "Publish a new revision first", and publishing checks it again. That is the review's intended outcome.
+- **`hd:start-revisions` takes only converted letters.** It looked for any imported file holding a Doc. It now looks for the conversion's own note on the file: a WordPress source in the collection `hdo_reports` (a converted letter or compiled report), or a v2 source in `REPORT_DATA_NOTES` (a report compiled from v2's notes). An imported job whose letter was made here from the template has neither, and gets no Revision 1.
+- **Tests** (`tests/Feature/Letters/LetterRevisionsTest.php`, 5 new, 1 fixture changed): a letter made here on an imported job gets no Revision 1; a v2 report does; a wrongly given Revision 1 with the template's line is not sent; one with a tag still showing is not sent; one whose stamp is not in the letter has the stamp placed and goes as Revision 2; one whose stamp has no picture in Settings is not sent. In each refusal: no mail, no frozen copy, nothing shared.
+
+**The rehearsal database, counts and file numbers only** (read through the app, nothing written, Google not asked):
+
+| What | Count |
+|---|---|
+| Revisions on file | 32 |
+| Of those, from the old system | 30 |
+| Of those 30, on a file that carries the conversion's note | 30 |
+| Wrongly marked (no conversion note) | **0**; nothing to correct |
+| Imported files that hold a Doc and carry no conversion note (what the old command would have picked next) | 0 |
+| `hd:start-revisions --dry-run` with the new rule | 30 converted, 0 to start |
+| Of the 30: a rename waiting, a place waiting to be written, a stamp not in the letter | 0, 0, 0 |
+
+The last line means "Send Revision 1" on any of the 30 (10193 included) still freezes the Doc as it came; the only difference is that the Doc is read and checked first.
+
+### 2. The import and the jobs still to come (094b1f6)
+
+- **The rule now.** A job is left out for its date only when it is dated **more than two years after the day of the import**. The whole-word "test" rule and the trash rule stand as they were. The reason reads "dated more than two years ahead (date)".
+- **Why two years.** Gordon's words were about the markers in the clone, and those are dated 2034, 2099 and 8888 (WordPress IDs 32447, 24763, 32061): seven years ahead at the nearest. The firm books days and weeks ahead, never years. So any line between a few months and seven years gives the same answer on the real data; two years leaves a real booking all the room it could want. A year mistyped by one comes in and is listed (next point) instead of being left behind.
+- **The upcoming jobs are listed.** Every job dated the day of the import or later is listed by WordPress ID in the import's counts, under "jobs still to come, brought in: tie each to its Calendly booking under Connections" (in the dry run too).
+- **The one-click tie agrees.** Nothing in the tie's own rule had to change: it suggests files with no booking at the booking's time, or of a client with its email address. It only lacked the files. New on the Connections panel: the imported jobs still to come that have no Calendly booking tied yet, each a link to its file, so the two lists can be checked against each other. When every booking is settled, what is left there are jobs never booked through Calendly.
+- **Tests** (`tests/Feature/Import/ImportTest.php`, 2 new, on invented data): a job next week, today's job and one exactly two years ahead come in and are listed; one a day beyond two years and a "test" job next week are left out, each with its reason; then the import and the tie together: the same appointment in Calendly, bookings switched on, the check suggests the imported file and nothing else, one click ties it, no second file, and the Connections list drops from 3 to 2. The old test's "A booking, 2027-01-01, skipped" became a marker dated 2099.
+- **The runbook** (`docs/runbook-cutover.md`, two lines only): line 89 now gives the rule above and says to keep the list; line 185 now says the upcoming jobs came in with the import and are tied under Connections, and no longer leans on "the duplicate check".
+
+**What a re-run on the rehearsal database would change: nothing, by count.** The import was not run again, not even as a dry run. From the first run's own record (`storage/app/private/import/`, IDs and reasons): 9 skipped, 3 of them for their date, and all three dates are beyond two years. So a re-run would again say "already imported 10,206", make 0 files, skip the same 9, and list 0 jobs still to come. The only difference in its counts: the line "skipped: dated in the future 3" would read "skipped: dated more than two years ahead 3". The rule only bites on the live copy at the cutover.
+
+### 3. The lock on published copies (284975b)
+
+- **What holds now.** The frozen copy's lock is set with Drive's `ownerRestricted`, so only the account that owns the copy (office@) can lift it; an editor of the letters folder cannot. A copy counts as locked only when Google's answer confirms both "read-only" and "owner-restricted"; otherwise publishing is refused and can be tried again (the copy is found again by its mark).
+- **The copies that already exist:** `php artisan hd:lock-revisions` (with `--dry-run`; safe to run twice). Run once on this Mac: **2 copies found, 2 locked, both confirmed by Google**: file 10211 Revision 1 and Revision 2 (the invented build-test file). No other frozen copy exists; none of the 30 old-system revisions has one yet.
+- **Tests:** the freeze test asserts `ownerRestricted`; a lock Google does not confirm is refused (2 cases); the command locks every frozen copy and nothing without one, and fails loudly when a copy cannot be locked.
+- **Google was called for this and nothing else:** 2 requests, one per copy, each changing only that copy's lock. No Doc was read, copied, shared or sent.
+- **Not proven:** nobody tried to unlock a copy as the Gmail editor account. That is one look in Drive for Gordon: open a copy in "Published revisions (frozen copies)" as homedirectionsinc@gmail.com; "Unlock" should not be offered.
+
+### The checks
+
+Run in the app folder through Herd's PHP 8.5 after the last commit (284975b):
+
+| Command | Result |
+|---|---|
+| `herd composer test` (with the browser suite) | passed: **1,521 tests, 6,834 assertions, 0 failed**, about 32 s (1,510 before the stage). The one warning earlier stages noted is still there |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `curl` on the Herd address | `/up` 200, `/login` 200 |
+| `npm run build` | the stylesheet rebuilt (`public/build` is ignored by git) |
+
+### Decisions the documents did not settle
+
+1. **Two years** as the line for "a date that cannot be real", counted from the day of the import on the firm's clock (above).
+2. **"Still to come" includes the day of the import itself.** A job later that day may be in Calendly too.
+3. **An old-system Revision 1 is checked after the "edited since" question, not before.** An edited Doc gets the plainer answer ("publish a new revision first"), and publishing then makes the checks.
+4. **A lock Google does not confirm stops the publishing.** "Nobody can write in it" is what the screen promises about a published revision.
+5. The Connections list of upcoming imported jobs shows whenever there are any, before bookings are switched on as well.
+
+### Left, seen while here, not on this stage's list
+
+- **An upcoming job brought in by the import looks like an old job on its File screen.** Its board says "Before v4" for the letter and the invoice (review finding 7), its "other people" are text only (W5's rule for imported files), and its invoice has no number. For Gordon to decide before the cutover; the rehearsal data has no such job (0 imported files dated today or later).
+- A converted letter whose Doc was lost and made anew from the template keeps the conversion's note. The command would still count it as converted; the send checks of item 1 are what stop an unwritten letter there.
+- Review findings 4 to 10 were not touched.
+
+### Data touched, for Gordon to know
+
+- **The rehearsal database: read only.** No schema change, no row written, so no backup was needed or taken. The command-line `sqlite3` could not open the file read-only (error 14, cause not looked into); the counts were read through the app instead.
+- `legacy.sqlite` was not opened. The first import's record file was read (IDs and reasons).
+- **In Google:** the lock on file 10211's two frozen copies, as above. Nothing else.
+- **In the Sancho tree:** this section, and lines 89 and 185 of `runbook-cutover.md`.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent, no letter or invoice sent on any file, nothing shared.

@@ -12,7 +12,15 @@ status: live during the build that started 2026-10-02 00:55
 
 Started 2026-10-02 00:55 on "Approved, GO!" [gordon 2026-10-02]. Rules and scope: `build-handoff.md`. Each stage goes build, then review (findings in `docs/reviews/`), then fix. The orchestrating thread updates this file every time an agent reports; it starts the next stage of a track only when the one before is fixed and its tests pass.
 
-## 12:35 (Oct 3): more while Gordon is out (read this first)
+## 14:05 (Oct 3): STOPPED for the day; for Gordon (read this first)
+
+Nothing is running. About **$272.60 of the $300** monthly limit is spent; the weekly Fable allowance resets Sunday 01:00 CEST. App at commit **284975b**, 1,521 tests passing, lint and analysis clean, `/up` 200.
+
+Done since noon: **W10** ($12.29) the serious P3 findings; **W11** ($11.25) letter revisions ("Publish new revision", numbered frozen copies and PDFs, sending only the latest published revision, the revision list, 30 files at Revision 1) and the how-to fixes; an **Opus review** of both (no blockers) and the **how-tos** updated; **W12** ($7.10) its two should-fix findings (old-system Revision 1 now passes the publish checks; the import keeps real upcoming jobs, skipping only "test" records and dates more than two years ahead; published copies locked owner-only).
+
+**Gordon's next steps:** try revisions on Andy Hoder's job 10193 (steps at the end of the W11 section of `build-log-app.md`); answer W10's two questions (who manages logins; an "off on purpose" setting for bookings); the earlier list in the 12:05 section below; the full letter conversion after the Fable reset; the feedback recording, when transcribed, becomes a list of proposed changes for his yes.
+
+## 12:35 (Oct 3): more while Gordon is out
 
 "There's a 19 minute file of feedback from us looking at it this morning, getting transcribed now. Anything else you can do while I'm still out?" [gordon 2026-10-03]
 - **W10 started 12:35** (Fable, cap $20): the serious P3 findings (a booking rescheduled twice opening a second file; a Doc Peter wrote in trashed on cancellation; tying Calendly bookings to imported jobs at cutover; logins quietly changing other logins; "Switch bookings off" without a notice). Brief: `scratchpad/stage-W10-brief.txt`.
