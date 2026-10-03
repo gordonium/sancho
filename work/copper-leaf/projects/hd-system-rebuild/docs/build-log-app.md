@@ -930,3 +930,117 @@ Run in the app folder through Herd's PHP 8.5 on 2026-10-03, after the last commi
 | `git status` | clean; `git log 1063e6c..HEAD` 4 commits |
 
 Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent. `.env` and `legacy.sqlite` untouched; the rehearsal database was changed only by `hd:fix-states` (11 client rows) and `hd:stamp` (2 settings rows). One slip to own: the first version of the fix command printed the values it left to my terminal, and some turned out to be street lines in the state column; none was copied anywhere, and the command now keeps such values in its private file only.
+
+## W5: Gordon's changes and the Google connection
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, about 08:30 to 09:30 CEST, from 4b4866f on `feature/v4-build`. Work list: Gordon's words of 2026-10-03 at the end of `phase0-brief.md`. Four commits, 7783f0c, afde27f, b474f8b, fb6190d; tree clean; no remote. Nothing here has called Google: no credential exists, and every Google answer in the tests is made up, in the shapes Google's manual gives.
+
+**In one line:** all nine items are done, the three checks pass, and Google waits only for Gordon's client ID and secret and one command.
+
+### Item 1, "Other people on this job": done
+
+The forms for adding, correcting and taking a person off a job are gone, with their three addresses, their controller and their request class. A file made in v4 has no such section. A file that has people on it (an imported one) shows them as one plain line each, to be read: name, role, company, email, phone, and "copied on the letter" where the old system had that. The records themselves stay, and a person marked copied is still copied when a letter is sent.
+
+### Item 2, the invoice description: done
+
+It was already a text box saved on the job, starting from the service's standard text in Settings. It is now a large box of its own (12 lines, the full width of the panel) with the price below it, and the hint says it is saved on this job only.
+
+### Item 3, the job's date in the header: done
+
+The date ("Wed, Oct 14, 2026") is in the header in the same large type as the client's name, beside it, above the property's address. Day and date only; the time of day stays in the Job panel.
+
+### Item 4, old invoices: done
+
+An imported invoice (no number) now offers "Send the invoice again", and "Send the paid copy again" when it is paid, and goes without a number: the PDF's heading is "Invoice", the mail's subject "Invoice from Home Directions", and the attachment is named by the job's date. It goes as the old system recorded it, every line, unless a person has since written a new wording or price on the file, which then goes instead. An old unpaid invoice can also be marked paid, like any other. "Give this invoice a number" is removed, with its address and its code: with the above it no longer makes sense.
+
+One refusal remains: an old invoice with no amount or no wording at all cannot be sent ("This invoice has no price or no wording yet. Enter both under Invoice description, then send it."). On the rehearsal database that is 48 invoices with no amount and 16 with an amount but no wording, of 10,206.
+
+### Item 5, "Not imported yet": done
+
+A file whose old system holds a letter or a report that is not in v4 yet says "Not imported yet" and offers no new letter; the address that makes a letter refuses it too. How the app knows: a job that came from v2 has a report there (v2 kept one for every job), and a job from WordPress carries the link to its letter record. The import now also notes whether that letter record has any text in it (commit fb6190d); an empty or discarded record is nothing to import, so such a file offers "Create the letter", as do files made in v4. Running `hd:import` again told the 10,206 jobs already in the rehearsal database (it changed nothing else: 10,207 files before and after). Counts there now: 10,185 files say "Not imported yet"; 21 imported files offer "Create the letter" (their old letter record is empty).
+
+### Item 6, the status replaced by a board: done
+
+- **The board.** Each file shows four steps under its header: Letter sent, Invoice sent, Paid, Receipt sent, each with a tick and its date, or "Not yet". They are read from what happened: when the letter first went, when the invoice first went, when the payment was recorded, when the paid copy (the receipt) first went. The Dashboard rows, and the lists under "Been here before", show the same four as small ticks. The status field, the "Next:" line and the status choice in the Job panel are gone.
+- **Cancelled.** A Calendly cancellation is kept as a date on the file (`cancelled_at`) and shown as a plain note: "Booking cancelled in Calendly on ...". The Calendly rules read that date and work as before: a cancelled booking's file leaves the list of recent files and is still found by search; a Doc nobody wrote in goes to the trash; a late cancellation of a job whose letter has gone is only noted; a reschedule of a cancelled file keeps its date. Because the status choice was the way to bring a cancelled file back, the note has a button, "The job is going ahead after all", which takes the note off (and brings the Doc back out of the trash).
+- **Closed and Booked** exist nowhere: not as a choice, not on a screen, not in what the importer sets.
+- **The receipt.** A new date on the invoice, `receipt_sent_at`. Sending the paid copy no longer counts as "invoice sent" (it did before). Taking a payment back clears the payment and the receipt.
+- **Imported jobs** get their ticks from the old data: Paid, with the date the import already carried, and nothing else. I looked for anything in the old data that records a letter or an invoice being sent (field names only): there is none. v2's rows have `client_viewed` and `synced`, which are not sends. So Letter sent, Invoice sent and Receipt sent show "Not yet" on an old job until something is sent from v4.
+- **The migration** (`2026_10_03_000001_replace_the_status_with_what_happened`): adds the two dates, carries a cancelled file's cancellation over (dated by Calendly's own word where there is one), dates the receipt from a paid copy already in the message log, and drops the status column. The way back restores a status from the facts (cancelled; closed for an imported job; paid; sent; booked); a status a person had set by hand (visited, drafting) does not come back. A test runs it down and up again on invented rows.
+- **On the rehearsal database:** backed up first to `~/Dev/hd-v4-import-data/hdonline-v4-rehearsal.before-W5.sqlite` (integrity check ok, 10,207 files; Gordon may delete it), then migrated: 10,207 files, 0 cancelled, 9,560 invoices paid, 1 receipt (the invented file), no status column. The 10,206 "closed" are gone with the column.
+
+### Item 7, connecting Google: done, against made-up answers only
+
+- **`php artisan hd:google-connect`.** It listens on 127.0.0.1 on a free port, prints Google's consent address, waits up to five minutes for the browser to come back with the code, checks that the answer is the one it asked for, exchanges the code, and writes `GOOGLE_REFRESH_TOKEN` into `.env`. The token is never printed; a test asserts that neither it nor the secret appears in the output. Then it makes the app's own folder "Home Directions letters" and, in it, the Doc "Home Directions letter template" from the stand-in's layout (the firm's name, the date, the client's name and address, the "Re:" line, the greeting, "Sincerely", the licence lines, the stamp), records both in Settings, and prints their links. Run again, it keeps a consent, a folder and a template that still work, and makes again only what is gone.
+- **The scope: `drive.file` alone, not the Docs scope as well.** This differs from the brief, on purpose. The Docs scope lets an app read and change every Doc of the account, which is against the kit's rule that the credential reaches only what the app needs (spec 8.2). Google's manual lists `drive.file` among the scopes its Docs calls accept, for a Doc the app made. So the command asks for `drive.file` only. If the real Google refuses to edit a letter with it, `--again --docs-scope` asks for both; nothing else changes.
+- **Images.** The Google class no longer hands Google an address on this app. It uploads the image to the app's own folder (once per image; it finds it again by a mark), shares it "anyone with the link" for the moment of insertion, inserts it from Drive's own link, and removes the sharing, also when Google refuses the picture. The stamp images in Settings go this way; the photos of converted letters can go the same way later.
+- **The Connections panel** now says what the server really holds, without showing any of it: no client ID and secret; or those but no consent yet (with the command to run); or all three; whether a letters folder and a template are recorded; and whether this machine keeps its letters in Google or in the stand-in. "Test Google" on a server that uses Google signs in and opens the folder and the template, and says which is missing.
+- **Tests** (`tests/Feature/Letters/GoogleConnectTest.php`, 21 cases): the whole command through the real listener with a made-up browser request; the consent address (scope, offline, PKCE, back to 127.0.0.1 only); the exchange; `.env` before and after; the folder and template requests; a second run; six ways it can fail, each saving nothing; the listener itself; the `.env` writer; the image's upload, sharing, insertion and unsharing in order, and unsharing after a refusal; the panel's three states; the real check.
+
+**What Gordon does, in order.**
+
+In Google's console (console.cloud.google.com), signed in as an administrator of the firm's Workspace:
+1. Make a new project in the firm's organisation, named for example "Home Directions letters".
+2. Under "APIs and services", "Library": switch on the Google Drive API and the Google Docs API.
+3. Under "Google Auth Platform" (the consent screen): audience "Internal" (only accounts of the firm's Workspace can give consent, and the consent does not lapse after a week as it does for an app left in "Testing"); an app name and a support email. Under "Data access", add the scope `.../auth/drive.file`.
+4. Under "Clients": "Create client", application type "Desktop app", any name. Copy the client ID and the client secret.
+
+On this Mac:
+5. Open `.env` in `~/Dev/clc-laravel/hdonline-v4` and fill in the two lines that are already there, `GOOGLE_CLIENT_ID=` and `GOOGLE_CLIENT_SECRET=`. Add the line `HD_LETTERS_DRIVER=google` (without it this Mac goes on keeping letters in the stand-in).
+6. In Terminal: `cd ~/Dev/clc-laravel/hdonline-v4`, then `herd php artisan hd:google-connect`.
+7. Open the address it prints in a browser on this Mac, signed in as the Google account that is to own the letters, and agree. The browser says "Thank you. You can close this window"; the terminal says the token is written and prints the folder's and the template's links.
+8. In the app: Settings, Connections, "Test Google".
+9. In Google Drive, as that account: share the folder "Home Directions letters" with Peter and Maria Pia. Peter then opens the template and gives it the letterhead and the look it should have, keeping each `{{...}}` where the system is to write.
+10. Only if making or filling a letter is refused for lack of permission: `herd php artisan hd:google-connect --again --docs-scope`.
+
+**What cannot be proven until the real account exists** (beyond P2's list): that Google accepts `drive.file` for its Docs calls on a Doc the app made; that the Docs service can fetch an image from Drive's download link while the file is shared by link, and that the Workspace allows "anyone with the link" at all (it is a setting of the Workspace; sending a letter needs it too); that Drive turns the HTML page into a Doc with each tag whole on its own line; that an "Internal" app's consent page looks as described.
+
+### Item 8, the checks: all pass
+
+Run in the app folder through Herd's PHP 8.5 on 2026-10-03 at about 09:20, after the last commit:
+
+| Command | Result |
+|---|---|
+| `herd composer test` (with the browser suite) | passed: 1,383 tests, 5,574 assertions, 0 failed, about 30 s (1,387 before the stage; the tests of the removed forms and of the status went, the new ones came) |
+| `herd composer test:browser` part | 25 tests (22 before): the board ticking as an invoice is sent and paid; a v4 file's header, board, large description and no other-people section; an old file's people as text, "Not imported yet", "Send the paid copy again"; the Google line on Connections |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `curl` on the Herd address | `/up` 200, `/login` 200 |
+| the changed screens on the rehearsal data, through the app's own HTTP kernel, signed in as the first local login, printing status codes and yes/no only | Dashboard 200 with 25 boards; Settings 200 with the Google line; the newest and the oldest imported file 200, each with the board, the date in the header, "Not imported yet", a send-again button, no word "Closed"; the old invoice's PDF 200 where it has wording and an amount, 404 where it has none |
+| `npm run build` | the stylesheet rebuilt for the new classes (`public/build` is ignored by git) |
+
+### Decisions the documents did not settle
+
+1. `drive.file` alone, with `--docs-scope` as the way out (above).
+2. A file whose booking was cancelled still leaves the list of recent files, as before; the note has a way back.
+3. The paid copy is the receipt and no longer marks the invoice as sent.
+4. An old invoice goes as recorded unless it was reworded on the file; with no amount or no wording it is refused.
+5. "Give this invoice a number" is removed, not kept.
+6. The other-people section shows whenever a file has people, whatever made the file; nothing adds them any more.
+7. An empty letter record in the old system counts as "nothing in the old system".
+8. An uploaded image stays in the letters folder, unshared, to be used again. Whoever the folder is shared with will see those image files in it.
+9. The sign-in moved into its own class (`GoogleSession`); `GOOGLE_LETTERS_FOLDER` is still read when Settings names no folder.
+10. Old lines in the change history that say "Status: ..." stay readable; history is never rewritten.
+
+### Not done, and why
+
+- Google was not called; see the list above.
+- **Running the command on a server.** The listener is reachable only from the machine it runs on, so on a server Gordon's browser cannot reach it. For staging and production that needs a decision: forward the one port for the minute it takes, or give consent on the Mac for that server's own client and enter the token in the host's panel. Asked, not built.
+- Sharing the folder with Peter and Maria Pia is done by hand in Drive (step 9); the app does not do it.
+- The Settings field for a template link still accepts any Doc's link. With `drive.file`, a Doc the app did not make cannot be opened: "Test Google" says so, and the command takes such a link out.
+- The invented file 10207 on the rehearsal database has a stand-in Doc; once this Mac uses Google, that one file's letter cannot be opened.
+- The conversion of the old letters is not part of this stage.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent, no Google service called. `.env` was read for the names of its settings only and not changed. `legacy.sqlite` was read, never written (twice for counts by field name, once by `hd:import`). The rehearsal database was changed by the migration and by `hd:import` (the letter note on 10,206 source rows), after the backup. One slip to own: a filter I wrote for the import's output let its progress lines through to my terminal; they hold counts only.
+
+## W6: the first letters and reports converted
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, from fb6190d on `feature/v4-build`. Scope: the letter conversion built as a command and run on a first handful of real letters and reports, shown through the Google stand-in on this Mac. Google is not called: `.env` holds no Google credential (the two lines are there and empty), so the stand-in keeps the Docs.
+
+### Plan (written before any code)
+
+1. **Read an old letter.** A parser turns the old record's content (Gutenberg blocks, or a compiled report's markup) into a plain list of blocks: paragraphs with bold, italic and links, headings, list items, pictures, captions, table rows. Empty tables are dropped and counted; a table with text is kept, one line per row, and the file is listed for a person. What v3 hides on the page (the note titles inside a compiled report, the "Bank Summary" heading) is left out. A block or element it does not know is a failure with its reason, never a guess. Old text is treated as hostile: links other than http, https and mailto lose their link; photo paths cannot climb out of the photo folder.
+2. **Write the body into a Doc**, through the one Doc wrapper, on both stores: one new method that puts the body where the template leaves room for it (after the greeting), the words first and the pictures after, as the stamp already goes; and one that makes an empty Doc for a report. The stand-in learns bold, headings, lists and pictures, and its page shows them, with the stamp and the photos as images. The real Google class gets the same two methods, written against Google's manual and tested against made-up answers only.
+3. **The command `hd:convert-letters`** (`--file=`, `--latest=`, `--since=`, `--dry-run`, `--again`): for each file, the old letter becomes the file's letter Doc the way a new letter is made (template copy, header filled, named by the rule), the old body after it, the old greeting kept where the letter has one; the file's letter fields set; the old public addresses of the letter and its invoice recorded in `old_links`; a source note on the file. A compiled inspection report gets its own Doc: a title page (title, property, date, who it was prepared for), then its sections in order as real headings.
+4. **Photos.** The app keeps the old photos itself, on the records disk under `old-photos/`, by their path under the old uploads folder. The dry run writes the list of paths the chosen letters need to a private file; only those are taken out of the backup zip.
+5. **Tests** on invented letters and reports, then the run on the 12 newest letters and files 9541, 9755 and 9917, then the three checks, then this log.
