@@ -1493,3 +1493,213 @@ Run in the app folder through Herd's PHP 8.5 after the last commit (8e278ec):
 4. Before the full conversion: load the 1,042 photos (the dry run's list), and after it run `herd php artisan hd:unshare-pictures`.
 
 **Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent, nothing shared with anybody, no letter or invoice sent. `legacy.sqlite` was read by `hd:import` and the dry runs, never written. In the Sancho tree only this section was written. One thing to own: the first test runs printed nothing and exited 1 because a test double lacked the interface's new method; found and fixed before any commit.
+
+## W10: the serious P3 findings
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, first commit at 12:41, finished about 12:57 CEST, from 8e278ec on `feature/v4-build`. Work list: `docs/reviews/app-P3-plan-fit.md` (blockers 1 to 3) and `docs/reviews/app-P3-safety.md` (blocker 1, should-fix 2 and 3), each checked against the code as it is now: all five were still there. Six commits, d8cea98, 1001a1d, 5da9f59, 18ce102, 5724934, 38ac306; tree clean; no remote.
+
+**In one line:** the three blockers and the two should-fix findings are fixed and tested, the three checks pass, and one thing waits for a person: the new migration (one column) has not been run on the rehearsal database, because that file is outside the folder this stage may write in.
+
+### Per finding
+
+| # | Finding | Outcome |
+|---|---|---|
+| Plan-fit 1 | A booking moved twice opens a second file | **Fixed** (d8cea98; a follow-up in 5da9f59) |
+| Plan-fit 2, safety 1 | A Doc a person wrote in goes to the trash on a cancellation | **Fixed** (1001a1d) |
+| Plan-fit 3 | At cutover a Calendly booking cannot be tied to its imported job | **Fixed** (18ce102): a person's one click, with the likely file suggested. Why below |
+| Safety 2 | A login can quietly take over another or add logins | **Fixed** (5724934). Whether only Gordon should manage logins is still his question |
+| Safety 3 | "Switch bookings off" is silent | **Fixed** (38ac306) |
+
+Not touched, because they were not on this stage's list: plan-fit 4 to 17 and safety 4 to 13. Two of them sit in the same code and are named under "Left" below.
+
+### 1. A booking moved twice (d8cea98, 5da9f59)
+
+- **What was wrong, confirmed on the code before the change:** the new test ran against the old code first: 20 of its 29 cases failed (16 of the 24 orders, the check alone, and the cancellation cases).
+- **What holds now.** The file is looked for along the whole chain of bookings a booking was moved from, not one step back. Every booking on the chain points at the one file; the newest standing one is "booked", the others "replaced".
+- A new booking, or a cancellation, that names a booking the system has not heard of yet **waits for it** (a new kind of wait, "moved") and opens nothing. It is taken up the moment the missing booking is heard, by either road. If the missing booking never comes, a person sees it on the Dashboard and under Connections and decides (the same three buttons as in finding 3).
+- A move of a booking that never had a file (it was waiting, or was left) waits for what that one waited for. It no longer opens a file by itself.
+- A cancellation finds the file through the chain too, in whatever order it is heard.
+- **5da9f59:** "the file's booking" was "the newest row that points at the file". With every booking on a chain pointing at the file, a row heard late could be taken for the standing one. It is now the row whose name the file carries. To own: 5da9f59 taken alone fails one architecture test (a line the test read as a bulk update); 18ce102 puts that line right. From 18ce102 on, every commit passes.
+- **Tests** (`tests/Feature/Calendly/MovedTwiceTest.php`, 29 cases): all 24 orders of the four notices, each followed by a check; the check alone, the second move to a later and to an earlier day; a booking that names one not heard of; a cancellation after two moves, heard first and heard last.
+
+### 2. A Doc somebody wrote in (1001a1d)
+
+- **What holds now.** Before the system writes into a Doc it has written into before, it looks whether the Doc is still at the revision it left. If not, somebody wrote in it, and the file is marked (`letter_written_in_at`, a new column) for as long as it keeps that Doc. A marked Doc is never put in the trash on a cancellation. A Doc found changed at the cancellation itself is marked too.
+- `hd:convert-letters --again` and `hd:convert-v2-reports --again` treat a marked Doc as written in (W9's rule): refused unless `--discard-edits`; a new Doc starts unmarked.
+- The File screen says "The booking was cancelled. The Doc was kept, because somebody had written in it", and the history has a line for the mark. The sentence "nobody had written in it" now appears only when that is so.
+- **Tests:** typed, then a corrected surname, then cancelled; typed, then rescheduled, then cancelled; the trash emptied afterwards; the Doc and its words still there. System writes alone (a correction and a reschedule, nobody typing) still send the Doc to the trash. Two for `--again`.
+- **What is left of the risk:** a person typing in the very second between the system's look and its write is not seen. A Doc whose first filling failed half way has no revision on file yet, and nothing is claimed about it until one is noted. Both err once in a very rare case; neither is tested.
+- **Not done:** the safety review's aside that Drive answers "not found" for a Doc the app has lost access to, which the app reads as "gone". Read in the code, not demonstrated, not changed.
+
+### 3. The cutover: which rule, and why (18ce102)
+
+- **The old data has no Calendly identifier.** Looked for in the staged copy, counts and field names only: 0 meta fields whose name mentions Calendly, an invitee, a booking or a uuid; 0 values holding a Calendly address; 0 records holding one. So the first road (match on Calendly's own name) does not exist.
+- **The rule: a person ties a booking to its file with one click, and the system only suggests.** Why not match by itself on time or email: a wrong match would move or cancel another client's job without anybody deciding it, and the house rule since P1 is that nothing is merged without a click.
+- **How it works.** Under Connections, each booking that was in Calendly before bookings were switched on is listed by itself, with the files that are likely the same job: files with no booking of their own, at the same time (or the time of a booking it was moved from), or of a client with the same email address and a date not past. Three buttons: "This is that file", "Open a file for it", "Leave it". A tied file takes Calendly's names and its date if that differs, and follows Calendly from then on. The history says "Tied to its booking in Calendly".
+- A **move** of a booking that still waits, or was left, waits in its place with the same choice. A **cancellation** of one stays in front of a person until they say which file it was ("This is that file: note the cancellation on it") or that there was none.
+- The **Dashboard** counts these bookings for everybody.
+- "Bring them in" (all at once) now skips a booking that has a likely file and says how many it skipped. "Leave them all" is unchanged, and is no longer a trap, because a later move or cancellation of a left booking is shown.
+- **Tests** (`tests/Feature/Calendly/EarlierBookingsTest.php`, 11 cases): the review's C16 sequences, each ending with one file that follows Calendly; the cancellation; the refusals (a file that has a booking, a deleted file, a booking already settled).
+- **For the paperwork track:** line 185 of `runbook-cutover.md` ("The duplicate check is there for exactly this") is no longer right. The step is now: switch bookings on, then under Connections say for each listed booking which file it is. Not changed by me: that file is not this track's.
+
+### 4a. Logins (5724934)
+
+- Everybody whose login is on is mailed when a login is added, switched off or on, given another address or role, or has its password set. A changed address is told to the old address as well; a switched-off login is told too. The message says what changed and who did it, never a password or a link.
+- Setting a password writes a line in the Settings history, without any value.
+- Nobody changes their own role.
+- The mail never holds up the change: if the mailer is down, that is reported and the change stands.
+- **Tests:** 6 new cases in `tests/Feature/Settings/UsersTest.php`. **One existing browser test changed:** it counted one mail for a new login; it now expects three (the link and two notices).
+
+### 4b. Bookings switched off (38ac306)
+
+- Once bookings have been on, the Dashboard says to everybody "Bookings from Calendly are switched off", since when and by whom, from the moment of the press.
+- After a day the 15-minute check raises it like a silent day: the log, the screens, and mail to the alert address, once a day, until bookings are switched on again. The check still asks Calendly nothing while they are off.
+- **Test:** one case that moves the clock through the first day, the alarm, the second day and the switching on.
+
+### The checks
+
+Run in the app folder through Herd's PHP 8.5 after the last commit (38ac306):
+
+| Command | Result |
+|---|---|
+| `herd composer test` (with the browser suite) | passed: 1,492 tests, 6,541 assertions, 0 failed, about 31 s (1,440 before the stage). The one warning W7 to W9 noted is still there |
+| `herd composer lint` | passed |
+| `herd composer analyse` (Larastan level 8) | passed: 0 errors |
+| `curl` on the Herd address | `/up` 200, `/login` 200 |
+| `npm run build` | the stylesheet rebuilt (`public/build` is ignored by git) |
+
+### Controls and data touched, for Gordon to know
+
+1. **No allowance in the architecture tests was changed.** One line of mine tripped the "no bulk update" test; the line was rewritten, not the test.
+2. **Existing tests changed to fit a new rule:** the browser test above (one mail became three), and one Dashboard sentence in my own new test.
+3. **A migration:** `2026_10_03_100001_add_letter_written_in_at_to_files_table` (adds one empty column to `files`; its way back drops it; no row is touched). **It is not run on the rehearsal database.** That file is in `~/Dev/hd-v4-import-data/`, outside the folder this stage was told to work in, so I left it. Until it is run, three things fail on this Mac: a correction that has to reach an existing letter's Doc, the screen of a file whose booking was cancelled, and `--again`. Everything else works (`/up` and `/login` answer 200; `migrate:status` shows the one migration pending). To run it, as W5 and W9 did: copy `hdonline-v4-rehearsal.sqlite` first, then `herd php artisan migrate` in the app folder.
+4. `legacy.sqlite` was read once, read-only, for the three counts in finding 3. Nothing else under `~/Dev/hd-v4-import-data/` was read or written. No Google, Calendly or mail service was called.
+
+### Decisions the documents did not settle
+
+1. A booking that names an unheard booking waits rather than opens a file. A wait that never ends is shown to a person.
+2. A tied file takes Calendly's date when the two differ: Calendly is where the client set the appointment.
+3. A cancellation that first reaches the system already cancelled, for a booking made before bookings were switched on, is not shown: it was dealt with in the old system. Only one that arrives after the booking was listed is.
+4. The notice of a login change goes to every login that is on, not only to the person concerned.
+5. Bookings switched off before they were ever on (the weeks before the cutover) say nothing. Once on and then off, the alarm comes daily; there is no "off on purpose" setting.
+
+### Questions for Gordon
+
+1. **Should only Gordon be able to add logins and switch them off?** (P3's question 6, still open. Today all three can, and now all three are told.)
+2. **After the cutover, is there ever a reason to switch bookings off for more than a day?** If so, the daily alarm needs an "off on purpose" setting; today it has none.
+3. **Run the migration on the rehearsal database** (item 3 above), or say that a stage may.
+
+### Left, in the same code, not on this stage's list
+
+- Plan-fit 13: "Leave them all" still writes no line in the Settings history, and neither does the new "Leave it".
+- Plan-fit 4: a file a person cancelled by hand, then moved by the client in Calendly, still keeps its date.
+- Safety 9: the routes that add a login and mail links have no rate limit; each new login now sends up to four messages.
+
+### What cannot be proven until the real Calendly account exists
+
+- That Calendly's notice of a cancelled, moved booking names both the booking it was moved from and the one that replaced it (`old_invitee` and `new_invitee`). The stand-in does. If Calendly leaves out the first, the chain is learnt when that booking's own notice is heard (the row then takes the name), but a later booking heard in between could open a second file.
+- That the 15-minute check is handed cancelled appointments as well as standing ones, which the "check alone" case rests on.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent, no outside service called. In the Sancho tree only this section was written.
+
+## W11: letter revisions
+
+Builder: Fable (claude-fable-5-1, started at effort high per the brief; the level is not visible to me). 2026-10-03, about 12:58 to 13:25 CEST, from 38ac306 on `feature/v4-build`. Gordon's words: `phase0-brief.md`, "letter revisions", and "Agreed on all. Make it so" [gordon 2026-10-03]. Two commits, 4c7eaf4 and 738bbd8; tree clean; no remote.
+
+**In one line:** a letter now has numbered revisions, published apart from sending; it is proven end to end against real Google on one invented file; the 30 converted letters and reports start at Revision 1 with nothing sent and nothing shared; the six small things from the how-to writer are in; the three checks pass.
+
+### Plan
+
+Settled before the first line of code, written here at the end (it was not put on disk first, which the handoff asks for).
+1. A table of revisions (file, number, frozen copy, PDF, the state of the working Doc when frozen, who, when), and on each line of the message log which revision it carried.
+2. One new thing the Doc store can do, "freeze": copy the working Doc, write the revision's line under the date in the copy, lock the copy. Built for Google and for the stand-in; tested through the stand-in, and the requests to Google against made-up answers.
+3. "Publish new revision" as its own action and button; "Send" rebuilt on top of it.
+4. Revision 1 for the converted letters, by a command and by the converters from now on.
+5. The small things, each with a test.
+6. The proof on real Google, on an invented file only.
+
+### What exists now
+
+- **"Publish new revision"** (File screen, Letter panel, apart from the send button). It first brings the Doc into step with the file, then refuses a letter that is not fit to go (the same refusals a send had: no stamp image, the stamp not in the Doc, a `{{tag}}` still showing; and now the template's "[Write the letter here.]"). Then it makes a **frozen copy**: a Doc of its own, named as the letter plus `_Revision-N`, carrying "Revision N, <date>" on a line of its own just under the date, locked so that nobody can write in it. It makes the copy's **PDF** and keeps it in the records, and writes down **who published it and when**. It sends nothing and shares nothing. It refuses when the Doc has not changed since the latest revision.
+- **The working Doc is never written in by publishing and never shared.** The number is on the published letter (the frozen copy and the PDF, which is what the client reads), not on the working Doc: there it would be wrong the moment Peter starts the next edit.
+- **Sending always sends the latest published revision.** The message says "This is Revision N, <date>", links to that revision's frozen copy, and carries that revision's PDF (named `..._Revision-N.pdf`). From Revision 2 on the subject ends "(Revision N)". Only then does that frozen copy become readable by anyone who has its link. A letter never published is published as Revision 1 by its first send. What is edited after publishing does not reach the client until it is published and sent.
+- **The File screen lists every revision**: number, when published and by whom, "PDF of Revision N", and each sending with when and to whom, or "Not sent from here. Nobody outside the firm can read it." Above the list it says plainly either "The Doc has not changed since Revision N." or **"Edited since Revision N. The client still gets Revision N until a new revision is published."** The send button reads "Send Revision N" (or "again").
+- **Converted letters start as Revision 1**, "from the old system: the version the client already has". `php artisan hd:start-revisions` (with `--dry-run`; safe to run twice) did this for those already converted, and both converters now do it for every letter they bring over, so the remaining conversion needs no second step.
+- New: `app/Actions/PublishRevision.php`, `app/Models/LetterRevision.php`, `app/Letters/Places/RevisionLine.php`, `app/Http/Controllers/FileLetterRevisionController.php`, `app/Console/Commands/StartRevisionsCommand.php`, `app/Http/Requests/MarkPaidRequest.php`, one migration (`2026_10_03_200001_create_letter_revisions_table`: a new table, and one new column on the message log; its way back drops both). Rebuilt: `SendLetter`, `LetterMail`, the letter's mail text, the Letter panel.
+
+### Item 4: the converted letters (counts and file numbers only)
+
+- **30 files** hold a converted Doc: the 28 letters and reports of W6, W7 and batch 2, and the two v2 reports of W8 (4604, 8695), which are converted Docs the client already has in the same sense. All 30 started at Revision 1: 4604, 8695, 9541, 9755, 9911, 9917, 10182 to 10199, 10201 to 10206.
+- **Google was asked nothing.** Each conversion had noted the revision it left the Doc at, and Revision 1 stands for that. No copy made, no PDF, nothing sent, nothing shared; a second run changed 0.
+- The four files made here (10207 to 10210) were not touched.
+- A Revision 1 from the old system gets its frozen copy and PDF only if it is sent from here, and only while the Doc still stands as it came (its line is then "Revision 1", with no date, since nobody published it here). Once the Doc has been edited, sending is refused with "Publish a new revision first".
+
+### Item 5: the small things
+
+1. **Mail that only goes to the log.** Where the mailer is the log mailer (this Mac), the screen no longer says "sent to": it says "... was written to this machine's mail log only, addressed to <address>. No mail leaves this machine, so the client was sent nothing." For the letter, the invoice and the receipt. The Letter panel also says it under the send button, and that the frozen copy is still made readable by link.
+2. **Old jobs' board.** My choice: "Before v4". On a job brought in from an earlier system, "Letter sent" and "Invoice sent" read "Before v4" (a dash, not a tick and not "Not yet") when v4 has no date of its own for them, and so does "Receipt sent" once the job is paid. "Paid" is never guessed: unpaid in the old system reads "Not yet". A step v4 has a date for shows the date as before.
+3. **One word: "Receipt".** The buttons, the messages on screen and the message log say "receipt" where they said "paid copy". (The code's own name for the kind is unchanged.)
+4. **"Mark paid" asks the day.** A "Paid on" date, today by default, never a day still to come; an earlier day is recorded as noon of that day on the firm's clock. The receipt goes when the person confirms.
+5. **"Send" (and "Publish") refuse a letter that still holds "[Write the letter here.]"**, anywhere in the Doc.
+6. **What decides "been here before"** (not changed): the File screen shows the other jobs that hang on **the same client record** or **the same property record**. Nothing else. Two records become one only when a person agrees to a duplicate prompt, and the prompt is offered for a client on: the same email address; or the same name together with the same phone number; or the same name together with the same mailing address. For a property: the same address, or the same place on the map. **A name alone never brings up a prompt**, so a returning client who gives a new email, a new phone and a new address is not recognised. For Gordon to judge: offering a prompt on the name alone would catch those, at the price of prompts for every common name among about 9,700 clients.
+
+### Item 6: the proof on real Google (invented file 10211)
+
+File 10211, "Buildtest Revisions" at "11 Invented Test Lane", made by the app's own "open a file" action; its Doc `15JZ246ZcngwkoR6CFcg-h_jRy1iVOsQA-tG7znvunec` moved into "Build tests". The body was written through the app's own body-writing; it says it is an invented build test.
+
+| Step | Result |
+|---|---|
+| Publish with the template's line still there | refused |
+| Publish Revision 1 | frozen copy `12D_Ll1dme0GAe9tUffWLhCUR2OHKlZI5e0Bd7DKHW8M`; its line is there and sits just under the date; locked (read-only); **not** readable by link; PDF kept; published by login 1 |
+| Working Doc after publishing | carries no revision line; not shared |
+| File screen | "The Doc has not changed since Revision 1." |
+| Publish again with no change | refused |
+| Edit the working Doc | File screen: "Edited since Revision 1." |
+| Publish Revision 2 | frozen copy `1eS3rAnZ7EfHHXbZqOJTSCP0AXvESk421hUkle6bwE4c`; carries "Revision 2, October 3, 2026" under the date and not Revision 1's line; holds the new wording; copy 1 still without it; locked; PDF kept |
+| Send | 2 lines in the message log (client, office copy), both carrying Revision 2; subject ends "(Revision 2)"; the mailer only wrote to the log; the screen wording says "mail log only" |
+| After the send | copy 2 readable by link (1 link permission); copy 1 **not** readable by link; the working Doc **not** readable by link |
+| Both PDFs, read page by page | each one page: logo, date, "Revision 1, October 3, 2026" and "Revision 2, October 3, 2026" directly under the date, client block, "Re:" line, greeting, body, signature, licences, Connecticut stamp |
+
+Both frozen copies were then moved into "Build tests". What this showed about Google that the made-up answers could not: a copy keeps the place the system named for the date (so the line lands under it); the lock can be set with the permission the app already has (`drive.file`); a copy does not inherit link sharing.
+
+### The checks
+
+- `herd composer test`: **1,510 tests, 6,763 assertions, 0 failed** (1,492 before the stage; 18 new: 9 on revisions, 2 on the requests the freeze sends to Google, 6 on the payment date, 1 on the log-only wording for a letter; the send tests and one browser test were rewritten for publish then send). The one warning earlier stages noted is still there.
+- `herd composer lint`: passed. `herd composer analyse`: 0 errors.
+- `http://hdonline-v4.test/up` 200, `/login` 200. The File screen renders for 10193 (Revision 1 listed, "not changed", the publish button), 10211 and an old job without a letter.
+
+### Data touched, for Gordon to know
+
+- **The rehearsal database was migrated** (one new table, one new column on the message log) and the 30 Revision 1 lines written. It lives outside the app folder (`~/Dev/hd-v4-import-data/`); items 4 and 6 of the brief cannot be done without it, so I did it, and say so plainly because W10 held back from that file. Backup taken first, beside it: `hdonline-v4-rehearsal.before-W11.sqlite`. Before and after: 12 message-log lines, 10,210 files, integrity check ok, 0 broken links between tables.
+- **In Google**: one new folder inside the letters folder, "Published revisions (frozen copies)" (`1oO_bVxLCUNRrWg3jI9L1JGQYHJ3LSE7L`), empty for now; in "Build tests", file 10211's working Doc and its two frozen copies, of which **Revision 2's copy is readable by anyone with its link** (invented text only). No real file's Doc was read, copied, shared or sent.
+- The way back: `php artisan migrate:rollback --step=1` drops the revisions table and the column; the revision records are lost, the frozen Docs and PDFs stay where they are. Or restore the backup.
+
+### Decisions the documents did not settle
+
+1. **The number goes on the published copy and PDF, not on the working Doc** (above). If Gordon wants the working Doc to show the last published number too, it is one more write at publishing.
+2. **Frozen copies live in their own folder** inside the letters folder, so the letters folder holds working letters. Whoever the letters folder is shared with sees that folder too.
+3. **"Frozen" is Drive's own lock** (content restriction). The owner or an editor can lift it by hand in Drive; the app does not look again.
+4. **A revision from the old system has no copy until it is sent** (to ask Google nothing for 30 files, and about 440 more to come).
+5. **A Doc with no date the system placed** (the two v2 reports) carries the revision line as its first line.
+6. **"Edited since" asks Google each time a File screen with a revision is opened** (one read, about 0.65 s). If Google cannot be asked, the screen says so. It also shows after one of the system's own corrections (a client's name) has reached the Doc: the Doc then does differ from the revision.
+7. **Publishing takes the link sharing off a working Doc** that an earlier send (before revisions) had shared. Only the invented files 10208 and 10209 are in that state; it happens when a revision is first published on them.
+8. Publishing is recorded in the Revisions list, not in the change history panel.
+9. A message's "PDF as sent" is now the revision's one PDF; sending the same revision twice keeps one PDF, not two.
+
+### Left for Gordon
+
+- The two how-tos (`howto-peter.md`, `howto-maria-pia.md`) describe the old "Send" and say "paid copy": they need a pass. I wrote nothing there.
+- No independent review of this stage has run yet.
+- Invented test files now: 10208 to 10211. Delete them and trash their Docs in "Build tests" when they have served.
+- Whether a name alone should bring up "been here before" (item 5, point 6).
+
+### For Gordon: trying it on Andy Hoder's job 10193
+
+1. **Open `http://hdonline-v4.test/files/10193`.** In the Letter panel, under "Revisions": "Revision 1, from the old system: the version the client already has", "No PDF here: one is made if this revision is sent", "Not sent from here", and "The Doc has not changed since Revision 1." Opening the page reads the Doc's state from Google once. Nothing is changed and nothing becomes readable by link.
+2. **Press "Open the Doc" and change a sentence in Google Docs.** That is the working Doc; only the firm can open it. Then reload the File screen: it says **"Edited since Revision 1. The client still gets Revision 1 until a new revision is published."** Nothing becomes readable by link.
+3. **Press "Publish new revision".** The screen says "Revision 2 of the letter was published. Nothing was sent". In Google Drive, in "Published revisions (frozen copies)", there is now a new Doc named as the letter with `_Revision-2`, carrying "Revision 2, October 3, 2026" just under the letter's date, locked against editing. Its PDF is kept in the app. The list shows Revision 2 with your name and the time, above Revision 1. **Nothing is sent and nothing becomes readable by link.** The working Doc is not changed.
+4. **Press "PDF of Revision 2"** to read exactly what the client would get. Pressing "Publish new revision" again without editing is refused: "The Doc has not changed since Revision 2".
+5. **Optional, and read this first: "Send Revision 2".** On this Mac no mail leaves: the message is only written to `storage/logs/laravel.log`, and the screen says so. But the send also makes **Revision 2's frozen copy readable by anyone who has its link**, and this is a real client's letter. The link then exists only in that log on this Mac. If the file has no email address for the client, the send is refused before anything is shared. To undo the sharing: open the copy in Drive, "Share", set "General access" back to "Restricted". Revision 1, the working Doc and every other letter stay private either way. I did not press this on any real file.
+6. **Edit again and publish again** to see Revision 3. A later send would send Revision 3; a copy already sent stays readable to whoever holds its link.
+
+**Refused or blocked.** Nothing was refused by the app's safety check and no model safety classifier stopped anything. No hook registered, nothing under `~/.claude/` touched, nothing installed with Homebrew, nothing pushed, no mail sent (the log mailer wrote two lines for the invented file). Google was called for the invented file 10211, for the new folder, and once to read the state of 10193's Doc when checking that its File screen renders; no real file's Doc was copied, shared or sent. In the Sancho tree only this section was written.

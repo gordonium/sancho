@@ -1,7 +1,7 @@
 ---
 name: Recording rec_4b51249c15 · 2026-10-02 08:40 · 6 min
 type: transcript
-description: Plaud recording, 6 min, 2 speakers detected; raw transcript, not yet ingested
+description: Plaud recording, 6 min, Gordon and Peter Seirup in Italy on HDO letter revisions (resend vs publish new revision) and the mark-paid receipt; ingested 2026-10-03, summary at work/copper-leaf/clients/home-directions/summaries/2026-10-02_rec_4b51249c15.md
 lobe: both
 sources: ["[rec_4b51249c15 2026-10-02]"]
 rec_id: rec_4b51249c15
